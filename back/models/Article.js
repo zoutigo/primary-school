@@ -1,5 +1,8 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const User = require('./User')
+const { commentSchema , Comment } = require('./Comment')
+const { pictureSchema, Picture} = require('./Picture')
 
 const articleSchema = new Schema({
     title: {
@@ -14,20 +17,18 @@ const articleSchema = new Schema({
         type: String, 
         required: true
     },
-    author : {
-        type: mongoose.ObjectId
-    },
+    
     modelArticle: {
-        type: mongoose.ObjectId
+        type: Schema.ObjectId
     },
     createdAt: {
         type: Date ,
         default: Date.now(),
         required: true
     },
-    comments: [{author: mongoose.ObjectId , content: String, createdAt: Date}],
-    images: [{type: mongoose.ObjectId, position: Number}],
-    externalMediaPath: [{type : String, url: String}]
+    comments: [commentSchema],
+    images:[pictureSchema],
+    mediaPath: [{type : String}]
 })
 
 module.exports = mongoose.model('Article', articleSchema)

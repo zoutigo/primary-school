@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const { pictureSchema} = require('./Picture')
 
 const userSchema = new Schema({
     name: {
@@ -21,9 +22,21 @@ const userSchema = new Schema({
     },
     role : {
         type: String ,
-        enum: ['parent', 'teatcher', 'admin'],
+        enum: ['parent', 'teatcher', 'moderator', 'admin'],
         required: true
-    }
+    },
+    images:[pictureSchema],
+    presentation: {
+        type: String
+    },
+    articles: [{
+        type: Schema.ObjectId,
+        ref: 'Article'
+    }],
+    news : [{
+        type: Schema.ObjectId,
+        ref: 'News'
+    }]
    
 })
 

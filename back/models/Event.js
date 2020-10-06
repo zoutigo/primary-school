@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const { commentSchema , Comment } = require('./Comment')
+const { pictureSchema, Picture} = require('./Picture')
 
 const eventSchema = new Schema({
     title: {
@@ -29,9 +31,9 @@ const eventSchema = new Schema({
         required: true
     },
     update : [{author: mongoose.Objectid, date: Date}],
-    comments: [{author: mongoose.ObjectId , content: String, createdAt: Date}],
-    images: [{type: mongoose.ObjectId, position: Number}],
-    externalMediaPath: [{type : String, url: String}]
+    comments: [commentSchema],
+    images:[pictureSchema],
+    mediaPath: [{type : String, url: String}]
 
 })
 

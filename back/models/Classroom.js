@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const { schema, model } = require('./User')
+const { pictureSchema, Picture} = require('./Picture')
 const Schema = mongoose.Schema
 
 const classroomSchema = new Schema({
@@ -15,15 +15,20 @@ const classroomSchema = new Schema({
         enum : ['ps', 'ms', 'gs', 'ce1', 'ce2', 'cm1', 'cm2'],
         required: true
     },
-    promotion : {
+    year : {
         type: Date,
         required: true
     },
     teatcher : {
-        type: mongoose.ObjectId
+        type: Schema.ObjectId,
+        ref: 'User'
     },
     otherTeatchers : [otherTeacher],
-    parents : [{type: mongoose.ObjectId }]
+    students : [{
+        type: Schema.ObjectId,
+        ref: 'Student'
+     }],
+     images:[pictureSchema],
 })
 
 module.exports = mongoose.model('Classroom', classroomSchema)

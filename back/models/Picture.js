@@ -7,16 +7,18 @@ const pictureSchema = new Schema({
         required: true ,
         max: 1024
     },
-    author : {
-        type: mongoose.ObjectId ,
-        required : true
-    },
     createdAt : {
         type: Date,
         default: Date.now()
     },
+    // parent can be article or event or User or classroom
     parent: {
-        type : mongoose.ObjectId
+        type : Schema.ObjectId,
+    },
+    alt: {
+        type: String,
+        min: 3,
+        max: 50
     }
 })
 
