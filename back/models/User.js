@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-const { pictureSchema} = require('./Picture')
+const {pictureSchema} = require('./Picture')
 
 const userSchema = new Schema({
     name: {
@@ -18,6 +18,7 @@ const userSchema = new Schema({
     },
     createdAt: {
         type: Date,
+        default: Date.now(),
         required: true
     },
     role : {

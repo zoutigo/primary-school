@@ -1,9 +1,8 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
-const User = require('./User')
-const { commentSchema , Comment } = require('./Comment')
+const { commentSchema } = require('./Comment')
 const { pictureSchema, Picture} = require('./Picture')
 
+const Schema = mongoose.Schema
 const articleSchema = new Schema({
     title: {
         type: String,
@@ -11,7 +10,13 @@ const articleSchema = new Schema({
     },
     category : {
         type: String,
-        enum: ['news', 'information', 'classActivity']
+        enum: ['news', 'information', 'classActivity'],
+        required: true
+    },
+    target: {
+        type: String ,
+        enum: ['classroom','school','public'],
+        required: true
     },
     content: {
         type: String, 
@@ -19,7 +24,9 @@ const articleSchema = new Schema({
     },
     
     modelArticle: {
-        type: Schema.ObjectId
+        type: String,
+        enum : ['A', "B","C","D","E"],
+        required: true
     },
     createdAt: {
         type: Date ,
@@ -28,7 +35,12 @@ const articleSchema = new Schema({
     },
     comments: [commentSchema],
     images:[pictureSchema],
-    mediaPath: [{type : String}]
+    mediaPath: [{type : String}],
+    status: {
+        type: String ,
+        enum: ['draft', 'undervalidation', 'released'],
+        default:'released'
+    }
 })
 
 module.exports = mongoose.model('Article', articleSchema)

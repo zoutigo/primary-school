@@ -10,6 +10,7 @@ var dotenv = require('dotenv')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var articlesRouter = require('./routes/articles')
 
 
 dotenv.config()
@@ -17,7 +18,7 @@ dotenv.config()
 var app = express()
 
 // Database connexion
-mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true , useUnifiedTopology: true})
+mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true , useUnifiedTopology: true, useFindAndModify: false })
   .then(()=> console.log('Connexion établie à la base de donnée'))
   .catch((err)=> console.log(err))
 
@@ -33,6 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/articles', articlesRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
