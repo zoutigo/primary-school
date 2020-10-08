@@ -1,18 +1,34 @@
 const User = require('../models/User')
+const {registerValidator} =require('../validators/users')
+const bcrypt = require('bcrypt')
 
 module.exports.userRegister = async (req, res)=>{
+   
+
+    // using Joi validator
+   let validate = await registerValidator(req.body)
+   if (validate.error) return res.status(400).send(`${validate.error.details[0].message}`)
+
+   // check if email exist in database
+   let emailVerif = await User.findOne({email:req.body.email})
+   if (emailVerif) return res.status(400).send(`The email ${req.body.email} already exist in database`)
+
+   // password hash
+   const salt = await bcrypt.genSalt(10)
+   const hashedPassword = await bcrypt.hash(req.body.password, salt)
+
+ 
     let user = new User ({
         name: req.body.name ,
         email: req.body.email,
-        password: req.body.password,
-        role: req.body.role
-
+        password: hashedPassword,
+        role: req.body.role,
+        firstname: req.body.firstname
     })
 
     try {
-        await  user
-        .save()
-        .then(res.send(`Added in database ${user}`))
+        const savedUser = await  user.save()
+        res.status(200).send({user: user._id })
 
     } catch(err){ console.log(err) }
 
