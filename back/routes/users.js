@@ -1,5 +1,5 @@
 var express = require('express');
-const { userRegister, userView, userModify , userList} = require('../controllers/userController');
+const { userRegister, userView, userModify , userList, userLogin} = require('../controllers/userController');
 var router = express.Router();
 
 /* GET users listing. */
@@ -14,5 +14,8 @@ router.put('/:id', userModify)
 
 // GET user
 router.get('/:id',userView )
+
+// User Login
+router.post('/login', userLogin)
 
 module.exports = router;

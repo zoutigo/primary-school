@@ -10,7 +10,7 @@ const articleSchema = new Schema({
     },
     category : {
         type: String,
-        enum: ['news', 'information', 'classActivity'],
+        enum: ['news', 'information', 'activity'],
         required: true
     },
     target: {
@@ -33,13 +33,17 @@ const articleSchema = new Schema({
         default: Date.now(),
         required: true
     },
+    author: {
+        type: Schema.ObjectId,
+        ref: 'User'
+    },
     comments: [commentSchema],
     images:[pictureSchema],
     mediaPath: [{type : String}],
     status: {
         type: String ,
         enum: ['draft', 'undervalidation', 'released'],
-        default:'released'
+        default:'draft'
     }
 })
 

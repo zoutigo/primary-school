@@ -1,6 +1,7 @@
 const User = require('../models/User')
-const {registerValidator} =require('../validators/users')
+const {registerValidator, loginValidator} =require('../validators/users')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 module.exports.userRegister = async (req, res)=>{
    
@@ -34,6 +35,27 @@ module.exports.userRegister = async (req, res)=>{
 
 }
 
+module.exports.userLogin = async (req, res)=>{
+    // if(!req.body.email || !req.body.password) return res.status(400).send('Please enter email and password')
+
+      // using Joi validator
+   let {value, error} = await loginValidator(req.body)
+   if (error) return res.status(400).send(`${error.details[0].message}`)
+
+   // check if email exists
+   let user = await User.findOne({email: req.body.email})
+   if (!user) return res.status(400).send('User does not exist for that email')
+   
+
+   // check password
+   let passwordVerif = await bcrypt.compare(req.body.password, user.password)
+   if (!passwordVerif) return res.status(400).send('Wrong password')
+
+   let token = await jwt.sign({_id:user._id, role: user.role}, process.env.TOKEN_SECRET,{expiresIn: process.env.TOKEN_LOGIN_DURATION})
+   res.status(200).header('auth-token,token').send(`vous etes connectés avec le token ${token}`)
+
+  
+}
 
 module.exports.userView = async (req, res)=>{
     if(!req.params) return res.status(400).send('There is an error in your request')
