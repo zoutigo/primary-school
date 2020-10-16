@@ -2,5 +2,5 @@
 .env
 README.md
 **/node_modules/
-/back/views/
-/back/config/
+/views/
+/back/
