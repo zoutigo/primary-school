@@ -21,7 +21,7 @@ dotenv.config()
 var app = express()
 
 // Database connexion
-mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true , useUnifiedTopology: true, useFindAndModify: false })
+mongoose.connect(process.env.MONGO_URI || process.env.DB_CONNECT, { useNewUrlParser: true , useUnifiedTopology: true, useFindAndModify: false })
   .then(()=> console.log('Connexion établie à la base de donnée'))
   .catch((err)=> console.log(err))
 
@@ -41,6 +41,12 @@ app.use('/articles', articlesRouter)
 app.use('/comments', commentsRouter)
 app.use('/students', studentsRouter)
 app.use('/events', eventsRouter)
+
+
+// Heroku definition
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'))
+}
 
 
 // catch 404 and forward to error handler
