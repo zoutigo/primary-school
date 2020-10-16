@@ -1,8 +1,9 @@
 
+const { string } = require('@hapi/joi')
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-module.exports.commentSchema = new Schema({
+const commentSchema = new Schema({
     content: {
         type: String,
         min: 2,
@@ -10,11 +11,11 @@ module.exports.commentSchema = new Schema({
         required: true
     },
     author: {
-        type: Schema.ObjectId ,
+        type: Schema.Types.ObjectId,
         ref: 'User'
     },
     likes: [{
-        author: {type: Schema.ObjectId},
+        author: {type: Schema.Types.ObjectId},
         like : {type: Number, min:0 , max: 1}
     }],
     createdAt: {
@@ -24,4 +25,4 @@ module.exports.commentSchema = new Schema({
     }
 })
 
-//module.exports = mongoose.model('Comment', commentSchema)
+module.exports = mongoose.model('Comment', commentSchema)

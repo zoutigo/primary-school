@@ -16,22 +16,22 @@ const eventSchema = new Schema({
         required: true
 
     },
-    author : {
-        type: mongoose.Objectid ,
-        required : true
-    },
-    date: {
+    eventDate : {
         type: Date ,
         required: true
+    },
 
+    author : {
+        type: Schema.Types.ObjectId
+     
     },
     createdAt: {
         type: Date ,
         default: Date.now(),
         required: true
     },
-    update : [{author: mongoose.Objectid, date: Date}],
-    comments: [commentSchema],
+    update : [{author: Schema.Types.ObjectId, date: Date}],
+    comments: [{type:Schema.Types.ObjectId}],
     images:[pictureSchema],
     mediaPath: [{type : String, url: String}]
 

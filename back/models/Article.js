@@ -34,10 +34,10 @@ const articleSchema = new Schema({
         required: true
     },
     author: {
-        type: Schema.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    comments: [commentSchema],
+    comments: [{type: Schema.Types.ObjectId}],
     images:[pictureSchema],
     mediaPath: [{type : String}],
     status: {
