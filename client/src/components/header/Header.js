@@ -4,7 +4,15 @@ import {makeStyles} from '@material-ui/styles'
 
 const useStyles =  makeStyles((theme)=> ({
     root : {
+<<<<<<< HEAD
 
+=======
+        minHeight: '10vh',
+       
+    },
+    toolbar:{
+        minHeight: '100%'
+>>>>>>> ee5b5fd... finalize functionality header color change on scroll
     },
     empty :{
         backgroundColor:'yellow',
@@ -48,9 +56,35 @@ const useStyles =  makeStyles((theme)=> ({
 
 function Header() {
     const classes = useStyles()
+<<<<<<< HEAD
     return (
         <AppBar>
             <Toolbar>
+=======
+    const [headerStyle, setHeaderStyle] = useState({ background: 'transparent', boxShadow: 'none'})
+
+    useEffect(() => {
+
+        const handleScroll = ()=> {
+            if (window.pageYOffset > 0) {
+               setHeaderStyle({ background: 'white', boxShadow: 'inherit'}) 
+                }
+            else{
+               
+                setHeaderStyle({ background: 'transparent', boxShadow: 'none'}) 
+                }
+        }
+        window.addEventListener("scroll", handleScroll)
+
+        return () => {
+           window.removeEventListener("scroll", handleScroll )
+        }
+    }, [window.pageYOffset])
+    
+    return (
+        <AppBar className={classes.root} position='fixed' style={headerStyle}>
+            <Toolbar className={classes.toolbar}>
+>>>>>>> ee5b5fd... finalize functionality header color change on scroll
                 <div className={classes.paper}>
                     <Box variant='div'className={classes.empty} >Vide</Box>
                     <Box variant='div' className={classes.contentLarge}>Logo et navigation</Box>
