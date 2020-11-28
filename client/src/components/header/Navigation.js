@@ -1,11 +1,9 @@
 import React from 'react'
+import {useSelector} from 'react-redux'
+
 import {makeStyles} from '@material-ui/styles'
 import {Box} from '@material-ui/core'
-import SchoolIcon from '@material-ui/icons/School';
-import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
-import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import ListAltIcon from '@material-ui/icons/ListAlt';
+
 import NavItem from './NavItem'
 
 const useStyles = makeStyles((theme)=> ({
@@ -17,16 +15,10 @@ const useStyles = makeStyles((theme)=> ({
     }
 }))
 
-const navElements = [
-    {name: "L'Ecole", link: '/school', icon: <SchoolIcon fontSize="large" /> },
-    {name: "Les Activités", link: '/activities', icon: <DirectionsRunIcon  fontSize="large"/>},
-    {name: "Les classes", link: '/classrooms', icon: <MeetingRoomIcon fontSize="large" />},
-    {name: "Inscriptions", link: '/register', icon: <ListAltIcon  fontSize="large" />},
-    {name: "Espace privé", link: '/private', icon: <AccountCircleIcon  fontSize="large" />}
-]
 
 function Navigation() {
     const classes = useStyles()
+    const navElements = useSelector(state => state.settings.navElements)
 
     return (
         <Box className={classes.root}>
