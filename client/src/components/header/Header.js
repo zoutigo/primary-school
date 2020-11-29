@@ -1,18 +1,21 @@
 import React , {useEffect, useState} from 'react'
 import {AppBar, Toolbar, Box} from '@material-ui/core'
 import {makeStyles} from '@material-ui/styles'
-import Logo from './Logo'
+
 import Navigation from './Navigation'
+import MenuIcon from '@material-ui/icons/Menu';
+
+import logo from '../../images/logo.png'
 
 const useStyles =  makeStyles((theme)=> ({
     root : {
         minHeight: '10vh',
-        minWidth: '100vw' 
+        width: '100vw' 
     },
     toolbar : {
         display: 'flex',
         justifyContent: 'space-betwween',
-        minWidth: '100%',
+        width: '100%',
         minHeight: '10vh'
     },
     
@@ -43,7 +46,9 @@ const useStyles =  makeStyles((theme)=> ({
         } 
     },
     contentSmall : {
-        backgroundColor: 'blue',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         minWidth: '100%',
         [theme.breakpoints.up('md')]:{
             display: 'none'
@@ -60,6 +65,15 @@ const useStyles =  makeStyles((theme)=> ({
         background: 'transparent',
         boxShadow: 'none',
         transition: 'background 1s ease'
+    },
+    logoLarge : {
+        width: theme.spacing(10),
+        height: theme.spacing(10)
+    },
+    logoSmall : {
+        width: theme.spacing(6),
+        height: theme.spacing(6),
+        marginRight: theme.spacing(4)
     }  
    
 
@@ -88,6 +102,12 @@ function Header() {
         }
     }, [])
 
+    const Logo = ({className})=>{
+        return (
+            <img src={logo} alt='logo' className={className}/>
+        )
+    }
+
 
     return (
         <AppBar className={`${classes.root } ${headerColor}`} >
@@ -95,10 +115,13 @@ function Header() {
                
                     <Box variant='div'className={classes.empty} ></Box>
                     <Box variant='div' className={classes.contentLarge}>
-                        <Logo /> 
+                        <Logo className={classes.logoLarge}/> 
                         <Navigation />
                     </Box>
-                    <Box variant='div' className={classes.contentSmall}>Logo et Burger Icon</Box>
+                    <Box variant='div' className={classes.contentSmall}>
+                        <Logo className={classes.logoSmall} />
+                        <MenuIcon className={classes.logoSmall} />
+                    </Box>
                     <Box variant='div' className={classes.empty}></Box>
               
             </Toolbar>

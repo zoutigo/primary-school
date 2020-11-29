@@ -4,7 +4,7 @@ import {makeStyles} from '@material-ui/styles'
 const useStyles = makeStyles((theme)=> ({
     root : {
         background: theme.palette.grey[800],
-        minWidth: '100vw',
+        width: '100vw',
         minHeight: '25vh'
     }
 }))

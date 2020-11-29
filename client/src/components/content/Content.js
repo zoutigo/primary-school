@@ -1,11 +1,16 @@
 import React from 'react'
 import {makeStyles} from '@material-ui/styles'
+import image from '../../images/content.jpg'
 
 const useStyles = makeStyles((theme)=> ({
     root : {
         background: 'skyblue',
-        minWidth: '100vw',
-        minHeight: '100vh'
+        width: '100vw',
+        minHeight: '100vh',
+        backgroundSize: 'cover',
+      
+        background: `linear-gradient(to top, transparent 80%, green),
+        url(${image})`
     }
 }))
 
@@ -14,8 +19,7 @@ function Content() {
     const classes = useStyles()
     return (
         <div className={classes.root}>
-            Here the content
-        </div>
+           </div>
     )
 }
 
