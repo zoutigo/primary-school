@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme)=>({
     
 }))
 
-function NavItem({name, link, icon}) {
+function NavItem({name , icon}) {
     const classes = useStyles()
     return (
         <div className={classes.root}>

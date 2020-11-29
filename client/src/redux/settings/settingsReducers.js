@@ -7,14 +7,17 @@ import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 
+
 const initialState = {
     burgerMenuIsOpened : false,
     navElements : [
-        {name: "L'Ecole", link: '/school', icon: <SchoolIcon fontSize="large" /> },
-        {name: "Les Activités", link: '/activities', icon: <DirectionsRunIcon  fontSize="large"/>},
-        {name: "Les classes", link: '/classrooms', icon: <MeetingRoomIcon fontSize="large" />},
-        {name: "Inscriptions", link: '/register', icon: <ListAltIcon  fontSize="large" />},
-        {name: "Espace privé", link: '/private', icon: <AccountCircleIcon  fontSize="large" />}
+        {name: "Acceuil", link: '/', icon: '' , alias: 'home'},
+        {name: "L'Etablissement", link: '/etablissement', icon: <SchoolIcon fontSize="large" /> , alias:'etablissement'},
+        {name: "Vie Scolaire", link: '/vie-scolaire', icon: <DirectionsRunIcon  fontSize="large"/>, alias: 'viescolaire'},
+        {name: "Les classes", link: '/classes', icon: <MeetingRoomIcon fontSize="large" />, alias:'classes'},
+        {name: "Informations", link: '/informations', icon: <ListAltIcon  fontSize="large" />, alias: 'informations'},
+        {name: "Contacts", link: '/contacts', icon: <ListAltIcon  fontSize="large" />, alias: 'contacts'},
+        {name: "Espace privé", link: '/private', icon: <AccountCircleIcon  fontSize="large" />, alias:'private'}
     ]
 }
 

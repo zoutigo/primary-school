@@ -2,6 +2,8 @@ import React , {useEffect, useState} from 'react'
 import {AppBar, Toolbar, Box} from '@material-ui/core'
 import {makeStyles} from '@material-ui/styles'
 
+import {NavLink} from 'react-router-dom'
+
 import Navigation from './Navigation'
 import MenuIcon from '@material-ui/icons/Menu';
 
@@ -104,7 +106,9 @@ function Header() {
 
     const Logo = ({className})=>{
         return (
-            <img src={logo} alt='logo' className={className}/>
+            <NavLink to='/' style={{ color: 'inherit', textDecoration: 'inherit'}}>
+                <img src={logo} alt='logo' className={className}/>
+            </NavLink>
         )
     }
 
