@@ -30,7 +30,7 @@ function Navigation() {
                       
                        return (
                            <NavLink key={index} to={element.link} style={{ color: 'inherit', textDecoration: 'inherit'}}>
-                               <NavItem name={element.name} icon={element.icon} />
+                               <NavItem name={element.name} icon={element.icon} path={element.link} />
                            </NavLink>
                        )
                        
@@ -41,19 +41,6 @@ function Navigation() {
         </Box>
     )
 
-    // return (
-    //     <Box className={classes.root}>
-    //         {
-    //             navElements.map((element, index)=>{
-    //                 if (element.alias !== 'home')
-    //                 return (
-    //                     <NavItem key={index} name={element.name} link={element.link} icon={element.icon} />
-    //                 )
-    //             })
-    //         }
-
-    //     </Box>
-    // )
 }
 
 export default Navigation
