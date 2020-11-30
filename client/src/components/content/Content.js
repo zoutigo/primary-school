@@ -1,5 +1,7 @@
 import React from 'react'
-import {makeStyles} from '@material-ui/styles'
+import {useSelector} from 'react-redux'
+import {makeStyles, useTheme} from '@material-ui/styles'
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import {Switch, Route} from 'react-router-dom'
 import Informations from './informations/Informations'
@@ -10,11 +12,19 @@ import Home from './home/Home'
 import Classrooms from './classrooms/Classrooms'
 import SchoolLife from './school-life/SchoolLife'
 import ErrorPage from './ErrorPage'
+import SmallScreenMenu from './SmallScreenMenu'
 
 
 function Content() {
- 
+    const theme = useTheme()
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'))
+   
+
     return (
+        <>
+        {
+            isSmallScreen && <SmallScreenMenu /> 
+        }
         <Switch>
             <Route path='/' exact component ={Home} />
             <Route path='/informations' exact component={Informations} />
@@ -25,6 +35,7 @@ function Content() {
             <Route path='/vie-scolaire' exact component={SchoolLife} />
             <Route component={ErrorPage} />
          </Switch>
+         </>
     )
 }
 

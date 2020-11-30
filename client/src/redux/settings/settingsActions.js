@@ -1,4 +1,4 @@
-import {OPEN_BURGER_MENU} from './settingsActionTypes'
+import {OPEN_BURGER_MENU} from './settingsActionsTypes'
 
 export const openBurgerMenu = ()=> {
     return {

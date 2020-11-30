@@ -1,11 +1,15 @@
 import React , {useEffect, useState} from 'react'
-import {AppBar, Toolbar, Box} from '@material-ui/core'
+import {useDispatch, useSelector} from 'react-redux'
+import {AppBar, Toolbar, Box, IconButton} from '@material-ui/core'
 import {makeStyles} from '@material-ui/styles'
 
 import {NavLink} from 'react-router-dom'
 
+import {openBurgerMenu} from '../../redux/settings/settingsActions'
+
 import Navigation from './Navigation'
 import MenuIcon from '@material-ui/icons/Menu';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 import logo from '../../images/logo.png'
 
@@ -82,9 +86,11 @@ const useStyles =  makeStyles((theme)=> ({
 }))
 
 function Header() {
+    const dispatch = useDispatch()
     const classes = useStyles()
     const [scroll, setScroll] = useState(false)
     const headerColor = scroll ? classes.scrolledStyle : classes.unscrolledStyle
+    const burgerMenuIsOpened = useSelector(state => state.settings.burgerMenuIsOpened)
 
 
     useEffect(() => {
@@ -103,6 +109,8 @@ function Header() {
             window.removeEventListener('scroll', handleScroll)     
         }
     }, [])
+
+    
 
     const Logo = ({className})=>{
         return (
@@ -124,7 +132,14 @@ function Header() {
                     </Box>
                     <Box variant='div' className={classes.contentSmall}>
                         <Logo className={classes.logoSmall} />
-                        <MenuIcon className={classes.logoSmall} />
+                        <IconButton  onClick={()=> dispatch(openBurgerMenu())}>
+
+                             {
+                                 burgerMenuIsOpened 
+                                 ? <MenuIcon className={classes.logoSmall} />
+                                 : <CancelIcon className={classes.logoSmall} />
+                                }
+                        </IconButton>
                     </Box>
                     <Box variant='div' className={classes.empty}></Box>
               
