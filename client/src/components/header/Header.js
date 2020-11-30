@@ -80,6 +80,9 @@ const useStyles =  makeStyles((theme)=> ({
         width: theme.spacing(6),
         height: theme.spacing(6),
         marginRight: theme.spacing(4)
+    },
+    closeIcon : {
+        color: theme.palette.warning.light
     }  
    
 
@@ -137,7 +140,7 @@ function Header() {
                              {
                                  burgerMenuIsOpened 
                                  ? <MenuIcon className={classes.logoSmall} />
-                                 : <CancelIcon className={classes.logoSmall} />
+                                 : <CancelIcon className={`${classes.logoSmall} ${classes.closeIcon}`} />
                                 }
                         </IconButton>
                     </Box>
