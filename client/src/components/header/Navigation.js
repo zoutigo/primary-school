@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme)=> ({
     root: {
         display: 'flex',
         justifyContent: 'space-around',
-        width: '70%'
+        width: '85%'
 
     }
 }))

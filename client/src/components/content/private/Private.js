@@ -1,9 +1,10 @@
 import React from 'react'
+import HeadModules from '../HeadModules'
 
 function Private() {
     return (
         <div>
-            Espace privé
+            <HeadModules />
         </div>
     )
 }

@@ -1,11 +1,10 @@
 import React from 'react'
+import HeadModules from '../HeadModules'
 
 function Contacts() {
     return (
         <div>
-            <h1>
-               Here is the footer
-            </h1>
+            <HeadModules />
         </div>
     )
 }

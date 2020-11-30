@@ -1,9 +1,10 @@
 import React from 'react'
+import HeadModules from '../HeadModules'
 
 function SchoolLife() {
     return (
         <div>
-            <h1>Vie scolaire</h1>
+             <HeadModules />
         </div>
     )
 }

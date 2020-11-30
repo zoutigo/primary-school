@@ -1,9 +1,10 @@
 import React from 'react'
+import HeadModules from '../HeadModules'
 
 function Informations() {
     return (
         <div>
-            <h1>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </h1>
+            <HeadModules />
         </div>
     )
 }

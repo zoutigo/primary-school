@@ -1,9 +1,10 @@
 import React from 'react'
+import HeadModules from '../HeadModules'
 
 function Classrooms() {
     return (
         <div>
-            <h1> sales de classe</h1>
+             <HeadModules />
         </div>
     )
 }

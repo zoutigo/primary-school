@@ -1,9 +1,10 @@
 import React from 'react'
+import HeadModules from '../HeadModules'
 
 function Etablissement() {
     return (
         <div>
-            Etablissement
+            <HeadModules />
         </div>
     )
 }

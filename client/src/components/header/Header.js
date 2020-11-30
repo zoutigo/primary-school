@@ -63,7 +63,7 @@ const useStyles =  makeStyles((theme)=> ({
     },
     
     scrolledStyle : {
-        background: theme.palette.primary.main,
+        background: theme.palette.success.main,
         boxShadow: 'inherit',
         transition: 'background 1s ease'
     },
