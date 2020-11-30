@@ -5,7 +5,8 @@ import SchoolIcon from '@material-ui/icons/School';
 import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import ListAltIcon from '@material-ui/icons/ListAlt';
+import EcoSharpIcon from '@material-ui/icons/EcoSharp';
+import MenuBookSharpIcon from '@material-ui/icons/MenuBookSharp';
 
 
 const initialState = {
@@ -15,8 +16,8 @@ const initialState = {
         {name: "L'Ecole", link: '/ecole', icon: <SchoolIcon fontSize="large" /> , alias:'ecole'},
         {name: "Vie Scolaire", link: '/vie-scolaire', icon: <DirectionsRunIcon  fontSize="large"/>, alias: 'viescolaire'},
         {name: "Les classes", link: '/classes', icon: <MeetingRoomIcon fontSize="large" />, alias:'classes'},
-        {name: "Informations", link: '/informations', icon: <ListAltIcon  fontSize="large" />, alias: 'informations'},
-        {name: "Mécènes", link: '/mecenes', icon: <ListAltIcon  fontSize="large" />, alias: 'mecenes'},
+        {name: "Informations", link: '/informations', icon: <MenuBookSharpIcon  fontSize="large" />, alias: 'informations'},
+        {name: "Mécènes", link: '/mecenes', icon: <EcoSharpIcon  fontSize="large" />, alias: 'mecenes'},
         {name: "Espace privé", link: '/private', icon: <AccountCircleIcon  fontSize="large" />, alias:'private'}
     ]
 }
