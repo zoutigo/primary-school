@@ -12,11 +12,11 @@ const initialState = {
     burgerMenuIsOpened : false,
     navElements : [
         {name: "Acceuil", link: '/', icon: '' , alias: 'home'},
-        {name: "L'Etablissement", link: '/etablissement', icon: <SchoolIcon fontSize="large" /> , alias:'etablissement'},
+        {name: "L'Ecole", link: '/ecole', icon: <SchoolIcon fontSize="large" /> , alias:'ecole'},
         {name: "Vie Scolaire", link: '/vie-scolaire', icon: <DirectionsRunIcon  fontSize="large"/>, alias: 'viescolaire'},
         {name: "Les classes", link: '/classes', icon: <MeetingRoomIcon fontSize="large" />, alias:'classes'},
         {name: "Informations", link: '/informations', icon: <ListAltIcon  fontSize="large" />, alias: 'informations'},
-        {name: "Contacts", link: '/contacts', icon: <ListAltIcon  fontSize="large" />, alias: 'contacts'},
+        {name: "Mécènes", link: '/mecenes', icon: <ListAltIcon  fontSize="large" />, alias: 'mecenes'},
         {name: "Espace privé", link: '/private', icon: <AccountCircleIcon  fontSize="large" />, alias:'private'}
     ]
 }

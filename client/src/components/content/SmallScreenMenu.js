@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme)=>({
         backgroundColor: theme.palette.common.white,
         position: 'absolute',
         top: '4em',
-        // transform: 'translate(0, -200%)'
+        transform: 'translate(0, -200%)'
     },
     box : {
         background: theme.palette.error.light,
@@ -57,7 +57,6 @@ function SmallScreenMenu() {
 
     const navElements = useSelector(state => state.settings.navElements)
     const burgerMenuIsOpened = useSelector(state => state.settings.burgerMenuIsOpened)
-
     const sideMenuStyle = burgerMenuIsOpened ? classes.hideMenu : classes.showMenu
 
     return (

@@ -1,24 +1,42 @@
 import React from 'react'
-import {makeStyles} from '@material-ui/core'
+import {Grid, makeStyles} from '@material-ui/core'
 
-import image from '../../../images/content.jpg'
+import Landing from './Landing'
+import Introduction from './Introduction'
+import Figures from './Figures'
+import News from './News'
+import Illustrations from './Illustrations'
+import ContactForm from './ContactForm'
 
 const useStyles = makeStyles((theme)=> ({
     root : {
-        width: '100vw',
-        minHeight: '100vh',
-        backgroundSize: 'cover',
-        background: `linear-gradient(to top, transparent 80%, green),
-        url(${image})`
+       
     }
 }))
 
 function Home() {
     const classes = useStyles()
     return (
-        <div className={classes.root}>
-            Here is the home 
-        </div>
+        <Grid container direction='colum' className={classes.root}>
+            <Grid item container>
+                <Landing />
+            </Grid>
+            <Grid item container>
+                <Introduction />
+            </Grid>
+            <Grid item container>
+                <Figures />
+            </Grid>
+            <Grid item container>
+                <News />
+            </Grid>
+            <Grid item container>
+                <Illustrations />
+            </Grid>
+            <Grid item container>
+                <ContactForm />
+            </Grid>
+        </Grid>
     )
 }
 

@@ -1,11 +1,19 @@
+import { Grid } from '@material-ui/core'
 import React from 'react'
 import HeadModules from '../HeadModules'
+import SchoolLifeSummary from './SchoolLifeSummary'
 
 function SchoolLife() {
     return (
-        <div>
-             <HeadModules />
-        </div>
+        
+        <Grid container >
+            <Grid item container>
+                <HeadModules />
+            </Grid>
+            <Grid item container>
+                <SchoolLifeSummary />
+            </Grid>
+        </Grid>
     )
 }
 

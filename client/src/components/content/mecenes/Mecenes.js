@@ -1,20 +1,20 @@
-import { Grid } from '@material-ui/core'
 import React from 'react'
 import HeadModules from '../HeadModules'
-import ClassroomsSummay from './ClassroomsSummay'
+import MecenesSummary from './MecenesSummary'
+import {Grid} from '@material-ui/core'
 
-function Classrooms() {
+function Mecenes() {
     return (
-      
+       
         <Grid container >
             <Grid item container>
                 <HeadModules />
             </Grid>
-            <Grid item container>
-                <ClassroomsSummay />
+            <Grid item container >
+                <MecenesSummary />
             </Grid>
         </Grid>
     )
 }
 
-export default Classrooms
+export default Mecenes
