@@ -13,6 +13,7 @@ import {store} from './redux/store'
 
 import { useQuery, QueryCache, ReactQueryCacheProvider } from "react-query";
 
+
 const queryCache = new QueryCache({
   defaultConfig: {
     queries: {
@@ -21,6 +22,7 @@ const queryCache = new QueryCache({
     },
   },
 })
+
 
 ReactDOM.render(
   <React.StrictMode>

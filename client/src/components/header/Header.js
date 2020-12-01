@@ -2,6 +2,8 @@ import React , {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {AppBar, Toolbar, Box, IconButton} from '@material-ui/core'
 import {makeStyles} from '@material-ui/styles'
+import useLocalStorage from '../../utils/useLocalStorage'
+import rubrics from '../../utils/rubrics'
 
 import {NavLink} from 'react-router-dom'
 
@@ -94,6 +96,9 @@ function Header() {
     const [scroll, setScroll] = useState(false)
     const headerColor = scroll ? classes.scrolledStyle : classes.unscrolledStyle
     const burgerMenuIsOpened = useSelector(state => state.settings.burgerMenuIsOpened)
+
+  
+   
 
 
     useEffect(() => {

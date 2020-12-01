@@ -1,25 +1,11 @@
-import {OPEN_BURGER_MENU} from './settingsActionsTypes'
+import {OPEN_BURGER_MENU, OPEN_SUB_MENU} from './settingsActionsTypes'
 import React from 'react'
-
-import SchoolIcon from '@material-ui/icons/School';
-import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
-import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import EcoSharpIcon from '@material-ui/icons/EcoSharp';
-import MenuBookSharpIcon from '@material-ui/icons/MenuBookSharp';
+import rubrics from '../../utils/rubrics'
 
 
 const initialState = {
     burgerMenuIsOpened : false,
-    navElements : [
-        {name: "Acceuil", link: '/', icon: '' , alias: 'home'},
-        {name: "L'Ecole", link: '/ecole', icon: <SchoolIcon fontSize="large" /> , alias:'ecole'},
-        {name: "Vie Scolaire", link: '/vie-scolaire', icon: <DirectionsRunIcon  fontSize="large"/>, alias: 'viescolaire'},
-        {name: "Les classes", link: '/classes', icon: <MeetingRoomIcon fontSize="large" />, alias:'classes'},
-        {name: "Informations", link: '/informations', icon: <MenuBookSharpIcon  fontSize="large" />, alias: 'informations'},
-        {name: "Mécènes", link: '/mecenes', icon: <EcoSharpIcon  fontSize="large" />, alias: 'mecenes'},
-        {name: "Espace privé", link: '/private', icon: <AccountCircleIcon  fontSize="large" />, alias:'private'}
-    ]
+    navElements : rubrics
 }
 
 export const settingsReducers = (state=initialState, action)=> {
@@ -28,6 +14,17 @@ export const settingsReducers = (state=initialState, action)=> {
             return {
                 ...state,
                 burgerMenuIsOpened : !state.burgerMenuIsOpened
+            }
+        case OPEN_SUB_MENU :
+            
+            {
+                const newNavElements = [...state.navElements]
+                newNavElements[action.payload].subdisplay = !newNavElements[action.payload].subdisplay
+
+                return {
+                    ...state,
+                    navElements : newNavElements
+                }
             }
         
                 

@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme)=> ({
 function Home() {
     const classes = useStyles()
     return (
-        <Grid container direction='colum' className={classes.root}>
+        <Grid container direction='column' className={classes.root}>
             <Grid item container>
                 <Landing />
             </Grid>

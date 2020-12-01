@@ -1,1 +1,2 @@
 export const OPEN_BURGER_MENU = 'OPEN_BURGER_MENU'
+export const OPEN_SUB_MENU = 'OPEN_SUB_MENU'
