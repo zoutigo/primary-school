@@ -12,7 +12,7 @@ let theme = createMuiTheme({
     secondary: {
       main: green[500],
     },
-    thrid : {
+    third : {
       ligth: 'rgb(250,250,210)',
       main: 'rgb(255,215,0)',
       dark: 'rgb(240,230,140)'

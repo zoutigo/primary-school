@@ -1,15 +1,15 @@
 import React from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import {makeStyles} from '@material-ui/styles'
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import FavoriteIcon from '@material-ui/icons/Favorite';
+
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 
 import {NavLink} from 'react-router-dom'
 import {Button, Typography, Box, IconButton} from '@material-ui/core'
 import {openBurgerMenu} from '../../redux/settings/settingsActions'
-import useLocalStorage from '../../utils/useLocalStorage';
-import rubrics from '../../utils/rubrics';
+
+
+import SmallScreenMenuItem from './SmallScreenMenuItem'
 
 import {openSubMenu} from '../../redux/settings/settingsActions'
 
@@ -35,7 +35,9 @@ const useStyles = makeStyles((theme)=>({
         
     },
     link : {
-        color: theme.palette.common.white,
+        flexGrow: 1 ,
+        paddingLeft: theme.spacing(2)
+       
     },
     button : {
         background: theme.palette.warning.light,
@@ -62,11 +64,12 @@ function SmallScreenMenu() {
     const classes = useStyles()
     const dispatch = useDispatch()
 
-
-
     const navElements = useSelector(state => state.settings.navElements)
     const burgerMenuIsOpened = useSelector(state => state.settings.burgerMenuIsOpened)
     const sideMenuStyle = burgerMenuIsOpened ? classes.hideMenu : classes.showMenu
+
+    const toogleSubMenu = (ind)=> dispatch(openSubMenu(ind))
+    const toogleBurgerMenu = () => dispatch(openBurgerMenu())
 
     return (
         <div className={`${classes.root} ${sideMenuStyle}`}>
@@ -74,28 +77,27 @@ function SmallScreenMenu() {
                 navElements.map((element, index)=>{
                     const {name, link, sub} = element
                    
-                   
                     if (element.alias !== 'home'){
-
 
                         return (
                             <div key={index}>
-                            <div className={classes.box} key={index} style={{display:'flex', alignItems:'center', height:'3rem'}}>
+                            <div className={classes.box}  style={{display:'flex', alignItems:'center', height:'3rem'}}>
                                     
-                                       <div style={{flexGrow:1}}>
-                                             <NavLink to={element.link} 
-                                                onClick={()=> dispatch(openBurgerMenu())} 
-                                                style={{  textDecoration: 'inherit'}}
-                                                className={classes.link} 
+                                       <div  className={classes.link} >
+                                             <NavLink to={link} 
+                                                onClick={toogleBurgerMenu} 
+                                                style={{ color: 'inherit', textDecoration: 'inherit'}} 
+                                                
                                                 activeClassName={classes.active}
                                                 >
-                                                <span className={classes.text} > {name} </span> 
+                                                <Typography variant='h6'> {name} </Typography>
+                                             
                                             </NavLink>
                                        </div>
                                        {
-                                           element.sub &&
-                                           <div style={{width:'20%'}}>
-                                           <span onClick={() => dispatch(openSubMenu(index))}>
+                                           sub &&
+                                           <div style={{width:'20%', borderLeft:'white solid 1px', textAlign:'center' }}>
+                                           <span onClick={()=> toogleSubMenu(index)}>
                                                <IconButton>
                                                    <KeyboardArrowDownIcon />
                                                </IconButton>
@@ -105,26 +107,11 @@ function SmallScreenMenu() {
                                         
                                   
                             </div>
-                            {element.subdisplay && element.sub &&
-                            <div> 
-                                {
-                                    element.sub.map((el, i)=>{
-                                        return(
-                                            <div key={i}>
-                                                <NavLink
-                                                to={el.link}
-                                                onClick={()=> dispatch(openBurgerMenu())}
-                                                style={{  textDecoration: 'inherit'}}
-                                                className={classes.sublink}
-                                                activeClassName={classes.active}
-                                                >
-                                                    <span> {el.designation} </span>
-                                                </NavLink>
-                                             </div>
-                                        )
-                                    })
-                                }
-                            </div>
+                            {
+                            
+                            element.subdisplay && element.sub && 
+                            <SmallScreenMenuItem sub={sub} index={index} toogleSubMenu={toogleSubMenu} toogleBurgerMenu={toogleBurgerMenu} />
+                           
                             }
                             </div>
                             
