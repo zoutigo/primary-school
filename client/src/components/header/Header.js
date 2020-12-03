@@ -24,7 +24,7 @@ const useStyles =  makeStyles((theme)=> ({
         display: 'flex',
         justifyContent: 'space-betwween',
         width: '100%',
-        minHeight: '10vh'
+        minHeight: '12vh'
     },
     
     empty :{
@@ -96,9 +96,6 @@ function Header() {
     const [scroll, setScroll] = useState(false)
     const headerColor = scroll ? classes.scrolledStyle : classes.unscrolledStyle
     const burgerMenuIsOpened = useSelector(state => state.settings.burgerMenuIsOpened)
-
-  
-   
 
 
     useEffect(() => {
