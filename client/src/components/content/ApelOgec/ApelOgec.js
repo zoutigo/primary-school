@@ -1,9 +1,9 @@
 import React from 'react'
 import HeadModules from '../HeadModules'
-import MecenesSummary from './MecenesSummary'
+import ApelOgecSummary from './ApelOgecSummary'
 import {Grid} from '@material-ui/core'
 
-function Mecenes() {
+function ApelOgec() {
     return (
        
         <Grid container >
@@ -11,10 +11,10 @@ function Mecenes() {
                 <HeadModules />
             </Grid>
             <Grid item container >
-                <MecenesSummary />
+                <ApelOgecSummary />
             </Grid>
         </Grid>
     )
 }
 
-export default Mecenes
+export default ApelOgec

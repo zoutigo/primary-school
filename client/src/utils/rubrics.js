@@ -11,7 +11,7 @@ import Ecole from '../components/content/ecole/Ecole';
 import SchoolLife from '../components/content/school-life/SchoolLife';
 import Classrooms from '../components/content/classrooms/Classrooms';
 import Informations from '../components/content/informations/Informations';
-import Mecenes from '../components/content/mecenes/Mecenes';
+import ApelOgec from '../components/content/ApelOgec/ApelOgec';
 import Private from '../components/content/private/Private';
 import Team from '../components/content/ecole/team/Team'
 import Story from '../components/content/ecole/story/Story'
@@ -100,11 +100,11 @@ const rubrics = [
     },
     subdisplay: false 
     },
-    {name: "Mécènes", link: '/mecenes', icon: <EcoSharpIcon  fontSize="large" />, alias: 'mecenes',
+    {name: "APEL-OGEC", link: '/apel-ogec', icon: <EcoSharpIcon  fontSize="large" />, alias: 'apel-ogec',
     route : {
-        path: '/mecenes',
+        path: '/apel-ogec',
         exact: true,
-        component: Mecenes
+        component: ApelOgec
     },
 
     subdisplay: false 

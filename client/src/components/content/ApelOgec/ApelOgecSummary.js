@@ -1,6 +1,6 @@
 import React from 'react'
 
-function MecenesSummary() {
+function ApelOgecSummary() {
     return (
         <div style={{minHeight:'70vh', padding:'4em'}}>
             <h1> APEL </h1>
@@ -10,4 +10,4 @@ function MecenesSummary() {
     )
 }
 
-export default MecenesSummary
+export default ApelOgecSummary
