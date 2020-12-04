@@ -90,8 +90,19 @@ const rubrics = [
         exact: true,
         component: Classrooms
     },
-    subdisplay: false      
+    subdisplay: false,
+    sub: [
+        {designation: 'Petite Section', link: '/classes/ps', alias:'ps', route:{path: '/classes/ps', exact: true, component: Cantine} },
+        {designation: 'Moyenne Section', link: '/classes/ms', alias:'ms', route:{path: '/classes/ms', exact: true, component: Nursery}},
+        {designation: 'Grande Section', link: '/classes/gs', alias:'gs', route:{path: '/classes/gs', exact: true, component: Schedule}},
+        {designation: 'Cours Elementaire 1', link: '/classes/ce1', alias:'ce1', route:{path: '/classes/ce1', exact: true, component: Pastorale}},
+        {designation: 'Cours Elementaire 2', link: '/classes/ce2', alias:'ce2', route:{path: '/classes/ce2', exact: true, component: Pastorale}},
+        {designation: 'Cours Moyen 1', link: '/classes/cm1', alias:'cm1', route:{path: '/classes/cm1', exact: true, component: Pastorale}},
+        {designation: 'Cours Moyen 2', link: '/classes/cm2', alias:'cm2', route:{path: '/classes/cm2', exact: true, component: Pastorale}},
+       
+    ]      
      },
+     
     {name: "Informations", link: '/informations', icon: <MenuBookSharpIcon  fontSize="large" />, alias: 'informations',
     route : {
         path: '/informations',
