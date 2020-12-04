@@ -1,7 +1,8 @@
 import { Grid } from '@material-ui/core'
 import React from 'react'
 import HeadModules from '../HeadModules'
-import EcoleSummary from './EcoleSummary'
+import SubMenuCardGroup from '../SubMenuCardGroup'
+
 
 function Ecole() {
     return (
@@ -11,7 +12,7 @@ function Ecole() {
                 <HeadModules />
             </Grid>
             <Grid item container >
-                <EcoleSummary />
+                <SubMenuCardGroup />
             </Grid>
         </Grid>
     )

@@ -160,7 +160,7 @@ function NavItem({element}) {
                     
                     >
                         <NavLink 
-                        to={link} 
+                        to={{pathname: link, subrubrics:sub}}
                         style={{ color: 'inherit', textDecoration: 'inherit'}} 
                         className={`${classes.navLink} ${activeText}}`}
                     

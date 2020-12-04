@@ -2,6 +2,7 @@ import { Grid } from '@material-ui/core'
 import React from 'react'
 import HeadModules from '../HeadModules'
 import InformationsSummary from './InformationsSummary'
+import SubMenuCardGroup from '../SubMenuCardGroup'
 
 function Informations() {
     return (
@@ -11,7 +12,7 @@ function Informations() {
                 <HeadModules />
             </Grid>
             <Grid item>
-                <InformationsSummary />
+               <SubMenuCardGroup />
             </Grid>
         </Grid>
     )
