@@ -12,27 +12,40 @@ import { Typography } from '@material-ui/core'
 const useStyles = makeStyles((theme)=> ({
     root : {
         width: '100vw',
-        minHeight: '35vh',
         backgroundSize: 'cover',
         background: `linear-gradient(to top, transparent 50%, green),
         url(${image})`,
         backgroundPosition: 'center',
         display: 'flex',
         justifyContent:'center',
-        alignItems:'center'
+        alignItems:'flex-end',
+        minHeight: '28vh',
+        maxHeight: '28vh',
+        [theme.breakpoints.down('sm')]:{
+            minHeight: '15vh',
+            maxHeight: '15vh',
+        },
+        [theme.breakpoints.between('sm', 'md')]:{
+            minHeight: '22vh',
+            maxHeight: '22vh',
+        }
     },
     content: {
           
             fontFamily: "'Archivo Black', sans-serif",
-            fontSize: '8em',
-            // fontWeight: 'bold' ,
             letterSpacing: '1px',
-            lineHeight: 4  ,
+            fontSize: '6em',
+            lineHeight: 1.3  ,
             color: theme.palette.success.light,
-            [theme.breakpoints.down('md')]: {
-                fontSize: '3em',
-                lineHeight: 1
-            }
+            [theme.breakpoints.down('sm')]: {
+                fontSize: '1.5em',
+                lineHeight: 1.3
+            },
+            [theme.breakpoints.between('sm','md')]: {
+                fontSize: '2.5em',
+                lineHeight: 1.3
+            },
+
     },
     mobileContent : {
         color : theme.palette.success.light,
