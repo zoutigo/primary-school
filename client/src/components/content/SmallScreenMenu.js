@@ -84,7 +84,7 @@ function SmallScreenMenu() {
                             <div className={classes.box}  style={{display:'flex', alignItems:'center', height:'3rem'}}>
                                     
                                        <div  className={classes.link} >
-                                             <NavLink to={link} 
+                                             <NavLink to={{pathname:link, subrubrics:sub, rubric:name}}
                                                 onClick={toogleBurgerMenu} 
                                                 style={{ color: 'inherit', textDecoration: 'inherit'}} 
                                                 
@@ -110,7 +110,7 @@ function SmallScreenMenu() {
                             {
                             
                             element.subdisplay && element.sub && 
-                            <SmallScreenMenuItem sub={sub} index={index} toogleSubMenu={toogleSubMenu} toogleBurgerMenu={toogleBurgerMenu} />
+                            <SmallScreenMenuItem sub={sub} index={index} toogleSubMenu={toogleSubMenu} toogleBurgerMenu={toogleBurgerMenu} rubric={element.name} />
                            
                             }
                             </div>

@@ -5,17 +5,7 @@ import InformationsSummary from './InformationsSummary'
 import SubMenuCardGroup from '../SubMenuCardGroup'
 
 function Informations() {
-    return (
-       
-        <Grid container>
-            <Grid item container>
-                <HeadModules />
-            </Grid>
-            <Grid item>
-               <SubMenuCardGroup />
-            </Grid>
-        </Grid>
-    )
+    return <SubMenuCardGroup />
 }
 
 export default Informations

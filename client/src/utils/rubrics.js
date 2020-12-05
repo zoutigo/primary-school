@@ -22,6 +22,17 @@ import Cantine from '../components/content/school-life/cantine/Cantine'
 import Pastorale from '../components/content/school-life/pastorale/Pastorale'
 import Schedule from '../components/content/school-life/schedule/Schedule'
 import Nursery from '../components/content/school-life/nursery/Nursery'
+import Contacts from '../components/content/informations/Contacts'
+import Inscriptions from '../components/content/informations/Inscriptions'
+import Ps from '../components/content/classrooms/Ps';
+import Ms from '../components/content/classrooms/Ms';
+import Gs from '../components/content/classrooms/Gs';
+import Ce1 from '../components/content/classrooms/Ce1';
+import Ce2 from '../components/content/classrooms/Ce2';
+import Cm1 from '../components/content/classrooms/Cm1';
+import Cm2 from '../components/content/classrooms/Cm2';
+import Apel from '../components/content/ApelOgec/Apel'
+import Ogec from '../components/content/ApelOgec/Ogec'
 
 const rubrics = [
     {name: "Acceuil", link: '/', icon: '' , alias: 'home', 
@@ -92,13 +103,13 @@ const rubrics = [
     },
     subdisplay: false,
     sub: [
-        {designation: 'Petite Section', link: '/classes/ps', alias:'ps', route:{path: '/classes/ps', exact: true, component: Cantine} },
-        {designation: 'Moyenne Section', link: '/classes/ms', alias:'ms', route:{path: '/classes/ms', exact: true, component: Nursery}},
-        {designation: 'Grande Section', link: '/classes/gs', alias:'gs', route:{path: '/classes/gs', exact: true, component: Schedule}},
-        {designation: 'Cours Elementaire 1', link: '/classes/ce1', alias:'ce1', route:{path: '/classes/ce1', exact: true, component: Pastorale}},
-        {designation: 'Cours Elementaire 2', link: '/classes/ce2', alias:'ce2', route:{path: '/classes/ce2', exact: true, component: Pastorale}},
-        {designation: 'Cours Moyen 1', link: '/classes/cm1', alias:'cm1', route:{path: '/classes/cm1', exact: true, component: Pastorale}},
-        {designation: 'Cours Moyen 2', link: '/classes/cm2', alias:'cm2', route:{path: '/classes/cm2', exact: true, component: Pastorale}},
+        {designation: 'Petite Section', link: '/classes/ps', alias:'ps', route:{path: '/classes/ps', exact: true, component: Ps} },
+        {designation: 'Moyenne Section', link: '/classes/ms', alias:'ms', route:{path: '/classes/ms', exact: true, component: Ms}},
+        {designation: 'Grande Section', link: '/classes/gs', alias:'gs', route:{path: '/classes/gs', exact: true, component: Gs}},
+        {designation: 'Cours Elementaire 1', link: '/classes/ce1', alias:'ce1', route:{path: '/classes/ce1', exact: true, component: Ce1}},
+        {designation: 'Cours Elementaire 2', link: '/classes/ce2', alias:'ce2', route:{path: '/classes/ce2', exact: true, component: Ce2}},
+        {designation: 'Cours Moyen 1', link: '/classes/cm1', alias:'cm1', route:{path: '/classes/cm1', exact: true, component: Cm1}},
+        {designation: 'Cours Moyen 2', link: '/classes/cm2', alias:'cm2', route:{path: '/classes/cm2', exact: true, component: Cm2}},
        
     ]      
      },
@@ -109,7 +120,13 @@ const rubrics = [
         exact: true,
         component: Informations
     },
-    subdisplay: false 
+    subdisplay: false ,
+    sub: [
+        {designation: 'Inscriptions', link: '/informations/inscriptions', alias:'inscriptions', route:{path: '/informations/inscriptions', exact: true, component: Inscriptions} },
+        {designation: 'Nous contacter', link: '/informations/contacts', alias:'contacts', route:{path: '/informations/contacts', exact: true, component: Contacts}},
+      
+       
+    ]      
     },
     {name: "APEL-OGEC", link: '/apel-ogec', icon: <EcoSharpIcon  fontSize="large" />, alias: 'apel-ogec',
     route : {
@@ -117,8 +134,11 @@ const rubrics = [
         exact: true,
         component: ApelOgec
     },
-
-    subdisplay: false 
+    subdisplay: false ,
+    sub: [
+        {designation: 'APEL', link: '/apel-ogec/apel', alias:'apel', route:{path: '/apel-ogec/apel', exact: true, component: Apel} },
+        {designation: 'OGEC', link: '/apel-ogec/ogec', alias:'ogec', route:{path: '/apel-ogec/ogec', exact: true, component: Ogec}},
+    ]
     },
     {name: "Espace privé", link: '/private', icon: <AccountCircleIcon  fontSize="large" />, alias:'private',
     route : {

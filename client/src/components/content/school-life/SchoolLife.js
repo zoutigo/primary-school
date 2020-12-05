@@ -5,17 +5,7 @@ import SchoolLifeSummary from './SchoolLifeSummary'
 import SubMenuCardGroup from '../SubMenuCardGroup'
 
 function SchoolLife() {
-    return (
-        
-        <Grid container >
-            <Grid item container>
-                <HeadModules />
-            </Grid>
-            <Grid item container>
-               <SubMenuCardGroup />
-            </Grid>
-        </Grid>
-    )
+    return <SubMenuCardGroup />
 }
 
 export default SchoolLife

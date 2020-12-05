@@ -5,17 +5,7 @@ import SubMenuCardGroup from '../SubMenuCardGroup'
 
 
 function Ecole() {
-    return (
-       
-        <Grid container >
-            <Grid item container>
-                <HeadModules />
-            </Grid>
-            <Grid item container >
-                <SubMenuCardGroup />
-            </Grid>
-        </Grid>
-    )
+    return <SubMenuCardGroup />
 }
 
 export default Ecole

@@ -1,20 +1,8 @@
 import React from 'react'
-import HeadModules from '../HeadModules'
-import ApelOgecSummary from './ApelOgecSummary'
-import {Grid} from '@material-ui/core'
+import SubMenuCardGroup from '../SubMenuCardGroup'
 
 function ApelOgec() {
-    return (
-       
-        <Grid container >
-            <Grid item container>
-                <HeadModules />
-            </Grid>
-            <Grid item container >
-                <ApelOgecSummary />
-            </Grid>
-        </Grid>
-    )
+    return <SubMenuCardGroup />
 }
 
 export default ApelOgec

@@ -6,14 +6,14 @@ import { Grid } from '@material-ui/core'
 function SubMenuCardGroup() {
 
     const {pathname, subrubrics} = useLocation()
-
+   
     return (
-        <Grid container >
+       <Grid container>
         {
            subrubrics && subrubrics.map((subrubric, index)=>{
                return (
-                   <Grid item sm={12} md={6} lg={4} >
-                       <SubMenuCard key={index} />
+                   <Grid item key={index} sm={12} md={6} lg={4} >
+                       <SubMenuCard  />
                    </Grid>
                )
            })

@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme)=>({
     }
 }))
 
-function SmallScreenMenuItem({sub, index, toogleSubMenu, toogleBurgerMenu}) {
+function SmallScreenMenuItem({sub, rubric, index, toogleSubMenu, toogleBurgerMenu}) {
 
     const classes = useStyles()
     const handleClick = ()=>{
@@ -34,7 +34,7 @@ function SmallScreenMenuItem({sub, index, toogleSubMenu, toogleBurgerMenu}) {
                     return(
                         <div key={i} className={classes.linkbox}  >
                             <NavLink
-                            to={el.link}
+                            to= {{pathname:el.link, rubric:rubric, subrubric:el.designation}}
                             onClick={handleClick}
                             style={{ color: 'inherit', textDecoration: 'inherit'}} 
                             

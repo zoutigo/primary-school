@@ -160,7 +160,7 @@ function NavItem({element}) {
                     
                     >
                         <NavLink 
-                        to={{pathname: link, subrubrics:sub}}
+                        to={{pathname: link, subrubrics:sub, rubric:name}}
                         style={{ color: 'inherit', textDecoration: 'inherit'}} 
                         className={`${classes.navLink} ${activeText}}`}
                     
@@ -183,7 +183,9 @@ function NavItem({element}) {
                                   
                                     onClick= {()=> setClicked(true)}
                                     >
-                                    <NavLink  to={item.link} style={{ color: 'inherit', textDecoration: 'inherit'}}  >
+                                    <NavLink  
+                                        to= {{pathname:item.link, rubric:name, subrubric:item.designation}}
+                                        style={{ color: 'inherit', textDecoration: 'inherit'}}  >
                                         <Typography variant='h6' style={{marginLeft:'8px'}}> {item.designation} </Typography>
                                     </NavLink>
 
