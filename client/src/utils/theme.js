@@ -24,6 +24,12 @@ let theme = createMuiTheme({
       fontFamily: "'Poppins', 'Raleway'",
       letterSpacing: '1px',
       lineHeight: 3
+    },
+    h1 : {
+      fontFamily: "Raleway', 'Poppins', sans-serif",
+      fontSize: '8em',
+      letterSpacing: '1px',
+      lineHeight: 4
     }
   }
 });

@@ -21,6 +21,7 @@ import image from '../../images/example.jpg'
 const useStyles = makeStyles((theme) => ({
     root: {
       maxWidth: 345,
+     
     },
     media: {
       height: 0,

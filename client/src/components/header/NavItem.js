@@ -1,15 +1,10 @@
 import React , {useState} from 'react'
-import {makeStyles, withStyles} from '@material-ui/styles'
-import {Box, Button, Paper, Typography} from '@material-ui/core'
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import {makeStyles} from '@material-ui/styles'
+import {Box, Typography} from '@material-ui/core'
+
 import {NavLink, useLocation} from 'react-router-dom'
 
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send';
+
 import { useEffect } from 'react';
 
 
