@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme)=>({
     }
 }))
 
-function SmallScreenMenuItem({sub, rubric, index, toogleSubMenu, toogleBurgerMenu}) {
+function SmallScreenMenuItem({categories, rubric, index, toogleSubMenu, toogleBurgerMenu}) {
 
     const classes = useStyles()
     const handleClick = ()=>{
@@ -30,11 +30,11 @@ function SmallScreenMenuItem({sub, rubric, index, toogleSubMenu, toogleBurgerMen
     return (
         <>
              {
-                 sub.map((el, i)=>{
+                 categories.map((el, i)=>{
                     return(
                         <div key={i} className={classes.linkbox}  >
                             <NavLink
-                            to= {{pathname:el.link, rubric:rubric, subrubric:el.designation}}
+                            to= {{pathname:el.link, rubric:rubric, category:el.designation}}
                             onClick={handleClick}
                             style={{ color: 'inherit', textDecoration: 'inherit'}} 
                             

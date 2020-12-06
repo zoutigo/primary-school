@@ -17,13 +17,13 @@ const useStyles = makeStyles((theme)=>({
 
 function SubMenuCardGroup() {
 
-    const {pathname, subrubrics} = useLocation()
+    const {pathname, categories} = useLocation()
     const classes = useStyles()
    
     return (
        <Grid container justify='center' className={classes.root}>
         {
-           subrubrics && subrubrics.map((subrubric, index)=>{
+           categories && categories.map((subrubric, index)=>{
                return (
                    <Grid item key={index} sm={12} md={6} lg={4}  className={classes.submenucard}>
                        <SubMenuCard  />

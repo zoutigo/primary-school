@@ -5,7 +5,7 @@ import rubrics from '../../utils/rubrics'
 
 const initialState = {
     burgerMenuIsOpened : false,
-    navElements : rubrics
+    rubrics : rubrics
 }
 
 export const settingsReducers = (state=initialState, action)=> {
@@ -18,12 +18,12 @@ export const settingsReducers = (state=initialState, action)=> {
         case OPEN_SUB_MENU :
             
             {
-                const newNavElements = [...state.navElements]
-                newNavElements[action.payload].subdisplay = !newNavElements[action.payload].subdisplay
+                const newRubrics = [...state.rubrics]
+                newRubrics[action.payload].subdisplay = !newRubrics[action.payload].subdisplay
 
                 return {
                     ...state,
-                    navElements : newNavElements
+                    rubrics : newRubrics
                 }
             }
         

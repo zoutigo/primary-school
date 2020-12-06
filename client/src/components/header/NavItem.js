@@ -113,8 +113,8 @@ const useStyles = makeStyles((theme)=>({
 }))
 
 
-function NavItem({element}) {
-    const {name, link, icon, alias , sub} = element
+function NavItem({rubric}) {
+    const {name, link, icon, alias , categories} = rubric
 
     const classes = useStyles()
     const location = useLocation()
@@ -155,7 +155,7 @@ function NavItem({element}) {
                     
                     >
                         <NavLink 
-                        to={{pathname: link, subrubrics:sub, rubric:name}}
+                        to={{pathname: link, categories:categories, rubric:name}}
                         style={{ color: 'inherit', textDecoration: 'inherit'}} 
                         className={`${classes.navLink} ${activeText}}`}
                     
@@ -170,7 +170,7 @@ function NavItem({element}) {
                              
                 <Box className={`${classes.dropdownContent} `} >
                    {
-                       sub && sub.map((item, index)=>{
+                       categories && categories.map((item, index)=>{
                            return (
                                <div 
                                     key={index} 
@@ -179,7 +179,7 @@ function NavItem({element}) {
                                     onClick= {()=> setClicked(true)}
                                     >
                                     <NavLink  
-                                        to= {{pathname:item.link, rubric:name, subrubric:item.designation}}
+                                        to= {{pathname:item.link, rubric:name, category:item.designation}}
                                         style={{ color: 'inherit', textDecoration: 'inherit'}}  >
                                         <Typography variant='h6' style={{marginLeft:'8px'}}> {item.designation} </Typography>
                                     </NavLink>

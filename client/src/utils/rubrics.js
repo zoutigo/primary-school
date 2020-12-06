@@ -36,16 +36,18 @@ import Ogec from '../components/content/ApelOgec/Ogec'
 
 const rubrics = [
     {name: "Acceuil", link: '/', icon: '' , alias: 'home', 
-    sub: [],
+    categories: [],
     route : {
         path: '/',
         exact: true,
         component: Home
     },
     subdisplay: false ,
-    sub : [
+    categories : [
 
     ]},
+
+
     {name: "L'Ecole", link: '/ecole', icon: <SchoolIcon fontSize="large" /> , alias:'ecole',
     route : {
         path: '/ecole',
@@ -53,7 +55,7 @@ const rubrics = [
         component: Ecole
     },
     subdisplay: false ,
-    sub: [
+    categories: [
         {designation: 'Equipe pedagogique', link: '/ecole/equipe-pedagogique', alias:'equipe-pedagogique',
         route : {
             path: '/ecole/equipe-pedagogique',
@@ -79,6 +81,7 @@ const rubrics = [
             component: Infrastructures
         }}
     ]},
+
     {name: "Vie Scolaire", link: '/vie-scolaire', icon: <DirectionsRunIcon  fontSize="large"/>, alias: 'viescolaire',
     route : {
         path: '/vie-scolaire',
@@ -86,7 +89,7 @@ const rubrics = [
         component: SchoolLife
     }, 
     subdisplay: false ,
-    sub: [
+    categories: [
         {designation: 'Cantine', link: '/vie-scolaire/cantine', alias:'cantine', route:{path: '/vie-scolaire/cantine', exact: true, component: Cantine} },
         {designation: 'Garderie', link: '/vie-scolaire/garderie', alias:'garderie', route:{path: '/vie-scolaire/garderie', exact: true, component: Nursery}},
         {designation: 'Horaires', link: '/vie-scolaire/horaires', alias:'horaires', route:{path: '/vie-scolaire/horaires', exact: true, component: Schedule}},
@@ -94,6 +97,7 @@ const rubrics = [
         {designation: 'Agenda', link: '/vie-scolaire/agenda', alias:'agenda', route:{path: '/vie-scolaire/agenda', exact: true, component: Agenda}},
     ]
 },
+
     {name: "Les classes", link: '/classes', icon: <MeetingRoomIcon fontSize="large" />, alias:'classes',
   
     route : {
@@ -102,7 +106,7 @@ const rubrics = [
         component: Classrooms
     },
     subdisplay: false,
-    sub: [
+    categories: [
         {designation: 'Petite Section', link: '/classes/ps', alias:'ps', route:{path: '/classes/ps', exact: true, component: Ps} },
         {designation: 'Moyenne Section', link: '/classes/ms', alias:'ms', route:{path: '/classes/ms', exact: true, component: Ms}},
         {designation: 'Grande Section', link: '/classes/gs', alias:'gs', route:{path: '/classes/gs', exact: true, component: Gs}},
@@ -113,6 +117,7 @@ const rubrics = [
        
     ]      
      },
+
      
     {name: "Informations", link: '/informations', icon: <MenuBookSharpIcon  fontSize="large" />, alias: 'informations',
     route : {
@@ -121,13 +126,15 @@ const rubrics = [
         component: Informations
     },
     subdisplay: false ,
-    sub: [
+    categories: [
         {designation: 'Inscriptions', link: '/informations/inscriptions', alias:'inscriptions', route:{path: '/informations/inscriptions', exact: true, component: Inscriptions} },
         {designation: 'Nous contacter', link: '/informations/contacts', alias:'contacts', route:{path: '/informations/contacts', exact: true, component: Contacts}},
       
        
     ]      
     },
+
+
     {name: "APEL-OGEC", link: '/apel-ogec', icon: <EcoSharpIcon  fontSize="large" />, alias: 'apel-ogec',
     route : {
         path: '/apel-ogec',
@@ -135,7 +142,7 @@ const rubrics = [
         component: ApelOgec
     },
     subdisplay: false ,
-    sub: [
+    categories: [
         {designation: 'APEL', link: '/apel-ogec/apel', alias:'apel', route:{path: '/apel-ogec/apel', exact: true, component: Apel} },
         {designation: 'OGEC', link: '/apel-ogec/ogec', alias:'ogec', route:{path: '/apel-ogec/ogec', exact: true, component: Ogec}},
     ]

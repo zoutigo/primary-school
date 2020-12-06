@@ -64,7 +64,7 @@ function SmallScreenMenu() {
     const classes = useStyles()
     const dispatch = useDispatch()
 
-    const navElements = useSelector(state => state.settings.navElements)
+    const rubrics = useSelector(state => state.settings.rubrics)
     const burgerMenuIsOpened = useSelector(state => state.settings.burgerMenuIsOpened)
     const sideMenuStyle = burgerMenuIsOpened ? classes.hideMenu : classes.showMenu
 
@@ -74,8 +74,8 @@ function SmallScreenMenu() {
     return (
         <div className={`${classes.root} ${sideMenuStyle}`}>
             {
-                navElements.map((element, index)=>{
-                    const {name, link, sub} = element
+                rubrics.map((element, index)=>{
+                    const {name, link, categories} = element
                    
                     if (element.alias !== 'home'){
 
@@ -84,7 +84,7 @@ function SmallScreenMenu() {
                             <div className={classes.box}  style={{display:'flex', alignItems:'center', height:'3rem'}}>
                                     
                                        <div  className={classes.link} >
-                                             <NavLink to={{pathname:link, subrubrics:sub, rubric:name}}
+                                             <NavLink to={{pathname:link, categories:categories, rubric:name}}
                                                 onClick={toogleBurgerMenu} 
                                                 style={{ color: 'inherit', textDecoration: 'inherit'}} 
                                                 
@@ -95,7 +95,7 @@ function SmallScreenMenu() {
                                             </NavLink>
                                        </div>
                                        {
-                                           sub &&
+                                           categories &&
                                            <div style={{width:'20%', borderLeft:'white solid 1px', textAlign:'center' }}>
                                            <span onClick={()=> toogleSubMenu(index)}>
                                                <IconButton>
@@ -109,8 +109,8 @@ function SmallScreenMenu() {
                             </div>
                             {
                             
-                            element.subdisplay && element.sub && 
-                            <SmallScreenMenuItem sub={sub} index={index} toogleSubMenu={toogleSubMenu} toogleBurgerMenu={toogleBurgerMenu} rubric={element.name} />
+                            element.subdisplay && element.categories && 
+                            <SmallScreenMenuItem categories={categories} index={index} toogleSubMenu={toogleSubMenu} toogleBurgerMenu={toogleBurgerMenu} rubric={element.name} />
                            
                             }
                             </div>

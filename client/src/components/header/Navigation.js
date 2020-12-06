@@ -22,16 +22,16 @@ const useStyles = makeStyles((theme)=> ({
 
 function Navigation() {
     const classes = useStyles()
-    const navElements = useSelector(state => state.settings.navElements)
+    const rubrics = useSelector(state => state.settings.rubrics)
 
     return (
         <Box className={classes.root}>
           
            {
-               navElements.map((element, index)=> {
-                   if(element.alias !=='home') {
+               rubrics.map((rubric, index)=> {
+                   if(rubric.alias !=='home') {
                       
-                       return <NavItem key={index} element={element} />
+                       return <NavItem key={index} rubric={rubric} />
                        
                    }
                    return null

@@ -17,13 +17,13 @@ function Content() {
   
     const theme = useTheme()
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'))
-    const navElements = useSelector(state => state.settings.navElements)
+    const rubrics = useSelector(state => state.settings.rubrics)
 
     const subItems = []
-    navElements.forEach(element => {
-       if(element.sub){
+    rubrics.forEach(element => {
+       if(element.categories){
            
-        element.sub.forEach(el=> {
+        element.categories.forEach(el=> {
             if(el.route){
                 subItems.push(el.route)
             }
@@ -46,7 +46,7 @@ function Content() {
         <Switch>
 
             {
-                navElements.map(
+                rubrics.map(
                     (element, index) => <Route key={index} {...element.route} /> 
                 )
             }

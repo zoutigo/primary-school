@@ -7,7 +7,7 @@ import {useRef, useEffect} from 'react'
 import {useLocation} from 'react-router-dom'
 
 import image from '../../images/content2.jpg'
-import { Typography } from '@material-ui/core'
+
 
 const useStyles = makeStyles((theme)=> ({
     root : {
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme)=> ({
     rubric : {
 
     },
-    subrubric : {
+    category : {
 
     }
 
@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme)=> ({
 
 function HeadModules() {
     const classes = useStyles()
-    const { rubric, subrubric} = useLocation()
+    const { rubric, category} = useLocation()
     const style= useStyles()
     const theme = useTheme()
     const isMobile = theme.breakpoints.down('md')
@@ -70,7 +70,7 @@ function HeadModules() {
 
     const content = isMobile ? classes.mobileContent : classes.content
 
-    const contentText = subrubric ? subrubric : rubric
+    const contentText = category ? category : rubric
 
 
     let slider = useRef(null)
@@ -79,7 +79,7 @@ function HeadModules() {
         TweenMax
         .from(slider, 2.5, {y: -1000, opacity:1 , ease: Power3.easeOut})
         
-    }, [rubric, subrubric])
+    }, [rubric, category])
 
 
     return (
