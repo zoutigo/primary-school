@@ -1,5 +1,5 @@
 import React from 'react'
-import {Grid, makeStyles, Typography} from '@material-ui/core'
+import {makeStyles, Typography} from '@material-ui/core'
 
 import image from '../../../images/content.jpg'
 

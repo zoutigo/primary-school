@@ -2,7 +2,7 @@ import React from 'react'
 
 function Team() {
     return (
-        <div>
+        <div style={{minWidth:'100%'}}>
             <h1> La team pedagogique</h1>
         </div>
     )

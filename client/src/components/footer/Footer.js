@@ -8,7 +8,7 @@ import Timing from './Timing'
 const useStyles = makeStyles((theme)=> ({
     root : {
         background: theme.palette.grey[800],
-        width: '98vw',
+        minWwidth: '100vw',
         minHeight: '25vh',
         color: 'white'
     }

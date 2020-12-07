@@ -1,7 +1,7 @@
 import React from 'react'
 import {useSelector} from 'react-redux'
 import {useLocation} from 'react-router-dom'
-import {makeStyles, useTheme} from '@material-ui/styles'
+import {useTheme} from '@material-ui/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import {Switch, Route} from 'react-router-dom'
@@ -18,6 +18,7 @@ function Content() {
     const theme = useTheme()
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'))
     const rubrics = useSelector(state => state.settings.rubrics)
+    const burgerMenuIsOpened = useSelector(state => state.burgerMenuIsOpened)
 
     const subItems = []
     rubrics.forEach(element => {
@@ -35,32 +36,34 @@ function Content() {
 
 
     return (
-        <>
-        {
-            !exception && <HeadModules />
-        }
-        
-        {
-            isSmallScreen && <SmallScreenMenu /> 
-        }
-        <Switch>
+        <div style={{maxWidth:'100vw' }}>
+                
+                    {
+                       !exception && <HeadModules />
+                    }
+                
+            
+                    {
+                        isSmallScreen  && <SmallScreenMenu /> 
+                    }
+                   
+                   
+                 <Switch>
+                    {
+                        rubrics.map(
+                            (element, index) => <Route key={index} {...element.route} /> 
+                        )
+                    }
+                    {
+                        subItems.map(
+                            (subroute, i)=> <Route key={i} {...subroute} />
+                        )
+                    }
+                    <Route component={ErrorPage} /> 
 
-            {
-                rubrics.map(
-                    (element, index) => <Route key={index} {...element.route} /> 
-                )
-            }
-            {
-                subItems.map(
-                    (subroute, i)=> <Route key={i} {...subroute} />
-                )
-            }
-           
-             <Route component={ErrorPage} /> 
-
-
-         </Switch>
-         </>
+                </Switch>
+               
+         </div>
     )
 }
 

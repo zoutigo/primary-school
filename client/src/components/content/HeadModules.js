@@ -1,5 +1,5 @@
 import React from 'react'
-import {makeStyles, useTheme} from '@material-ui/styles'
+import {makeStyles} from '@material-ui/styles'
 
 import {TimelineLite, TweenMax, Power3} from 'gsap'
 import {useRef, useEffect} from 'react'
@@ -51,24 +51,14 @@ const useStyles = makeStyles((theme)=> ({
         color : theme.palette.success.light,
         transition: '1000 ease'
     },
-    rubric : {
-
-    },
-    category : {
-
-    }
+   
 
 }))
 
 function HeadModules() {
     const classes = useStyles()
     const { rubric, category} = useLocation()
-    const style= useStyles()
-    const theme = useTheme()
-    const isMobile = theme.breakpoints.down('md')
-    console.log('mobile', isMobile)
-
-    const content = isMobile ? classes.mobileContent : classes.content
+       
 
     const contentText = category ? category : rubric
 

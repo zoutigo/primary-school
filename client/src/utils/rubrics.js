@@ -24,13 +24,17 @@ import Schedule from '../components/content/school-life/schedule/Schedule'
 import Nursery from '../components/content/school-life/nursery/Nursery'
 import Contacts from '../components/content/informations/Contacts'
 import Inscriptions from '../components/content/informations/Inscriptions'
-import Ps from '../components/content/classrooms/Ps';
-import Ms from '../components/content/classrooms/Ms';
-import Gs from '../components/content/classrooms/Gs';
-import Ce1 from '../components/content/classrooms/Ce1';
-import Ce2 from '../components/content/classrooms/Ce2';
-import Cm1 from '../components/content/classrooms/Cm1';
-import Cm2 from '../components/content/classrooms/Cm2';
+import Blog from '../components/content/classrooms/blog/Blog'
+import Primaire from '../components/content/classrooms/primaire/Primaire'
+import Maternelle from '../components/content/classrooms/maternelle/Maternelle'
+
+// import Ps from '../components/content/classrooms/Ps';
+// import Ms from '../components/content/classrooms/Ms';
+// import Gs from '../components/content/classrooms/Gs';
+// import Ce1 from '../components/content/classrooms/Ce1';
+// import Ce2 from '../components/content/classrooms/Ce2';
+// import Cm1 from '../components/content/classrooms/Cm1';
+// import Cm2 from '../components/content/classrooms/Cm2';
 import Apel from '../components/content/ApelOgec/Apel'
 import Ogec from '../components/content/ApelOgec/Ogec'
 
@@ -107,14 +111,10 @@ const rubrics = [
     },
     subdisplay: false,
     categories: [
-        {designation: 'Petite Section', link: '/classes/ps', alias:'ps', route:{path: '/classes/ps', exact: true, component: Ps} },
-        {designation: 'Moyenne Section', link: '/classes/ms', alias:'ms', route:{path: '/classes/ms', exact: true, component: Ms}},
-        {designation: 'Grande Section', link: '/classes/gs', alias:'gs', route:{path: '/classes/gs', exact: true, component: Gs}},
-        {designation: 'Cours Elementaire 1', link: '/classes/ce1', alias:'ce1', route:{path: '/classes/ce1', exact: true, component: Ce1}},
-        {designation: 'Cours Elementaire 2', link: '/classes/ce2', alias:'ce2', route:{path: '/classes/ce2', exact: true, component: Ce2}},
-        {designation: 'Cours Moyen 1', link: '/classes/cm1', alias:'cm1', route:{path: '/classes/cm1', exact: true, component: Cm1}},
-        {designation: 'Cours Moyen 2', link: '/classes/cm2', alias:'cm2', route:{path: '/classes/cm2', exact: true, component: Cm2}},
-       
+        {designation: 'Maternelle', link: '/classes/maternelle', alias:'maternelle', route:{path: '/classes/maternelle', exact: true, component: Maternelle} },
+        {designation: 'Primaire', link: '/classes/primaire', alias:'primaire', route:{path: '/classes/primaire', exact: true, component: Primaire} },
+        {designation: 'Ze Blog', link: '/classes/blog', alias:'blog', route:{path: '/classes/blog', exact: true, component: Blog} },
+        
     ]      
      },
 
@@ -158,3 +158,10 @@ const rubrics = [
 ]
 
 export default rubrics
+
+// {designation: 'Moyenne Section', link: '/classes/ms', alias:'ms', route:{path: '/classes/ms', exact: true, component: Ms}},
+// {designation: 'Grande Section', link: '/classes/gs', alias:'gs', route:{path: '/classes/gs', exact: true, component: Gs}},
+// {designation: 'Cours Elementaire 1', link: '/classes/ce1', alias:'ce1', route:{path: '/classes/ce1', exact: true, component: Ce1}},
+// {designation: 'Cours Elementaire 2', link: '/classes/ce2', alias:'ce2', route:{path: '/classes/ce2', exact: true, component: Ce2}},
+// {designation: 'Cours Moyen 1', link: '/classes/cm1', alias:'cm1', route:{path: '/classes/cm1', exact: true, component: Cm1}},
+// {designation: 'Cours Moyen 2', link: '/classes/cm2', alias:'cm2', route:{path: '/classes/cm2', exact: true, component: Cm2}},

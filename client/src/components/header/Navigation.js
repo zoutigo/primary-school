@@ -1,21 +1,16 @@
 import React from 'react'
 import {useSelector} from 'react-redux'
-
-
-
-
 import {makeStyles} from '@material-ui/styles'
 import {Box} from '@material-ui/core'
-
 import NavItem from './NavItem'
 
 const useStyles = makeStyles((theme)=> ({
     root: {
         display: 'flex',
         justifyContent: 'space-around',
-        width: '85%',
-        
-
+        minWidth: '100%',
+        overflow:'hidden',
+        // background:'green'
     }
 }))
 

@@ -1,10 +1,7 @@
 import React , {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import {AppBar, Toolbar, Box, IconButton} from '@material-ui/core'
+import {AppBar, Toolbar, Box, IconButton, Grid} from '@material-ui/core'
 import {makeStyles} from '@material-ui/styles'
-import useLocalStorage from '../../utils/useLocalStorage'
-import rubrics from '../../utils/rubrics'
-
 import {NavLink} from 'react-router-dom'
 
 import {openBurgerMenu} from '../../redux/settings/settingsActions'
@@ -17,51 +14,47 @@ import logo from '../../images/logo.png'
 
 const useStyles =  makeStyles((theme)=> ({
     root : {
-        minHeight: '10vh',
-        width: '100vw' 
+        padding: '0px',
+        margin: '0px',
+  
     },
     toolbar : {
         display: 'flex',
         justifyContent: 'space-betwween',
-        width: '100%',
-        minHeight: '12vh'
+        alignItems: 'center',
+        maxWidth: '100vw',
+        minWidth:'100vw',
+        minHeight: '12vh',
+         
     },
     
-    empty :{
-        
-        [theme.breakpoints.up('lg')]:{
-            width: 'calc((100% - 1280px)/2)'
+    contentLarge : {
+        minWidth:'85vw',
+        display:'flex', 
+        marginLeft:'7vw', 
+        alignItems:'center',
+         '& > :first-child':{
+            flexGrow: 1
         },
-        [theme.breakpoints.down('md')]:{
-            width: 'calc((100% - 960px)/2)'
+        '& > :last-child': {
+            minWidth:'75%'
         },
         [theme.breakpoints.down('sm')]:{
             display: 'none'
-         }   
-    },
-    contentLarge : {
-     
-        display: 'flex',
-        justifyContent: 'space-between',
-        [theme.breakpoints.up('lg')]:{
-            minWidth: '1280px'
-        },
-        [theme.breakpoints.down('md')]:{
-            minWidth: '960px'
-        },
-        [theme.breakpoints.down('sm')]:{
-           display: 'none'
-        } 
+         } 
+
     },
     contentSmall : {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        minWidth: '100%',
+        minWidth:'100%',
+        '& > :last-child' : {
+            marginRight : '7vw'
+        },
         [theme.breakpoints.up('md')]:{
             display: 'none'
-        }
-       
+        }  
     },
     
     scrolledStyle : {
@@ -75,18 +68,18 @@ const useStyles =  makeStyles((theme)=> ({
         transition: 'background 1s ease'
     },
     logoLarge : {
-        width: theme.spacing(10),
-        height: theme.spacing(10)
+        width: theme.spacing(12),
+        height: theme.spacing(12)
     },
-    logoSmall : {
-        width: theme.spacing(6),
-        height: theme.spacing(6),
-        marginRight: theme.spacing(4)
+    smallIconsSizes : {
+        width: theme.spacing(8),
+        height: theme.spacing(8)
     },
-    closeIcon : {
-        color: theme.palette.warning.light
-    }  
    
+    burgerColor : {
+        color: theme.palette.warning.light
+    },
+    
 
 }))
 
@@ -125,28 +118,34 @@ function Header() {
         )
     }
 
-
     return (
-        <AppBar className={`${classes.root } ${headerColor}`} >
+        <AppBar className={`${classes.root } ${headerColor}`}  >
             <Toolbar className={classes.toolbar}>
                
-                    <Box variant='div'className={classes.empty} ></Box>
-                    <Box variant='div' className={classes.contentLarge}>
-                        <Logo className={classes.logoLarge}/> 
-                        <Navigation />
-                    </Box>
-                    <Box variant='div' className={classes.contentSmall}>
-                        <Logo className={classes.logoSmall} />
-                        <IconButton  onClick={()=> dispatch(openBurgerMenu())}>
+                    <div  className={classes.contentLarge}  >
+                        <div >
+                            <Logo className={classes.logoLarge} />
+                        </div>
+                        <div  >
+                            <Navigation />
+                        </div>
+                    </div>
+                    
+                    <Box  className={classes.contentSmall} >
+                        <Logo className={`${classes.smallIconsSizes} `}  />
+                        <div>
+                              <IconButton  onClick={()=> dispatch(openBurgerMenu())}   >
 
-                             {
-                                 burgerMenuIsOpened 
-                                 ? <MenuIcon className={classes.logoSmall} />
-                                 : <CancelIcon className={`${classes.logoSmall} ${classes.closeIcon}`} />
+                                {
+                                    burgerMenuIsOpened 
+                                    ? <MenuIcon className={`${classes.smallIconsSizes} ${classes.burgerColor}`} />
+                                    : <CancelIcon className={`${classes.smallIconsSizes} ${classes.burgerColor}`} />
                                 }
-                        </IconButton>
+                                </IconButton>
+                        </div>
+                        
                     </Box>
-                    <Box variant='div' className={classes.empty}></Box>
+                   
               
             </Toolbar>
         </AppBar>

@@ -53,10 +53,12 @@ const useStyles = makeStyles((theme)=>({
         // marginBottom: theme.spacing(3)
     },
     hoveredLink : {
+        textAlign:'center',
         background: 'green',
         color:'red'
     },
     link : {
+        textAlign:'center',
         background: 'transparent',
         '&:hover': {
             background: theme.palette.success.light,
@@ -71,8 +73,7 @@ const useStyles = makeStyles((theme)=>({
         display: 'block'
     },
     root: {
-        maxWidth:'20em',
-        overflow: 'hidden',
+   
         '&:hover':{
             // background:theme.palette.primary.main,
             '& div':{
@@ -82,9 +83,9 @@ const useStyles = makeStyles((theme)=>({
     },
 
     rootClicked: {
-        maxWidth:'20em',
-        overflow: 'hidden',
-        '&:hover':{
+        maxWidth:'10em',
+        minWidth: '5em',
+           '&:hover':{
             background:theme.palette.primary.main,
             // '& div':{
             //     display: 'none'
@@ -114,13 +115,11 @@ const useStyles = makeStyles((theme)=>({
 
 
 function NavItem({rubric}) {
-    const {name, link, icon, alias , categories} = rubric
+    const {name, link, icon, categories} = rubric
 
     const classes = useStyles()
     const location = useLocation()
 
-    const [hoverLink, setHoverLink] = useState(false)
-    const [hover, setHover] = useState(false)
     const [clicked, setClicked] = useState(false)
 
     const activeRoot = (link === location.pathname) ? classes.rootActive : classes.rootNotActive
@@ -128,10 +127,7 @@ function NavItem({rubric}) {
     const activeLine = (link === location.pathname) ? classes.lineActive : classes.lineNotActive
  
     const activeText = (link === location.pathname) ? classes.textActive : classes.textNotActive
-    const hoveredLink = hoverLink ? classes.hoveredLink : classes.link
-
-    const showSubMenu = hover ? classes.show : classes.hide
-
+   
     const wasClicked = clicked ? classes.rootClicked : classes.root 
 
     useEffect(() => {
@@ -146,14 +142,12 @@ function NavItem({rubric}) {
 
 
     return (
-           <div  className={`${wasClicked} ${activeRoot}`} style={{minHeight:'100%', background:'kaki'}}>
+           <div  className={`${wasClicked} ${activeRoot}`} style={{minHeight:'100%'}}>
                 <div
                  onClick = {()=> setClicked(true)}
                   >
                     <div className={`${classes.icon} ${activeIcon}`}> {icon} </div>
-                    <div className ={classes.link}
-                    
-                    >
+                    <div className ={classes.link} >
                         <NavLink 
                         to={{pathname: link, categories:categories, rubric:name}}
                         style={{ color: 'inherit', textDecoration: 'inherit'}} 

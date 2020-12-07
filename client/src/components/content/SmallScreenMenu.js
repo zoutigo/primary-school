@@ -5,7 +5,7 @@ import {makeStyles} from '@material-ui/styles'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 
 import {NavLink} from 'react-router-dom'
-import {Button, Typography, Box, IconButton} from '@material-ui/core'
+import {Button, Typography,IconButton} from '@material-ui/core'
 import {openBurgerMenu} from '../../redux/settings/settingsActions'
 
 
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme)=>({
         zIndex: 2 ,
         backgroundColor: theme.palette.common.white,
         position: 'absolute',
-        top: '4em',
+        top: '7em',
         transform: 'translate(0, -200%)'
     },
     box : {
@@ -36,13 +36,16 @@ const useStyles = makeStyles((theme)=>({
     },
     link : {
         flexGrow: 1 ,
-        paddingLeft: theme.spacing(2)
+        paddingLeft: '5vw',
+        height: '10vh',
+        paddingTop: '2vh'
        
     },
     button : {
         background: theme.palette.warning.light,
         width: '99%',
-        margin: '3px'
+        margin: '3px',
+        height: '10vh'
     },
     hideMenu : {
         transform: 'translateY(-200%)',

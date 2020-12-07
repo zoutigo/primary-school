@@ -6,11 +6,15 @@ import {makeStyles} from '@material-ui/styles'
 
 const useStyles = makeStyles((theme)=>({
     root :{
-
+        minWidth:'100%',
+        maxWidth:'100%',
+        
     },
     submenucard : {
         display: 'flex',
-        justifyContent: 'center'
+        justifyContent: 'center',
+       
+        margin: '2em'
     }
 
 }))
@@ -21,11 +25,11 @@ function SubMenuCardGroup() {
     const classes = useStyles()
    
     return (
-       <Grid container justify='center' className={classes.root}>
+       <Grid container justify='space-evenly' className={classes.root}>
         {
            categories && categories.map((subrubric, index)=>{
                return (
-                   <Grid item key={index} sm={12} md={6} lg={4}  className={classes.submenucard}>
+                   <Grid item key={index} sm={12} md={6} lg={3}  className={classes.submenucard}>
                        <SubMenuCard  />
                    </Grid>
                )
