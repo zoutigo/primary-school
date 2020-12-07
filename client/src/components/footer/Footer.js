@@ -5,6 +5,7 @@ import Contact from './Contact'
 import LatestInfos from './LatestInfos'
 import Timing from './Timing'
 
+
 const useStyles = makeStyles((theme)=> ({
     root : {
         background: theme.palette.grey[800],
@@ -18,12 +19,15 @@ function Footer() {
     const classes = useStyles()
 
   
-    return (         
+    return (      
+        
+       
         <Grid container className={classes.root} >
           <Grid item  sm={12} md={3}> <Contact /> </Grid>
           <Grid item sm={12} md={3} > <Timing /> </Grid>
           <Grid item sm={12} md={3} > <LatestInfos /> </Grid>
         </Grid>
+        
 
     );
     

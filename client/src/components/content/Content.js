@@ -9,9 +9,12 @@ import {Switch, Route} from 'react-router-dom'
 import ErrorPage from './ErrorPage'
 import SmallScreenMenu from './SmallScreenMenu'
 import HeadModules from './HeadModules';
+import { toogleSmallScreenMenu } from '../../redux/settings/settingsActions';
+import SmallScreenToogleShow from './HighOrderComponents/SmallScreenToogleShow';
 
 
-function Content() {
+function Content(props) {
+    const {toogleContentClass} = props
     const {pathname} = useLocation()
     const exception = pathname === '/'
   
@@ -19,6 +22,8 @@ function Content() {
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'))
     const rubrics = useSelector(state => state.settings.rubrics)
     const burgerMenuIsOpened = useSelector(state => state.burgerMenuIsOpened)
+
+    console.log('class:', toogleContentClass)
 
     const subItems = []
     rubrics.forEach(element => {
@@ -36,18 +41,10 @@ function Content() {
 
 
     return (
-        <div style={{maxWidth:'100vw' }}>
+     
+        <div className={toogleContentClass} >
                 
-                    {
-                       !exception && <HeadModules />
-                    }
-                
-            
-                    {
-                        isSmallScreen  && <SmallScreenMenu /> 
-                    }
-                   
-                   
+             
                  <Switch>
                     {
                         rubrics.map(
@@ -61,10 +58,10 @@ function Content() {
                     }
                     <Route component={ErrorPage} /> 
 
-                </Switch>
+                </Switch> 
                
          </div>
     )
 }
 
-export default Content
+export default SmallScreenToogleShow(Content) 

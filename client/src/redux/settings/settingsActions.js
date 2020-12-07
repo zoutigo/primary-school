@@ -1,8 +1,8 @@
-import {OPEN_BURGER_MENU, OPEN_SUB_MENU} from './settingsActionsTypes'
+import {TOOGLE_SMALL_SCREEN_MENU, OPEN_SUB_MENU} from './settingsActionsTypes'
 
-export const openBurgerMenu = ()=> {
+export const toogleSmallScreenMenu = ()=> {
     return {
-        type: OPEN_BURGER_MENU
+        type: TOOGLE_SMALL_SCREEN_MENU
     }
 }
 

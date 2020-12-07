@@ -1,23 +1,31 @@
 import React from 'react';
-
+import {makeStyles} from '@material-ui/styles'
 import { Grid } from '@material-ui/core'
 import Header from './components/header/Header';
 import Content from './components/content/Content';
 import Footer from './components/footer/Footer';
+import HeadModules from './components/content/HeadModules'
 
+import SmallScreenMenu from './components/content/SmallScreenMenu'
+
+const useStyles = makeStyles({
+  root: {
+
+  }
+})
 
 function App() {
-
-
+  const classes = useStyles()
+ 
+ 
   return (
     <Grid container direction='column'>
       <Grid item container> <Header /> </Grid>
       <Grid item container> 
-        <Content>
-          <h1> How to make this happen ?</h1>
-        </Content>
-
-        </Grid>
+        <HeadModules />
+         <SmallScreenMenu /> 
+         <Content />
+       </Grid>
       <Grid item container > <Footer /> </Grid>
     </Grid>
   );

@@ -12,19 +12,23 @@ const useStyles = makeStyles((theme)=>({
         minHeight:'3rem',
         background: theme.palette.third.ligth,
         border: 'white 1px solid',
+        
         paddingLeft: theme.spacing(6),
         '&:hover': {
             background: theme.palette.success.light,
             color:'red'
         }
+    },
+    linkText :{
+
     }
 }))
 
-function SmallScreenMenuItem({categories, rubric, index, toogleSubMenu, toogleBurgerMenu}) {
+function SmallScreenMenuItem({categories, rubric, index, toogleSubMenu, toogleScMenu}) {
 
     const classes = useStyles()
     const handleClick = ()=>{
-        toogleBurgerMenu()
+        toogleScMenu()
         toogleSubMenu(index)
     }
     return (

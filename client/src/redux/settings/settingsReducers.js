@@ -1,19 +1,19 @@
-import {OPEN_BURGER_MENU, OPEN_SUB_MENU} from './settingsActionsTypes'
+import {TOOGLE_SMALL_SCREEN_MENU, OPEN_SUB_MENU} from './settingsActionsTypes'
 import React from 'react'
 import rubrics from '../../utils/rubrics'
 
 
 const initialState = {
-    burgerMenuIsOpened : false,
+    smallScreenMenuIsOpened : false,
     rubrics : rubrics
 }
 
 export const settingsReducers = (state=initialState, action)=> {
     switch (action.type) {
-        case OPEN_BURGER_MENU:
+        case TOOGLE_SMALL_SCREEN_MENU:
             return {
                 ...state,
-                burgerMenuIsOpened : !state.burgerMenuIsOpened
+                smallScreenMenuIsOpened : !state.smallScreenMenuIsOpened
             }
         case OPEN_SUB_MENU :
             

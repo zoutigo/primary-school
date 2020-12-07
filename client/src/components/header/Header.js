@@ -2,11 +2,12 @@ import React , {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {AppBar, Toolbar, Box, IconButton, Grid} from '@material-ui/core'
 import {makeStyles} from '@material-ui/styles'
-import {NavLink} from 'react-router-dom'
+import {NavLink, useLocation} from 'react-router-dom'
 
-import {openBurgerMenu} from '../../redux/settings/settingsActions'
+import {toogleSmallScreenMenu} from '../../redux/settings/settingsActions'
 
 import Navigation from './Navigation'
+
 import MenuIcon from '@material-ui/icons/Menu';
 import CancelIcon from '@material-ui/icons/Cancel';
 
@@ -88,7 +89,10 @@ function Header() {
     const classes = useStyles()
     const [scroll, setScroll] = useState(false)
     const headerColor = scroll ? classes.scrolledStyle : classes.unscrolledStyle
-    const burgerMenuIsOpened = useSelector(state => state.settings.burgerMenuIsOpened)
+    const smallScreenMenuIsOpened = useSelector(state => state.settings.smallScreenMenuIsOpened)
+
+    const {pathname} = useLocation()
+    const exception = pathname === '/'
 
 
     useEffect(() => {
@@ -118,7 +122,16 @@ function Header() {
         )
     }
 
+    const ToogleButton = ({className})=>{
+        if (smallScreenMenuIsOpened) {
+            return  <CancelIcon className={className} />
+        }
+        return <MenuIcon className={className} />
+    }
+  
+
     return (
+       
         <AppBar className={`${classes.root } ${headerColor}`}  >
             <Toolbar className={classes.toolbar}>
                
@@ -134,21 +147,20 @@ function Header() {
                     <Box  className={classes.contentSmall} >
                         <Logo className={`${classes.smallIconsSizes} `}  />
                         <div>
-                              <IconButton  onClick={()=> dispatch(openBurgerMenu())}   >
-
-                                {
-                                    burgerMenuIsOpened 
-                                    ? <MenuIcon className={`${classes.smallIconsSizes} ${classes.burgerColor}`} />
-                                    : <CancelIcon className={`${classes.smallIconsSizes} ${classes.burgerColor}`} />
-                                }
-                                </IconButton>
+                              <IconButton  onClick={()=> dispatch(toogleSmallScreenMenu())} >
+                                  <ToogleButton className={`${classes.smallIconsSizes} ${classes.burgerColor}`} />
+                                                              
+                              </IconButton>
                         </div>
                         
                     </Box>
                    
-              
             </Toolbar>
+          
         </AppBar>
+      
+                
+        
     )
 }
 

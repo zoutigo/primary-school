@@ -6,18 +6,16 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 
 import {NavLink} from 'react-router-dom'
 import {Button, Typography,IconButton} from '@material-ui/core'
-import {openBurgerMenu} from '../../redux/settings/settingsActions'
-
 
 import SmallScreenMenuItem from './SmallScreenMenuItem'
 
-import {openSubMenu} from '../../redux/settings/settingsActions'
+import {openSubMenu, toogleSmallScreenMenu} from '../../redux/settings/settingsActions'
+import SmallScreenToogleShow from './HighOrderComponents/SmallScreenToogleShow';
 
 const useStyles = makeStyles((theme)=>({
     root : {
         width: '100%',
         minWidth: '100vw',
-       
         zIndex: 2 ,
         backgroundColor: theme.palette.common.white,
         position: 'absolute',
@@ -27,6 +25,9 @@ const useStyles = makeStyles((theme)=>({
     box : {
         background: theme.palette.error.light,
         margin: '3px',
+        display:'flex', 
+        alignItems:'center', 
+        height:'3rem'
           
     },
     text : {
@@ -36,16 +37,15 @@ const useStyles = makeStyles((theme)=>({
     },
     link : {
         flexGrow: 1 ,
-        paddingLeft: '5vw',
-        height: '10vh',
-        paddingTop: '2vh'
-       
+        paddingLeft: '6vw',
+        // height: '11vh',
+        // paddingTop: '2vh'
     },
     button : {
         background: theme.palette.warning.light,
         width: '99%',
         margin: '3px',
-        height: '10vh'
+        height: '11vh'
     },
     hideMenu : {
         transform: 'translateY(-200%)',
@@ -58,24 +58,29 @@ const useStyles = makeStyles((theme)=>({
     },
     active : {
         color: theme.palette.warning.light
+    },
+    navlink: {
+        color: 'inherit', 
+        textDecoration: 'inherit',
+        background: 'blue'
     }
 
 }))
 
 
-function SmallScreenMenu() {
+function SmallScreenMenu(props) {
+    const {toogleSmallScreenMenuClass} = props
     const classes = useStyles()
     const dispatch = useDispatch()
 
     const rubrics = useSelector(state => state.settings.rubrics)
-    const burgerMenuIsOpened = useSelector(state => state.settings.burgerMenuIsOpened)
-    const sideMenuStyle = burgerMenuIsOpened ? classes.hideMenu : classes.showMenu
+   
 
     const toogleSubMenu = (ind)=> dispatch(openSubMenu(ind))
-    const toogleBurgerMenu = () => dispatch(openBurgerMenu())
+    const toogleScMenu = () => dispatch(toogleSmallScreenMenu())
 
     return (
-        <div className={`${classes.root} ${sideMenuStyle}`}>
+        <div className={`${classes.root} ${toogleSmallScreenMenuClass}`}>
             {
                 rubrics.map((element, index)=>{
                     const {name, link, categories} = element
@@ -84,13 +89,12 @@ function SmallScreenMenu() {
 
                         return (
                             <div key={index}>
-                            <div className={classes.box}  style={{display:'flex', alignItems:'center', height:'3rem'}}>
+                            <div className={classes.box}  >
                                     
                                        <div  className={classes.link} >
                                              <NavLink to={{pathname:link, categories:categories, rubric:name}}
-                                                onClick={toogleBurgerMenu} 
-                                                style={{ color: 'inherit', textDecoration: 'inherit'}} 
-                                                
+                                                onClick={toogleScMenu} 
+                                                className={classes.navlink}
                                                 activeClassName={classes.active}
                                                 >
                                                 <Typography variant='h6'> {name} </Typography>
@@ -113,7 +117,7 @@ function SmallScreenMenu() {
                             {
                             
                             element.subdisplay && element.categories && 
-                            <SmallScreenMenuItem categories={categories} index={index} toogleSubMenu={toogleSubMenu} toogleBurgerMenu={toogleBurgerMenu} rubric={element.name} />
+                            <SmallScreenMenuItem categories={categories} index={index} toogleSubMenu={toogleSubMenu} toogleScMenu={toogleScMenu} rubric={element.name} />
                            
                             }
                             </div>
@@ -128,7 +132,7 @@ function SmallScreenMenu() {
              <Button 
              variant='outlined'  
              className={classes.button}
-             onClick={()=> dispatch(openBurgerMenu())} 
+             onClick={()=> dispatch(toogleSmallScreenMenu())} 
              >
                 Fermer cette fenetre
              </Button>
@@ -137,4 +141,4 @@ function SmallScreenMenu() {
     )
 }
 
-export default  SmallScreenMenu
+export default  SmallScreenToogleShow(SmallScreenMenu) 

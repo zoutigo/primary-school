@@ -1,4 +1,5 @@
 import React from 'react'
+import SmallScreenToogleShow from './HighOrderComponents/SmallScreenToogleShow'
 import {makeStyles} from '@material-ui/styles'
 
 import {TimelineLite, TweenMax, Power3} from 'gsap'
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme)=> ({
         backgroundPosition: 'center',
         display: 'flex',
         justifyContent:'center',
-        alignItems:'flex-end',
+        alignItems:'center',
         minHeight: '28vh',
         maxHeight: '28vh',
         [theme.breakpoints.down('sm')]:{
@@ -35,15 +36,16 @@ const useStyles = makeStyles((theme)=> ({
             fontFamily: "'Archivo Black', sans-serif",
             letterSpacing: '1px',
             fontSize: '6em',
-            lineHeight: 1.3  ,
+            textAlign:'center',
+            lineHeight: '45vh'  ,
             color: theme.palette.success.light,
             [theme.breakpoints.down('sm')]: {
                 fontSize: '1.5em',
-                lineHeight: 1.3
+                lineHeight: '80vh'
             },
             [theme.breakpoints.between('sm','md')]: {
                 fontSize: '2.5em',
-                lineHeight: 1.3
+                lineHeight: '38vh'
             },
 
     },
@@ -55,9 +57,11 @@ const useStyles = makeStyles((theme)=> ({
 
 }))
 
-function HeadModules() {
+function HeadModules(props) {
     const classes = useStyles()
     const { rubric, category} = useLocation()
+    const {toogleHeadModulesClass} = props
+ 
        
 
     const contentText = category ? category : rubric
@@ -73,10 +77,10 @@ function HeadModules() {
 
 
     return (
-        <div className={`${classes.root} ${classes.content}`}>
+        <div className={`${classes.root} ${classes.content} ${toogleHeadModulesClass}`}>
             <div ref={el => {slider = el}} > {contentText} </div>
         </div>
     )
 }
 
-export default HeadModules
+export default SmallScreenToogleShow(HeadModules) 
