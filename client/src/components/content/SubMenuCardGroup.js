@@ -8,34 +8,67 @@ const useStyles = makeStyles((theme)=>({
     root :{
         minWidth:'100%',
         maxWidth:'100%',
-        
-    },
-    submenucard : {
         display: 'flex',
-        justifyContent: 'center',
+        
+      
+        flexWrap: 'wrap',
+        '& >div' : {
+            flex: 'auto',
+            display : 'flex',
+            justifyContent:'center',
+            margin: '1em auto'
+            
+            
+        }
+      
+    },
+    width2 :{
+        
+        minWidth: '49vw',
        
-        margin: '2em'
-    }
+    },
+    width3 :{
+        
+        minWidth: '32.5vw',
 
+    },
+    
 }))
 
 function SubMenuCardGroup() {
 
     const {pathname, categories} = useLocation()
     const classes = useStyles()
+
+   
+
+    const width = ()=>{
+       
+
+        switch (categories.length) {
+            case 2:
+                return classes.width2
+            
+        
+            default:
+                return classes.width3
+        }
+    }
    
     return (
-       <Grid container justify='space-evenly' className={classes.root}>
+   
+    <div className={classes.root}>
         {
-           categories && categories.map((subrubric, index)=>{
+           categories && categories.map((category, index)=>{
                return (
-                   <Grid item key={index} sm={12} md={6} lg={3}  className={classes.submenucard}>
-                       <SubMenuCard  />
-                   </Grid>
+                   <div item  key={index} className={width()}  >
+                       <SubMenuCard  category={category} />
+                   </div>
                )
            })
         }
-    </Grid>
+
+    </div>
     )
 }
 

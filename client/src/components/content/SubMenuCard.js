@@ -15,12 +15,14 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import image from '../../images/example.jpg'
 
 
 const useStyles = makeStyles((theme) => ({
     root: {
       maxWidth: 345,
+      minWidth: 345,
+
+      textAlign:'center'
      
      
     },
@@ -43,9 +45,17 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-function SubMenuCard() {
+function SubMenuCard(props) {
+    const {category} = props
+    const {alias, designation} = category
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
+
+
+  
+     
+    const images = require(`../../images/rubrics${category.link}/primary.jpg`);
+   
   
     const handleExpandClick = () => {
       setExpanded(!expanded);
@@ -54,23 +64,23 @@ function SubMenuCard() {
     return (
       <Card className={classes.root}>
         <CardHeader
-          avatar={
-            <Avatar aria-label="recipe" className={classes.avatar}>
-              R
-            </Avatar>
-          }
+          // avatar={
+          //   <Avatar aria-label="recipe" className={classes.avatar}>
+          //     {alias}
+          //   </Avatar>
+          // }
           action={
             <IconButton aria-label="settings">
               <MoreVertIcon />
             </IconButton>
           }
-          title="Shrimp and Chorizo Paella"
-          subheader="September 14, 2016"
+          title={designation}
+          // subheader="September 14, 2016"
         />
         <CardMedia
           className={classes.media}
-          image={image}
-          title="Paella dish"
+          image={images}
+          title={designation}
         />
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
@@ -82,9 +92,9 @@ function SubMenuCard() {
           <IconButton aria-label="add to favorites">
             <FavoriteIcon />
           </IconButton>
-          <IconButton aria-label="share">
+          {/* <IconButton aria-label="share">
             <ShareIcon />
-          </IconButton>
+          </IconButton> */}
           <IconButton
             className={clsx(classes.expand, {
               [classes.expandOpen]: expanded,

@@ -38,8 +38,7 @@ const useStyles = makeStyles((theme)=>({
     link : {
         flexGrow: 1 ,
         paddingLeft: '6vw',
-        // height: '11vh',
-        // paddingTop: '2vh'
+     
     },
     button : {
         background: theme.palette.warning.light,
