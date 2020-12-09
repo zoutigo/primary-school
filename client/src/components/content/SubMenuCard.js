@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
 
       textAlign:'center'
      
-     
     },
     media: {
       height: 0,
@@ -46,15 +45,19 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 function SubMenuCard(props) {
-    const {category} = props
-    const {alias, designation} = category
+    const {element} = props
+    const {alias, designation} = element
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
 
+    console.log('lien:',element.link)
+    // '/classes/maternelle/petite-section'
 
+    const images = require(`../../images/rubrics${element.link}/primary.jpg`);
+
+    // console.log('image', img)
+    // const images = require('../../images/rubrics/classes/primaire/cp/primary.jpg')
   
-     
-    const images = require(`../../images/rubrics${category.link}/primary.jpg`);
    
   
     const handleExpandClick = () => {

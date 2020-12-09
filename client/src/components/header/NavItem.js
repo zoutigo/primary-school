@@ -173,7 +173,7 @@ function NavItem({rubric}) {
                                     onClick= {()=> setClicked(true)}
                                     >
                                     <NavLink  
-                                        to= {{pathname:item.link, rubric:name, category:item.designation}}
+                                        to= {{pathname:item.link, rubric:name, category:item.designation, subcategories:item.subcategories}}
                                         style={{ color: 'inherit', textDecoration: 'inherit'}}  >
                                         <Typography variant='h6' style={{marginLeft:'8px'}}> {item.designation} </Typography>
                                     </NavLink>

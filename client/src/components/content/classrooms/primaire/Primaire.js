@@ -1,11 +1,8 @@
 import React from 'react'
+import SubMenuCardGroup from '../../SubMenuCardGroup'
 
 function Primaire() {
-    return (
-        <div>
-            les classes primaires
-        </div>
-    )
+    return <SubMenuCardGroup />
 }
 
 export default Primaire

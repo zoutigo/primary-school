@@ -1,11 +1,8 @@
 import React from 'react'
+import SubMenuCardGroup from '../../SubMenuCardGroup'
 
 function Blog() {
-    return (
-        <div>
-            notre cher Blog
-        </div>
-    )
+    return <SubMenuCardGroup />
 }
 
 export default Blog

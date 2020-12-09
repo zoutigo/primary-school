@@ -37,15 +37,15 @@ const useStyles = makeStyles((theme)=>({
 
 function SubMenuCardGroup() {
 
-    const {pathname, categories} = useLocation()
+    const {pathname, categories, subcategories} = useLocation()
     const classes = useStyles()
 
-   
+    const elements = subcategories || categories
 
     const width = ()=>{
        
 
-        switch (categories.length) {
+        switch (elements.length) {
             case 2:
                 return classes.width2
             
@@ -59,10 +59,10 @@ function SubMenuCardGroup() {
    
     <div className={classes.root}>
         {
-           categories && categories.map((category, index)=>{
+           elements && elements.map((element, index)=>{
                return (
                    <div item  key={index} className={width()}  >
-                       <SubMenuCard  category={category} />
+                       <SubMenuCard  element={element} />
                    </div>
                )
            })
