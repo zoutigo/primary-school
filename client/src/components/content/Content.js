@@ -13,6 +13,8 @@ function Content(props) {
     const rubrics = useSelector(state => state.settings.rubrics)
 
     const allCategories = []
+    const allSubCategories = []
+   
     rubrics.forEach(element => {
        if(element.categories){
            
@@ -20,11 +22,21 @@ function Content(props) {
             if(el.route){
                 allCategories.push(el.route)
             }
+            if(el.subcategories){
+                el.subcategories.map((subcategory)=>{
+                    allSubCategories.push(subcategory.route)
+                })
+            }
             
         })
+
+
+
        }
        
     });
+    
+  
 
 
     return (
@@ -41,6 +53,12 @@ function Content(props) {
                     {
                         allCategories.map(
                             (subroute, i)=> <Route key={i} {...subroute} />
+                        )
+                    }
+
+                    {
+                        allSubCategories.map(
+                            (subsubroute, ind) => <Route key={ind} {...subsubroute} />
                         )
                     }
                     <Route component={ErrorPage} /> 

@@ -27,6 +27,7 @@ import Inscriptions from '../components/content/informations/Inscriptions'
 import Blog from '../components/content/classrooms/blog/Blog'
 import Primaire from '../components/content/classrooms/primaire/Primaire'
 import Maternelle from '../components/content/classrooms/maternelle/Maternelle'
+import Classroom from '../components/content/classrooms/classroomTemplate/Classroom'
 
 import Ps from '../components/content/classrooms/Ps';
 import Ms from '../components/content/classrooms/Ms';
@@ -115,9 +116,9 @@ const rubrics = [
             alias:'mt', 
             route:{path: '/classes/maternelle', exact: true, component: Maternelle},
             subcategories : [
-                {designation: 'Petite Section', link: '/classes/maternelle/petite-section', alias:'ps', route:{path: '/classes/maternelle/petite-section', exact: true, component: SubMenuCardGroup} },
-                {designation: 'Moyenne Section', link: '/classes/maternelle/moyenne-section', alias:'ms', route:{path: '/classes/maternelle/moyenne-section', exact: true, component: SubMenuCardGroup} },
-                {designation: 'Grande Section', link: '/classes/maternelle/grande-section', alias:'gs', route:{path: '/classes/maternelle/grande-section', exact: true, component: SubMenuCardGroup} },
+                {designation: 'Petite Section', link: '/classes/maternelle/petite-section', alias:'ps', route:{path: '/classes/maternelle/petite-section', exact: true, component: Classroom} },
+                {designation: 'Moyenne Section', link: '/classes/maternelle/moyenne-section', alias:'ms', route:{path: '/classes/maternelle/moyenne-section', exact: true, component: Classroom} },
+                {designation: 'Grande Section', link: '/classes/maternelle/grande-section', alias:'gs', route:{path: '/classes/maternelle/grande-section', exact: true, component: Classroom} },
             ]
         
         },
@@ -127,11 +128,11 @@ const rubrics = [
             alias:'pr', 
             route:{path: '/classes/primaire', exact: true, component: Primaire},
             subcategories: [
-                {designation: 'CP', link: '/classes/primaire/cp', alias:'ps', route:{path: '/classes/primaire/cp', exact: true, component: SubMenuCardGroup} },
-                {designation: 'CE1', link: '/classes/primaire/ce1', alias:'CE1', route:{path: '/classes/primaire/ce1', exact: true, component: SubMenuCardGroup} },
-                {designation: 'CE2', link: '/classes/primaire/ce2', alias:'CE2', route:{path: '/classes/primaire/ce2', exact: true, component: SubMenuCardGroup} },
-                {designation: 'CM1', link: '/classes/primaire/cm1', alias:'CM1', route:{path: '/classes/primaire/cm1', exact: true, component: SubMenuCardGroup} },
-                {designation: 'CM2', link: '/classes/primaire/cm2', alias:'CM2', route:{path: '/classes/primaire/cm2', exact: true, component: SubMenuCardGroup} },
+                {designation: 'CP', link: '/classes/primaire/cp', alias:'ps', route:{path: '/classes/primaire/cp', exact: true, component: Classroom} },
+                {designation: 'CE1', link: '/classes/primaire/ce1', alias:'CE1', route:{path: '/classes/primaire/ce1', exact: true, component: Classroom} },
+                {designation: 'CE2', link: '/classes/primaire/ce2', alias:'CE2', route:{path: '/classes/primaire/ce2', exact: true, component: Classroom} },
+                {designation: 'CM1', link: '/classes/primaire/cm1', alias:'CM1', route:{path: '/classes/primaire/cm1', exact: true, component: Classroom} },
+                {designation: 'CM2', link: '/classes/primaire/cm2', alias:'CM2', route:{path: '/classes/primaire/cm2', exact: true, component: Classroom} },
  
             ]
         

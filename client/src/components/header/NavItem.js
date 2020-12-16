@@ -19,7 +19,8 @@ const useStyles = makeStyles((theme)=>({
     },
     navLink : {
        marginRight: theme.spacing(1),
-       marginLeft: theme.spacing(1)
+       marginLeft: theme.spacing(1),
+       display: 'inline-block'
     },
     bottom : {
 
@@ -76,7 +77,7 @@ const useStyles = makeStyles((theme)=>({
    
         '&:hover':{
             // background:theme.palette.primary.main,
-            '& div':{
+            '& >div':{
                 display: 'block'
             }
         }
@@ -103,13 +104,41 @@ const useStyles = makeStyles((theme)=>({
       
     },
     dropdownLink : {
+        position: 'relative',
+        display: 'block',
         minHeight: theme.spacing(5),
         borderTop: 'white solid 1px',
-        '&:hover': {
+        '&:hover ': {
             background: theme.palette.success.light,
-            color:'red'
-        }
-    }
+            color: theme.palette.error.main,
+            '& div':{
+                display:'inline-block',
+            }
+           
+        },
+        '& div':{
+            display: 'none',
+            background:'pink',
+            position: 'absolute',
+            top:0,
+            left: '100%',
+            minWidth:'15em',
+            zIndex: 1,
+            '& li':{
+                display:'block',
+                minHeight: '3em',
+                background: theme.palette.third.dark,
+                color:'black',
+                borderTop: 'white solid 1px',
+            },
+            '& li:hover':{
+                background: theme.palette.success.light,
+                color: theme.palette.error.main,
+            }
+        },
+    },
+   
+    
       
 }))
 
@@ -143,7 +172,7 @@ function NavItem({rubric}) {
 
     return (
            <div  className={`${wasClicked} ${activeRoot}`} style={{minHeight:'100%'}}>
-                <div
+                <nav
                  onClick = {()=> setClicked(true)}
                   >
                     <div className={`${classes.icon} ${activeIcon}`}> {icon} </div>
@@ -159,17 +188,17 @@ function NavItem({rubric}) {
                     </div>
                    
                     <div className={activeLine}></div>
-                </div>
+                </nav>
                       
                              
-                <Box className={`${classes.dropdownContent} `} >
+                <div className={`${classes.dropdownContent} `} >
                    {
                        categories && categories.map((item, index)=>{
                            return (
                                <div 
                                     key={index} 
                                     className={`${classes.dropdownLink} `}
-                                  
+                                    
                                     onClick= {()=> setClicked(true)}
                                     >
                                     <NavLink  
@@ -177,12 +206,36 @@ function NavItem({rubric}) {
                                         style={{ color: 'inherit', textDecoration: 'inherit'}}  >
                                         <Typography variant='h6' style={{marginLeft:'8px'}}> {item.designation} </Typography>
                                     </NavLink>
+                                   <div >
+                                       {/* <li>House</li>
+                                       <li>Pen</li>
+                                       <li>Car</li> */}
+                                       {
+                                          item.subcategories && item.subcategories.map((subcategory, ind)=>{
+                                               return (
+                                                   <li key={ind}>
+                                                       <NavLink
+                                                       style={{ color: 'inherit', textDecoration: 'inherit'}} 
+                                                       to={
+                                                           {pathname:subcategory.link,
+                                                            designation:subcategory.designation
+                                                        }
+                                                           
+                                                        }
+                                                       >
+                                                           <Typography variant='h6' style={{marginLeft:'8px', marginRight:'8px'}}> {subcategory.designation} </Typography>
+                                                       </NavLink>
+                                                   </li>
+                                               )
+                                           })
+                                       }
+                                   </div>
 
                                </div>
                            )
                        })
                    } 
-                </Box> 
+                </div> 
                 
                 
         </div>
