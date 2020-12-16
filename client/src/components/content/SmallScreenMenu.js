@@ -9,7 +9,7 @@ import {Button, Typography,IconButton} from '@material-ui/core'
 
 import SmallScreenMenuItem from './SmallScreenMenuItem'
 
-import {openSubMenu, toogleSmallScreenMenu} from '../../redux/settings/settingsActions'
+import {openSubMenu, toogleSmallScreenMenu, openCategory} from '../../redux/settings/settingsActions'
 import SmallScreenToogleShow from './HighOrderComponents/SmallScreenToogleShow';
 
 const useStyles = makeStyles((theme)=>({
@@ -77,6 +77,7 @@ function SmallScreenMenu(props) {
 
     const toogleSubMenu = (ind)=> dispatch(openSubMenu(ind))
     const toogleScMenu = () => dispatch(toogleSmallScreenMenu())
+    const toogleCategory = (indexRubric, indexCategory)=> dispatch(openCategory(indexRubric, indexCategory))
 
     return (
         <div className={`${classes.root} ${toogleSmallScreenMenuClass}`}>
@@ -108,7 +109,7 @@ function SmallScreenMenu(props) {
                                                    <KeyboardArrowDownIcon />
                                                </IconButton>
                                            </span>
-                                        </div>
+                                          </div>
                                        } 
                                         
                                   
@@ -116,7 +117,13 @@ function SmallScreenMenu(props) {
                             {
                             
                             element.subdisplay && element.categories && 
-                            <SmallScreenMenuItem categories={categories} index={index} toogleSubMenu={toogleSubMenu} toogleScMenu={toogleScMenu} rubric={element.name} />
+                            <SmallScreenMenuItem 
+                            categories={categories} 
+                            index={index} 
+                            toogleSubMenu={toogleSubMenu} 
+                            toogleScMenu={toogleScMenu} 
+                            rubric={element.name}  
+                            toogleCategory={toogleCategory}/>
                            
                             }
                             </div>

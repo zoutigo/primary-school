@@ -115,6 +115,7 @@ const rubrics = [
             link: '/classes/maternelle',
             alias:'mt', 
             route:{path: '/classes/maternelle', exact: true, component: Maternelle},
+            subdisplay: false,
             subcategories : [
                 {designation: 'Petite Section', link: '/classes/maternelle/petite-section', alias:'ps', route:{path: '/classes/maternelle/petite-section', exact: true, component: Classroom} },
                 {designation: 'Moyenne Section', link: '/classes/maternelle/moyenne-section', alias:'ms', route:{path: '/classes/maternelle/moyenne-section', exact: true, component: Classroom} },
@@ -127,6 +128,7 @@ const rubrics = [
             link: '/classes/primaire', 
             alias:'pr', 
             route:{path: '/classes/primaire', exact: true, component: Primaire},
+            subdisplay: false,
             subcategories: [
                 {designation: 'CP', link: '/classes/primaire/cp', alias:'ps', route:{path: '/classes/primaire/cp', exact: true, component: Classroom} },
                 {designation: 'CE1', link: '/classes/primaire/ce1', alias:'CE1', route:{path: '/classes/primaire/ce1', exact: true, component: Classroom} },

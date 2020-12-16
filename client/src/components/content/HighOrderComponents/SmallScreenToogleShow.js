@@ -41,10 +41,7 @@ const SmallScreenToogleShow = OriginalComponent=>{
         
         const toogleSmallScreenMenuClass = isSmallScreen && smallScreenMenuIsOpened ? classes.showMenu : classes.hideMenu
         const toogleContentClass = isSmallScreen && smallScreenMenuIsOpened ? classes.hide : classes.show
-        
-        console.log('home :', home)
-        console.log('isSmallScrenn:', isSmallScreen)
-        console.log('smallScreenMenuIsOpened:',smallScreenMenuIsOpened)
+      
         return <OriginalComponent 
                 toogleHeadModulesClass={toogleHeadModulesClass}
                 toogleSmallScreenMenuClass={toogleSmallScreenMenuClass}
