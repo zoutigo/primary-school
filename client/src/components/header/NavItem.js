@@ -218,7 +218,8 @@ function NavItem({rubric}) {
                                                        style={{ color: 'inherit', textDecoration: 'inherit'}} 
                                                        to={
                                                            {pathname:subcategory.link,
-                                                            designation:subcategory.designation
+                                                            subcategory:subcategory.designation,
+                                                            
                                                         }
                                                            
                                                         }

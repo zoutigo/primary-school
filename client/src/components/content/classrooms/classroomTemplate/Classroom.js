@@ -16,7 +16,7 @@ function Classroom() {
  
     return (
         <div className={classes.root}>
-            <h1> {designation}</h1>
+            <h1> Je suis dans une classe</h1>
         </div>
     )
 }

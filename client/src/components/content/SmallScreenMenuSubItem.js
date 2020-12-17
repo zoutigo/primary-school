@@ -26,18 +26,12 @@ function SmallScreenMenuSubItem(props) {
     const classes = useStyles()
     const {subcategory, rubric, handleClick} = props
 
-    const [open, setOpen] = useState(false)
-
-    const manageClick = ()=>{
-        setOpen(!open)
-        handleClick()
-
-    }
+ console.log(subcategory.link)
     return (
         <div className={classes.root}>
               <NavLink
-                to= {{pathname:subcategory.link, rubric:rubric, category:subcategory.designation}}
-                onClick={manageClick}
+                to= {{pathname:subcategory.link, rubric:rubric, subcategory:subcategory.designation}}
+                onClick={handleClick}
                 style={{ color: 'inherit', textDecoration: 'inherit'}} 
                 
                 activeClassName={classes.active}

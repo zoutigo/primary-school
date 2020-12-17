@@ -1,4 +1,5 @@
 import React from 'react';
+import {useHistory} from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -45,13 +46,16 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 function SubMenuCard(props) {
+    const history = useHistory()
     const {element} = props
     const {alias, designation} = element
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
 
-    console.log('lien:',element.link)
+    // console.log('lien:',element.link)
     // '/classes/maternelle/petite-section'
+
+    // console.log('history:', history)
 
     const images = require(`../../images/rubrics${element.link}/primary.jpg`);
 
@@ -63,9 +67,13 @@ function SubMenuCard(props) {
     const handleExpandClick = () => {
       setExpanded(!expanded);
     };
+
+    const handleClick = ()=>{
+      history.push(element.link)
+    }
   
     return (
-      <Card className={classes.root}>
+      <Card className={classes.root} onClick={handleClick}>
         <CardHeader
           // avatar={
           //   <Avatar aria-label="recipe" className={classes.avatar}>

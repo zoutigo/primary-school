@@ -52,7 +52,6 @@ const useStyles = makeStyles((theme)=>({
 function SmallScreenMenuItem({categories, rubric, index, toogleSubMenu, toogleScMenu, toogleCategory}) {
 
     const classes = useStyles()
-    const [openSubCategory, setOpenSubCategory] = useState(false)
 
     
 
@@ -69,7 +68,7 @@ function SmallScreenMenuItem({categories, rubric, index, toogleSubMenu, toogleSc
                                 <div>
                                     <div key={i}  className={classes.linkbox} >
                                         <NavLink
-                                        to= {{pathname:el.link, rubric:rubric, category:el.designation}}
+                                        to= {{pathname:el.link, rubric:rubric, category:el.designation, subcategories:el.subcategories}}
                                         onClick={handleClick}
                                         style={{ color: 'inherit', textDecoration: 'inherit'}} 
                                         

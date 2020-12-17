@@ -59,12 +59,12 @@ const useStyles = makeStyles((theme)=> ({
 
 function HeadModules(props) {
     const classes = useStyles()
-    const { rubric, category} = useLocation()
+    const { rubric, category, subcategory, page} = useLocation()
     const {toogleHeadModulesClass} = props
  
        
 
-    const contentText = category ? category : rubric
+    const contentText = page || subcategory || category || rubric
 
 
     let slider = useRef(null)
