@@ -41,7 +41,7 @@ function Content(props) {
 
     return (
      
-        <div className={toogleContentClass} >
+        <div className={`${toogleContentClass}`} >
                 
              
                  <Switch>

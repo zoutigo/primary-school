@@ -1,6 +1,7 @@
 import React from 'react'
 import {useLocation} from 'react-router-dom'
 import {makeStyles} from '@material-ui/styles'
+import { Grid } from '@material-ui/core'
 
 const useStyles = makeStyles((theme)=>({
     root: {
@@ -15,9 +16,17 @@ function Classroom() {
     const {designation} = useLocation()
  
     return (
-        <div className={classes.root}>
-            <h1> Je suis dans une classe</h1>
-        </div>
+        // <div className={classes.root}>
+        //     <h1> Je suis dans une classe</h1>
+        // </div>
+        <Grid container className={classes.root}>
+            <Grid item container>
+                <Grid item>Image</Grid>
+                <Grid item>infos</Grid>
+            </Grid>
+            <Grid item container> Text</Grid>
+            <Grid item container> Buttons</Grid>
+        </Grid>
     )
 }
 
