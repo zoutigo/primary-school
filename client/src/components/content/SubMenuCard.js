@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
       maxWidth: 345,
       minWidth: 345,
-
+    
       textAlign:'center'
      
     },

@@ -12,7 +12,7 @@ const SmallScreenToogleShow = OriginalComponent=>{
             display: 'none'
         },
         show : {
-            display: 'block'
+            display: 'flex'
         },
         hideMenu : {
             transform: 'translateY(-200%)',

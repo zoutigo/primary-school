@@ -1,22 +1,24 @@
 import React from 'react'
-import {useLocation } from 'react-router-dom'
+import {useLocation , NavLink} from 'react-router-dom'
 import SubMenuCard from './SubMenuCard'
 import { Grid } from '@material-ui/core'
 import {makeStyles} from '@material-ui/styles'
+
 
 const useStyles = makeStyles((theme)=>({
     root :{
         minWidth:'100%',
         maxWidth:'100%',
         display: 'flex',
-        
+      
       
         flexWrap: 'wrap',
         '& >div' : {
             flex: 'auto',
             display : 'flex',
             justifyContent:'center',
-            margin: '1em auto'
+            margin:'1em auto'
+          
             
             
         }
@@ -24,7 +26,7 @@ const useStyles = makeStyles((theme)=>({
     },
     width2 :{
         
-        minWidth: '49vw',
+        minWidth: '20vw',
        
     },
     width3 :{
@@ -51,7 +53,7 @@ function SubMenuCardGroup() {
             
         
             default:
-                return classes.width3
+                return classes.width2
         }
     }
    
@@ -61,8 +63,10 @@ function SubMenuCardGroup() {
         {
            elements && elements.map((element, index)=>{
                return (
-                   <div item  key={index} className={width()}  >
-                       <SubMenuCard  element={element} />
+                   <div item  key={index} className={width()} style={{color:'green'}} >
+                     
+                            <SubMenuCard  element={element} />
+                    
                    </div>
                )
            })

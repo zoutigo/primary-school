@@ -10,7 +10,8 @@ import SmallScreenMenu from './components/content/SmallScreenMenu'
 
 const useStyles = makeStyles({
   root: {
-
+    maxWidth:'100vw',
+    overflow:'hidden'
   }
 })
 
@@ -19,7 +20,7 @@ function App() {
  
  
   return (
-    <Grid container direction='column'>
+    <Grid container direction='column' className={classes.root}>
       <Grid item container> <Header /> </Grid>
       <Grid item container> 
         <HeadModules />
