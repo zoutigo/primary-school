@@ -1,35 +1,24 @@
 import React from 'react'
-import {makeStyles} from '@material-ui/styles'
+import { makeStyles } from '@material-ui/styles'
 
-const useStyles = makeStyles((theme)=>({
-    root:{
-        [theme.breakpoints.up('lg')]:{
-            minWidth:'80vw',
-            maxWidth:'80vw'
-        }
-    }
+const useStyles = makeStyles((theme) => ({
+  root: {
+    [theme.breakpoints.up('lg')]: {
+      minWidth: '80vw',
+      maxWidth: '80vw',
+    },
+  },
 }))
 
+const ContentCentering = (OldComponent) => {
+  function NewComponent() {
+    const classes = useStyles()
+    const centering = classes.root
 
-const ContentCentering = (OldComponent)=>{
+    return <OldComponent centeringClass={centering} />
+  }
 
-    
- 
-    
-    function NewComponent() {
-        const classes = useStyles()
-        const centering = classes.root
-
-
-
-        return <OldComponent centeringClass={centering} />
-    }
-    
-
-    
-
-
-    return <NewComponent />
+  return <NewComponent />
 }
 
 export default ContentCentering
