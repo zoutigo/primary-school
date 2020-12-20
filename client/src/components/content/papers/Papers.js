@@ -57,9 +57,15 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
   },
   appbar: {
-    width: '50%',
+    width: '90%',
     margin: 'auto',
-    [theme.breakpoints.down('lg')]: {
+    background: 'blue',
+    '& ~div': {
+      background: 'pink',
+      width: '90%',
+      margin: 'auto',
+    },
+    [theme.breakpoints.down('md')]: {
       width: '100%',
     },
   },
@@ -98,9 +104,10 @@ function Papers() {
               onChange={handleChange}
               aria-label="simple tabs example"
             >
-              <Tab label="Item One" {...a11yProps(0)} />
-              <Tab label="Item Two" {...a11yProps(1)} />
-              <Tab label="Item Three" {...a11yProps(2)} />
+              <Tab label="MON FIL" {...a11yProps(0)} />
+              <Tab label="LES ARTICLES" {...a11yProps(1)} />
+              <Tab label="LES NEWS" {...a11yProps(2)} />
+              <Tab label="IMPORTANT" {...a11yProps(3)} />
             </Tabs>
           </AppBar>
           <TabPanel value={value} index={0}>
