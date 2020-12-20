@@ -47,12 +47,12 @@ export const settingsReducers = (state = initialState, action) => {
     case SHOW_PAPERS:
       return {
         ...state,
-        displayPapers: !state.displayPapers,
+        displayPapers: action.payload || !state.displayPapers,
       }
     case SHOW_CLASSROOM:
       return {
         ...state,
-        displayClassroom: !state.displayClassroom,
+        displayClassroom: action.payload || !state.displayClassroom,
       }
 
     default:

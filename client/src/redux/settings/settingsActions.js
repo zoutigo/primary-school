@@ -26,14 +26,16 @@ export const openCategory = (rubricIndex, categoryIndex) => {
   }
 }
 
-export const showClassroom = () => {
+export const showClassroom = (value) => {
   return {
     type: SHOW_CLASSROOM,
+    payload: value,
   }
 }
 
-export const showPapers = () => {
+export const showPapers = (value) => {
   return {
     type: SHOW_PAPERS,
+    payload: value,
   }
 }

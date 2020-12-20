@@ -3,9 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { useLocation } from 'react-router-dom'
 import { makeStyles } from '@material-ui/styles'
-import { Button, Grid, Typography } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 import ClassroomInfos from './ClassroomInfos'
-import ClassroomButtons from './ClassroomButtons'
 import Papers from '../../papers/Papers'
 import ToogleButton from '../../../../utils/ToogleButton'
 import {
@@ -52,7 +51,18 @@ function Classroom() {
   const handleToggle = () => {
     dispatch(showClassroom())
     dispatch(showPapers())
+    window.scrollTo(0, 0)
   }
+
+  const useDispatchUnmount = (action) => {
+    React.useEffect(() => {
+      return () => {
+        dispatch(action)
+      }
+    }, [])
+  }
+  useDispatchUnmount(showClassroom(true))
+  useDispatchUnmount(showPapers(false))
 
   return (
     <Grid container className={classes.root}>

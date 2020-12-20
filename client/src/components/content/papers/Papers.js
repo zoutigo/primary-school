@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
@@ -54,10 +54,14 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
     marginTop: '1em',
+    width: '100%',
   },
   appbar: {
-    width: '40vw',
+    width: '50%',
     margin: 'auto',
+    [theme.breakpoints.down('lg')]: {
+      width: '100%',
+    },
   },
 }))
 
@@ -75,17 +79,18 @@ function Papers() {
   const handleToggle = () => {
     dispatch(showClassroom())
     dispatch(showPapers())
+    window.scrollTo(0, 0)
   }
 
+  const pageActualites = pathname === '/informations/actualites'
+
   useEffect(() => {
-    pathname === '/' ? setOpenPapers(false) : setOpenPapers(true)
-    return () => {
-      setOpenPapers(false)
-    }
+    !pageActualites && setOpenPapers(true)
   }, [pathname])
-  if (displayPapers && openPapers)
+
+  if ((displayPapers && openPapers) || pageActualites)
     return (
-      <Grid container className={`${classes.root} `} alignItems="start-end">
+      <Grid container className={`${classes.root} `}>
         <Grid item sm={12} md={8} lg={9}>
           <AppBar position="static" className={classes.appbar}>
             <Tabs
@@ -110,9 +115,11 @@ function Papers() {
         </Grid>
         <Grid item sm={12} md={4} lg={3}>
           <Alert />
-          <div onClick={handleToggle}>
-            <ToogleButton text={`Revenir sur la classe`} />
-          </div>
+          {!pageActualites && (
+            <div onClick={handleToggle}>
+              <ToogleButton text={`Revenir sur la classe`} />
+            </div>
+          )}
         </Grid>
       </Grid>
     )
