@@ -4,6 +4,7 @@ import {
   OPEN_CATEGORY,
   SHOW_PAPERS,
   SHOW_CLASSROOM,
+  SHOW_PAPER_FORM,
 } from './settingsActionsTypes'
 import React from 'react'
 import rubrics from '../../utils/rubrics'
@@ -13,6 +14,7 @@ const initialState = {
   rubrics: rubrics,
   displayClassroom: true,
   displayPapers: false,
+  displayPaperForm: false,
 }
 
 export const settingsReducers = (state = initialState, action) => {
@@ -53,6 +55,11 @@ export const settingsReducers = (state = initialState, action) => {
       return {
         ...state,
         displayClassroom: action.payload || !state.displayClassroom,
+      }
+    case SHOW_PAPER_FORM:
+      return {
+        ...state,
+        displayPaperForm: !state.displayPaperForm,
       }
 
     default:

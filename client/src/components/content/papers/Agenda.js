@@ -4,8 +4,8 @@ import TitlePanel from '../../../utils/TitlePanel'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    background: 'red',
-    padding: '0px 1em 1em 1em',
+    background: 'whitesmoke',
+    padding: '0px 0em 1em 0em',
     marginBottom: '1em',
   },
   titlePanelBackground: {
@@ -13,9 +13,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function Alert() {
+function Agenda() {
   const classes = useStyles()
-  const title = `alertes info`
+  const title = `Agenda à venir`
   return (
     <aside className={classes.root}>
       <TitlePanel title={title} background={classes.titlePanelBackground} />
@@ -32,4 +32,4 @@ function Alert() {
   )
 }
 
-export default Alert
+export default Agenda

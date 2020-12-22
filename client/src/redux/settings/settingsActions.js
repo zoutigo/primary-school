@@ -4,6 +4,7 @@ import {
   OPEN_CATEGORY,
   SHOW_CLASSROOM,
   SHOW_PAPERS,
+  SHOW_PAPER_FORM,
 } from './settingsActionsTypes'
 
 export const toogleSmallScreenMenu = () => {
@@ -37,5 +38,10 @@ export const showPapers = (value) => {
   return {
     type: SHOW_PAPERS,
     payload: value,
+  }
+}
+export const tooglePaperForm = () => {
+  return {
+    type: SHOW_PAPER_FORM,
   }
 }

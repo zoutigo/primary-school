@@ -8,13 +8,16 @@ import Tab from '@material-ui/core/Tab'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import { Grid } from '@material-ui/core'
-import Alert from './Alert'
+import Agenda from './Agenda'
 import ToogleButton from '../../../utils/ToogleButton'
 import { useLocation } from 'react-router-dom'
 import {
   showClassroom,
   showPapers,
+  tooglePaperForm,
 } from '../../../redux/settings/settingsActions'
+import TabPanelContent from './TabPanelContent'
+import PaperForm from './PaperForm'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
@@ -28,8 +31,8 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
+        <Box p={3} variant="div">
+          {children}
         </Box>
       )}
     </div>
@@ -76,12 +79,15 @@ function Papers() {
   const { pathname } = useLocation()
   const dispatch = useDispatch()
   const displayPapers = useSelector((state) => state.settings.displayPapers)
+  const displayPaperForm = useSelector(
+    (state) => state.settings.displayPaperForm
+  )
   const [value, setValue] = React.useState(0)
   const [openPapers, setOpenPapers] = React.useState(false)
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
-
+  const handlePost = () => dispatch(tooglePaperForm())
   const handleToggle = () => {
     dispatch(showClassroom())
     dispatch(showPapers())
@@ -94,39 +100,59 @@ function Papers() {
     !pageActualites && setOpenPapers(true)
   }, [pathname])
 
+  const tabs = ['summary', 'news', 'articles', 'events', 'important']
+  const TabPanelContainer = (props) => {
+    const { tab } = props
+    return (
+      <div style={{ minHeight: '60vh' }}>
+        <TabPanelContent tab={tab} />
+      </div>
+    )
+  }
+
   if ((displayPapers && openPapers) || pageActualites)
     return (
       <Grid container className={`${classes.root} `}>
-        <Grid item sm={12} md={8} lg={9}>
-          <AppBar position="static" className={classes.appbar}>
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              aria-label="simple tabs example"
-            >
-              <Tab label="MON FIL" {...a11yProps(0)} />
-              <Tab label="LES ARTICLES" {...a11yProps(1)} />
-              <Tab label="LES NEWS" {...a11yProps(2)} />
-              <Tab label="IMPORTANT" {...a11yProps(3)} />
-            </Tabs>
-          </AppBar>
-          <TabPanel value={value} index={0}>
-            Item One
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            Item Two
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-            Item Three
-          </TabPanel>
-        </Grid>
+        {!displayPaperForm ? (
+          <Grid item sm={12} md={8} lg={9}>
+            <AppBar position="static" className={classes.appbar}>
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                aria-label="simple tabs example"
+              >
+                <Tab label="MON FIL" {...a11yProps(0)} />
+                <Tab label="LES ARTICLES" {...a11yProps(1)} />
+                <Tab label="LES NEWS" {...a11yProps(2)} />
+                <Tab label="LES EVENEMENTS" {...a11yProps(3)} />
+                <Tab label="IMPORTANT" {...a11yProps(4)} />
+              </Tabs>
+            </AppBar>
+            {tabs.map((tab, index) => {
+              return (
+                <TabPanel value={value} key={index} index={index}>
+                  <TabPanelContainer tab={tab} />
+                </TabPanel>
+              )
+            })}
+          </Grid>
+        ) : (
+          <Grid item sm={12} md={8} lg={9}>
+            {' '}
+            <PaperForm />{' '}
+          </Grid>
+        )}
+
         <Grid item sm={12} md={4} lg={3}>
-          <Alert />
+          <Agenda />
           {!pageActualites && (
             <div onClick={handleToggle}>
               <ToogleButton text={`Revenir sur la classe`} />
             </div>
           )}
+          <div onClick={handlePost}>
+            <ToogleButton text={'Poster un actualité'} />
+          </div>
         </Grid>
       </Grid>
     )
