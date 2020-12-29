@@ -1,18 +1,29 @@
 const mongoose = require("mongoose");
 const { commentSchema } = require("./Comment");
-const { Image, ImageSchema } = require("./Picture");
+const { ImageSchema, Picture } = require("./Picture");
 
 const Schema = mongoose.Schema;
-const articleSchema = new Schema({
-  title: {
+const paperSchema = new Schema({
+  rubric: {
     type: String,
-    required: true,
+    enum: ["ecole", "vie-scolaire", "informations", "apel-ogec"],
   },
+
   category: {
     type: String,
     enum: ["news", "information", "activity"],
     required: true,
   },
+  title: {
+    type: String,
+    required: true,
+  },
+
+  text: {
+    type: String,
+    required: true,
+  },
+
   target: {
     type: String,
     enum: ["classroom", "school", "public"],
@@ -22,12 +33,8 @@ const articleSchema = new Schema({
     type: String,
     required: true,
   },
+  images: [ImageSchema],
 
-  modelArticle: {
-    type: String,
-    enum: ["A", "B", "C", "D", "E"],
-    required: true,
-  },
   createdAt: {
     type: Date,
     default: Date.now(),
@@ -37,8 +44,7 @@ const articleSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-  comments: [{ type: Schema.Types.ObjectId }],
-  images: [ImageSchema],
+
   mediaPath: [{ type: String }],
   status: {
     type: String,
@@ -47,4 +53,4 @@ const articleSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("Article", articleSchema);
+module.exports = mongoose.model("Paper", paperSchema);
