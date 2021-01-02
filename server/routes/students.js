@@ -1,22 +1,26 @@
-const router = require('express').Router()
-const {createStudent, listStudents,  readStudent, updateStudent, deleteStudent } = require('../controllers/studentController')
-const verifToken = require('../validators/tokens')
+const router = require("express").Router();
+const {
+  createStudent,
+  listStudents,
+  readStudent,
+  updateStudent,
+  deleteStudent,
+} = require("../controllers/studentController");
+const { verifyToken } = require("../validators/tokens");
 
 // Get student list
-router.get('/list', verifToken,  listStudents)
+router.get("/list", verifyToken, listStudents);
 
 // Create astudent
-router.post('/create', verifToken, createStudent)
-
+router.post("/create", verifyToken, createStudent);
 
 // Read a student
-router.get('/read/:id', verifToken, readStudent)
+router.get("/read/:id", verifyToken, readStudent);
 
-// Update a student 
-router.put('/update/:id', verifToken, updateStudent)
+// Update a student
+router.put("/update/:id", verifyToken, updateStudent);
 
 // Delete a student
-router.delete('/delete/:id', verifToken, deleteStudent)
+router.delete("/delete/:id", verifyToken, deleteStudent);
 
-
-module.exports = router
+module.exports = router;

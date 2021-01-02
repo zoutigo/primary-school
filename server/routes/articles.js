@@ -1,24 +1,26 @@
-const router = require('express').Router()
-const {listArticlesByCategory, readArticle, createArticle, updateArticle, deleteArticle} = require('../controllers/articleController')
-const verifToken = require('../validators/tokens')
+const router = require("express").Router();
+const {
+  listArticlesByCategory,
+  readArticle,
+  createArticle,
+  updateArticle,
+  deleteArticle,
+} = require("../controllers/articleController");
+const { verifyToken } = require("../validators/tokens");
 
 // List articles by type
-router.get('/list/:category', listArticlesByCategory)
-
+router.get("/list/:category", listArticlesByCategory);
 
 // read  article
-router.get('/read/:id', readArticle)
+router.get("/read/:id", readArticle);
 
 // create aricle
-router.post('/create' , verifToken, createArticle)
+router.post("/create", verifyToken, createArticle);
 
 // update artcle
-router.put('/update/:id', verifToken, updateArticle)
-
+router.put("/update/:id", verifyToken, updateArticle);
 
 // delete article
-router.delete('/delete/:id', verifToken, deleteArticle)
+router.delete("/delete/:id", verifyToken, deleteArticle);
 
-
-
-module.exports = router
+module.exports = router;

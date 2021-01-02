@@ -1,23 +1,26 @@
-const router = require('express').Router()
-const {createComment, listItemComments, updateComment, deleteComment , readComment} = require('../controllers/commentController')
-const verifToken = require('../validators/tokens')
+const router = require("express").Router();
+const {
+  createComment,
+  listItemComments,
+  updateComment,
+  deleteComment,
+  readComment,
+} = require("../controllers/commentController");
+const { verifyToken } = require("../validators/tokens");
 
 // Get comments list
-router.get('/list/:itemId', verifToken,  listItemComments)
+router.get("/list/:itemId", verifyToken, listItemComments);
 
 // Create a comment
-router.post('/create/:itemId', verifToken, createComment)
-
+router.post("/create/:itemId", verifyToken, createComment);
 
 // Read a comment
-router.get('/read/:itemId/:id', verifToken, readComment)
+router.get("/read/:itemId/:id", verifyToken, readComment);
 
 // Update a comment (just the like)
-router.put('/update/:itemId/:id',verifToken, updateComment)
-
+router.put("/update/:itemId/:id", verifyToken, updateComment);
 
 // Delete a comment
-router.delete('/delete/:itemId/:id',verifToken, deleteComment)
+router.delete("/delete/:itemId/:id", verifyToken, deleteComment);
 
-
-module.exports = router
+module.exports = router;
