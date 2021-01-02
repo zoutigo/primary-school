@@ -8,6 +8,7 @@ var dotenv = require("dotenv");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
+var rubricsRouter = require("./routes/rubrics");
 var articlesRouter = require("./routes/articles");
 var eventsRouter = require("./routes/events");
 var studentsRouter = require("./routes/students");
@@ -39,6 +40,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use("/rubrics", rubricsRouter);
 // app.use("/articles", articlesRouter);
 // app.use("/comments", commentsRouter);
 // app.use("/students", studentsRouter);

@@ -4,36 +4,31 @@ const { ImageSchema, Picture } = require("./Picture");
 
 const Schema = mongoose.Schema;
 const paperSchema = new Schema({
-  rubric: {
-    type: String,
-    enum: ["ecole", "vie-scolaire", "informations", "apel-ogec"],
-  },
-
-  category: {
-    type: String,
-    enum: ["news", "information", "activity"],
+  paper_rubric: { type: Schema.Types.ObjectId, ref: "Rubric", required: true },
+  paper_category: {
+    type: Schema.Types.ObjectId,
+    ref: "Category",
     required: true,
   },
-  title: {
-    type: String,
+  paper_chapter: {
+    type: Schema.Types.ObjectId,
+    ref: "Chapter",
     required: true,
   },
-
-  text: {
-    type: String,
+  paper_type: {
+    enum: ["article", "news", "event", "important"],
     required: true,
   },
 
-  target: {
+  paper_title: {
     type: String,
-    enum: ["classroom", "school", "public"],
     required: true,
   },
+
   content: {
     type: String,
     required: true,
   },
-  images: [ImageSchema],
 
   createdAt: {
     type: Date,
