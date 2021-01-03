@@ -67,7 +67,7 @@ module.exports.deleteChapter = async (req, res, next) => {
     let deletedChapter = await Chapter.findOneAndDelete({ _id: req.params.id });
     !deletedChapter
       ? next(new NotFound("not existing chapter"))
-      : res.status(200).send(`${req.params.id} have been deleted`);
+      : res.status(200).send(`${req.params.id} chapter have been deleted`);
   } catch (err) {
     next(err);
   }

@@ -22,8 +22,8 @@ const {
 router.get("/category", listCategories);
 router.get("/category/:id", getCategory);
 router.post("/category", verifyToken, createCategory);
-router.put("/category/:id", updateCategory);
-router.delete("/category/:id", deleteCategory);
+router.put("/category/:id", verifyToken, updateCategory);
+router.delete("/category/:id", verifyToken, deleteCategory);
 
 //Chapters
 router.get("/chapter", listChapters);
