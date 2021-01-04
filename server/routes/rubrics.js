@@ -16,7 +16,13 @@ const {
   deleteCategory,
 } = require("../controllers/categoryController");
 
-// Rubrics
+const {
+  listRubrics,
+  getRubric,
+  createRubric,
+  updateRubric,
+  deleteRubric,
+} = require("../controllers/rubricController");
 
 //Categories
 router.get("/category", listCategories);
@@ -31,5 +37,12 @@ router.get("/chapter/:id", getChapter);
 router.post("/chapter", createChapter);
 router.put("/chapter/:id", updateChapter);
 router.delete("/chapter/:id", deleteChapter);
+
+// Rubrics
+router.get("/", listRubrics);
+router.get("/:id", getRubric);
+router.post("/", verifyToken, createRubric);
+router.put("/:id", verifyToken, updateRubric);
+router.delete("/:id", verifyToken, deleteRubric);
 
 module.exports = router;

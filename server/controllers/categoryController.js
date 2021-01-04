@@ -14,7 +14,7 @@ const {
 
 module.exports.listCategories = async (req, res, next) => {
   try {
-    let categories = await categories.find();
+    let categories = await Category.find();
     categories && categories.length > 0
       ? res.status(200).send(categories)
       : next(new NotFound(`No category existing`));
@@ -25,7 +25,7 @@ module.exports.listCategories = async (req, res, next) => {
 
 module.exports.getCategory = async (req, res, next) => {
   try {
-    let category = await category.find({ _id: req.body.id });
+    let category = await Category.find({ _id: req.params.id });
     category
       ? res.status(200).send(category)
       : next(new NotFound("Not existing category"));
@@ -45,21 +45,19 @@ module.exports.createCategory = async (req, res, next) => {
     next(new BadRequest("user doesnt exit"));
   }
 
-  const { category_name, category_chapters } = req.body;
-  if (!category_name || !category_chapters)
-    next(new BadRequest("missing datas"));
+  const { category_name } = req.body;
+  if (!category_name) next(new BadRequest("missing datas"));
 
-  const chapters = await Chapter.find({
-    _id: { $in: category_chapters },
-  });
-  if (chapters.length !== category_chapters.length)
-    next(new BadRequest("invalid chapter identified"));
+  // const chapters = await Chapter.find({
+  //   _id: { $in: category_chapters },
+  // });
+  // if (chapters.length !== category_chapters.length)
+  //   next(new BadRequest("invalid chapter identified"));
 
-  const chaptersIds = chapters.map((chapter) => chapter._id);
+  // const chaptersIds = chapters.map((chapter) => chapter._id);
 
   const newCategory = new Category({
     category_name: category_name,
-    category_chapters: chaptersIds,
   });
 
   try {
