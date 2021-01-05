@@ -4,12 +4,12 @@ const { ImageSchema, Picture } = require("./Picture");
 
 const Schema = mongoose.Schema;
 const paperSchema = new Schema({
-  paper_rubric: { type: Schema.Types.ObjectId, ref: "Rubric" },
-  paper_category: {
+  paper_rubric_id: { type: Schema.Types.ObjectId, ref: "Rubric" },
+  paper_category_id: {
     type: Schema.Types.ObjectId,
     ref: "Category",
   },
-  paper_chapter: {
+  paper_chapter_id: {
     type: Schema.Types.ObjectId,
     ref: "Chapter",
   },
