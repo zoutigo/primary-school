@@ -107,6 +107,7 @@ module.exports.createPaper = async (req, res, next) => {
   } else {
     next(new BadRequest("Missing paper type"));
   }
+
   if (paper_title) {
     const { error } = await paperTitleValidator({
       paper_title: paper_title,
@@ -151,7 +152,131 @@ module.exports.createPaper = async (req, res, next) => {
   }
 };
 module.exports.updatePaper = async (req, res, next) => {
-  res.send("update paper");
+  const { role, _id } = req.user;
+  const roles = ["moderator", "admin"];
+  const updatedPaper = {};
+
+  try {
+    let paper = await Paper.findOne({ _id: req.params.id });
+    if (paper) {
+      roles.includes(role)
+        ? null
+        : next(new Unauthorized("operation not allowed"));
+    } else {
+      next(new NotFound("paper not found"));
+    }
+  } catch (err) {
+    next(err);
+  }
+
+  const {
+    paper_rubric_id,
+    paper_category_id,
+    paper_chapter_id,
+    paper_type,
+    paper_title,
+    paper_content,
+    paper_status,
+    paper_media,
+  } = req.body;
+
+  if (
+    !paper_rubric_id &&
+    !paper_category_id &&
+    !paper_chapter_id &&
+    !paper_type &&
+    !paper_title &&
+    !paper_content &&
+    !paper_status &&
+    !paper_media
+  ) {
+    next(new BadRequest("at least one field should be to update"));
+  }
+  if (paper_rubric_id) {
+    try {
+      const newPaperRubric = await Rubric.findOne({ _id: paper_rubric_id });
+      newPaperRubric
+        ? (updatedPaper.paper_rubric_id = paper_rubric_id)
+        : next(new NotFound("Rubric not found"));
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  if (paper_category_id) {
+    try {
+      const newPaperCategory = await Category.findOne({
+        _id: paper_category_id,
+      });
+      newPaperCategory
+        ? (updatedPaper.paper_category_id = paper_category_id)
+        : next(new NotFound("category not found"));
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  if (paper_chapter_id) {
+    try {
+      const newPaperChapter = await Chapter.findOne({
+        _id: paper_chapter_id,
+      });
+      newPaperChapter
+        ? (updatedPaper.paper_chapter_id = paper_chapter_id)
+        : next(new NotFound("Chapter not found"));
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  if (paper_type) {
+    const { error } = await paperTypeValidator({
+      paper_type: paper_type,
+    });
+    error
+      ? next(new BadRequest(`${error.details[0].message}`))
+      : (updatedPaper.paper_type = paper_type);
+  }
+
+  if (paper_title) {
+    const { error } = await paperTitleValidator({
+      paper_title: paper_title,
+    });
+    error
+      ? next(new BadRequest(`${error.details[0].message}`))
+      : (updatedPaper.paper_title = paper_title);
+  }
+
+  if (paper_content) {
+    const { error } = await paperContentValidator({
+      paper_content: paper_content,
+    });
+    error
+      ? next(new BadRequest(`${error.details[0].message}`))
+      : (updatedPaper.paper_content = paper_content);
+  }
+
+  if (paper_status) {
+    const { error } = await paperStatusValidator({
+      paper_status: paper_status,
+    });
+    error
+      ? next(new BadRequest(`${error.details[0].message}`))
+      : (updatedPaper.paper_status = paper_status);
+  }
+
+  try {
+    let savedUpdatedPaper = await Paper.findOneAndUpdate(
+      { _id: req.params.id },
+      updatedPaper,
+      { returnOriginal: false }
+    );
+    if (savedUpdatedPaper) {
+      res.send(savedUpdatedPaper);
+    }
+  } catch (err) {
+    next(err);
+  }
 };
 module.exports.deletePaper = async (req, res, next) => {
   const { role, _id } = req.user;
