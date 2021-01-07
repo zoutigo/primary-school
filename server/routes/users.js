@@ -5,9 +5,13 @@ const {
   userModify,
   userList,
   userLogin,
+  userEmail,
 } = require("../controllers/userController");
 const { verifyToken } = require("../validators/tokens");
 var router = express.Router();
+
+// check email
+router.post("/checkemail", userEmail);
 
 /* GET users listing. */
 router.get("/list", verifyToken, userList);

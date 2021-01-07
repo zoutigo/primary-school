@@ -39,7 +39,7 @@ module.exports.createPaper = async (req, res, next) => {
   const { role, _id } = req.user;
   const roles = ["teacher", "moderator", "admin"];
   if (!roles.includes(role)) {
-    next(new PreConditionFailed("forbidden operation"));
+    return next(new PreConditionFailed("forbidden operation"));
   }
   const postedPaper = {};
   postedPaper.paper_author_id = _id;
