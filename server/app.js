@@ -5,6 +5,7 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
 var dotenv = require("dotenv");
+var cors = require("cors");
 
 const handleErrors = require("./middlewares/handleErrors");
 
@@ -34,6 +35,8 @@ mongoose
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
+
+app.use(cors());
 
 app.use(logger("dev"));
 app.use(express.json());
