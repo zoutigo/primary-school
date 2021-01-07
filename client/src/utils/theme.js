@@ -1,38 +1,57 @@
-import { createMuiTheme , responsiveFontSizes} from '@material-ui/core/styles';
+import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles'
 
-import green from '@material-ui/core/colors/green';
+import green from '@material-ui/core/colors/green'
 
 let theme = createMuiTheme({
   palette: {
     primary: {
       ligth: 'rgb(250,250,210)',
       main: 'rgb(255,215,0)',
-      dark: 'rgb(240,230,140)'
+      dark: 'rgb(240,230,140)',
     },
     secondary: {
       main: green[500],
     },
-    third : {
+    third: {
       ligth: 'rgb(250,250,210)',
       main: 'rgb(255,215,0)',
-      dark: 'rgb(240,230,140)'
-    }
+      dark: 'rgb(240,230,140)',
+    },
   },
-  typography:{
-    h6 : {
-      fontSize: '1em' ,
+  typography: {
+    h6: {
+      fontSize: '1em',
       fontFamily: "'Poppins', 'Raleway'",
       letterSpacing: '1px',
-      lineHeight: 3
+      lineHeight: 3,
     },
-    h1 : {
+    h1: {
       fontFamily: "Raleway', 'Poppins', sans-serif",
       fontSize: '8em',
       letterSpacing: '1px',
-      lineHeight: 4
-    }
-  }
-});
+      lineHeight: 4,
+    },
+  },
+  overrides: {
+    MuiInputBase: {
+      input: {
+        fontSize: '1em',
+        minHeight: '1em',
+      },
+    },
+    MuiInputLabel: {
+      // Name of the component ⚛️ / style sheet
+      root: {
+        // Name of the rule
+        color: 'blue',
+        '&$focused': {
+          // increase the specificity for the pseudo class
+          color: 'blue',
+        },
+      },
+    },
+  },
+})
 
 theme = responsiveFontSizes(theme)
 
