@@ -2,6 +2,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
+import { apiCheckEmail } from '../../../../utils/api'
 import formStyles from '../../../../utils/styles'
 import Input from '@material-ui/core/Input'
 import TextField from '@material-ui/core/TextField'
@@ -34,9 +35,7 @@ const schema = yup.object().shape({
     .test(
       'is available',
       'ce mail appartient a un utilisateur',
-      async (value, context) => {
-        ;(await ApiCheckEmail(value)).response === 'true'
-      }
+      async (value, context) => (await apiCheckEmail(value).response) === 'true'
     ),
 })
 
