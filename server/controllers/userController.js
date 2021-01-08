@@ -110,12 +110,11 @@ module.exports.userEmail = async (req, res, next) => {
     return next(new BadRequest(`${error.details[0].message}`));
   }
 
-  try {
-    let user = await User.findOne(req.body);
-    user
-      ? res.status(200).send(user)
-      : next(new NotFound("user does not exist"));
-  } catch (err) {
-    next(err);
-  }
+  res.status(200).send(req.body);
+  // try {
+  //   let user = await User.findOne(req.body);
+  //   user ? res.status(200).send(user) : res.status(203).send("no content");
+  // } catch (err) {
+  //   next(err);
+  // }
 };

@@ -11,7 +11,7 @@ export const apiCheckEmail = async (value) => {
       return 'false'
     }
   } catch (error) {
-    if (error.response.status === 404) {
+    if (error.response.status === 402) {
       console.log('ca marche')
       return 'true'
     }
