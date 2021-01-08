@@ -109,8 +109,6 @@ module.exports.userEmail = async (req, res, next) => {
   if (error) {
     return next(new BadRequest(`${error.details[0].message}`));
   }
-
-  res.status(200).send(req.body);
   try {
     let user = await User.findOne(req.body);
     user ? res.status(200).send("user exist") : res.status(204).send("no user");

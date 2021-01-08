@@ -9,6 +9,7 @@ export const apiCheckEmail = async (value) => {
       'https://ecole-saint-augustin.herokuapp.com/users/checkemail',
       data
     )
+    console.log(response.status)
     if (response.status === 200) {
       return 'false'
     } else {
