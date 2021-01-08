@@ -111,10 +111,10 @@ module.exports.userEmail = async (req, res, next) => {
   }
 
   res.status(200).send(req.body);
-  // try {
-  //   let user = await User.findOne(req.body);
-  //   user ? res.status(200).send(user) : res.status(203).send("no content");
-  // } catch (err) {
-  //   next(err);
-  // }
+  try {
+    let user = await User.findOne(req.body);
+    user ? res.status(200).send(user) : res.status(203).send("no content");
+  } catch (err) {
+    next(err);
+  }
 };

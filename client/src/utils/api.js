@@ -5,7 +5,10 @@ const url = 'https://ecole-saint-augustin.herokuapp.com'
 export const apiCheckEmail = async (value) => {
   const data = { email: value }
   try {
-    let response = await axios.post(`${url}//users/checkemail`, data)
+    let response = await axios.post(
+      'https://ecole-saint-augustin.herokuapp.com/users/checkemail',
+      data
+    )
     if (response) {
       console.log('response', response)
       return 'false'
