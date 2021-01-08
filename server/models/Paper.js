@@ -37,7 +37,7 @@ const paperSchema = new Schema({
     default: Date.now(),
     required: true,
   },
-  paper_author: {
+  paper_author_id: {
     type: Schema.Types.ObjectId,
     ref: "User",
     required: true,

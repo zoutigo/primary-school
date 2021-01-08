@@ -14,7 +14,7 @@ var router = express.Router();
 router.post("/checkemail", userEmail);
 
 /* GET users listing. */
-router.get("/list", verifyToken, userList);
+router.get("/list", userList);
 
 //POST user , validation done by admin or moderator
 router.post("/", userRegister);

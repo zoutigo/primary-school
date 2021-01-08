@@ -23,7 +23,7 @@ const userSchema = new Schema({
   },
   role: {
     type: String,
-    enum: ["parent", "teatcher", "moderator", "admin"],
+    enum: ["parent", "teacher", "moderator", "admin"],
     required: true,
   },
   images: [ImageSchema],

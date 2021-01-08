@@ -10,11 +10,11 @@ function Private() {
     <Grid container>
       {!isLogged ? (
         <Grid item container>
-          <Grid item sm="12" md="6">
+          <Grid item sm={12} md={6}>
             {' '}
             <Login />{' '}
           </Grid>
-          <Grid item item sm="12" md="6">
+          <Grid item item sm={12} md={6}>
             {' '}
             <Register />{' '}
           </Grid>

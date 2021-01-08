@@ -35,7 +35,7 @@ const schema = yup.object().shape({
     .test(
       'is available',
       'ce mail appartient a un utilisateur',
-      async (value, context) => (await apiCheckEmail(value).response) === 'true'
+      async (value, context) => (await apiCheckEmail(value)) === 'true'
     ),
 })
 
