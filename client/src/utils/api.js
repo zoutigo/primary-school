@@ -7,7 +7,7 @@ export const apiCheckEmail = async (value) => {
   try {
     let response = await axios.post(`${url}//users/checkemail`, data)
     if (response) {
-      console.log('camarche aussi')
+      console.log('response', response)
       return 'false'
     }
   } catch (error) {
