@@ -112,7 +112,9 @@ module.exports.userEmail = async (req, res, next) => {
 
   try {
     let user = await User.findOne(req.body);
-    user ? res.send("user exist") : next(new NotFound("user does not exist"));
+    user
+      ? res.status(200).send(user)
+      : next(new NotFound("user does not exist"));
   } catch (err) {
     next(err);
   }
