@@ -15,7 +15,7 @@ const {
   NotFound,
 } = require("../utils/errors");
 
-module.exports.userRegister = async (req, res) => {
+module.exports.userRegister = async (req, res, next) => {
   const { email, password, role } = req.body;
   if (!email || !password || !role) {
     return next(new BadRequest("missing datas"));
@@ -52,7 +52,12 @@ module.exports.userRegister = async (req, res) => {
     const newUser = await user.save();
     if (newUser) {
       let token = await jwt.sign(
-        { _id: user._id, role: user.role },
+        {
+          _id: newUser._id,
+          role: newUser.role,
+          name: newUser.name,
+          firstname: newUser.firstname,
+        },
         process.env.TOKEN_SECRET,
         { expiresIn: process.env.TOKEN_LOGIN_DURATION }
       );
@@ -67,29 +72,41 @@ module.exports.userRegister = async (req, res) => {
 };
 
 module.exports.userLogin = async (req, res, next) => {
+  const { email, password } = req.body;
   // if(!req.body.email || !req.body.password) return res.status(400).send('Please enter email and password')
+  if (!email || !password) {
+    return next(new BadRequest("password or email missing"));
+  }
+  let emailValidated = await emailValidator({ email: email });
+  if (emailValidated.error)
+    return next(new BadRequest(emailValidated.error.details[0].message));
 
-  // using Joi validator
-  let { value, error } = await loginValidator(req.body);
-  if (error) return res.status(400).send(`${error.details[0].message}`);
+  let passwordValidated = await passwordValidator({ password: password });
+  if (passwordValidated.error)
+    return next(new BadRequest(passwordValidated.error.details[0].message));
 
   // check if email exists
-  let user = await User.findOne({ email: req.body.email });
-  if (!user) return res.status(400).send("User does not exist for that email");
+  let userVerified = await User.findOne({ email: req.body.email });
+  if (!userVerified) return next(new BadRequest("wrong datas"));
 
   // check password
-  let passwordVerif = await bcrypt.compare(req.body.password, user.password);
-  if (!passwordVerif) return res.status(400).send("Wrong password");
+  let passwordVerified = await bcrypt.compare(password, userVerified.password);
+  if (!passwordVerified) return next(new BadRequest("wrong datas"));
 
   let token = await jwt.sign(
-    { _id: user._id, role: user.role },
+    {
+      _id: userVerified._id,
+      role: userVerified.role,
+      name: userVerified.name,
+      firstname: userVerified.firstname,
+    },
     process.env.TOKEN_SECRET,
     { expiresIn: process.env.TOKEN_LOGIN_DURATION }
   );
-  res
+  return res
     .status(200)
-    .header("auth-token,token")
-    .send(`vous etes connectés avec le token ${token}`);
+    .header("x-access-token", token)
+    .send("successful login");
 };
 
 module.exports.userView = async (req, res) => {
