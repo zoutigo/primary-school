@@ -12,7 +12,7 @@ const formStyles = (theme) => ({
   },
   formGroup: {
     width: '100%',
-    margin: '1em auto',
+    margin: '0.5em auto',
     display: 'flex',
     flexDirection: 'column',
     '& label': {
@@ -25,6 +25,26 @@ const formStyles = (theme) => ({
     },
     '& p': {
       minHeight: '1em',
+      color: 'red',
+    },
+    '& div': {
+      display: 'flex',
+      alignItems: 'center',
+      '& label': {
+        marginRight: '5em',
+      },
+      '& div': {
+        background: 'whitesmoke',
+        textAlign: 'center',
+        '& div': {
+          '& label': {
+            marginLeft: '0.5em',
+          },
+          '& input': {
+            marginTop: '0.1em',
+          },
+        },
+      },
     },
   },
 })

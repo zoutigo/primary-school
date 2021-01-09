@@ -11,11 +11,10 @@ export const apiCheckEmail = async (value) => {
     )
     console.log(response.status)
     if (response.status === 200) {
-      return 'false'
-    } else {
-      return true
+      return false
     }
+    return true
   } catch (error) {
-    return 'true'
+    return false
   }
 }
