@@ -1,8 +1,9 @@
 const User = require("../models/User");
 const {
-  registerValidator,
   loginValidator,
   emailValidator,
+  passwordValidator,
+  roleValidator,
 } = require("../validators/users");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -15,39 +16,57 @@ const {
 } = require("../utils/errors");
 
 module.exports.userRegister = async (req, res) => {
-  // using Joi validator
-  let validate = await registerValidator(req.body);
-  if (validate.error)
-    return res.status(400).send(`${validate.error.details[0].message}`);
+  const { email, password, role } = req.body;
+  if (!email || !password || !role) {
+    return next(new BadRequest("missing datas"));
+  }
+
+  let emailValidated = await emailValidator({ email: email });
+  if (emailValidated.error)
+    return next(new BadRequest(emailValidated.error.details[0].message));
+
+  let passwordValidated = await passwordValidator({ password: password });
+  if (passwordValidated.error)
+    return next(new BadRequest(passwordValidated.error.details[0].message));
+
+  let roleValidated = await roleValidator({ role: role });
+  if (roleValidated.error)
+    return next(new BadRequest(roleValidated.error.details[0].message));
 
   // check if email exist in database
-  let emailVerif = await User.findOne({ email: req.body.email });
-  if (emailVerif)
-    return res
-      .status(400)
-      .send(`The email ${req.body.email} already exist in database`);
+  let emailCheck = await User.findOne({ email: email });
+  if (emailCheck) return next(new BadRequest(` email ${email} already exists`));
 
   // password hash
   const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(req.body.password, salt);
+  const hashedPassword = await bcrypt.hash(password, salt);
 
   let user = new User({
-    name: req.body.name,
-    email: req.body.email,
+    email: email,
     password: hashedPassword,
-    role: req.body.role,
-    firstname: req.body.firstname,
+    role: role,
+    createdAt: Date.now(),
   });
 
   try {
-    const savedUser = await user.save();
-    res.status(200).send({ user: user._id });
+    const newUser = await user.save();
+    if (newUser) {
+      let token = await jwt.sign(
+        { _id: user._id, role: user.role },
+        process.env.TOKEN_SECRET,
+        { expiresIn: process.env.TOKEN_LOGIN_DURATION }
+      );
+      return res
+        .status(201)
+        .header("x-access-token", token)
+        .send("user succesfully created");
+    }
   } catch (err) {
-    console.log(err);
+    return next(err);
   }
 };
 
-module.exports.userLogin = async (req, res) => {
+module.exports.userLogin = async (req, res, next) => {
   // if(!req.body.email || !req.body.password) return res.status(400).send('Please enter email and password')
 
   // using Joi validator
