@@ -2,17 +2,23 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { apiCheckEmail } from '../../../../utils/api'
+import { apiCheckEmail, apiRegister } from '../../../../utils/api'
 import formStyles from '../../../../utils/styles'
-import Input from '@material-ui/core/Input'
-import TextField from '@material-ui/core/TextField'
 
 import TitlePanel from '../../../../utils/TitlePanel'
 import { makeStyles, withStyles } from '@material-ui/styles'
 import { Button } from '@material-ui/core'
+import CircularProgress from '@material-ui/core/CircularProgress'
+
 const useStyles = makeStyles((theme) => ({
   root: {
     marginBottom: '2em',
+    position: 'relative',
+  },
+  circularContainer: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
   },
 }))
 const passRegExp = new RegExp('^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$')
@@ -35,35 +41,80 @@ const schema = yup.object().shape({
   passwordConfirm: yup
     .string()
     .oneOf([yup.ref('password'), null], 'Mauvaise correspondance')
-    .required('Required'),
+    .required('Veillez confirmer le mot de pass'),
+
+  role: yup.string().required('veillez indiquer votre role'),
 })
 
 function Register(props) {
   const classes = useStyles()
-  const { register, errors, handleSubmit, formState } = useForm({
+  const {
+    register,
+    errors,
+    handleSubmit,
+    formState: { isValid, isSubmitting },
+    reset,
+  } = useForm({
     mode: 'onBlur',
     resolver: yupResolver(schema),
   })
-  const { isDirty, isValid } = formState
 
-  const onSubmit = (data) => console.log(data)
+  const onSubmit = async (data) => {
+    const datas = {
+      email: data.email,
+      password: data.password,
+      role: data.role,
+    }
+    await apiRegister(datas)
+      .then((response) => {
+        for (const header of response.headers) {
+          console.log(header)
+        }
 
-  React.useEffect(() => {
-    console.log('isValid', isValid)
-  }, [formState])
+        if (response.status === 201) {
+          const token = response.Headers()
+          console.log('token:', token)
+
+          reset()
+          // set token
+
+          // set is logged
+          // set credentials
+          // show a welcome message
+        }
+      })
+      .catch((err) => {
+        console.log('error:', err)
+      })
+  }
 
   return (
     <div className={classes.root}>
       <TitlePanel title={'Inscription utilisateur'} />
+      {isSubmitting && (
+        <div className={classes.circularContainer}>
+          <CircularProgress />
+        </div>
+      )}
       <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
         <div className={props.classes.formGroup}>
           <label htmlFor="email">Email</label>
-          <input name="email" placeholder="mocha@gmail.fr" ref={register} />
+          <input
+            name="email"
+            placeholder="mocha@gmail.fr"
+            disabled={isSubmitting}
+            ref={register}
+          />
           <p>{errors.email?.message}</p>
         </div>
         <div className={props.classes.formGroup}>
           <label htmlFor="password">Mot de pass</label>
-          <input name="password" placeholder="Cantique8715" ref={register} />
+          <input
+            name="password"
+            placeholder="Cantique8715"
+            disabled={isSubmitting}
+            ref={register}
+          />
           <p>{errors.password?.message}</p>
         </div>
         <div className={props.classes.formGroup}>
@@ -71,6 +122,7 @@ function Register(props) {
           <input
             name="passwordConfirm"
             placeholder="Exactement"
+            disabled={isSubmitting}
             ref={register}
           />
           <p>{errors.passwordConfirm?.message}</p>
@@ -84,8 +136,8 @@ function Register(props) {
                   type="radio"
                   value={'parent'}
                   name="role"
+                  disabled={isSubmitting}
                   ref={register}
-                  checked
                 />
                 <label>Parent</label>
               </div>
@@ -94,6 +146,7 @@ function Register(props) {
                   type="radio"
                   value={'enseignant'}
                   name="role"
+                  disabled={isSubmitting}
                   ref={register}
                 />
                 <label>Enseignant</label>
@@ -103,10 +156,10 @@ function Register(props) {
         </div>
 
         <Button
-          disabled={!isValid}
+          disabled={!isValid || isSubmitting}
           type="submit"
           fullWidth
-          variant="outlined"
+          variant="contained"
           color="primary"
         >
           {' '}

@@ -1,15 +1,10 @@
 import axios from 'axios'
 
-const url = 'https://ecole-saint-augustin.herokuapp.com'
-
 export const apiCheckEmail = async (value) => {
   const data = { email: value }
+  let url = 'https://ecole-saint-augustin.herokuapp.com/users/checkemail'
   try {
-    let response = await axios.post(
-      'https://ecole-saint-augustin.herokuapp.com/users/checkemail',
-      data
-    )
-    console.log(response.status)
+    let response = await axios.post(url, data)
     if (response.status === 200) {
       return false
     }
@@ -17,4 +12,19 @@ export const apiCheckEmail = async (value) => {
   } catch (error) {
     return false
   }
+}
+
+export const apiRegister = async (datas) => {
+  let url = 'https://ecole-saint-augustin.herokuapp.com/users'
+
+  try {
+    let req = await axios.post(url, datas)
+    return req
+  } catch (err) {
+    return err
+  }
+}
+export const apiLogin = async (datas) => {
+  let url = 'https://ecole-saint-augustin.herokuapp.com/users'
+  axios.get(url, datas).then((res) => res)
 }
