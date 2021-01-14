@@ -5,7 +5,15 @@ import {
   SHOW_CLASSROOM,
   SHOW_PAPERS,
   SHOW_PAPER_FORM,
+  TEST_SETTINGS_REDUCER,
 } from './settingsActionsTypes'
+
+export const testSettings = (value) => {
+  return {
+    type: TEST_SETTINGS_REDUCER,
+    payload: value,
+  }
+}
 
 export const toogleSmallScreenMenu = () => {
   return {

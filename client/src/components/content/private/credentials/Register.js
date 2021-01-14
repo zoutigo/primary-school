@@ -1,5 +1,6 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { useDispatch, useSelector } from 'react-redux'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { apiCheckEmail, apiRegister } from '../../../../utils/api'
@@ -9,6 +10,12 @@ import TitlePanel from '../../../../utils/TitlePanel'
 import { makeStyles, withStyles } from '@material-ui/styles'
 import { Button } from '@material-ui/core'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import {
+  setToken,
+  setCredentials,
+  setIsLogged,
+} from '../../../../redux/user/userActions'
+import { testSettings } from '../../../../redux/settings/settingsActions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,6 +54,8 @@ const schema = yup.object().shape({
 })
 
 function Register(props) {
+  const dispatch = useDispatch()
+
   const classes = useStyles()
   const {
     register,
@@ -67,22 +76,34 @@ function Register(props) {
     }
     await apiRegister(datas)
       .then((response) => {
-        for (const header of response.headers) {
-          console.log(header)
-        }
-
         if (response.status === 201) {
-          const token = response.Headers()
-          console.log('token:', token)
+          const Token = response.headers['x-access-token']
+          const splittedToken = Token.split('.')
+          const tokenDatas = JSON.parse(atob(splittedToken[1]))
+          dispatch(testSettings('toto'))
+          dispatch(
+            setCredentials({
+              role: tokenDatas.role,
+              id: tokenDatas._id,
+            })
+          )
+          dispatch(setToken(Token))
 
-          reset()
           // set token
 
           // set is logged
           // set credentials
           // show a welcome message
+          reset()
         }
       })
+      .then(() => dispatch(setIsLogged()))
+      // .then((response) => {
+      //   alert('hello')
+      //   const Tokens = response.headers['x-access-token']
+      //   dispatch(setToken(Tokens))
+      // })
+
       .catch((err) => {
         console.log('error:', err)
       })

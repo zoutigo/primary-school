@@ -1,18 +1,25 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, useTheme } from '@material-ui/styles'
 import { useLocation } from 'react-router-dom'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 import { Switch, Route } from 'react-router-dom'
-
+import { rubricComponents } from '../../utils/navComponents'
 import ErrorPage from './ErrorPage'
 import SmallScreenToogleShow from './HighOrderComponents/SmallScreenToogleShow'
-
+import rubrics from '../../utils/rubrics'
 const useStyles = makeStyles((theme) => ({
   root: {
     minWidth: '100vw',
 
     paddingTop: '1em',
+  },
+  hide: {
+    display: 'none',
+  },
+  show: {
+    display: 'flex',
   },
   empty: {
     [theme.breakpoints.up('lg')]: {
@@ -38,28 +45,44 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function Content(props) {
-  const { toogleContentClass } = props
+function Content() {
+  const theme = useTheme()
   const classes = useStyles()
   const { pathname } = useLocation()
+
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'))
+  const smallScreenMenuIsOpened = useSelector(
+    (state) => state.settings.smallScreenMenuIsOpened
+  )
+
   const home = '/'
   const isHome = pathname === home
   const rootClass = () => (!isHome ? classes.root : null)
 
-  const rubrics = useSelector((state) => state.settings.rubrics)
+  const Rubrics = []
+  rubrics.forEach((rubric) => {
+    let { alias, route } = rubric
+    rubricComponents.forEach((rc) => {
+      if (alias === rc[0]) {
+        let newRubric = { ...rubric }
+        newRubric.route.component = rc[1]
+        Rubrics.push(newRubric)
+      }
+    })
+  })
 
   const allCategories = []
-  const allSubCategories = []
+  const allChapters = []
 
-  rubrics.forEach((element) => {
-    if (element.categories) {
-      element.categories.forEach((el) => {
-        if (el.route) {
-          allCategories.push(el.route)
+  rubrics.forEach((rubric) => {
+    if (rubric.categories) {
+      rubric.categories.forEach((category) => {
+        if (category.route) {
+          allCategories.push(category.route)
         }
-        if (el.subcategories) {
-          el.subcategories.map((subcategory) => {
-            allSubCategories.push(subcategory.route)
+        if (category.chapters) {
+          category.chapters.map((chapter) => {
+            allChapters.push(chapter.route)
           })
         }
       })
@@ -67,18 +90,23 @@ function Content(props) {
   })
 
   return (
-    <div className={`${toogleContentClass} ${rootClass()}`}>
+    <div
+      className={`${
+        isSmallScreen && smallScreenMenuIsOpened ? classes.show : classes.show
+      } ${rootClass()}`}
+    >
       <div className={`${!isHome && classes.empty}`}></div>
       <div className={classes.content}>
         <Switch>
-          {rubrics.map((element, index) => (
+          {Rubrics.map((element, index) => (
             <Route key={index} {...element.route} />
           ))}
+
           {allCategories.map((subroute, i) => (
             <Route key={i} {...subroute} />
           ))}
 
-          {allSubCategories.map((subsubroute, ind) => (
+          {allChapters.map((subsubroute, ind) => (
             <Route key={ind} {...subsubroute} />
           ))}
           <Route component={ErrorPage} />
@@ -89,4 +117,4 @@ function Content(props) {
   )
 }
 
-export default SmallScreenToogleShow(Content)
+export default Content

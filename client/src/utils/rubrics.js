@@ -29,13 +29,6 @@ import Primaire from '../components/content/classrooms/primaire/Primaire'
 import Maternelle from '../components/content/classrooms/maternelle/Maternelle'
 import Classroom from '../components/content/classrooms/classroomTemplate/Classroom'
 
-import Ps from '../components/content/classrooms/Ps'
-import Ms from '../components/content/classrooms/Ms'
-import Gs from '../components/content/classrooms/Gs'
-import Ce1 from '../components/content/classrooms/Ce1'
-import Ce2 from '../components/content/classrooms/Ce2'
-import Cm1 from '../components/content/classrooms/Cm1'
-import Cm2 from '../components/content/classrooms/Cm2'
 import Apel from '../components/content/ApelOgec/Apel'
 import Ogec from '../components/content/ApelOgec/Ogec'
 import SubMenuCardGroup from '../components/content/SubMenuCardGroup'
@@ -50,7 +43,6 @@ const rubrics = [
     route: {
       path: '/',
       exact: true,
-      component: Home,
     },
     subdisplay: false,
     categories: [],
@@ -64,7 +56,6 @@ const rubrics = [
     route: {
       path: '/ecole',
       exact: true,
-      component: Ecole,
     },
     subdisplay: false,
     categories: [
@@ -115,11 +106,10 @@ const rubrics = [
     name: 'Vie Scolaire',
     link: '/vie-scolaire',
     icon: <DirectionsRunIcon fontSize="large" />,
-    alias: 'vs',
+    alias: 'vie-scolaire',
     route: {
       path: '/vie-scolaire',
       exact: true,
-      component: SchoolLife,
     },
     subdisplay: false,
     categories: [
@@ -181,7 +171,6 @@ const rubrics = [
     route: {
       path: '/classes',
       exact: true,
-      component: Classrooms,
     },
     subdisplay: false,
     categories: [
@@ -195,7 +184,7 @@ const rubrics = [
           component: Maternelle,
         },
         subdisplay: false,
-        subcategories: [
+        chapters: [
           {
             designation: 'Petite Section',
             link: '/classes/maternelle/petite-section',
@@ -234,7 +223,7 @@ const rubrics = [
         alias: 'pr',
         route: { path: '/classes/primaire', exact: true, component: Primaire },
         subdisplay: false,
-        subcategories: [
+        chapters: [
           {
             designation: 'CP',
             link: '/classes/primaire/cp',
@@ -371,21 +360,13 @@ const rubrics = [
     name: 'Espace privé',
     link: '/private',
     icon: <AccountCircleIcon fontSize="large" />,
-    alias: 'pr',
+    alias: 'private',
     route: {
       path: '/private',
       exact: true,
-      component: Private,
     },
     subdisplay: false,
   },
 ]
 
 export default rubrics
-
-// {designation: 'Moyenne Section', link: '/classes/ms', alias:'ms', route:{path: '/classes/ms', exact: true, component: Ms}},
-// {designation: 'Grande Section', link: '/classes/gs', alias:'gs', route:{path: '/classes/gs', exact: true, component: Gs}},
-// {designation: 'Cours Elementaire 1', link: '/classes/ce1', alias:'ce1', route:{path: '/classes/ce1', exact: true, component: Ce1}},
-// {designation: 'Cours Elementaire 2', link: '/classes/ce2', alias:'ce2', route:{path: '/classes/ce2', exact: true, component: Ce2}},
-// {designation: 'Cours Moyen 1', link: '/classes/cm1', alias:'cm1', route:{path: '/classes/cm1', exact: true, component: Cm1}},
-// {designation: 'Cours Moyen 2', link: '/classes/cm2', alias:'cm2', route:{path: '/classes/cm2', exact: true, component: Cm2}},

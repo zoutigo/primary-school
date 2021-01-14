@@ -1,7 +1,6 @@
 import React from 'react'
 import { useLocation, NavLink } from 'react-router-dom'
-import SubMenuCard from './SubMenuCard'
-import { Grid } from '@material-ui/core'
+import ChapterCard from './ChapterCard'
 import { makeStyles } from '@material-ui/styles'
 
 const useStyles = makeStyles((theme) => ({
@@ -27,10 +26,11 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function SubMenuCardGroup() {
-  const { pathname, categories, subcategories } = useLocation()
+  const { pathname, categories, chapters } = useLocation()
+  console.log('categories:', categories)
   const classes = useStyles()
 
-  const elements = subcategories || categories
+  const elements = chapters || categories
 
   const width = () => {
     switch (elements.length) {
@@ -47,13 +47,8 @@ function SubMenuCardGroup() {
       {elements &&
         elements.map((element, index) => {
           return (
-            <div
-              item
-              key={index}
-              className={width()}
-              style={{ color: 'green' }}
-            >
-              <SubMenuCard element={element} />
+            <div key={index} className={width()} style={{ color: 'green' }}>
+              <ChapterCard element={element} />
             </div>
           )
         })}

@@ -46,8 +46,10 @@ function Classroom() {
     (state) => state.settings.displayClassroom
   )
   const { designation, pathname } = useLocation()
+  console.log('pathname:', pathname)
 
-  const image = require(`../../../../images/rubrics${pathname}/secondary.jpg`)
+  // const image = require(`../../../../images/rubrics${pathname}/secondary.jpg`)
+  const image = require('../../../../images/rubrics/classes/secondary.jpg')
   const handleToggle = () => {
     dispatch(showClassroom())
     dispatch(showPapers())

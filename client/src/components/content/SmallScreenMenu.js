@@ -8,6 +8,7 @@ import { NavLink } from 'react-router-dom'
 import { Button, Typography, IconButton } from '@material-ui/core'
 
 import SmallScreenMenuItem from './SmallScreenMenuItem'
+import rubrics from '../../utils/rubrics'
 
 import {
   openSubMenu,
@@ -70,12 +71,13 @@ function SmallScreenMenu(props) {
   const classes = useStyles()
   const dispatch = useDispatch()
 
-  const rubrics = useSelector((state) => state.settings.rubrics)
+  const [Rubrics, setRubrics] = React.useState(rubrics)
 
-  const toogleSubMenu = (ind) => dispatch(openSubMenu(ind))
-  const toogleScMenu = () => dispatch(toogleSmallScreenMenu())
-  const toogleCategory = (indexRubric, indexCategory) =>
-    dispatch(openCategory(indexRubric, indexCategory))
+  const toggleRubric = (index) => {
+    let newRubrics = { ...Rubrics }
+    newRubrics[index].subdisplay = !Rubrics[index].subdisplay
+    setRubrics(newRubrics)
+  }
 
   return (
     <div className={`${classes.root} ${toogleSmallScreenMenuClass}`}>
@@ -93,7 +95,7 @@ function SmallScreenMenu(props) {
                       categories: categories,
                       rubric: name,
                     }}
-                    onClick={toogleScMenu}
+                    onClick={() => dispatch(toogleSmallScreenMenu())}
                     className={classes.navlink}
                     activeClassName={classes.active}
                   >
@@ -108,7 +110,7 @@ function SmallScreenMenu(props) {
                       textAlign: 'center',
                     }}
                   >
-                    <span onClick={() => toogleSubMenu(index)}>
+                    <span onClick={() => toggleRubric(index)}>
                       <IconButton>
                         <KeyboardArrowDownIcon />
                       </IconButton>
@@ -116,14 +118,11 @@ function SmallScreenMenu(props) {
                   </div>
                 )}
               </div>
-              {element.subdisplay && element.categories && (
+              {Rubrics[index].subdisplay && Rubrics[index].categories && (
                 <SmallScreenMenuItem
                   categories={categories}
                   index={index}
-                  toogleSubMenu={toogleSubMenu}
-                  toogleScMenu={toogleScMenu}
                   rubric={element.name}
-                  toogleCategory={toogleCategory}
                 />
               )}
             </div>

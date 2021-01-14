@@ -1,3 +1,5 @@
+import { createReducer } from '@reduxjs/toolkit'
+
 import {
   TOOGLE_SMALL_SCREEN_MENU,
   OPEN_SUB_MENU,
@@ -5,35 +7,68 @@ import {
   SHOW_PAPERS,
   SHOW_CLASSROOM,
   SHOW_PAPER_FORM,
+  TEST_SETTINGS_REDUCER,
 } from './settingsActionsTypes'
-import React from 'react'
 import rubrics from '../../utils/rubrics'
 
 const initialState = {
+  testSettings: 'valid',
   smallScreenMenuIsOpened: false,
-  rubrics: rubrics,
+
   displayClassroom: true,
   displayPapers: false,
   displayPaperForm: false,
 }
 
-export const settingsReducers = (state = initialState, action) => {
+export const settingsReducers = createReducer(initialState, {
+  TOOGLE_SMALL_SCREEN_MENU: (state) => {
+    state.smallScreenMenuIsOpened = !state.smallScreenMenuIsOpened
+  },
+  OPEN_SUB_MENU: (state, action) => {
+    state.rubrics[action.payload].subdisplay = !state.rubrics[action.payload]
+      .subdisplay
+  },
+  OPEN_CATEGORY: (state, action) => {
+    state.rubrics[action.payload[0]].categories[action.payload[1]] = !state
+      .rubrics[action.payload[0]].categories[action.payload[1]]
+  },
+  SHOW_PAPERS: (state, action) => {
+    state.displayPapers = action.payload || !state.displayPapers
+  },
+  SHOW_CLASSROOM: (state, action) => {
+    state.displayClassroom = action.payload || !state.displayClassroom
+  },
+  SHOW_PAPER_FORM: (state) => {
+    state.displayPaperForm = !state.displayPaperForm
+  },
+})
+
+export const settingReducers = (state = initialState, action) => {
   switch (action.type) {
+    case TEST_SETTINGS_REDUCER:
+      return {
+        ...state,
+        testSettings: action.payload,
+      }
     case TOOGLE_SMALL_SCREEN_MENU:
       return {
         ...state,
         smallScreenMenuIsOpened: !state.smallScreenMenuIsOpened,
       }
-    case OPEN_SUB_MENU: {
-      const newRubrics = [...state.rubrics]
-      newRubrics[action.payload].subdisplay = !newRubrics[action.payload]
-        .subdisplay
 
+    case OPEN_SUB_MENU: {
       return {
         ...state,
-        rubrics: newRubrics,
+        rubrics: {
+          ...state.rubrics,
+          [action.payload]: {
+            ...state.rubrics[action.payload],
+            subdisplay: !state.rubrics[action.payload.subdisplay],
+          },
+        },
       }
     }
+
     case OPEN_CATEGORY: {
       const newRubrics = [...state.rubrics]
       newRubrics[action.payload[0]].categories[

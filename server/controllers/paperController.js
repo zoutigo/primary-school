@@ -39,7 +39,7 @@ module.exports.createPaper = async (req, res, next) => {
   const { role, _id } = req.user;
   const roles = ["teacher", "moderator", "admin"];
   if (!roles.includes(role)) {
-    return next(new PreConditionFailed("forbidden operation"));
+    next(new PreConditionFailed("forbidden operation"));
   }
   const postedPaper = {};
   postedPaper.paper_author_id = _id;
@@ -192,6 +192,7 @@ module.exports.updatePaper = async (req, res, next) => {
   ) {
     next(new BadRequest("at least one field should be to update"));
   }
+
   if (paper_rubric_id) {
     try {
       const newPaperRubric = await Rubric.findOne({ _id: paper_rubric_id });
