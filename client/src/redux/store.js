@@ -24,10 +24,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 export default () => {
   const store = configureStore({
-    reducer: {
-      user: userReducers,
-      settings: settingsReducers,
-    },
+    reducer: persistedReducer,
     middleware: getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],

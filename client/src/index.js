@@ -31,11 +31,13 @@ ReactDOM.render(
   <React.StrictMode>
     <ReactQueryCacheProvider queryCache={queryCache}>
       <Provider store={store}>
-        <Router>
-          <ThemeProvider theme={theme}>
-            <App />
-          </ThemeProvider>
-        </Router>
+        <PersistGate loading={null} persistor={persistor}>
+          <Router>
+            <ThemeProvider theme={theme}>
+              <App />
+            </ThemeProvider>
+          </Router>
+        </PersistGate>
       </Provider>
     </ReactQueryCacheProvider>
   </React.StrictMode>,
