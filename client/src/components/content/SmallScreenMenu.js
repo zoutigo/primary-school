@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/styles'
 
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import { Button, Typography, IconButton } from '@material-ui/core'
 
 import SmallScreenMenuItem from './SmallScreenMenuItem'
@@ -70,6 +70,7 @@ function SmallScreenMenu(props) {
   const { toogleSmallScreenMenuClass } = props
   const classes = useStyles()
   const dispatch = useDispatch()
+  const { pathname } = useLocation()
 
   const [Rubrics, setRubrics] = React.useState(rubrics)
 
@@ -94,6 +95,9 @@ function SmallScreenMenu(props) {
                       pathname: link,
                       categories: categories,
                       rubric: name,
+                      state: {
+                        from: pathname,
+                      },
                     }}
                     onClick={() => dispatch(toogleSmallScreenMenu())}
                     className={classes.navlink}

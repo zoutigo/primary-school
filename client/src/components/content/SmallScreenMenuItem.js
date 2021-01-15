@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
 import { makeStyles } from '@material-ui/styles'
@@ -50,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
 function SmallScreenMenuItem({ categories, rubric, index }) {
   const classes = useStyles()
   const dispatch = useDispatch()
+  const { pathname } = useLocation()
   const [Categories, setCategories] = useState(categories)
 
   const handleClick = () => {
@@ -73,6 +74,9 @@ function SmallScreenMenuItem({ categories, rubric, index }) {
                     rubric: rubric,
                     category: category.designation,
                     chapters: category.chapters,
+                    state: {
+                      from: pathname,
+                    },
                   }}
                   onClick={handleClick}
                   style={{ color: 'inherit', textDecoration: 'inherit' }}

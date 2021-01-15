@@ -127,7 +127,8 @@ function NavItem({ rubric }) {
   const { name, link, icon, categories } = rubric
 
   const classes = useStyles()
-  const location = useLocation()
+  const { pathname } = useLocation()
+
   const dispatch = useDispatch()
   const history = useHistory()
 
@@ -136,14 +137,14 @@ function NavItem({ rubric }) {
   const [clicked, setClicked] = useState(false)
 
   const activeRoot =
-    link === location.pathname ? classes.rootActive : classes.rootNotActive
+    link === pathname ? classes.rootActive : classes.rootNotActive
   const activeIcon =
-    link === location.pathname ? classes.iconActive : classes.iconNotActive
+    link === pathname ? classes.iconActive : classes.iconNotActive
   const activeLine =
-    link === location.pathname ? classes.lineActive : classes.lineNotActive
+    link === pathname ? classes.lineActive : classes.lineNotActive
 
   const activeText =
-    link === location.pathname ? classes.textActive : classes.textNotActive
+    link === pathname ? classes.textActive : classes.textNotActive
 
   const wasClicked = clicked ? classes.rootClicked : classes.root
 
@@ -173,7 +174,14 @@ function NavItem({ rubric }) {
         <div className={`${classes.icon} ${activeIcon}`}> {icon} </div>
         <div className={classes.link}>
           <NavLink
-            to={{ pathname: link, categories: categories, rubric: name }}
+            to={{
+              pathname: link,
+              categories: categories,
+              rubric: name,
+              state: {
+                from: pathname,
+              },
+            }}
             style={{ color: 'inherit', textDecoration: 'inherit' }}
             className={`${classes.navLink} ${activeText}}`}
           >
@@ -222,6 +230,9 @@ function NavItem({ rubric }) {
                         rubric: name,
                         category: category.designation,
                         chapters: category.chapters,
+                        state: {
+                          from: pathname,
+                        },
                       }}
                       style={{ color: 'inherit', textDecoration: 'inherit' }}
                     >
@@ -245,6 +256,9 @@ function NavItem({ rubric }) {
                               to={{
                                 pathname: chapter.link,
                                 chapter: chapter.designation,
+                                state: {
+                                  from: pathname,
+                                },
                               }}
                             >
                               <Typography

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/styles'
 import { Typography } from '@material-ui/core'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
 
 function SmallScreenMenuSubItem(props) {
   const classes = useStyles()
+  const { pathname } = useLocation()
   const { chapter, rubric, handleClick } = props
   const [show, setShow] = useState(false)
 
@@ -28,6 +29,9 @@ function SmallScreenMenuSubItem(props) {
           pathname: chapter.link,
           rubric: rubric,
           chapter: chapter.designation,
+          state: {
+            from: pathname,
+          },
         }}
         onClick={handleClick}
         style={{ color: 'inherit', textDecoration: 'inherit' }}

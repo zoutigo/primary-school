@@ -1,5 +1,6 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { Redirect, useHistory, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -16,7 +17,6 @@ import {
   setIsLogged,
   setTokenValidity,
 } from '../../../../redux/user/userActions'
-import { testSettings } from '../../../../redux/settings/settingsActions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,6 +56,8 @@ const schema = yup.object().shape({
 
 function Register(props) {
   const dispatch = useDispatch()
+  const history = useHistory()
+  const { pathname } = useLocation()
 
   const classes = useStyles()
   const {
@@ -81,7 +83,7 @@ function Register(props) {
           const Token = response.headers['x-access-token']
           const splittedToken = Token.split('.')
           const tokenDatas = JSON.parse(atob(splittedToken[1]))
-          dispatch(testSettings('toto'))
+
           dispatch(
             setCredentials({
               role: tokenDatas.role,
@@ -91,11 +93,18 @@ function Register(props) {
           dispatch(setToken(Token))
           dispatch(setTokenValidity(true))
 
-          // show a welcome message
           reset()
+          dispatch(setIsLogged())
         }
       })
-      .then(() => dispatch(setIsLogged()))
+      .then(() =>
+        history.push({
+          pathname: '/private/my-account',
+          state: {
+            from: pathname,
+          },
+        })
+      )
 
       .catch((err) => {
         console.log('error:', err)

@@ -25,6 +25,12 @@ export const apiRegister = async (datas) => {
   }
 }
 export const apiLogin = async (datas) => {
-  let url = 'https://ecole-saint-augustin.herokuapp.com/users'
-  axios.get(url, datas).then((res) => res)
+  let url = 'https://ecole-saint-augustin.herokuapp.com/users/login'
+
+  try {
+    let req = await axios.post(url, datas)
+    return req
+  } catch (err) {
+    return err
+  }
 }
