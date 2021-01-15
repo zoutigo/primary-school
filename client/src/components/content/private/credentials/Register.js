@@ -14,6 +14,7 @@ import {
   setToken,
   setCredentials,
   setIsLogged,
+  setTokenValidity,
 } from '../../../../redux/user/userActions'
 import { testSettings } from '../../../../redux/settings/settingsActions'
 
@@ -88,21 +89,13 @@ function Register(props) {
             })
           )
           dispatch(setToken(Token))
+          dispatch(setTokenValidity(true))
 
-          // set token
-
-          // set is logged
-          // set credentials
           // show a welcome message
           reset()
         }
       })
       .then(() => dispatch(setIsLogged()))
-      // .then((response) => {
-      //   alert('hello')
-      //   const Tokens = response.headers['x-access-token']
-      //   dispatch(setToken(Tokens))
-      // })
 
       .catch((err) => {
         console.log('error:', err)

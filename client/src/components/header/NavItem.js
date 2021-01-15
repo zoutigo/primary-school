@@ -2,9 +2,15 @@ import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/styles'
 import { Box, Typography } from '@material-ui/core'
 
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink, useLocation, useHistory } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
 
 import { useEffect } from 'react'
+import {
+  setCredentials,
+  setIsLogged,
+  setToken,
+} from '../../redux/user/userActions'
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -122,7 +128,11 @@ function NavItem({ rubric }) {
 
   const classes = useStyles()
   const location = useLocation()
+  const dispatch = useDispatch()
+  const history = useHistory()
 
+  const { isLogged, Token } = useSelector((state) => state.user)
+  const { tokenIsValid } = Token
   const [clicked, setClicked] = useState(false)
 
   const activeRoot =
@@ -146,6 +156,13 @@ function NavItem({ rubric }) {
       window.removeEventListener('mousemove', handleClick)
     }
   }, [clicked])
+
+  const handleLoggout = () => {
+    dispatch(setIsLogged())
+    dispatch(setToken(null))
+    dispatch(setCredentials({}))
+    history.push('/')
+  }
 
   return (
     <div
@@ -175,57 +192,81 @@ function NavItem({ rubric }) {
 
       <div className={`${classes.dropdownContent} `}>
         {categories &&
-          categories.map((item, index) => {
-            return (
-              <div
-                key={index}
-                className={`${classes.dropdownLink} `}
-                onClick={() => setClicked(true)}
-              >
-                <NavLink
-                  to={{
-                    pathname: item.link,
-                    rubric: name,
-                    category: item.designation,
-                    chapters: item.chapters,
-                  }}
-                  style={{ color: 'inherit', textDecoration: 'inherit' }}
+          categories.map(
+            (category, index) => {
+              return rubric.alias === 'private' &&
+                isLogged &&
+                (category.alias === 'login' ||
+                  category.alias === 'register') ? null : rubric.alias ===
+                  'private' &&
+                !isLogged &&
+                (category.alias === 'loggout' ||
+                  category.alias === 'my-account') ? null : (
+                <div
+                  key={index}
+                  className={`${classes.dropdownLink} `}
+                  onClick={() => setClicked(true)}
                 >
-                  <Typography variant="h6" style={{ marginLeft: '8px' }}>
-                    {' '}
-                    {item.designation}{' '}
-                  </Typography>
-                </NavLink>
-                <div>
-                  {item.chapters &&
-                    item.chapters.map((chapter, ind) => {
-                      return (
-                        <li key={ind}>
-                          <NavLink
-                            style={{
-                              color: 'inherit',
-                              textDecoration: 'inherit',
-                            }}
-                            to={{
-                              pathname: chapter.link,
-                              chapter: chapter.designation,
-                            }}
-                          >
-                            <Typography
-                              variant="h6"
-                              style={{ marginLeft: '8px', marginRight: '8px' }}
+                  {category.alias === 'loggout' ? (
+                    <Typography
+                      variant="h6"
+                      style={{ marginLeft: '8px', cursor: 'pointer' }}
+                      onClick={handleLoggout}
+                    >
+                      {category.designation}
+                    </Typography>
+                  ) : (
+                    <NavLink
+                      to={{
+                        pathname: category.link,
+                        rubric: name,
+                        category: category.designation,
+                        chapters: category.chapters,
+                      }}
+                      style={{ color: 'inherit', textDecoration: 'inherit' }}
+                    >
+                      <Typography variant="h6" style={{ marginLeft: '8px' }}>
+                        {' '}
+                        {category.designation}{' '}
+                      </Typography>
+                    </NavLink>
+                  )}
+
+                  <div>
+                    {category.chapters &&
+                      category.chapters.map((chapter, ind) => {
+                        return (
+                          <li key={ind}>
+                            <NavLink
+                              style={{
+                                color: 'inherit',
+                                textDecoration: 'inherit',
+                              }}
+                              to={{
+                                pathname: chapter.link,
+                                chapter: chapter.designation,
+                              }}
                             >
-                              {' '}
-                              {chapter.designation}{' '}
-                            </Typography>
-                          </NavLink>
-                        </li>
-                      )
-                    })}
+                              <Typography
+                                variant="h6"
+                                style={{
+                                  marginLeft: '8px',
+                                  marginRight: '8px',
+                                }}
+                              >
+                                {' '}
+                                {chapter.designation}{' '}
+                              </Typography>
+                            </NavLink>
+                          </li>
+                        )
+                      })}
+                  </div>
                 </div>
-              </div>
-            )
-          })}
+              )
+            }
+            // end of the map
+          )}
       </div>
     </div>
   )

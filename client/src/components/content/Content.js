@@ -1,13 +1,14 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { makeStyles, useTheme } from '@material-ui/styles'
 import { useLocation } from 'react-router-dom'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
-
 import { Switch, Route } from 'react-router-dom'
+
+import { setIsLogged, setTokenValidity } from '../../redux/user/userActions'
+
 import { rubricComponents } from '../../utils/navComponents'
 import ErrorPage from './ErrorPage'
-import SmallScreenToogleShow from './HighOrderComponents/SmallScreenToogleShow'
 import rubrics from '../../utils/rubrics'
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
 function Content() {
   const theme = useTheme()
   const classes = useStyles()
+  const dispatch = useDispatch()
   const { pathname } = useLocation()
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'))
@@ -88,6 +90,20 @@ function Content() {
       })
     }
   })
+
+  // Update Token validity check
+  const token = useSelector((state) => state.user.Token.token)
+  const tokenExp = token ? JSON.parse(atob(token.split('.')[1])).exp : null
+  React.useEffect(() => {
+    if (!tokenExp) {
+      dispatch(setTokenValidity(false))
+    } else if (Date.now() >= tokenExp * 1000) {
+      dispatch(setTokenValidity(false))
+      dispatch(setIsLogged())
+    } else {
+      dispatch(setTokenValidity(true))
+    }
+  }, [pathname])
 
   return (
     <div

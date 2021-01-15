@@ -33,6 +33,9 @@ import Apel from '../components/content/ApelOgec/Apel'
 import Ogec from '../components/content/ApelOgec/Ogec'
 import SubMenuCardGroup from '../components/content/SubMenuCardGroup'
 import Papers from '../components/content/papers/Papers'
+import Login from '../components/content/private/credentials/Login'
+import Register from '../components/content/private/credentials/Register'
+import Account from '../components/content/private/personal/Account'
 
 const rubrics = [
   {
@@ -366,6 +369,32 @@ const rubrics = [
       exact: true,
     },
     subdisplay: false,
+    categories: [
+      {
+        designation: 'Login',
+        link: '/private/login',
+        alias: 'login',
+        route: { path: '/private/login', exact: true, component: Login },
+      },
+      {
+        designation: 'Inscription',
+        link: '/private/register',
+        alias: 'register',
+        route: { path: '/private/register', exact: true, component: Register },
+      },
+      {
+        designation: 'Mon Espace',
+        link: '/private/my-account',
+        alias: 'my-account',
+        route: { path: '/private/my-account', exact: true, component: Account },
+      },
+      {
+        designation: 'Se Deconnecter',
+        link: '/apel-ogec/ogec',
+        alias: 'loggout',
+        route: { path: '/apel-ogec/ogec', exact: true, component: Ogec },
+      },
+    ],
   },
 ]
 

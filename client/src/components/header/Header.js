@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppBar, Toolbar, Box, IconButton, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import { NavLink, useLocation } from 'react-router-dom'
-import { setTokenValidity } from '../../redux/user/userActions'
 
 import { toogleSmallScreenMenu } from '../../redux/settings/settingsActions'
 
@@ -91,22 +90,6 @@ function Header() {
 
   const { pathname } = useLocation()
   const exception = pathname === '/'
-
-  // Update Token validity check
-  //   const token = useSelector((state) => state.user.Token.token)
-  //   const tokenExp = token ? JSON.parse(atob(token.split('.')[1])).exp : null
-  //   React.useEffect(() => {
-  //     console.log('tokenExp:', tokenExp)
-  //     if (!tokenExp) {
-  //       dispatch(setTokenValidity(false))
-  //     } else if (Date.now() >= tokenExp * 1000) {
-  //       dispatch(setTokenValidity(false))
-  //     } else {
-  //       dispatch(setTokenValidity(true))
-  //     }
-  //   }, [pathname])
-
-  //
 
   useEffect(() => {
     const handleScroll = () => {
