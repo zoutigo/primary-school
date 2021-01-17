@@ -7,20 +7,20 @@ import { useSelector } from 'react-redux'
 import { apiFecthMyDatas } from '../../../../utils/api'
 
 function MyDatas(props) {
-  const id = useSelector((state) => state.user.id)
+  const id = useSelector((state) => state.user.Credentials.id)
   const { isLoading, isError, data, error } = useQuery(
     'MyDatas',
-    apiFecthMyDatas()
+    apiFecthMyDatas(id)
   )
   const image = require('../../../../images/rubrics/classes/primary.jpg')
+  if (isError) {
+    return <div> {error.message}</div>
+  }
   if (isLoading) {
     return <div>... is loading</div>
   }
-  if (isError) {
-    return <div> {error}</div>
-  }
 
-  console.log(data)
+  console.log('data:', data)
   return (
     <Grid container className={props.classes.root}>
       <Grid item sm={12} md={6}>

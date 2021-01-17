@@ -1,6 +1,4 @@
 import axios from 'axios'
-import React from 'react'
-import { useQuery } from 'react-query'
 
 export const apiCheckEmail = async (value) => {
   const data = { email: value }
@@ -40,5 +38,5 @@ export const apiLogin = async (datas) => {
 export const apiFecthMyDatas = (id) => {
   let url = `https://ecole-saint-augustin.herokuapp.com/users/${id}`
 
-  axios.get(url).then((res) => res.json())
+  axios.get(url).then((res) => res)
 }

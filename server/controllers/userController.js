@@ -114,19 +114,19 @@ module.exports.userView = async (req, res) => {
     return res.status(400).send("There is an error in your request");
 
   let user = await User.findOne({ _id: req.params.id });
-  if (!user) return res.status(400).send("There is no user available");
+  if (!user) return next(new BadRequest("no user found with that id"));
 
-  return res.status(200).send(`The user is ${user}`);
+  return res.status(200).send(user);
 };
 
 module.exports.userModify = async (req, res) => {
   if (!req.params || !req.body)
-    return res.status(400).send("There is an error in your request");
+    return next(new BadRequest("There is an error in your request"));
 
   let user = await User.findOneAndUpdate({ _id: req.params.id }, req.body);
-  if (!user) return res.status(400).send("There is no user available");
+  if (!user) return next(new BadRequest("no user found with that id"));
 
-  return res.status(200).send(`The user is ${user}`);
+  return res.status(200).send(user);
 };
 
 module.exports.userList = async (req, res) => {
