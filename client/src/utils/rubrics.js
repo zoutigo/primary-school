@@ -386,7 +386,7 @@ const rubrics = [
         designation: 'Mon Espace',
         link: '/private/my-account',
         alias: 'my-account',
-        route: { path: '/private/my-account', exact: true, component: Account },
+        route: { path: '/private/my-account', exact: true, component: Private },
       },
       {
         designation: 'Se Deconnecter',

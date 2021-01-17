@@ -99,7 +99,7 @@ function Register(props) {
       })
       .then(() =>
         history.push({
-          pathname: '/private/my-account',
+          pathname: '/private',
           state: {
             from: pathname,
           },

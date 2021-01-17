@@ -19,6 +19,32 @@ import {
 import TabPanelContent from './TabPanelContent'
 import PaperForm from './PaperForm'
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
+    marginTop: '1em',
+    width: '100%',
+    '& >div': {
+      width: '100%',
+      padding: '0 0.5em',
+    },
+  },
+  appbar: {
+    margin: 'auto',
+    background: 'blue',
+    '& ~div': {
+      background: 'pink',
+      width: '100%',
+      textAlign: 'left',
+      margin: 'auto',
+    },
+    [theme.breakpoints.down('md')]: {
+      width: '100%',
+    },
+  },
+}))
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props
 
@@ -52,28 +78,6 @@ function a11yProps(index) {
   }
 }
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-    marginTop: '1em',
-    width: '100%',
-  },
-  appbar: {
-    width: '90%',
-    margin: 'auto',
-    background: 'blue',
-    '& ~div': {
-      background: 'pink',
-      width: '90%',
-      margin: 'auto',
-    },
-    [theme.breakpoints.down('md')]: {
-      width: '100%',
-    },
-  },
-}))
-
 function Papers() {
   const classes = useStyles()
   const { pathname } = useLocation()
@@ -100,7 +104,7 @@ function Papers() {
     !pageActualites && setOpenPapers(true)
   }, [pathname])
 
-  const tabs = ['summary', 'news', 'articles', 'events', 'important']
+  const tabs = ['Mon fil', 'articles', 'events', 'important']
   const TabPanelContainer = (props) => {
     const { tab } = props
     return (
