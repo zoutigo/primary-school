@@ -14,7 +14,7 @@ import returnStoreAndPersistor from './redux/store'
 
 import { PersistGate } from 'redux-persist/integration/react'
 
-import { useQuery, QueryCache, ReactQueryCacheProvider } from 'react-query'
+import { QueryCache, ReactQueryCacheProvider } from 'react-query'
 
 const { store, persistor } = returnStoreAndPersistor()
 
@@ -29,17 +29,15 @@ const queryCache = new QueryCache({
 
 ReactDOM.render(
   <React.StrictMode>
-    <ReactQueryCacheProvider queryCache={queryCache}>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <Router>
-            <ThemeProvider theme={theme}>
-              <App />
-            </ThemeProvider>
-          </Router>
-        </PersistGate>
-      </Provider>
-    </ReactQueryCacheProvider>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <Router>
+          <ThemeProvider theme={theme}>
+            <App />
+          </ThemeProvider>
+        </Router>
+      </PersistGate>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 )

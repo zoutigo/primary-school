@@ -35,8 +35,24 @@ export const apiLogin = async (datas) => {
   }
 }
 
-export const apiFecthMyDatas = (id) => {
-  let url = `https://ecole-saint-augustin.herokuapp.com/users/${id}`
+export const apiFecthUserDatas = async (id) => {
+  let url = `http://localhost:3500/users/${id}`
 
-  axios.get(url).then((res) => res)
+  let result = await fetch(
+    'http://localhost:3500/users/5ff991c7eba87d14d21fa08f'
+  ).then((res) => {
+    return res
+  })
+
+  return result.json()
+
+  // axios.get(url).then((res) => res)
 }
+
+// const getTodos = () => (
+//   fetch('https://jsonplaceholder.typicode.com/todos').then((res) => res.json())
+// );
+
+// export {
+//   getTodos
+// };

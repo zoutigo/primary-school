@@ -1,26 +1,35 @@
 import React from 'react'
 import { withStyles } from '@material-ui/styles'
 import myDatasStyle from './myDatasStyle'
-import { Grid, Paper } from '@material-ui/core'
+import { Grid, Paper, Button } from '@material-ui/core'
 import { useQuery } from 'react-query'
 import { useSelector } from 'react-redux'
-import { apiFecthMyDatas } from '../../../../utils/api'
+import { apiFecthUserDatas } from '../../../../utils/api'
 
 function MyDatas(props) {
   const id = useSelector((state) => state.user.Credentials.id)
-  const { isLoading, isError, data, error } = useQuery(
-    'MyDatas',
-    apiFecthMyDatas(id)
+  const url = `http://localhost:3500/users/${id}`
+
+  const query = useQuery(
+    'users',
+    async () => {
+      const result = await fetch(url)
+      return result.json()
+    }
+    // apiFecthUserDatas(id)
   )
   const image = require('../../../../images/rubrics/classes/primary.jpg')
-  if (isError) {
-    return <div> {error.message}</div>
+
+  const handleClick = () => {}
+
+  if (query.isError) {
+    return <div> {query.error.message}</div>
   }
-  if (isLoading) {
-    return <div>... is loading</div>
+  if (query.isLoading) {
+    return <div>... is Loading</div>
   }
 
-  console.log('data:', data)
+  console.log('query:', query)
   return (
     <Grid container className={props.classes.root}>
       <Grid item sm={12} md={6}>
@@ -29,7 +38,7 @@ function MyDatas(props) {
       <Grid item sm={12} md={6} style={{ paddingTop: '1em' }}>
         <div className={props.classes.dataGroup}>
           <div>Nom: </div>
-          <div> Minet</div>
+          <div> {query.data && query.data.name}</div>
         </div>
         <div className={props.classes.dataGroup}>
           <div>Prenom: </div>
@@ -41,7 +50,7 @@ function MyDatas(props) {
         </div>
         <div className={props.classes.dataGroup}>
           <div>Role: </div>
-          <div> enseignant</div>
+          <div> {query.data && query.data.role}</div>
         </div>
         <div className={props.classes.dataGroup}>
           <div>Date d'inscription: </div>
@@ -50,6 +59,9 @@ function MyDatas(props) {
         <div className={props.classes.dataGroup}>
           <div>Dernière connexion: </div>
           <div> Etienne</div>
+        </div>
+        <div className={props.classes.dataGroup}>
+          <Button onClick={handleClick}> Actualiser</Button>
         </div>
       </Grid>
     </Grid>
