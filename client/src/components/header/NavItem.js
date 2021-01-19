@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, useTheme } from '@material-ui/styles'
+import purple from '@material-ui/core/colors/purple'
+import yellow from '@material-ui/core/colors/yellow'
 import { Box, Typography } from '@material-ui/core'
 
 import { NavLink, useLocation, useHistory } from 'react-router-dom'
@@ -11,6 +13,7 @@ import {
   setIsLogged,
   setToken,
 } from '../../redux/user/userActions'
+import { indigo } from '@material-ui/core/colors'
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -55,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     background: 'transparent',
     minWidth: '15em',
     '&:hover': {
-      background: theme.palette.success.light,
+      background: theme.palette.secondary.light,
       color: 'red',
     },
   },
@@ -95,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
     minHeight: theme.spacing(5),
     borderTop: 'white solid 1px',
     '&:hover ': {
-      background: theme.palette.success.light,
+      background: theme.palette.secondary.light,
       color: theme.palette.error.main,
       '& div': {
         display: 'inline-block',
@@ -112,19 +115,20 @@ const useStyles = makeStyles((theme) => ({
       '& li': {
         display: 'block',
         minHeight: '3em',
-        background: theme.palette.third.dark,
+        background: theme.palette.primary.light,
         color: 'black',
         borderTop: 'white solid 1px',
       },
       '& li:hover': {
-        background: theme.palette.success.light,
+        background: theme.palette.secondary.light,
         color: theme.palette.error.main,
       },
     },
   },
 }))
 
-function NavItem({ rubric }) {
+function NavItem({ rubric, ind }) {
+  const theme = useTheme()
   const { name, link, icon, categories } = rubric
 
   const classes = useStyles()
@@ -165,6 +169,14 @@ function NavItem({ rubric }) {
     dispatch(setCredentials({}))
     history.push('/')
   }
+  const Red = theme.palette.error.main
+  const Yellow = yellow[500]
+  const Green = theme.palette.success.light
+  const Purple = purple[300]
+  const Orange = theme.palette.warning.dark
+  const Blue = theme.palette.info.light
+
+  const iconsColors = [Red, Yellow, Green, Purple, Orange, Blue]
 
   return (
     <div
@@ -172,7 +184,13 @@ function NavItem({ rubric }) {
       style={{ minHeight: '100%' }}
     >
       <nav onClick={() => setClicked(true)}>
-        <div className={`${classes.icon} ${activeIcon}`}> {icon} </div>
+        <div
+          className={`${classes.icon} ${activeIcon}`}
+          style={{ color: `${iconsColors[ind - 1]}` }}
+        >
+          {' '}
+          {icon}{' '}
+        </div>
         <div className={classes.link}>
           <NavLink
             to={{

@@ -58,7 +58,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
   scrolledStyle: {
-    background: theme.palette.success.main,
+    // background: theme.palette.primary.main,
+    background: `linear-gradient(to bottom, ${theme.palette.primary.main} 75%, ${theme.palette.primary.light})`,
     boxShadow: 'inherit',
     transition: 'background 1s ease',
   },
@@ -158,7 +159,7 @@ function Header() {
           <Grid item md={10} lg={10}>
             {rubrics.map((rubric, index) => {
               if (rubric.alias !== 'home') {
-                return <NavItem key={index} rubric={rubric} />
+                return <NavItem key={index} rubric={rubric} ind={index} />
               }
               return null
             })}

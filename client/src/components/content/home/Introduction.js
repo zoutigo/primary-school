@@ -4,20 +4,15 @@ import { makeStyles } from '@material-ui/styles'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    background: theme.palette.third.main,
+    background: theme.palette.info.light,
     minWidth: '100%',
+    minHeight: '50vh',
   },
 }))
 
 function Introduction() {
   const classes = useStyles()
-  return (
-    <div style={{ minHeight: '10vh' }} className={classes.root}>
-      <Typography variant="h2">
-        Bienvenue sur le site de l'école St Augustin de Crémieu.
-      </Typography>
-    </div>
-  )
+  return <div className={classes.root}></div>
 }
 
 export default Introduction
