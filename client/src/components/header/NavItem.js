@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
   link: {
     textAlign: 'center',
     background: 'transparent',
+    minWidth: '15em',
     '&:hover': {
       background: theme.palette.success.light,
       color: 'red',

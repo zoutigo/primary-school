@@ -5,28 +5,30 @@ import { makeStyles } from '@material-ui/styles'
 import { NavLink, useLocation } from 'react-router-dom'
 
 import { toogleSmallScreenMenu } from '../../redux/settings/settingsActions'
-
-import Navigation from './Navigation'
+import NavItem from './NavItem'
 
 import MenuIcon from '@material-ui/icons/Menu'
 import CancelIcon from '@material-ui/icons/Cancel'
 
-import logo from '../../images/logo.png'
+import logo from '../../images/logo3.png'
+import rubrics from '../../utils/rubrics'
 
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: '0px',
     margin: '0px',
+    maxHeight: '12vh',
+    marginTop: '10vh',
   },
-  toolbar: {
-    display: 'flex',
-    justifyContent: 'space-betwween',
-    alignItems: 'center',
-    maxWidth: '100vw',
-    minWidth: '100vw',
-    minHeight: '12vh',
-  },
-
+  // toolbar: {
+  //   display: 'flex',
+  //   justifyContent: 'space-betwween',
+  //   alignItems: 'center',
+  //   maxWidth: '100vw',
+  //   minWidth: '100vw',
+  //   minHeight: '12vh',
+  // },
+  toolbar: {},
   contentLarge: {
     minWidth: '85vw',
     display: 'flex',
@@ -77,6 +79,26 @@ const useStyles = makeStyles((theme) => ({
   burgerColor: {
     color: theme.palette.warning.light,
   },
+  logo: {
+    background: 'none',
+    width: '9vw',
+  },
+  medium: {
+    minHeight: '12vh',
+    '& > *': {
+      minHeight: '12vh',
+    },
+    '& >:first-child': {
+      textAlign: 'center',
+      paddingTop: '0.7%',
+    },
+    '& >:last-child': {
+      display: 'flex',
+      justifyContent: 'space-around',
+      alignItems: 'flex-end',
+      overflow: 'hidden',
+    },
+  },
 }))
 
 function Header() {
@@ -106,10 +128,10 @@ function Header() {
     }
   }, [])
 
-  const Logo = ({ className }) => {
+  const Logo = () => {
     return (
       <NavLink to="/" style={{ color: 'inherit', textDecoration: 'inherit' }}>
-        <img src={logo} alt="logo" className={className} />
+        <img src={logo} alt="logo" className={classes.logo} />
       </NavLink>
     )
   }
@@ -124,14 +146,24 @@ function Header() {
   return (
     <AppBar className={`${classes.root} ${headerColor}`}>
       <Toolbar className={classes.toolbar}>
-        <div className={classes.contentLarge}>
-          <div>
-            <Logo className={classes.logoLarge} />
-          </div>
-          <div>
-            <Navigation />
-          </div>
-        </div>
+        <Grid
+          container
+          className={classes.medium}
+          display="flex"
+          alignItems="center"
+        >
+          <Grid item md={2} lg={2}>
+            <Logo className={classes.logo} />
+          </Grid>
+          <Grid item md={10} lg={10}>
+            {rubrics.map((rubric, index) => {
+              if (rubric.alias !== 'home') {
+                return <NavItem key={index} rubric={rubric} />
+              }
+              return null
+            })}
+          </Grid>
+        </Grid>
 
         <Box className={classes.contentSmall}>
           <Logo className={`${classes.smallIconsSizes} `} />
