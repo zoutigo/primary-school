@@ -75,7 +75,10 @@ const useStyles = makeStyles((theme) => ({
   },
   logo: {
     background: 'none',
-    width: '9vw',
+    width: '9rem',
+    [theme.breakpoints.up('md')]: {
+      width: '9rem',
+    },
   },
   medium: {
     minHeight: '12vh',
@@ -84,13 +87,17 @@ const useStyles = makeStyles((theme) => ({
     },
     '& >:first-child': {
       textAlign: 'center',
-      paddingTop: '0.7%',
+      paddingTop: '1.7%',
     },
     '& >:last-child': {
+      alignSelf: 'center',
       display: 'flex',
       justifyContent: 'space-around',
       alignItems: 'flex-end',
       overflow: 'hidden',
+    },
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
     },
   },
 }))
@@ -125,12 +132,7 @@ function Header() {
   return (
     <AppBar className={`${classes.root} ${headerColor}`}>
       <Toolbar className={classes.toolbar}>
-        <Grid
-          container
-          className={classes.medium}
-          display="flex"
-          alignItems="center"
-        >
+        <Grid container className={classes.medium} display="flex">
           <Grid item md={2} lg={2}>
             <Logo className={classes.logo} />
           </Grid>

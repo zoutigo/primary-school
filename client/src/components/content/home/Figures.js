@@ -19,6 +19,9 @@ const useStyles = makeStyles((theme) => ({
     '& >div': {
       width: '50%',
       background: theme.palette.primary.light,
+      //   [theme.breakpoints.down('md')]: {
+      //     width: '80%',
+      //   },
 
       margin: '0 auto',
       borderRadius: '5px',
@@ -44,7 +47,15 @@ function Figures() {
     const { item } = props
     const [name, count] = item
     return (
-      <Grid item sm={12} md={6} lg={3} display="flex" className={classes.card}>
+      <Grid
+        item
+        xs={12}
+        sm={12}
+        md={6}
+        lg={3}
+        display="flex"
+        className={classes.card}
+      >
         <div>
           <Typography variant="h3">{count} </Typography>
           <Typography variant="h4">{name}</Typography>

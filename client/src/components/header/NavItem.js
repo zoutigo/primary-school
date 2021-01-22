@@ -13,7 +13,6 @@ import {
   setIsLogged,
   setToken,
 } from '../../redux/user/userActions'
-import { indigo } from '@material-ui/core/colors'
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -56,11 +55,15 @@ const useStyles = makeStyles((theme) => ({
   link: {
     textAlign: 'center',
     background: 'transparent',
-    minWidth: '15em',
+
+    minWidth: 'calc(100%/6)',
     '&:hover': {
       background: theme.palette.secondary.main,
       color: theme.palette.primary.main,
     },
+    // [theme.breakpoints.up('lg')]: {
+    //   minWidth: '13rem',
+    // },
   },
   hide: {
     display: 'none',
@@ -69,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'block',
   },
   root: {
-    '&:hover': {
+    '& :hover': {
       // background:theme.palette.primary.main,
       '& >div': {
         display: 'block',
@@ -176,7 +179,7 @@ function NavItem({ rubric, ind }) {
   const Orange = theme.palette.warning.dark
   const Blue = theme.palette.info.light
 
-  const iconsColors = [Red, Yellow, Green, Purple, Orange, Blue]
+  const iconsColors = [Blue, Yellow, Green, Purple, Orange, Red]
 
   return (
     <div

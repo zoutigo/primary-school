@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
     '& div *': {
       margin: '1em 0',
     },
+    [theme.breakpoints.down('md')]: {
+      display: 'none',
+    },
   },
 }))
 
