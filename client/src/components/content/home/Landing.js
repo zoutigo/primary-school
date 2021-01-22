@@ -8,15 +8,16 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '100vw',
     minHeight: '93vh',
-    backgroundSize: 'cover',
+    backgroundSize: '2100px',
     backgroundRepeat: 'no-repeat',
     backgroundPositionY: '-8vh',
-    backgroundPosition: 'top  , right',
+    backgroundPosition: 'bottom, left',
     background: `linear-gradient(to top, transparent 80%, ${theme.palette.primary.main}),
-        url(${image}) fixed`,
+        url(${image}) `,
     position: 'relative',
     [theme.breakpoints.down('md')]: {
       background: 'none',
+      backgroundSize: 'cover',
     },
   },
   banner: {
@@ -33,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   land: {
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
+    },
     minwidth: '100vw',
     minHeight: '50vw',
     marginTop: '9vh !important',
@@ -43,6 +47,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   text: {
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
+    },
     color: theme.palette.secondary.main,
     '& h3': {
       margin: '2rem 0.7rem 2rem 0.7rem',

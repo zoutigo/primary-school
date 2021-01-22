@@ -25,9 +25,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(1),
     display: 'inline-block',
   },
-  bottom: {},
-  rootActive: {},
-  rootNotActive: {},
+
   iconActive: {
     color: theme.palette.common.black,
     transform: 'scale(1.5)',
