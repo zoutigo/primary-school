@@ -45,15 +45,14 @@ const useStyles = makeStyles((theme) => ({
     background: theme.palette.primary.main,
     // marginBottom: theme.spacing(3)
   },
-  hoveredLink: {
-    textAlign: 'center',
-    background: 'green',
-    color: 'red',
-  },
+  // hoveredLink: {
+  //   textAlign: 'center',
+  //   background: 'green',
+  //   color: 'red',
+  // },
   link: {
     textAlign: 'center',
     background: 'transparent',
-
     minWidth: 'calc(100%/6)',
     '&:hover': {
       background: theme.palette.secondary.main,
@@ -70,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'block',
   },
   root: {
-    '& :hover': {
+    '&:hover': {
       // background:theme.palette.primary.main,
       '& >div': {
         display: 'block',
