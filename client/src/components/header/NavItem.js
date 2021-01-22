@@ -58,8 +58,8 @@ const useStyles = makeStyles((theme) => ({
     background: 'transparent',
     minWidth: '15em',
     '&:hover': {
-      background: theme.palette.secondary.light,
-      color: 'red',
+      background: theme.palette.secondary.main,
+      color: theme.palette.primary.main,
     },
   },
   hide: {
@@ -98,8 +98,8 @@ const useStyles = makeStyles((theme) => ({
     minHeight: theme.spacing(5),
     borderTop: 'white solid 1px',
     '&:hover ': {
-      background: theme.palette.secondary.light,
-      color: theme.palette.error.main,
+      background: theme.palette.secondary.main,
+      color: theme.palette.primary.main,
       '& div': {
         display: 'inline-block',
       },
@@ -120,8 +120,8 @@ const useStyles = makeStyles((theme) => ({
         borderTop: 'white solid 1px',
       },
       '& li:hover': {
-        background: theme.palette.secondary.light,
-        color: theme.palette.error.main,
+        background: theme.palette.secondary.main,
+        color: theme.palette.primary.main,
       },
     },
   },

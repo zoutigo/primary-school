@@ -48,6 +48,7 @@ const rubrics = [
       exact: true,
     },
     subdisplay: false,
+
     categories: [],
   },
 
@@ -61,6 +62,7 @@ const rubrics = [
       exact: true,
     },
     subdisplay: false,
+
     categories: [
       {
         designation: 'Equipe pedagogique',
@@ -115,11 +117,12 @@ const rubrics = [
       exact: true,
     },
     subdisplay: false,
+
     categories: [
       {
         designation: 'Cantine',
         link: '/vie-scolaire/cantine',
-        alias: 'ct',
+        alias: 'cantine',
         route: {
           path: '/vie-scolaire/cantine',
           exact: true,

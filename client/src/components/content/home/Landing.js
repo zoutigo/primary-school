@@ -1,12 +1,12 @@
 import React from 'react'
-import { makeStyles, Typography } from '@material-ui/core'
-
+import { makeStyles, Paper, Typography } from '@material-ui/core'
+import { useSelector } from 'react-redux'
 import image from '../../../images/rubrics/home/landing/land6.JPG'
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100vw',
-    minHeight: '99vh',
+    minHeight: '93vh',
     backgroundSize: '2100px',
     backgroundRepeat: 'no-repeat',
     backgroundPositionY: '-8vh',
@@ -14,56 +14,34 @@ const useStyles = makeStyles((theme) => ({
     background: `linear-gradient(to top, transparent 80%, ${theme.palette.primary.main}),
         url(${image})`,
     position: 'relative',
-    '& div': {
-      position: 'absolute',
-      left: '5vw',
-    },
-    '& div:first-child': {
-      bottom: '48vh',
-      color: 'white',
-      fontSize: '7em',
-      fontWeight: 'bold',
-      '& span': {
-        fontSize: '40px',
-        color: theme.palette.info.light,
-      },
-    },
-    '& div:nth-child(2)': {
-      bottom: '30vh',
-      fontSize: '5em',
-      color: 'white',
-      fontWeight: 'bold',
-      letterSpacing: '1px',
-    },
-    '& div:last-child': {
-      bottom: '11vh',
-      fontSize: '2em',
-      color: theme.palette.info.light,
-      letterSpacing: '1px',
-      fontWeight: 'bold',
-    },
   },
-
-  cremieu: {
+  banner: {
     position: 'absolute',
-    bottom: '11vh',
-    left: '45vw',
-    color: 'white',
-    letterSpacing: '2px',
+    bottom: '0vh',
+    left: '4vw',
+    height: '15vh',
+    paddingLeft: '2vw !important',
+    paddingRight: '2vw !important',
+    color: theme.palette.secondary.main,
+    background: 'rgba(255, 239, 211, 0.3)',
   },
 }))
 
 function Landing() {
   const classes = useStyles()
-  return (
-    <div className={classes.root}>
-      <div className={classes.welcome}>
-        ECOLE ST AUGUSTIN <span>Crémieu</span>
-      </div>
-      <div> Etablissement Privé Catholique </div>
-      <div> Programmes du ministère de l'éducation nationale</div>
-    </div>
-  )
+  const Scroll = useSelector((state) => state.settings.Scroll)
+
+  const Banner = () => {
+    return (
+      <Paper className={classes.banner} elevation={3}>
+        <Typography variant="h1">ECOLE SAINT AUGUSTIN</Typography>
+        <Typography variant="h3">
+          Etablissement Privé Catholique, Crémieu{' '}
+        </Typography>
+      </Paper>
+    )
+  }
+  return <div className={classes.root}>{!Scroll && <Banner />}</div>
 }
 
 export default Landing

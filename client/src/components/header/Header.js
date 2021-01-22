@@ -20,14 +20,7 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: '12vh',
     marginTop: '10vh',
   },
-  // toolbar: {
-  //   display: 'flex',
-  //   justifyContent: 'space-betwween',
-  //   alignItems: 'center',
-  //   maxWidth: '100vw',
-  //   minWidth: '100vw',
-  //   minHeight: '12vh',
-  // },
+
   toolbar: {},
   contentLarge: {
     minWidth: '85vw',
@@ -105,29 +98,14 @@ const useStyles = makeStyles((theme) => ({
 function Header() {
   const dispatch = useDispatch()
   const classes = useStyles()
-  const [scroll, setScroll] = useState(false)
-  const headerColor = scroll ? classes.scrolledStyle : classes.unscrolledStyle
+  const Scroll = useSelector((state) => state.settings.Scroll)
+  const headerColor = Scroll ? classes.scrolledStyle : classes.unscrolledStyle
   const smallScreenMenuIsOpened = useSelector(
     (state) => state.settings.smallScreenMenuIsOpened
   )
 
   const { pathname } = useLocation()
   const exception = pathname === '/'
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.pageYOffset > 0) {
-        setScroll(true)
-      } else {
-        setScroll(false)
-      }
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
 
   const Logo = () => {
     return (

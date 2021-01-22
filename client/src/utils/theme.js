@@ -21,6 +21,15 @@ let theme = createMuiTheme({
     },
   },
   typography: {
+    body1: {
+      fontFamily: "'Raleway','Roboto','sans-serif",
+      fontSize: '2rem',
+      letterSpacing: 2,
+    },
+    h2: {
+      fontSize: '4rem',
+      fontFamily: "'Poppins','sans-serif'",
+    },
     h6: {
       fontSize: '1em',
       fontFamily: "'Poppins', 'Raleway'",
@@ -28,10 +37,15 @@ let theme = createMuiTheme({
       lineHeight: 3,
     },
     h1: {
-      fontFamily: "Raleway', 'Poppins', sans-serif",
-      fontSize: '8em',
+      fontFamily: "'Poppins','Raleway', sans-serif",
+      fontSize: '5em',
+      fontWeight: 'bold',
       letterSpacing: '1px',
-      lineHeight: 4,
+      lineHeight: 1.2,
+    },
+    subtitle1: {
+      fontFamily: 'sans-serif',
+      letterSpacing: 1,
     },
   },
   overrides: {

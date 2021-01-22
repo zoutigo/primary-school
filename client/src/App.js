@@ -14,13 +14,13 @@ import Footer from './components/footer/Footer'
 import HeadModules from './components/content/HeadModules'
 
 import SmallScreenMenu from './components/content/SmallScreenMenu'
-
+import { useScroll } from './utils/hooks'
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: Infinity,
       refetchOnWindowFocus: true,
-      refetchOnMount: true,
+      refetchOnMount: false,
     },
   },
 })
@@ -39,6 +39,7 @@ const useStyles = makeStyles({
 
 function App() {
   const classes = useStyles()
+  useScroll()
 
   return (
     <QueryClientProvider client={queryClient}>
