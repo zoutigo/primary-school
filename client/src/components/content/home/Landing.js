@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundRepeat: 'no-repeat',
     backgroundPositionY: '-8vh',
     backgroundPosition: 'bottom, left',
-    background: `linear-gradient(to top, transparent 80%, ${theme.palette.primary.main}),
+    background: `linear-gradient(to top, transparent 80%, white),
         url(${image}) `,
     position: 'relative',
     [theme.breakpoints.down('md')]: {

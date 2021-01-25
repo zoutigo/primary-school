@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   link: {
     textAlign: 'center',
     background: 'transparent',
-    minWidth: 'calc(100%/6)',
+    minWidth: '100%',
     '&:hover': {
       background: theme.palette.secondary.main,
       color: theme.palette.primary.main,
@@ -69,6 +69,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'block',
   },
   root: {
+    '& nav': {
+      width: '100%',
+    },
     '&:hover': {
       // background:theme.palette.primary.main,
       '& >div': {
