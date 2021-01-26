@@ -7,13 +7,16 @@ const classroomSchema = new Schema({
     type: String,
     required: true,
   },
-  _classroom_presentation: {
+  _classroom_summary: {
     type: String,
+    minlength: 10,
+    maxlength: 300,
   },
-  _classroom_level: {
+  _classroom_alias: {
     type: String,
     enum: ["ps", "ms", "gs", "ce1", "ce2", "cm1", "cm2"],
     required: true,
+    unique: true,
   },
   _classroom_teatcher: {
     type: Schema.ObjectId,

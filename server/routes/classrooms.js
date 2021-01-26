@@ -1,16 +1,17 @@
 const router = require("express").Router();
 const {
   listClassrooms,
-  getClassroom,
+
   createClassroom,
   updateClassroom,
   deleteClassroom,
+  getClassroomById,
 } = require("../controllers/classroomController");
 const { verifyToken } = require("../validators/tokens");
 
 router.get("/", listClassrooms);
 
-router.get("/:id", getClassroom);
+router.get("/:id", getClassroomById);
 
 router.post("/", verifyToken, createClassroom);
 

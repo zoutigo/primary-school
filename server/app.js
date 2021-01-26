@@ -29,6 +29,7 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
+    useCreateIndex: true,
   })
   .then(() => console.log("Connexion établie à la base de donnée"))
   .catch((err) => console.log(err));
