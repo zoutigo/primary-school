@@ -23,6 +23,21 @@ module.exports.classroomValidator = (data) => {
         name: Joi.string().required().min(10).max(30),
       });
       return schemaName.validate(data);
+    case "alias":
+      let schemaAlias = Joi.object({
+        alias: Joi.string()
+          .required()
+          .valid(
+            "petite-section",
+            "moyenne-section",
+            "grande-section",
+            "cours-elementaire-1",
+            "cours-elementaire-2",
+            "cours-moyen-1",
+            "cours-moyen-2"
+          ),
+      });
+      return schemaAlias.validate(data);
 
     case "teacher":
       let schemaTeacher = Joi.object({
@@ -34,6 +49,20 @@ module.exports.classroomValidator = (data) => {
         helper: Joi.objectId(),
       });
       return schemaHelper.validate(data);
+    case "images":
+      let schemaImages = Joi.object({
+        images: Joi.array().items(
+          Joi.object({
+            // Object schema
+          })
+        ),
+      });
+      return schemaImages.validate(data);
+    case "albums":
+      let schemaAlbums = Joi.object({
+        albums: Joi.objectId(),
+      });
+      return schemaAlbums.validate(data);
 
     default:
       return null;

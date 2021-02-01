@@ -1,10 +1,5 @@
 const User = require("../models/User");
-const {
-  loginValidator,
-  emailValidator,
-  passwordValidator,
-  roleValidator,
-} = require("../validators/users");
+const { userValidator } = require("../validators/users");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const {
@@ -16,37 +11,61 @@ const {
 } = require("../utils/errors");
 
 module.exports.userRegister = async (req, res, next) => {
-  const { email, password, role } = req.body;
-  if (!email || !password || !role) {
+  // check if req.body is not empty
+  if (Object.keys(req.body).length === 0)
     return next(new BadRequest("missing datas"));
-  }
 
-  let emailValidated = await emailValidator({ email: email });
+  const fields =
+    process.env.NODE_ENV == "development"
+      ? ["email", "password", "roles"]
+      : ["email", "password", "roles", "test"];
+  const submittedFields = fields.filter((field) => {
+    return Object.keys(req.body).includes(field) === true;
+  });
+  if (!(submittedFields.length === fields.length))
+    return next(new BadRequest("missing datas"));
+
+  const { email, password, roles } = req.body;
+
+  // data validations
+
+  let emailValidated = await userValidator({ email: email });
   if (emailValidated.error)
     return next(new BadRequest(emailValidated.error.details[0].message));
 
-  let passwordValidated = await passwordValidator({ password: password });
+  let passwordValidated = await userValidator({ password: password });
   if (passwordValidated.error)
     return next(new BadRequest(passwordValidated.error.details[0].message));
 
-  let roleValidated = await roleValidator({ role: role });
+  let roleValidated = await userValidator({ roles: roles });
   if (roleValidated.error)
     return next(new BadRequest(roleValidated.error.details[0].message));
 
   // check if email exist in database
   let emailCheck = await User.findOne({ email: email });
-  if (emailCheck) return next(new BadRequest(` email ${email} already exists`));
+  if (emailCheck) return next(new BadRequest(`email already exists`));
 
   // password hash
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
 
-  let user = new User({
-    email: email,
-    password: hashedPassword,
-    role: role,
-    createdAt: Date.now(),
-  });
+  let user = {};
+  if (process.env.NODE_ENV == "development") {
+    user = new User({
+      email: email,
+      password: hashedPassword,
+      roles: roles,
+      test: true,
+      createdAt: Date.now(),
+    });
+  } else {
+    user = new User({
+      email: email,
+      password: hashedPassword,
+      roles: roles,
+      createdAt: Date.now(),
+    });
+  }
 
   try {
     const newUser = await user.save();
@@ -54,7 +73,8 @@ module.exports.userRegister = async (req, res, next) => {
       let token = await jwt.sign(
         {
           _id: newUser._id,
-          role: newUser.role,
+          roles: newUser.roles,
+          grade: newUser.grade,
           name: newUser.name,
           firstname: newUser.firstname,
         },
@@ -73,20 +93,20 @@ module.exports.userRegister = async (req, res, next) => {
 
 module.exports.userLogin = async (req, res, next) => {
   const { email, password } = req.body;
-  // if(!req.body.email || !req.body.password) return res.status(400).send('Please enter email and password')
   if (!email || !password) {
     return next(new BadRequest("password or email missing"));
   }
-  let emailValidated = await emailValidator({ email: email });
+
+  let emailValidated = await userValidator({ email: email });
   if (emailValidated.error)
     return next(new BadRequest(emailValidated.error.details[0].message));
 
-  let passwordValidated = await passwordValidator({ password: password });
+  let passwordValidated = await userValidator({ password: password });
   if (passwordValidated.error)
     return next(new BadRequest(passwordValidated.error.details[0].message));
 
   // check if email exists
-  let userVerified = await User.findOne({ email: req.body.email });
+  let userVerified = await User.findOne({ email: email });
   if (!userVerified) return next(new BadRequest("wrong datas"));
 
   // check password
@@ -96,7 +116,8 @@ module.exports.userLogin = async (req, res, next) => {
   let token = await jwt.sign(
     {
       _id: userVerified._id,
-      role: userVerified.role,
+      roles: userVerified.roles,
+      grade: userVerified.grade,
       name: userVerified.name,
       firstname: userVerified.firstname,
     },
@@ -109,9 +130,9 @@ module.exports.userLogin = async (req, res, next) => {
     .send("successful login");
 };
 
-module.exports.userView = async (req, res) => {
-  if (!req.params)
-    return res.status(400).send("There is an error in your request");
+module.exports.userView = async (req, res, next) => {
+  const { error } = await userValidator({ id: req.params.id });
+  if (error) return next(new NotFound("Not found"));
 
   let user = await User.findOne({ _id: req.params.id });
   if (!user) return next(new BadRequest("no user found with that id"));
@@ -119,35 +140,222 @@ module.exports.userView = async (req, res) => {
   return res.status(200).send(user);
 };
 
-module.exports.userModify = async (req, res) => {
-  if (!req.params || !req.body)
-    return next(new BadRequest("There is an error in your request"));
+module.exports.userModify = async (req, res, next) => {
+  const { _id, grade: grad } = req.user;
+  const grades = ["manager", "admin"];
+  const { id } = req.params;
+  const datas = {};
+  const modifiedUser = {};
 
-  let user = await User.findOneAndUpdate({ _id: req.params.id }, req.body);
-  if (!user) return next(new BadRequest("no user found with that id"));
+  // check grade and account owner
+  const isOwner = id === _id;
+  const isGradAllowed = grades.includes(grad);
 
-  return res.status(200).send(user);
+  if (!isGradAllowed && !isOwner) {
+    return next(new Unauthorized("you are not allowed to update this profile"));
+  }
+
+  // check datas were submitted
+  if (Object.keys(req.body).length === 0)
+    return next(new BadRequest("Missing datas"));
+
+  // check only fields that could be modify are submitted.
+  const fields = [
+    "name",
+    "firstname",
+    "email",
+    "password",
+    "newPassword",
+    "newPasswordConfirm",
+    "grade",
+    "roles",
+    "action",
+  ];
+  const fieldsSubmitted = Object.keys(req.body);
+
+  const wrongFields = fieldsSubmitted.filter((field) => {
+    return fields.includes(field) === false;
+  });
+  if (wrongFields.length > 0) return next(new BadRequest("wrong datas"));
+
+  // check the user to modify exists
+  try {
+    let user = await User.findOne({ _id: id });
+    if (!user) return next(new NotFound("user not found"));
+    datas.user = user;
+  } catch (err) {
+    return next(err);
+  }
+
+  // fields validations
+  const {
+    name,
+    firstname,
+    email,
+    newPassword,
+    newPasswordConfirm,
+    password,
+    grade,
+    roles,
+    action,
+  } = req.body;
+  // name validation
+  if (name) {
+    if (isOwner) {
+      if (!(name === datas.user.name)) {
+        const { error } = await userValidator({ name: name });
+        if (error) return next(new BadRequest(error.details[0].message));
+        modifiedUser.name = name;
+      } else {
+        modifiedUser.name = name;
+      }
+    } else {
+      return next(new Unauthorized("only the owner can modify"));
+    }
+  }
+  // firstname validation
+  if (firstname) {
+    if (isOwner) {
+      if (!(firstname === datas.user.firstname)) {
+        const { error } = await userValidator({ firstname: firstname });
+        if (error) return next(new BadRequest(error.details[0].message));
+        modifiedUser.firstname = firstname;
+      } else {
+        modifiedUser.firstname = firstname;
+      }
+    } else {
+      return next(new Unauthorized("only the owner can modify"));
+    }
+  }
+  // email validation
+  if (email) {
+    if (isOwner) {
+      if (!(email === datas.user.email)) {
+        const { error } = await userValidator({ email: email });
+        if (error) return next(new BadRequest(error.details[0].message));
+        modifiedUser.email = email;
+      } else {
+        modifiedUser.email = email;
+      }
+    } else {
+      return next(new Unauthorized("only the owner can modify"));
+    }
+  }
+  // password validation
+  if (password) {
+    if (isOwner) {
+      const { password: initialPassword } = datas.user;
+
+      let passwordVerified = await bcrypt.compare(password, initialPassword);
+      if (!passwordVerified) return next(new BadRequest("wrong password"));
+
+      if (!newPassword || !newPasswordConfirm)
+        return next(new BadRequest("new passwords missing"));
+
+      if (!(newPassword === newPasswordConfirm))
+        return next(new BadRequest("passwords not matching"));
+
+      const { error } = await userValidator({ password: newPassword });
+      if (error) return next(new BadRequest(error.details[0].message));
+      // pass should be crypted
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(newPassword, salt);
+      modifiedUser.password = hashedPassword;
+    } else {
+      return next(new Unauthorized("only the owner can modify"));
+    }
+  }
+  // grade validation
+  if (grade) {
+    if (isGradAllowed) {
+      if (!(grade === datas.user.grade)) {
+        if (!(grad === "admin") && grade === "admin")
+          return next(new Unauthorized("only admin can change admin grade"));
+        const { error } = await userValidator({ grade: grade });
+        if (error) return next(new BadRequest(error.details[0].message));
+        modifiedUser.grade = grade;
+      } else {
+        modifiedUser.grade = grade;
+      }
+    } else {
+      return next(new Unauthorized("only manager or admin can change grade"));
+    }
+  }
+
+  // roles validation
+  if (roles) {
+    if (isGradAllowed) {
+      const { error } = await userValidator({ roles: roles });
+      if (error) {
+        return next(new BadRequest(`${error.details[0].message}`));
+      }
+      let newRoles = {};
+      switch (action) {
+        case "add-roles":
+          newRoles = datas.user.roles;
+          roles.forEach((role) => {
+            if (!newRoles.includes(role)) {
+              newRoles.push(role);
+            }
+          });
+          break;
+
+        case "remove-roles":
+          newRoles = datas.user.roles.filter((role) => {
+            return roles.includes(role) === false;
+          });
+          break;
+
+        default:
+          return next(
+            new BadRequest("missing role action: add-roles, remove-roles")
+          );
+      }
+      modifiedUser.roles = newRoles;
+    } else {
+      return next(new Unauthorized("not enough grade to do change user roles"));
+    }
+  }
+
+  // insersion in database
+
+  if (Object.keys(modifiedUser).length > 0) {
+    try {
+      let savedModifiedUser = await User.findOneAndUpdate(
+        { _id: id },
+        modifiedUser,
+        { returnOriginal: false }
+      );
+      if (!savedModifiedUser) return next();
+      return res.status(200).send("user succesfully modified");
+    } catch (err) {
+      return next(err);
+    }
+  }
 };
 
-module.exports.userList = async (req, res) => {
-  let user = await User.find()
-    .then((users) => users)
-    .catch((err) => err);
-
-  return res.status(200).send(user);
+module.exports.userList = async (req, res, next) => {
+  try {
+    let users = await User.find();
+    if (!users) return res.status(204).send("no user found");
+    return res.status(200).send(users);
+  } catch (err) {
+    return next(err);
+  }
 };
 
 module.exports.userEmail = async (req, res, next) => {
   if (!req.body.email) {
     return next(new BadRequest("email is necessary"));
   }
-  const { error } = await emailValidator(req.body);
+  const { error } = await userValidator({ email: req.body.email });
   if (error) {
     return next(new BadRequest(`${error.details[0].message}`));
   }
   try {
     let user = await User.findOne(req.body);
-    user ? res.status(200).send("user exist") : res.status(204).send("no user");
+    if (!user) return res.status(204).send("no user");
+    return res.status(200).send("user exist");
   } catch (err) {
     next(err);
   }

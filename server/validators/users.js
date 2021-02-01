@@ -1,60 +1,56 @@
 const Joi = require("@hapi/joi");
+Joi.objectId = require("joi-objectid")(Joi);
+const { BadRequest } = require("../utils/errors");
 
-module.exports.emailValidator = (data) => {
-  let schema = Joi.object({
-    email: Joi.string().email().required(),
-  });
-  return schema.validate(data);
-};
-module.exports.passwordValidator = (data) => {
-  let schema = Joi.object({
-    password: Joi.string()
-      .required()
-      .pattern(new RegExp("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$")), // 1 majuscule, 1 minuscule, 1 chiffre, 8 caracteres mini
-  });
-  return schema.validate(data);
-};
-module.exports.roleValidator = (data) => {
-  let schema = Joi.object({
-    role: Joi.string()
-      .required()
-      .valid("parent", "teatcher", "moderator", "admin"),
-  });
-  return schema.validate(data);
-};
+module.exports.userValidator = (data) => {
+  switch (Object.keys(data)[0]) {
+    case "id":
+      let schemaId = Joi.object({
+        id: Joi.objectId(),
+      });
+      return schemaId.validate(data);
+    case "email":
+      let schemaEmail = Joi.object({
+        email: Joi.string().required().email(),
+      });
+      return schemaEmail.validate(data);
 
-// register validation
-module.exports.registerValidator = (data) => {
-  let schema = Joi.object({
-    name: Joi.string().required().min(3),
-    firstname: Joi.string().required(),
-    email: Joi.string().email().required(),
-    password: Joi.string()
-      .required()
-      .pattern(new RegExp("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$")), // 1 majuscule, 1 minuscule, 1 chiffre, 8 caracteres mini
-    role: Joi.string()
-      .required()
-      .valid("parent", "teatcher", "moderator", "admin"),
-    createdAt: Joi.date(),
-  });
+    case "password":
+      let schemaPassword = Joi.object({
+        password: Joi.string()
+          .required()
+          .pattern(new RegExp("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$")), // 1 majuscule, 1 minuscule, 1 chiffre, 8 caracteres mini
+      });
+      return schemaPassword.validate(data);
 
-  return schema.validate(data);
-};
+    case "name":
+      let schemaName = Joi.object({
+        name: Joi.string().required().min(3).max(20),
+      });
+      return schemaName.validate(data);
 
-// login validator
-module.exports.loginValidator = (data) => {
-  let schema = Joi.object({
-    email: Joi.string().email().required(),
-    password: Joi.string().required(),
-  });
+    case "firstname":
+      let schemaFirstname = Joi.object({
+        firstname: Joi.string().required().min(3).max(20),
+      });
+      return schemaFirstname.validate(data);
 
-  return schema.validate(data);
-};
+    case "roles":
+      let schemaRoles = Joi.object({
+        roles: Joi.array()
+          .required()
+          .items(Joi.string().valid("parent", "teacher")),
+      });
+      return schemaRoles.validate(data);
 
-module.exports.emailValidator = (data) => {
-  let schema = Joi.object({
-    email: Joi.string().required().email(),
-  });
+    case "grade":
+      let schemaGrade = Joi.object({
+        grade: Joi.string().required().valid("admin", "manager", "moderator"),
+      });
+      return schemaGrade.validate(data);
+      break;
 
-  return schema.validate(data);
+    default:
+      return next(new BadRequest("missing data to validate"));
+  }
 };

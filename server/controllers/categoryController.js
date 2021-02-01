@@ -1,7 +1,10 @@
 const Category = require("../models/Category");
 const Chapter = require("../models/Chapter");
 const User = require("../models/User");
-const { categoryNameValidator } = require("../validators/categories");
+const {
+  categoryNameValidator,
+  categoryValidator,
+} = require("../validators/categories");
 
 const {
   PreConditionFailed,
@@ -15,128 +18,198 @@ const {
 module.exports.listCategories = async (req, res, next) => {
   try {
     let categories = await Category.find();
-    categories && categories.length > 0
-      ? res.status(200).send(categories)
-      : next(new NotFound(`No category existing`));
+    if (!categories) return next(new NotFound(`No category found`));
+    return res.status(200).send(categories);
   } catch (err) {
-    next(err);
+    return next(err);
   }
 };
 
 module.exports.getCategory = async (req, res, next) => {
   try {
-    let category = await Category.find({ _id: req.params.id });
-    category
-      ? res.status(200).send(category)
-      : next(new NotFound("Not existing category"));
+    let category = await Category.findOne({ _id: req.params.id });
+    if (!category) return next(new NotFound(`No category found`));
+    return res.status(200).send(category);
   } catch (err) {
-    next(err);
+    return next(err);
   }
 };
 
 module.exports.createCategory = async (req, res, next) => {
-  const { role, _id } = req.user;
-  if (role !== "admin") {
-    next(new PreConditionFailed("forbidden operation"));
+  const { grade, _id } = req.user;
+  const newCategory = new Category();
+
+  // check grade
+  const grades = ["admin", "manager"];
+  if (!grades.includes(grade)) {
+    return next(new Forbidden("forbidden operation"));
   }
 
-  const user = await User.findOne({ _id: _id });
-  if (!user) {
-    next(new BadRequest("user doesnt exit"));
+  // check if user still exists
+  try {
+    const user = await User.findOne({ _id: _id });
+    if (!user) {
+      return next(new Unauthorized("user doesnt exit"));
+    }
+  } catch (err) {
+    return next(err);
+  }
+  // check if req.body is empty
+  if (Object.keys(req.body).length === 0) {
+    return next(new BadRequest("missing datas "));
   }
 
-  const { category_name } = req.body;
-  if (!category_name) next(new BadRequest("missing datas"));
+  // validate datas
+  const { name, chapters } = req.body;
+  if (!name) next(new BadRequest("missing datas"));
 
-  // const chapters = await Chapter.find({
-  //   _id: { $in: category_chapters },
-  // });
-  // if (chapters.length !== category_chapters.length)
-  //   next(new BadRequest("invalid chapter identified"));
+  // validate category name
+  if (name) {
+    const { error } = await categoryValidator({ name: name });
+    if (error) {
+      return next(new BadRequest(`${error.details[0].message}`));
+    }
+    newCategory.name = name;
+  }
 
-  // const chaptersIds = chapters.map((chapter) => chapter._id);
-
-  const newCategory = new Category({
-    category_name: category_name,
-  });
-
+  // insert in database
   try {
     const newCategorySaved = await newCategory.save();
-    res.status(200).send(newCategorySaved);
+    if (!newCategorySaved) return next();
+    return res.status(201).send(newCategorySaved);
   } catch (err) {
-    next(err);
+    return next(err);
   }
 };
 
 module.exports.updateCategory = async (req, res, next) => {
-  const { role, _id } = req.user;
-  if (role !== "admin") {
-    next(new PreConditionFailed("forbidden operation"));
-  }
-
-  const user = await User.findOne({ _id: _id });
-  if (!user) {
-    next(new BadRequest("user doesnt exit"));
-  }
-
-  const { category_name, category_chapters } = req.body;
-  !category_name && !category_chapters && next(new BadRequest("missing datas"));
-
+  const { grade, _id } = req.user;
+  const { id } = req.params;
   const datas = {};
-  if (category_chapters) {
-    const chapters = await Chapter.find({
-      _id: { $in: category_chapters },
-    });
-    if (chapters.length !== category_chapters.length)
-      next(new BadRequest("invalid chapter identified"));
-    datas.category_chapters = category_chapters;
-  }
-  if (category_name) {
-    const { error, value } = await categoryNameValidator({
-      category_name: category_name,
-    });
-    if (error) return next(new BadRequest(`${error.details[0].message}`));
-    datas.category_name = category_name;
-  }
-  switch (action) {
-    case RENAME_CATEGORY:
-      break;
-    case ADD_CHAPTER:
-      break;
-    case REMOVE_CHAPTER:
-      break;
+  const newCategory = {};
 
-    default:
-      break;
-  }
-  // remove chapter
-  // add chapter
-  // rename category
+  // check user grade
+  const grades = ["admin", "manager"];
+  if (!grades.includes(grade))
+    return next(new Forbidden("forbidden operation"));
+
+  // check if user exists
   try {
-    const currentCategory = await Category.findOne({ _id: req.params.id });
+    let user = await User.findOne({ _id: _id });
+    if (!user) {
+      return next(new Forbidden("user does not exist"));
+    }
+    datas.user = user;
   } catch (err) {
-    next(err);
+    return next(err);
+  }
+
+  // check if req.body is empty
+  if (Object.keys(req.body).length === 0) {
+    return next(new BadRequest("missing datas "));
+  }
+  // check if category exists
+  try {
+    const category = await Category.findOne({ _id: id });
+    if (!category) return next(new NotFound("Category does not exists"));
+    datas.category = category;
+  } catch (err) {
+    return next(new BadRequest(err));
+  }
+
+  // fieds validation
+  const { name, chapters } = req.body;
+
+  // name validation
+  if (name && !name === datas.category.name) {
+    const { error } = await categoryValidator({ name: name });
+    if (error) {
+      return next(new BadRequest(`${error.details[0].message}`));
+    }
+    newRubric.name = name;
+  }
+
+  // chapters validation
+  if (
+    chapters &&
+    !(JSON.stringify(chapters) === JSON.stringify(datas.category.chapters))
+  ) {
+    const { error } = await categoryValidator({ chapters: chapters });
+    if (error) {
+      return next(new BadRequest(`${error.details[0].message}`));
+    }
+    let newChapters = {};
+    switch (action) {
+      case "add-chapters":
+        newChapters = datas.category.chapters;
+        chapters.forEach((chapter) => {
+          if (!newChapters.includes(chapter)) {
+            newChapters.push(chapter);
+          }
+        });
+        break;
+      case "remove-chapters":
+        newChapters = datas.category.chapters.filter((chapter) => {
+          !chapters.includes(chapter);
+        });
+        break;
+
+      default:
+        return next(
+          new BadRequest(
+            "missing category action:add-chapters, remove-chapters"
+          )
+        );
+    }
+  }
+  newCategory.chapters = newChapters;
+
+  // insersion in database
+  if (Object.keys(newCategory).length > 0) {
+    try {
+      let updatedCategory = await Category.findOneAndUpdate(
+        { _id: id },
+        newCategory,
+        { returnOriginal: false }
+      );
+
+      if (!updatedCategory) return next();
+      return res.status(200).send(updatedCategory);
+    } catch (err) {
+      return next(err);
+    }
   }
 };
 
 module.exports.deleteCategory = async (req, res, next) => {
-  const { role, _id } = req.user;
-  if (role !== "admin") {
-    next(new PreConditionFailed("forbidden operation"));
+  const { grade, _id } = req.user;
+  const { id } = req.params;
+
+  // check user grade
+  const grades = ["admin", "manager"];
+  if (!grades.includes(grade))
+    return next(new Forbidden("forbidden operation"));
+
+  // check if user exists
+  try {
+    let user = await User.findOne({ _id: _id });
+    if (!user) {
+      return next(new Forbidden("user does not exist"));
+    }
+    datas.user = user;
+  } catch (err) {
+    return next(err);
   }
 
-  const user = await User.findOne({ _id: _id });
-  if (!user) {
-    next(new BadRequest("user doesnt exit"));
-  }
+  // delete in database
 
   try {
-    let deletedcategory = await Category.findOneAndDelete({
-      _id: req.params.id,
+    let deletedCategory = await Category.findOneAndDelete({
+      _id: id,
     });
-    !deletedcategory
-      ? next(new NotFound("not existig category"))
-      : res.status(200).send(`${req.params.id} category have been deleted`);
+
+    if (!deletedCategory) return next(new NotFound("not existing category"));
+    return res.status(200).send(`${req.params.id} category have been deleted`);
   } catch (err) {
     next(err);
   }

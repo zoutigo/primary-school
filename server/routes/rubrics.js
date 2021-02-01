@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const { verifyToken } = require("../validators/tokens");
+const { checkGradeAndUserExists } = require("../middlewares/controls");
 const {
   listChapters,
   getChapter,
@@ -34,7 +35,7 @@ router.delete("/category/:id", verifyToken, deleteCategory);
 //Chapters
 router.get("/chapter", listChapters);
 router.get("/chapter/:id", getChapter);
-router.post("/chapter", createChapter);
+router.post("/chapter", verifyToken, checkGradeAndUserExists, createChapter);
 router.put("/chapter/:id", updateChapter);
 router.delete("/chapter/:id", deleteChapter);
 

@@ -14,11 +14,19 @@ const classroomSchema = new Schema({
   },
   _classroom_alias: {
     type: String,
-    enum: ["ps", "ms", "gs", "ce1", "ce2", "cm1", "cm2"],
+    enum: [
+      "petite-section",
+      "moyenne-section",
+      "grande-section",
+      "cours-elementaire-1",
+      "cours-elementaire-2",
+      "cours-moyen-1",
+      "cours-moyen-2",
+    ],
     required: true,
     unique: true,
   },
-  _classroom_teatcher: {
+  _classroom_teacher: {
     type: Schema.ObjectId,
     ref: "User",
   },

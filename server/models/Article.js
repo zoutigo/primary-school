@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const { commentSchema } = require("./Comment");
-const { Image, ImageSchema } = require("./Picture");
 
 const Schema = mongoose.Schema;
 const articleSchema = new Schema({
@@ -38,7 +37,12 @@ const articleSchema = new Schema({
     ref: "User",
   },
   comments: [{ type: Schema.Types.ObjectId }],
-  images: [ImageSchema],
+  images: [
+    {
+      type: Schema.ObjectId,
+      ref: "Picture",
+    },
+  ],
   mediaPath: [{ type: String }],
   status: {
     type: String,

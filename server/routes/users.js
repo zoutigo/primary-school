@@ -20,7 +20,7 @@ router.get("/list", userList);
 router.post("/", userRegister);
 
 // PUT user , only when user is already logged
-router.put("/:id", userModify);
+router.put("/:id", verifyToken, userModify);
 
 // GET user
 router.get("/:id", userView);

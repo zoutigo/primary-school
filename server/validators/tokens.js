@@ -11,8 +11,8 @@ module.exports.verifyToken = async (req, res, next) => {
   } else {
     try {
       const verified = await jwt.verify(token, process.env.TOKEN_SECRET);
-      if (!verified) next(new TokenIvalid("Invalid Token"));
-      const { role, _id } = verified;
+      if (!verified) return next(new TokenIvalid("Invalid Token"));
+      const { roles, grade, _id } = verified;
 
       const user = await User.findOne({ _id: _id });
       !user && next(new BadRequest("user doesnt exit"));

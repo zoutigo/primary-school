@@ -103,8 +103,8 @@ module.exports.updateClassroom = async (req, res, next) => {
     let user = await User.find({ _id: _id });
     if (!user) {
       return next(new Forbidden("user does not exist"));
-      datas.push(user);
     }
+    datas.push(user);
   } catch (err) {
     return next(err);
   }

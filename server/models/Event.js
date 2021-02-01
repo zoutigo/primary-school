@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const { commentSchema, Comment } = require("./Comment");
-const { ImageSchema, Picture } = require("./Picture");
 
 const eventSchema = new Schema({
   title: {
@@ -30,7 +29,12 @@ const eventSchema = new Schema({
   },
   update: [{ author: Schema.Types.ObjectId, date: Date }],
   comments: [{ type: Schema.Types.ObjectId }],
-  images: [ImageSchema],
+  images: [
+    {
+      type: Schema.ObjectId,
+      ref: "Picture",
+    },
+  ],
   mediaPath: [{ type: String, url: String }],
 });
 

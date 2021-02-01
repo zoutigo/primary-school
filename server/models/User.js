@@ -11,6 +11,7 @@ const userSchema = new Schema({
   },
   email: {
     type: String,
+    unique: true,
   },
   password: {
     type: String,
@@ -21,12 +22,28 @@ const userSchema = new Schema({
     default: Date.now(),
     required: true,
   },
-  role: {
+  roles: [
+    {
+      type: String,
+      enum: ["parent", "teacher"],
+      default: "parent",
+    },
+  ],
+  grade: {
     type: String,
-    enum: ["parent", "teacher", "moderator", "admin"],
-    required: true,
+    enum: ["admin", "manager", "moderator"],
   },
-  images: [ImageSchema],
+  test: {
+    type: Boolean,
+    default: false,
+  },
+
+  images: [
+    {
+      type: Schema.ObjectId,
+      ref: "Picture",
+    },
+  ],
   presentation: {
     type: String,
   },
