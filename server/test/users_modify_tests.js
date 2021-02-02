@@ -450,4 +450,70 @@ describe("Users Modify ", () => {
       });
     });
   });
+  describe("logged as manager , roles modification, add roles ", () => {
+    it("should return status 200 ", (done) => {
+      User.findOne({ grade: "manager" }).then((manager) => {
+        User.findOne({ test: true, roles: ["parent"] }).then((user) => {
+          const requester = { email: manager.email, password: "Valery54" };
+          const field = { roles: ["teacher"], action: "add-roles" };
+
+          chai
+            .request(server)
+            .post("/users/login")
+            .send(requester)
+            .end((err, res) => {
+              const tokenString = res.header["x-access-token"];
+
+              chai
+                .request(server)
+                .put(`/users/${user._id}`)
+                .set("x-access-token", tokenString)
+                .send(field)
+                .end((err, resp) => {
+                  resp.should.have.status(200);
+
+                  User.findOneAndUpdate(
+                    { _id: user._id },
+                    { roles: ["parent"] }
+                  );
+                });
+              done();
+            });
+        });
+      });
+    });
+  });
+  describe("logged as manager , roles modification, remove roles ", () => {
+    it("should return status 200 ", (done) => {
+      User.findOne({ grade: "manager" }).then((manager) => {
+        User.findOne({ test: true, roles: ["parent"] }).then((user) => {
+          const requester = { email: manager.email, password: "Valery54" };
+          const field = { roles: ["parent"], action: "remove-roles" };
+
+          chai
+            .request(server)
+            .post("/users/login")
+            .send(requester)
+            .end((err, res) => {
+              const tokenString = res.header["x-access-token"];
+
+              chai
+                .request(server)
+                .put(`/users/${user._id}`)
+                .set("x-access-token", tokenString)
+                .send(field)
+                .end((err, resp) => {
+                  resp.should.have.status(200);
+
+                  User.findOneAndUpdate(
+                    { _id: user._id },
+                    { roles: ["parent"] }
+                  );
+                });
+              done();
+            });
+        });
+      });
+    });
+  });
 });
