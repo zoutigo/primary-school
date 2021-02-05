@@ -12,7 +12,7 @@ describe("User Model", () => {
     });
     user.save().then(() => {
       assert(!user.isNew);
-      done();
+      User.findOneAndDelete({ _id: user._id }).then(() => done());
     });
   });
 });

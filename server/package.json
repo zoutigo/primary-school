@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www",
-    "test":"cross-env NODE_ENV=development mocha --require babel-register test/*.js --exit",
-    "mocha": "cross-env NODE_ENV=development mocha --require babel-register test/*.js --exit",
+    "start": "./bin/www",
+    "kill": "kill $(lsof -t -i:3500)",
+    "mocha":"cross-env NODE_ENV=development mocha --require babel-register test/*.js --exit",
+    "test":"npm run kill & npm run mocha",
     "dev": "cross-env NODE_ENV=development nodemon --exec babel-node --presets babel-preset-env ./bin/www"
   },
   "dependencies": {

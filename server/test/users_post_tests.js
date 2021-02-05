@@ -3,6 +3,7 @@ const chaiHttp = require("chai-http");
 const server = require("../bin/www");
 const faker = require("faker");
 var atob = require("atob");
+const User = require("../models/User");
 
 // Configure chai
 chai.use(chaiHttp);
@@ -163,7 +164,7 @@ describe("Users POST ", () => {
             "exp",
             "iat"
           );
-          done();
+          User.findOneAndDelete({ email: fakeEmail }).then(() => done());
         });
     });
   });

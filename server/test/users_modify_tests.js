@@ -4,10 +4,17 @@ const server = require("../bin/www");
 const faker = require("faker");
 var atob = require("atob");
 const User = require("../models/User");
+const { response } = require("express");
 
 // Configure chai
 chai.use(chaiHttp);
 chai.should();
+
+const parent = {
+  email: faker.internet.email(),
+  password: "Valery54",
+  roles: ["parent"],
+};
 
 describe("Users Modify ", () => {
   describe("No id param  ", () => {
@@ -75,27 +82,30 @@ describe("Users Modify ", () => {
 
   describe("logged as owner, but submit a fake property ", () => {
     it("should return status 400", (done) => {
-      const requester = { email: "jerome@gmail.com", password: "Valery54" };
-      const fakeField1 = { names: "bobo" };
       chai
         .request(server)
-        .post("/users/login")
-        .send(requester)
+        .post("/users")
+        .send(parent)
         .end((err, res) => {
           const tokenString = res.header["x-access-token"];
+          const { _id } = JSON.parse(
+            atob(res.header["x-access-token"].split(".")[1])
+          );
+
+          const fakeField1 = { names: faker.name.lastName() };
           chai
             .request(server)
-            .put("/users/5ff98b8c2fc14312dd031e17")
+            .put(`/users/${_id}`)
             .set("x-access-token", tokenString)
             .send(fakeField1)
             .end((err, resp) => {
               resp.should.have.status(400);
+              User.findOneAndDelete({ _id: _id }).then(() => done());
             });
-          done();
         });
     });
   });
-  // field name tests
+
   describe("logged as owner , submit name , with only 2 characters ", () => {
     it("should return status 400 and name error message", (done) => {
       const requester = { email: "jerome@gmail.com", password: "Valery54" };
@@ -368,28 +378,46 @@ describe("Users Modify ", () => {
   });
   describe("logged as manager , try name modification ", () => {
     it("should return status 400 and name error message", (done) => {
-      const requester = { email: "emmanuel@yahoo.fr", password: "Valery54" };
-      const field = { name: faker.name.lastName() };
-      const nameErrorMessage = JSON.stringify(`only the owner can modify`);
-      chai
-        .request(server)
-        .post("/users/login")
-        .send(requester)
-        .end((err, res) => {
-          const tokenString = res.header["x-access-token"];
-          chai
-            .request(server)
-            .put("/users/5ff98b8c2fc14312dd031e17")
-            .set("x-access-token", tokenString)
-            .send(field)
-            .end((err, resp) => {
-              resp.should.have.status(401);
-              JSON.stringify(JSON.parse(resp.error.text).message).should.equal(
-                nameErrorMessage
-              );
-            });
-          done();
-        });
+      User.findOne({ grade: "manager" }).then((manager) => {
+        const requester = { email: manager.email, password: "Valery54" };
+        const field = { name: faker.name.lastName() };
+        const nameErrorMessage = JSON.stringify(`only the owner can modify`);
+
+        chai
+          .request(server)
+          .post("/users/login")
+          .send(requester)
+          .end((err, res) => {
+            const tokenString = res.header["x-access-token"];
+
+            chai
+              .request(server)
+              .post("/users")
+              .send({
+                email: faker.internet.email(),
+                password: "Guillaume24",
+                roles: ["parent"],
+              })
+              .end((erro, resp) => {
+                const userTokens = resp.header["x-access-token"].split(".");
+                const userId = JSON.parse(atob(userTokens[1]))._id;
+
+                chai
+                  .request(server)
+                  .put(`/users/${userId}`)
+                  .set("x-access-token", tokenString)
+                  .send(field)
+                  .end((error, respo) => {
+                    respo.should.have.status(401);
+                    JSON.stringify(
+                      JSON.parse(respo.error.text).message
+                    ).should.equal(nameErrorMessage);
+
+                    User.findOneAndDelete({ _id: userId }).then(() => done());
+                  });
+              });
+          });
+      });
     });
   });
   describe("logged as manager , try firstname modification ", () => {
@@ -422,98 +450,108 @@ describe("Users Modify ", () => {
   // password validation test to be written
   describe("logged as manager , grade modification ", () => {
     it("should return status 200 ", (done) => {
-      User.findOne({ grade: "manager" }).then((manager) => {
-        User.findOne({ test: true, roles: ["parent"] }).then((user) => {
-          const requester = { email: manager.email, password: "Valery54" };
+      chai
+        .request(server)
+        .post("/users")
+        .send(parent)
+        .end((err, res) => {
+          const tokenString = res.header["x-access-token"];
+          const { _id } = JSON.parse(
+            atob(res.header["x-access-token"].split(".")[1])
+          );
           const field = { grade: "moderator" };
 
-          chai
-            .request(server)
-            .post("/users/login")
-            .send(requester)
-            .end((err, res) => {
-              const tokenString = res.header["x-access-token"];
+          User.findOne({ grade: "manager" }).then((manager) => {
+            const logs = { email: manager.email, password: "Valery54" };
 
-              chai
-                .request(server)
-                .put(`/users/${user._id}`)
-                .set("x-access-token", tokenString)
-                .send(field)
-                .end((err, resp) => {
-                  resp.should.have.status(200);
-
-                  User.findOneAndUpdate({ _id: user._id }, { grade: "" });
-                });
-              done();
-            });
+            chai
+              .request(server)
+              .post(`/users/login`)
+              .send(logs)
+              .end((err, resp) => {
+                const token = resp.header["x-access-token"];
+                chai
+                  .request(server)
+                  .put(`/users/${_id}`)
+                  .set("x-access-token", token)
+                  .send(field)
+                  .end((error, response) => {
+                    response.should.have.status(200);
+                    User.findOneAndDelete({ _id: _id }).then(() => done());
+                  });
+              });
+          });
         });
-      });
     });
   });
   describe("logged as manager , roles modification, add roles ", () => {
     it("should return status 200 ", (done) => {
-      User.findOne({ grade: "manager" }).then((manager) => {
-        User.findOne({ test: true, roles: ["parent"] }).then((user) => {
-          const requester = { email: manager.email, password: "Valery54" };
+      chai
+        .request(server)
+        .post("/users")
+        .send(parent)
+        .end((err, res) => {
+          const { _id } = JSON.parse(
+            atob(res.header["x-access-token"].split(".")[1])
+          );
           const field = { roles: ["teacher"], action: "add-roles" };
 
-          chai
-            .request(server)
-            .post("/users/login")
-            .send(requester)
-            .end((err, res) => {
-              const tokenString = res.header["x-access-token"];
+          User.findOne({ grade: "manager" }).then((manager) => {
+            const logs = { email: manager.email, password: "Valery54" };
 
-              chai
-                .request(server)
-                .put(`/users/${user._id}`)
-                .set("x-access-token", tokenString)
-                .send(field)
-                .end((err, resp) => {
-                  resp.should.have.status(200);
-
-                  User.findOneAndUpdate(
-                    { _id: user._id },
-                    { roles: ["parent"] }
-                  );
-                });
-              done();
-            });
+            chai
+              .request(server)
+              .post(`/users/login`)
+              .send(logs)
+              .end((err, resp) => {
+                const token = resp.header["x-access-token"];
+                chai
+                  .request(server)
+                  .put(`/users/${_id}`)
+                  .set("x-access-token", token)
+                  .send(field)
+                  .end((error, response) => {
+                    response.should.have.status(200);
+                    User.findOneAndDelete({ _id: _id }).then(() => done());
+                  });
+              });
+          });
         });
-      });
     });
   });
   describe("logged as manager , roles modification, remove roles ", () => {
     it("should return status 200 ", (done) => {
-      User.findOne({ grade: "manager" }).then((manager) => {
-        User.findOne({ test: true, roles: ["parent"] }).then((user) => {
-          const requester = { email: manager.email, password: "Valery54" };
+      chai
+        .request(server)
+        .post("/users")
+        .send(parent)
+        .end((err, res) => {
+          const { _id } = JSON.parse(
+            atob(res.header["x-access-token"].split(".")[1])
+          );
           const field = { roles: ["parent"], action: "remove-roles" };
 
-          chai
-            .request(server)
-            .post("/users/login")
-            .send(requester)
-            .end((err, res) => {
-              const tokenString = res.header["x-access-token"];
+          User.findOne({ grade: "manager" }).then((manager) => {
+            const logs = { email: manager.email, password: "Valery54" };
 
-              chai
-                .request(server)
-                .put(`/users/${user._id}`)
-                .set("x-access-token", tokenString)
-                .send(field)
-                .end((err, resp) => {
-                  resp.should.have.status(200);
-
-                  User.findOneAndUpdate(
-                    { _id: user._id },
-                    { roles: ["parent"] }
-                  );
-                });
-              done();
-            });
+            chai
+              .request(server)
+              .post(`/users/login`)
+              .send(logs)
+              .end((err, resp) => {
+                const token = resp.header["x-access-token"];
+                chai
+                  .request(server)
+                  .put(`/users/${_id}`)
+                  .set("x-access-token", token)
+                  .send(field)
+                  .end((error, response) => {
+                    response.should.have.status(200);
+                    User.findOneAndDelete({ _id: _id }).then(() => done());
+                  });
+              });
+          });
         });
-      });
     });
   });
 });
