@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FAKE BUTTON matches snapshot 1 1`] = `
+<div
+  className="button-style"
+  data-testid="button"
+>
+  Save
+   Hello
+</div>
+`;
+
+exports[`FAKE BUTTON matches snapshot 2 1`] = `
+<div
+  className="button-style"
+  data-testid="button"
+>
+  Click Me Now
+   Hello
+</div>
+`;
+
+exports[`matches snapshot 1 1`] = `
+<div
+  className="button-style"
+  data-testid="button"
+>
+  Save
+   Hello
+</div>
+`;
+
+exports[`matches snapshot 2 1`] = `
+<div
+  className="button-style"
+  data-testid="button"
+>
+  Click Me Now
+   Hello
+</div>
+`;
