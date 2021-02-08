@@ -6,6 +6,7 @@ import { render, cleanup, fireEvent, screen } from '@testing-library/react'
 import renderer from 'react-test-renderer'
 
 describe('FAKE BUTTON', () => {
+  afterEach(cleanup)
   it('renders without crashing', () => {
     const div = document.createElement('div')
     ReactDom.render(<FakeButton></FakeButton>, div)
@@ -32,9 +33,7 @@ describe('FAKE BUTTON', () => {
   })
   it('calls onClick prop when clicked', () => {
     const handleClick = jest.fn()
-    render(
-      <FakeButton onClick={handleClick} label="Hello"></FakeButton>
-    ).debug()
+    render(<FakeButton onClick={handleClick} label="Hello"></FakeButton>)
     fireEvent.click(screen.getByText(/Hello/i))
     expect(handleClick).toHaveBeenCalledTimes(1)
   })
