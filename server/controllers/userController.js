@@ -17,15 +17,15 @@ module.exports.userRegister = async (req, res, next) => {
 
   const fields =
     process.env.NODE_ENV == "development"
-      ? ["email", "password", "roles"]
-      : ["email", "password", "roles", "test"];
+      ? ["email", "password"]
+      : ["email", "password", "test"];
   const submittedFields = fields.filter((field) => {
     return Object.keys(req.body).includes(field) === true;
   });
   if (!(submittedFields.length === fields.length))
     return next(new BadRequest("missing datas"));
 
-  const { email, password, roles } = req.body;
+  const { email, password } = req.body;
 
   // data validations
 
@@ -36,10 +36,6 @@ module.exports.userRegister = async (req, res, next) => {
   let passwordValidated = await userValidator({ password: password });
   if (passwordValidated.error)
     return next(new BadRequest(passwordValidated.error.details[0].message));
-
-  let roleValidated = await userValidator({ roles: roles });
-  if (roleValidated.error)
-    return next(new BadRequest(roleValidated.error.details[0].message));
 
   // check if email exist in database
   let emailCheck = await User.findOne({ email: email });
@@ -54,7 +50,7 @@ module.exports.userRegister = async (req, res, next) => {
     user = new User({
       email: email,
       password: hashedPassword,
-      roles: roles,
+
       test: true,
       createdAt: Date.now(),
     });
@@ -62,7 +58,7 @@ module.exports.userRegister = async (req, res, next) => {
     user = new User({
       email: email,
       password: hashedPassword,
-      roles: roles,
+
       createdAt: Date.now(),
     });
   }
@@ -269,7 +265,7 @@ module.exports.userModify = async (req, res, next) => {
   }
   // grade validation
   if (grade) {
-    if (isGradAllowed) {
+    if (isGradAllowed || process.NODE_ENV !== "production") {
       if (!(grade === datas.user.grade)) {
         if (!(grad === "admin") && grade === "admin")
           return next(new Unauthorized("only admin can change admin grade"));
@@ -286,7 +282,7 @@ module.exports.userModify = async (req, res, next) => {
 
   // roles validation
   if (roles) {
-    if (isGradAllowed) {
+    if (isGradAllowed || process.NODE_ENV !== "production") {
       const { error } = await userValidator({ roles: roles });
       if (error) {
         return next(new BadRequest(`${error.details[0].message}`));

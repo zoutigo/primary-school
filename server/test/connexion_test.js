@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { listRubrics } = require("../controllers/rubricController");
 
 mongoose.Promise = global.Promise;
 mongoose.set("useCreateIndex", true);
@@ -21,21 +20,15 @@ before((done) => {
 });
 
 beforeEach("Supprime la collection crée", (done) => {
-  // const { users } = mongoose.connection.collections;
-  // users.drop()
-  // rubrics.drop()
-
   mongoose.connection.db.listCollections().toArray(function (err, names) {
     if (err) {
       console.log(err);
     } else {
       names.forEach(function (e, i, a) {
         mongoose.connection.db.dropCollection(e.name);
-        console.log("--->>", e.name);
+        // console.warn("--->>", e.name);
       });
     }
   });
   done();
 });
-
-// db.getCollectionNames().forEach(c=>db[c].drop())

@@ -24,9 +24,8 @@ const userSchema = new Schema({
   },
   roles: [
     {
-      type: String,
-      enum: ["parent", "teacher"],
-      default: "parent",
+      type: Schema.ObjectId,
+      ref: "Role",
     },
   ],
   grade: {

@@ -37,9 +37,7 @@ module.exports.userValidator = (data) => {
 
     case "roles":
       let schemaRoles = Joi.object({
-        roles: Joi.array()
-          .required()
-          .items(Joi.string().valid("parent", "teacher")),
+        roles: Joi.array().items(Joi.objectId()),
       });
       return schemaRoles.validate(data);
 

@@ -6,7 +6,7 @@ const server = require("../bin/www");
 const User = require("../models/User");
 const Role = require("../models/Roles");
 const mongoose = require("mongoose");
-
+const Roles = require("../models/Roles");
 // Configure chai
 chai.use(chaiHttp);
 chai.should();
@@ -14,17 +14,15 @@ chai.should();
 const newUser = {
   email: faker.internet.email(),
   password: "Valery54",
-  roles: ["parent"],
 };
 
 describe("ROLE ", () => {
   beforeEach((done) => {
-    const { roles, users } = mongoose.connection.collections;
-    roles.drop();
+    const { users, roles } = mongoose.connection.collections;
     users.drop();
+    roles.drop();
     done();
   });
-
   it("should create role via model", (done) => {
     const role = new Role({
       name: faker.name.jobType(),
@@ -41,7 +39,6 @@ describe("ROLE ", () => {
       .send(newUser)
       .end((err, res) => {
         const token = res.header["x-access-token"];
-
         const newRole = { name: faker.name.jobType() };
         chai
           .request(server)
@@ -61,7 +58,6 @@ describe("ROLE ", () => {
       .send(newUser)
       .end((err, res) => {
         const token = res.header["x-access-token"];
-
         const newRole = { name: faker.name.jobType() };
         chai
           .request(server)
