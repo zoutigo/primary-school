@@ -134,7 +134,9 @@ module.exports.userView = async (req, res, next) => {
   const { error } = await userValidator({ id: req.params.id });
   if (error) return next(new NotFound("Not found"));
 
-  let user = await User.findOne({ _id: req.params.id });
+  let user = await User.findOne({ _id: req.params.id }).select(
+    "firstname  grade createdAt"
+  );
   if (!user) return next(new BadRequest("no user found with that id"));
 
   return res.status(200).send(user);
@@ -336,7 +338,7 @@ module.exports.userModify = async (req, res, next) => {
 
 module.exports.userList = async (req, res, next) => {
   try {
-    let users = await User.find();
+    let users = await User.find().select("_id createdAt");
     if (!users) return res.status(204).send("no user found");
     return res.status(200).send(users);
   } catch (err) {
