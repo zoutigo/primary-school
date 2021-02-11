@@ -17,18 +17,16 @@ const newUser = {
   password: "Valery54",
 };
 
-describe("USER", () => {
+describe("USERS", () => {
   beforeEach((done) => {
-    const { users } = mongoose.connection.collections;
+    const { users, roles } = mongoose.connection.collections;
     users.drop();
+    roles.drop();
     done();
   });
 
   it("should model  create user", (done) => {
-    const user = new User({
-      email: faker.internet.email(),
-      password: "Valery54",
-    });
+    const user = new User(newUser);
     user.save().then(() => {
       assert(!user.isNew);
       done();

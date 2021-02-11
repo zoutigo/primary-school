@@ -1,10 +1,7 @@
 const Category = require("../models/Category");
 const Chapter = require("../models/Chapter");
 const User = require("../models/User");
-const {
-  categoryNameValidator,
-  categoryValidator,
-} = require("../validators/categories");
+const { categoryValidator } = require("../validators/categories");
 
 const {
   PreConditionFailed,
@@ -37,43 +34,20 @@ module.exports.getCategory = async (req, res, next) => {
 
 module.exports.createCategory = async (req, res, next) => {
   const { grade, _id } = req.user;
-  const newCategory = new Category();
-
-  // check grade
-  const grades = ["admin", "manager"];
-  if (!grades.includes(grade)) {
-    return next(new Forbidden("forbidden operation"));
+  const grades = ["admin"];
+  if (!grades.includes(grade) && process.NODE_ENV === "production") {
+    return next(new Unauthorized("unautorized operation"));
   }
 
-  // check if user still exists
+  const { name } = req.body;
+
+  if (!name) return next(new BadRequest("missing datas"));
+
+  const { error, value } = await categoryValidator({ name: name });
+  if (error) return next(new BadRequest(`${error.details[0].message}`));
+
   try {
-    const user = await User.findOne({ _id: _id });
-    if (!user) {
-      return next(new Unauthorized("user doesnt exit"));
-    }
-  } catch (err) {
-    return next(err);
-  }
-  // check if req.body is empty
-  if (Object.keys(req.body).length === 0) {
-    return next(new BadRequest("missing datas "));
-  }
-
-  // validate datas
-  const { name, chapters } = req.body;
-  if (!name) next(new BadRequest("missing datas"));
-
-  // validate category name
-  if (name) {
-    const { error } = await categoryValidator({ name: name });
-    if (error) {
-      return next(new BadRequest(`${error.details[0].message}`));
-    }
-    newCategory.name = name;
-  }
-
-  // insert in database
-  try {
+    const newCategory = new Category({ name: name });
     const newCategorySaved = await newCategory.save();
     if (!newCategorySaved) return next();
     return res.status(201).send(newCategorySaved);

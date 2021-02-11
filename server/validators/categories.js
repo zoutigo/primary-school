@@ -5,7 +5,7 @@ module.exports.categoryValidator = (data) => {
   switch (Object.keys(data)[0]) {
     case "name":
       let schemaName = Joi.object({
-        name: Joi.required().string().min(3).max(30),
+        name: Joi.string().required().min(3).max(20),
       });
       return schemaName.validate(data);
     case "chapters":

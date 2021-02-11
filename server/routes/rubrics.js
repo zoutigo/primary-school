@@ -26,11 +26,11 @@ const {
 } = require("../controllers/rubricController");
 
 //Categories
-router.get("/category", listCategories);
-router.get("/category/:id", getCategory);
-router.post("/category", verifyToken, createCategory);
-router.put("/category/:id", verifyToken, updateCategory);
-router.delete("/category/:id", verifyToken, deleteCategory);
+router.get("/categories", listCategories);
+router.get("/categories/:id", getCategory);
+router.post("/categories", verifyToken, createCategory);
+router.put("/categories/:id", verifyToken, updateCategory);
+router.delete("/categories/:id", verifyToken, deleteCategory);
 
 //Chapters
 router.get("/chapter", listChapters);
