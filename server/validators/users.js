@@ -5,47 +5,53 @@ const { BadRequest } = require("../utils/errors");
 module.exports.userValidator = (data) => {
   switch (Object.keys(data)[0]) {
     case "id":
-      let schemaId = Joi.object({
+      let idSchema = Joi.object({
         id: Joi.objectId(),
       });
-      return schemaId.validate(data);
+      return idSchema.validate(data);
     case "email":
-      let schemaEmail = Joi.object({
+      let emailSchema = Joi.object({
         email: Joi.string().required().email(),
       });
-      return schemaEmail.validate(data);
+      return emailSchema.validate(data);
 
     case "password":
-      let schemaPassword = Joi.object({
+      let passwordSchema = Joi.object({
         password: Joi.string()
           .required()
           .pattern(new RegExp("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$")), // 1 majuscule, 1 minuscule, 1 chiffre, 8 caracteres mini
       });
-      return schemaPassword.validate(data);
+      return passwordSchema.validate(data);
 
     case "name":
-      let schemaName = Joi.object({
+      let nameSchema = Joi.object({
         name: Joi.string().required().min(3).max(20),
       });
-      return schemaName.validate(data);
+      return nameSchema.validate(data);
 
     case "firstname":
-      let schemaFirstname = Joi.object({
+      let firstnameSchema = Joi.object({
         firstname: Joi.string().required().min(3).max(20),
       });
-      return schemaFirstname.validate(data);
+      return firstnameSchema.validate(data);
 
     case "roles":
-      let schemaRoles = Joi.object({
+      let rolesSchema = Joi.object({
         roles: Joi.array().items(Joi.objectId()),
       });
-      return schemaRoles.validate(data);
+      return rolesSchema.validate(data);
 
     case "grade":
-      let schemaGrade = Joi.object({
+      let gradeSchema = Joi.object({
         grade: Joi.string().required().valid("admin", "manager", "moderator"),
       });
-      return schemaGrade.validate(data);
+      return gradeSchema.validate(data);
+      break;
+    case "gender":
+      let genderSchema = Joi.object({
+        gender: Joi.string().required().valid("monsieur", "madame"),
+      });
+      return genderSchema.validate(data);
       break;
 
     default:

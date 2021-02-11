@@ -3,47 +3,48 @@ const { pictureSchema, Picture } = require("./Picture");
 const Schema = mongoose.Schema;
 
 const classroomSchema = new Schema({
-  _classroom_name: {
+  name: {
     type: String,
     required: true,
   },
-  _classroom_summary: {
+  summary: {
     type: String,
     minlength: 10,
     maxlength: 300,
   },
-  _classroom_alias: {
+  alias: {
     type: String,
     enum: [
       "petite-section",
       "moyenne-section",
       "grande-section",
-      "cours-elementaire-1",
-      "cours-elementaire-2",
-      "cours-moyen-1",
-      "cours-moyen-2",
+      "cp",
+      "ce1",
+      "ce2",
+      "cm1",
+      "cm2",
     ],
     required: true,
     unique: true,
   },
-  _classroom_teacher: {
+  teacher: {
     type: Schema.ObjectId,
     ref: "User",
   },
-  _classroom_helper: {
+  helper: {
     type: Schema.ObjectId,
     ref: "User",
   },
-  _classroom_albums: {
+  albums: {
     type: String,
   },
-  _classroom_images: [
+  images: [
     {
       type: Schema.ObjectId,
       ref: "Picture",
     },
   ],
-  _classroom_papers: [
+  papers: [
     {
       type: Schema.ObjectId,
       ref: "Paper",

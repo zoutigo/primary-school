@@ -1,6 +1,7 @@
 const Category = require("../models/Category");
 const Rubric = require("../models/Rubric");
 const User = require("../models/User");
+const { adminControl } = require("../utils/controls");
 const {
   PreConditionFailed,
   BadRequest,
@@ -35,10 +36,12 @@ module.exports.getRubric = async (req, res, next) => {
 };
 module.exports.createRubric = async (req, res, next) => {
   const { grade, _id } = req.user;
-  const grades = ["admin"];
+  const grades = ["admin, manager"];
   if (!grades.includes(grade) && process.NODE_ENV === "production") {
     return next(new Unauthorized("unautorized operation"));
   }
+  // const { err } = adminControl(grade);
+  // if (err) return nex(new Unauthorized(err));
 
   const { name } = req.body;
 

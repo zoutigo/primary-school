@@ -9,6 +9,10 @@ const userSchema = new Schema({
   firstname: {
     type: String,
   },
+  gender: {
+    type: String,
+    enum: ["monsieur", "madame"],
+  },
   email: {
     type: String,
     unique: true,

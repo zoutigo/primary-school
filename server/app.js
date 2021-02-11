@@ -66,7 +66,7 @@ app.use("/users", usersRouter);
 app.use("/rubrics", rubricsRouter);
 app.use("/papers", papersRouter);
 app.use("/roles", rolesRouter);
-// app.use("/classrooms", classroomsRouter);
+app.use("/classrooms", classroomsRouter);
 // app.use("/articles", articlesRouter);
 // app.use("/comments", commentsRouter);
 // app.use("/students", studentsRouter);

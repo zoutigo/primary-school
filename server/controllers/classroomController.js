@@ -1,4 +1,5 @@
 const Classroom = require("../models/Classroom");
+const Roles = require("../models/Roles");
 const User = require("../models/User");
 const {
   Forbidden,
@@ -6,17 +7,13 @@ const {
   NotFound,
   Unauthorized,
 } = require("../utils/errors");
-const {
-  classroomNameValidator,
-  classroomAliasValidator,
-  classroomValidator,
-} = require("../validators/classrooms");
+const { classroomValidator } = require("../validators/classrooms");
 
 module.exports.listClassrooms = async (req, res, next) => {
   try {
     const classrooms = await Classroom.find();
     if (!classrooms) {
-      return next(new NotFound("no classroom yet"));
+      return res.status(204).send("no classroom");
     }
     res.status(200).send(classrooms);
   } catch (err) {
@@ -33,45 +30,45 @@ module.exports.getClassroomById = async (req, res, next) => {
   const filter = { _id: id };
 
   try {
-    let classrooms = await Classroom.find(filter);
-    if (!classrooms)
+    let classroom = await Classroom.find(filter);
+    if (!classroom)
       return next(new NotFound("no classroom with such criterias"));
-    res.status(200).send(classrooms);
+    res.status(200).send(classroom);
   } catch (err) {
     return next(err);
   }
 };
 
 module.exports.createClassroom = async (req, res, next) => {
-  const { role, _id } = req.user;
-  if (role !== "admin") {
-    return next(new Forbidden("forbidden operation"));
-  }
+  const { grade, _id: userId } = req.user;
 
+  const grades = ["admin", "manager"];
+  if (!grades.includes(grade) && process.NODE_ENV === "production") {
+    return next(new Unauthorized("unautorized operation"));
+  }
   const { name, alias } = req.body;
   if (!name || !alias)
     return next(new BadRequest("missing classname or classAlias"));
-
   if (name) {
-    let { error } = await classroomNameValidator({ name: name });
+    let { error } = await classroomValidator({ name: name });
     if (error) return next(new BadRequest(`${error.details[0].message}`));
   }
   if (alias) {
-    let { error } = await classroomAliasValidator({ alias: alias });
-    if (error) return next(new BadRequest(`${error.details[0].message}`));
+    let { error: aliasError } = await classroomValidator({ alias: alias });
+    if (aliasError)
+      return next(new BadRequest(`${aliasError.details[0].message}`));
   }
 
   try {
     const newClassroom = new Classroom({
-      _classroom_name: name,
-      _classroom_alias: alias,
+      name: name,
+      alias: alias,
     });
 
-    const createdClasroom = await newClassroom.save();
-    if (!createdClasroom) {
-      return next("internal error during classroom creation");
-    }
-    res.status(201).send(createdClasroom);
+    const createdClassroom = await newClassroom.save();
+    if (!createdClassroom) return next();
+
+    res.status(201).send(createdClassroom);
   } catch (err) {
     if (err.code === 11000)
       return next(new BadRequest("Dupliclate not allowed on alias"));
@@ -81,57 +78,71 @@ module.exports.createClassroom = async (req, res, next) => {
 };
 
 module.exports.updateClassroom = async (req, res, next) => {
-  const { role, _id } = req.user;
-  const { id } = req.params;
-  const datas = [];
+  const { grade, roles, _id: requesterId } = req.user;
+  const { id: classroomId } = req.params;
+
   // check if classroom exist
   try {
-    const classroom = await Classroom.find({ _id: id });
+    const classroom = await Classroom.find({ _id: classroomId });
     if (!classroom) return next(new BadRequest("Classroom does not exists"));
-    datas.push(classroom);
   } catch (err) {
     return next(new BadRequest(err));
   }
   // check user role
-  const roles = ["admin", "manager", "moderator", "teacher"];
+  const AllowedRoles = await Roles.find({
+    $or: [{ name: "teacher" }, { name: "assistant" }],
+  }).select("_id");
+  const roleAllowArray = AllowedRoles.filter((role) => roles.includes(role));
+  const grades = ["manager", "admin", "moderator"];
+  const gardeAllow = !grades.includes(grade);
+  const environmentAllow = process.NODE_ENV !== "production";
+  const roleAllow = roleAllowArray.length > 0;
 
-  if (!roles.includes(role)) {
+  if (!gardeAllow && !environmentAllow && !roleAllow)
     return next(new Forbidden("Operation forbidden"));
-  }
-  // check if user exists
+
+  // check if requester exists
   try {
-    let user = await User.find({ _id: _id });
+    let user = await User.find({ _id: requesterId });
     if (!user) {
       return next(new Forbidden("user does not exist"));
     }
-    datas.push(user);
   } catch (err) {
     return next(err);
   }
+
   // check if req.body is empty
   if (Object.keys(req.body).length === 0) {
     return next(new BadRequest("missing datas "));
   }
-  // validate classroom name
-  const { name, teacher, helper, images } = req.body;
+  const { name, teacher, helper } = req.body;
   const newClassroom = {};
-  if (name) {
-    if (!(role === "admin")) {
-      return next(
-        new Forbidden("only admin is allowed to change classroom name")
-      );
-    }
-    const { error } = await classroomValidator({ name: name });
-    if (error) return next(new BadRequest(`${error.details[0].message}`));
-    newClassroom._classroom_name = name;
-  }
+  // validate classroom name
+  // if (name) {
+  //   if (
+  //     !["admin", "manager", "moderator"].includes(role) &&
+  //     process.NODE_ENV === "production"
+  //   ) {
+  //     return next(
+  //       new Forbidden("only admin is allowed to change classroom name")
+  //     );
+  //   }
+  //   const { error } = await classroomValidator({ name: name });
+  //   if (error) return next(new BadRequest(`${error.details[0].message}`));
+  //   newClassroom.name = name;
+  // }
   if (teacher) {
-    if (!["admin", "manager", "moderator"].includes(role))
+    if (
+      grade &&
+      !["admin", "manager", "moderator"].includes(grade) &&
+      process.NODE_ENV === "production"
+    )
       return next(new Unauthorized("only  change teacher"));
 
-    const { error } = await classroomValidator({ teacher: teacher });
-    if (error) return next(new BadRequest(`${error.details[0].message}`));
-    // check if teacher is a user and a teacher
+    // const { error } = await classroomValidator({ teacher: teacher });
+    // if (error) return next(new BadRequest(`${error.details[0].message}`));
+
+    // check if teacher is a user
     try {
       let checkedTeacher = await User.findOne({ _id: teacher });
       if (!checkedTeacher)
@@ -140,11 +151,14 @@ module.exports.updateClassroom = async (req, res, next) => {
       return next(err);
     }
 
-    newClassroom._classroom_teacher = teacher;
+    newClassroom.teacher = teacher;
   }
 
   if (helper) {
-    if (!["admin", "manager", "moderator"].includes(role))
+    if (
+      !["admin", "manager", "moderator"].includes(role) &&
+      process.NODE_ENV === "production"
+    )
       return next(new Unauthorized("only manager can change"));
 
     const { error } = await classroomValidator({ helper: helper });
@@ -158,21 +172,20 @@ module.exports.updateClassroom = async (req, res, next) => {
       return next(err);
     }
 
-    newClassroom._classroom_helper = helper;
+    newClassroom.helper = helper;
   }
 
-  if (images) {
-    let [currentClassroom, currentUser] = datas;
-    if (
-      !(currentClassroom._classroom_teacher === _id) ||
-      !(currentClassroom._classroom_helper === _id)
-    )
-      return next(
-        new Unauthorized("only allowed for teacher of the classroom")
-      );
+  try {
+    let updatedClassroom = await Classroom.findOneAndUpdate(
+      { _id: classroomId },
+      newClassroom,
+      { returnOriginal: false }
+    );
+    if (!updatedClassroom) return next();
+    return res.status(200).send(updatedClassroom);
+  } catch (err) {
+    return next(err);
   }
-
-  res.send("update classroom");
 };
 module.exports.deleteClassroom = (req, res, next) => {
   res.send("delete classroom");

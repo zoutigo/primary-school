@@ -193,6 +193,28 @@ describe("USERS", () => {
           });
       });
   });
+  it("should modidy user as owner: update gender", (done) => {
+    chai
+      .request(server)
+      .post("/users")
+      .send(newUser)
+      .end((err, res) => {
+        const token = res.header["x-access-token"];
+        const { _id: userId } = JSON.parse(
+          atob(res.header["x-access-token"].split(".")[1])
+        );
+        const data = { gender: "monsieur" };
+        chai
+          .request(server)
+          .put(`/users/${userId}`)
+          .set("x-access-token", token)
+          .send(data)
+          .end((erro, resp) => {
+            resp.should.have.status(200);
+            done();
+          });
+      });
+  });
   it("should modidy user as owner: update password", (done) => {
     chai
       .request(server)

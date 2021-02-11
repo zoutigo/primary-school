@@ -131,7 +131,7 @@ module.exports.userView = async (req, res, next) => {
   if (error) return next(new NotFound("Not found"));
 
   let user = await User.findOne({ _id: req.params.id }).select(
-    "firstname  grade createdAt"
+    "firstname  grade createdAt _id"
   );
   if (!user) return next(new BadRequest("no user found with that id"));
 
@@ -168,6 +168,7 @@ module.exports.userModify = async (req, res, next) => {
     "grade",
     "roles",
     "action",
+    "gender",
   ];
   const fieldsSubmitted = Object.keys(req.body);
 
@@ -196,6 +197,7 @@ module.exports.userModify = async (req, res, next) => {
     grade,
     roles,
     action,
+    gender,
   } = req.body;
   // name validation
   if (name) {
@@ -220,6 +222,20 @@ module.exports.userModify = async (req, res, next) => {
         modifiedUser.firstname = firstname;
       } else {
         modifiedUser.firstname = firstname;
+      }
+    } else {
+      return next(new Unauthorized("only the owner can modify"));
+    }
+  }
+  // gender validation
+  if (gender) {
+    if (isOwner) {
+      if (!(gender === datas.user.gender)) {
+        const { error } = await userValidator({ gender: gender });
+        if (error) return next(new BadRequest(error.details[0].message));
+        modifiedUser.gender = gender;
+      } else {
+        modifiedUser.gender = gender;
       }
     } else {
       return next(new Unauthorized("only the owner can modify"));
