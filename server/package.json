@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "./bin/www",
+    "start": "node ./bin/www",
     "kill": "kill $(lsof -t -i:3500)",
     "mocha":"cross-env NODE_ENV=development mocha --require babel-register test/*.js --exit",
     "test":"npm run kill & npm run mocha",
