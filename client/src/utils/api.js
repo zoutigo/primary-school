@@ -59,6 +59,6 @@ export const apiFecthUserDatas = async (id) => {
 
 export const apiFecthTeam = async () => {
   let url = 'https://ecole-saint-augustin.herokuapp.com/users/team'
-  let result = await axios(url)
+  let result = await axios.get(url)
   return result
 }
