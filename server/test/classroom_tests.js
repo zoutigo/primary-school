@@ -1,3 +1,4 @@
+process.env.DEV_MODE = "test";
 const assert = require("assert");
 const faker = require("faker");
 const chai = require("chai");
@@ -16,9 +17,9 @@ const getRandom = (max) => {
   return Math.floor(Math.random() * Math.floor(max));
 };
 const classrooms = [
-  ["Petite Section", "petite-section"],
-  ["Moyenne Section", "moyenne-section"],
-  ["Grande Section", "grande-section"],
+  ["Petite Section", "ps"],
+  ["Moyenne Section", "ms"],
+  ["Grande Section", "gs"],
   ["CP", "cp"],
   ["CE1", "ce1"],
   ["CE2", "ce2"],

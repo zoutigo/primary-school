@@ -4,7 +4,7 @@ mongoose.Promise = global.Promise;
 mongoose.set("useCreateIndex", true);
 
 before((done) => {
-  mongoose.connect(process.env.DB_TEST_CONNECT, {
+  mongoose.connect(process.env.DB_TEST, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
   });

@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Roles = require("../models/Roles");
 const { userValidator } = require("../validators/users");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -9,6 +10,8 @@ const {
   Forbidden,
   NotFound,
 } = require("../utils/errors");
+const Classroom = require("../models/Classroom");
+const object = require("@hapi/joi/lib/types/object");
 
 module.exports.userRegister = async (req, res, next) => {
   // check if req.body is not empty
@@ -350,7 +353,7 @@ module.exports.userModify = async (req, res, next) => {
 
 module.exports.userList = async (req, res, next) => {
   try {
-    let users = await User.find().select("_id createdAt");
+    let users = await User.find().select("_id email name firstname");
     if (!users) return res.status(204).send("no user found");
     return res.status(200).send(users);
   } catch (err) {
@@ -370,6 +373,71 @@ module.exports.userEmail = async (req, res, next) => {
     let user = await User.findOne(req.body);
     if (!user) return res.status(204).send("no user");
     return res.status(200).send("user exist");
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.usersTeamGet = async (req, res, next) => {
+  const roles = await Roles.find().select("_id");
+  const rolesArray = roles.map((role) => role._id);
+  const query = {
+    roles: { $in: rolesArray },
+  };
+  try {
+    let teamUsers = await User.find(query)
+      .populate("roles", { name: 1, _id: 0 })
+      .select("name firstname roles gender _id");
+    if (!teamUsers) res.status(204).send("no user in the team");
+
+    const teamUsersRevised = teamUsers.map((user) => {
+      let { name, firstname, gender, roles, _id: userId } = user;
+      let userRevised = {};
+      (userRevised.name = name), (userRevised.firstname = firstname);
+      userRevised.gender = gender;
+      userRevised._id = userId;
+
+      let revisedRoles = roles.map((role) => {
+        return role.name;
+      });
+      userRevised.roles = revisedRoles;
+      return userRevised;
+    });
+
+    let classrooms = await Classroom.find().populate("teacher");
+    // .populate("helper");
+
+    // console.log(classrooms);
+
+    const teamUsersCompleted = teamUsersRevised.map((user) => {
+      let { name, firstname, gender, roles, _id: userId } = user;
+      let completedUser = {
+        name: name,
+        firstname: firstname,
+        gender: gender,
+        roles: roles,
+      };
+      let matchingClassroomTeachers = classrooms.find((classroom) =>
+        classroom.teacher._id.equals(userId)
+      );
+
+      if (matchingClassroomTeachers) {
+        completedUser.classroom = matchingClassroomTeachers.name;
+      }
+
+      let matchingClassroomHelper = classrooms.find(
+        (classroom) =>
+          JSON.stringify(classroom.helper) === JSON.stringify(userId)
+      );
+
+      if (matchingClassroomHelper) {
+        completedUser.classroom = matchingClassroomHelper.name;
+      }
+
+      return completedUser;
+    });
+
+    res.status(200).send(teamUsersCompleted);
   } catch (err) {
     next(err);
   }

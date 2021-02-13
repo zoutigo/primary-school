@@ -1,3 +1,4 @@
+process.env.DEV_MODE = "test";
 const assert = require("assert");
 const faker = require("faker");
 const chai = require("chai");

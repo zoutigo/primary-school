@@ -15,6 +15,7 @@ var rubricsRouter = require("./routes/rubrics");
 var papersRouter = require("./routes/papers");
 const rolesRouter = require("./routes/roles");
 var classroomsRouter = require("./routes/classrooms");
+var datasRouter = require("./routes/datas");
 var articlesRouter = require("./routes/articles");
 var eventsRouter = require("./routes/events");
 var studentsRouter = require("./routes/students");
@@ -25,8 +26,31 @@ dotenv.config();
 var app = express();
 
 // Database connexion
+const DB_CONNECT = () => {
+  if (
+    process.env.NODE_ENV === "development" &&
+    process.env.DEV_MODE === "test"
+  ) {
+    return process.env.DEV_MODE.toString();
+  } else if (
+    process.env.NODE_ENV === "development" &&
+    process.env.DEV_MODE === "dev"
+  ) {
+    return process.env.DB_DEV.toString();
+  } else {
+    return null;
+  }
+};
+
+const DB_URL =
+  process.env.NODE_ENV === "development"
+    ? process.env.DEV_MODE === "test"
+      ? process.env.DB_TEST
+      : process.env.DB_DEV
+    : process.env.DB_DEV;
+
 mongoose
-  .connect(process.env.MONGO_URI || process.env.DB_CONNECT, {
+  .connect(process.env.MONGO_URI || DB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
@@ -67,6 +91,7 @@ app.use("/rubrics", rubricsRouter);
 app.use("/papers", papersRouter);
 app.use("/roles", rolesRouter);
 app.use("/classrooms", classroomsRouter);
+app.use("/datas", datasRouter);
 // app.use("/articles", articlesRouter);
 // app.use("/comments", commentsRouter);
 // app.use("/students", studentsRouter);

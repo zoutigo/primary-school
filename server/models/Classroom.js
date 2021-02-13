@@ -14,16 +14,7 @@ const classroomSchema = new Schema({
   },
   alias: {
     type: String,
-    enum: [
-      "petite-section",
-      "moyenne-section",
-      "grande-section",
-      "cp",
-      "ce1",
-      "ce2",
-      "cm1",
-      "cm2",
-    ],
+    enum: ["ps", "ms", "gs", "cp", "ce1", "ce2", "cm1", "cm2"],
     required: true,
     unique: true,
   },

@@ -12,16 +12,7 @@ module.exports.classroomValidator = (data) => {
       let aliasSchema = Joi.object({
         alias: Joi.string()
           .required()
-          .valid(
-            "petite-section",
-            "moyenne-section",
-            "grande-section",
-            "cp",
-            "ce1",
-            "ce2",
-            "cm1",
-            "cm2"
-          ),
+          .valid("ps", "ms", "gs", "cp", "ce1", "ce2", "cm1", "cm2"),
       });
       return aliasSchema.validate(data);
 
