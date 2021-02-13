@@ -26,21 +26,6 @@ dotenv.config();
 var app = express();
 
 // Database connexion
-const DB_CONNECT = () => {
-  if (
-    process.env.NODE_ENV === "development" &&
-    process.env.DEV_MODE === "test"
-  ) {
-    return process.env.DEV_MODE.toString();
-  } else if (
-    process.env.NODE_ENV === "development" &&
-    process.env.DEV_MODE === "dev"
-  ) {
-    return process.env.DB_DEV.toString();
-  } else {
-    return null;
-  }
-};
 
 const DB_URL =
   process.env.NODE_ENV === "development"
