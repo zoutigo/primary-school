@@ -6,11 +6,7 @@
     "node": "10.19.0"
   },
   "scripts": {
-    "postinstall": "npm run build",
-    "start": "node ./bin/www",
-    "mocha": "cross-env NODE_ENV=development mocha --require babel-register test/*.js --exit",
-    "test": "npm run kill & npm run mocha",
-    "dev": "cross-env NODE_ENV=development nodemon --exec babel-node --presets babel-preset-env ./bin/www"
+    "start": "nodemon ./bin/www"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
