@@ -11,15 +11,14 @@ var http = require("http");
 /**
  * Get port from environment and store in Express.
  */
-const DEV_PORT = "3500";
 
-var port = normalizePort(process.env.PORT || DEV_PORT);
+var port = normalizePort(process.env.PORT || 3500);
 app.set("port", port);
 
 // personal configuration
-if ((port = DEV_PORT)) {
+if (port === 3500) {
   console.log("Environment:", process.env.NODE_ENV);
-  if (!process.env.DEV_MODE) {
+  if (!process.env.DEV_MODE && port === 3500) {
     process.env.DEV_MODE = "dev";
   }
   console.log("DEV_MODE:", process.env.DEV_MODE);
