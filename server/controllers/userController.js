@@ -379,66 +379,73 @@ module.exports.userEmail = async (req, res, next) => {
 };
 
 module.exports.usersTeamGet = async (req, res, next) => {
-  const roles = await Roles.find().select("_id");
-  const rolesArray = roles.map((role) => role._id);
-  const query = {
-    roles: { $in: rolesArray },
+  const groups = [];
+  const classrooms = await Classroom.find().select("_id teacher name helper");
+
+  const rolesList = await Roles.find();
+  const rolesIds = rolesList.map((role) => {
+    return role._id;
+  });
+  const query = { roles: { $in: rolesIds } };
+  const membersList = await User.find(query).select(
+    "_id name firstname gender roles"
+  );
+
+  const getGroup = (role) => {
+    let { _id: roleId, name: roleName } = role;
+    const getRole = () => {
+      return roleName;
+    };
+
+    const getMembers = async () => {
+      let groupMembers = [];
+      for (let i = 0; i < membersList.length; i++) {
+        let {
+          _id: mId,
+          name: mName,
+          frirstname: mFirstname,
+          gender: mGender,
+          roles: mRoles,
+        } = membersList[i];
+        if (JSON.stringify(mRoles[0]) === JSON.stringify(roleId)) {
+          let mClassroom = classrooms.find(
+            (classroom) =>
+              JSON.stringify(mId) === JSON.stringify(classroom.teacher) ||
+              JSON.stringify(mId) === JSON.stringify(classroom.helper)
+          );
+
+          let mClassroomName = mClassroom ? mClassroom.name : null;
+
+          groupMembers.push({
+            _id: mId,
+            name: mName,
+            frirstname: mFirstname,
+            gender: mGender,
+            classroom: mClassroomName,
+          });
+        }
+      }
+
+      return groupMembers;
+    };
+    return {
+      getRole,
+      getMembers,
+    };
   };
+
   try {
-    let teamUsers = await User.find(query)
-      .populate("roles", { name: 1, _id: 0 })
-      .select("name firstname roles gender _id");
-    if (!teamUsers) res.status(204).send("no user in the team");
-
-    const teamUsersRevised = teamUsers.map((user) => {
-      let { name, firstname, gender, roles, _id: userId } = user;
-      let userRevised = {};
-      (userRevised.name = name), (userRevised.firstname = firstname);
-      userRevised.gender = gender;
-      userRevised._id = userId;
-
-      let revisedRoles = roles.map((role) => {
-        return role.name;
-      });
-      userRevised.roles = revisedRoles;
-      return userRevised;
-    });
-
-    let classrooms = await Classroom.find().populate("teacher");
-    // .populate("helper");
-
-    // console.log(classrooms);
-
-    const teamUsersCompleted = teamUsersRevised.map((user) => {
-      let { name, firstname, gender, roles, _id: userId } = user;
-      let completedUser = {
-        name: name,
-        firstname: firstname,
-        gender: gender,
-        roles: roles,
+    for (let i = 0; i < rolesList.length; i++) {
+      let { getRole, getMembers } = await getGroup(rolesList[i]);
+      let groupDatas = {
+        department: getRole(),
+        members: await getMembers(),
       };
-      let matchingClassroomTeachers = classrooms.find((classroom) =>
-        classroom.teacher._id.equals(userId)
-      );
+      groups.push(groupDatas);
+    }
 
-      if (matchingClassroomTeachers) {
-        completedUser.classroom = matchingClassroomTeachers.name;
-      }
-
-      let matchingClassroomHelper = classrooms.find(
-        (classroom) =>
-          JSON.stringify(classroom.helper) === JSON.stringify(userId)
-      );
-
-      if (matchingClassroomHelper) {
-        completedUser.classroom = matchingClassroomHelper.name;
-      }
-
-      return completedUser;
-    });
-
-    res.status(200).send(teamUsersCompleted);
+    res.status(200).send(groups);
   } catch (err) {
-    next(err);
+    return next(err);
   }
 };
