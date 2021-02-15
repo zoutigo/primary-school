@@ -380,9 +380,16 @@ module.exports.userEmail = async (req, res, next) => {
 
 module.exports.usersTeamGet = async (req, res, next) => {
   const groups = [];
+  const sortedRoles = [
+    "La direction",
+    "Les enseignants",
+    "Les aides maternelles",
+    "secretariat-comptabilité",
+    "personnel de cantine",
+  ];
   const classrooms = await Classroom.find().select("_id teacher name helper");
 
-  const rolesList = await Roles.find();
+  const rolesList = await Roles.find({ name: { $ne: "Les parents" } });
   const rolesIds = rolesList.map((role) => {
     return role._id;
   });
@@ -397,6 +404,9 @@ module.exports.usersTeamGet = async (req, res, next) => {
       return roleName;
     };
 
+    const getIndex = (role) => {
+      return sortedRoles.indexOf(roleName);
+    };
     const getMembers = async () => {
       let groupMembers = [];
       for (let i = 0; i < membersList.length; i++) {
@@ -415,13 +425,17 @@ module.exports.usersTeamGet = async (req, res, next) => {
           );
 
           let mClassroomName = mClassroom ? mClassroom.name : null;
+          if (roleName === "La direction") {
+            mClassroomName =
+              mGender === "monsieur" ? "Le directeur" : "La directrice";
+          }
 
           groupMembers.push({
             _id: mId,
-            name: mName,
+            lastname: mName,
             frirstname: mFirstname,
             gender: mGender,
-            classroom: mClassroomName,
+            position: mClassroomName,
           });
         }
       }
@@ -429,6 +443,7 @@ module.exports.usersTeamGet = async (req, res, next) => {
       return groupMembers;
     };
     return {
+      getIndex,
       getRole,
       getMembers,
     };
@@ -436,15 +451,26 @@ module.exports.usersTeamGet = async (req, res, next) => {
 
   try {
     for (let i = 0; i < rolesList.length; i++) {
-      let { getRole, getMembers } = await getGroup(rolesList[i]);
+      let { getRole, getMembers, getIndex } = await getGroup(rolesList[i]);
       let groupDatas = {
+        index: getIndex(),
         department: getRole(),
         members: await getMembers(),
       };
       groups.push(groupDatas);
     }
 
-    res.status(200).send(groups);
+    const sortedGroups = groups
+      .sort((a, b) => a.index - b.index)
+      .map((group) => {
+        let { department, members } = group;
+        return {
+          department: department,
+          members: members,
+        };
+      });
+
+    res.status(200).send(sortedGroups);
   } catch (err) {
     return next(err);
   }
