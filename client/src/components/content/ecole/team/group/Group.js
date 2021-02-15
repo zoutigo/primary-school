@@ -2,6 +2,7 @@ import React from 'react'
 import { makeStyles } from '@material-ui/styles'
 import { Grid } from '@material-ui/core'
 import Department from '../department/Department'
+import Member from '../member/Member'
 const useStyles = makeStyles((theme) => ({
   root: {},
 }))
@@ -18,7 +19,7 @@ function Group({ department, members }) {
       <Grid item container>
         {members &&
           members.map((member, index) => {
-            return <Grid item {...member} key={index} />
+            return <Member item {...member} key={index} />
           })}
       </Grid>
     </Grid>

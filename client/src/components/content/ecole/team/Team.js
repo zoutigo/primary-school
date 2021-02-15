@@ -23,13 +23,13 @@ function Team() {
   console.log(data)
   return (
     <Grid container>
-      {/* {data.map((group, index) => {
+      {data.data.map((group, index) => {
         return (
           <Grid item container key={index}>
             <Group {...group} />
           </Grid>
         )
-      })} */}
+      })}
     </Grid>
   )
 }
