@@ -24,15 +24,7 @@ describe("ROLE ", () => {
     roles.drop();
     done();
   });
-  it("should create role via model", (done) => {
-    const role = new Role({
-      name: faker.name.jobType(),
-    });
-    role.save().then(() => {
-      role.should.be.a("object");
-      done();
-    });
-  });
+
   it("should create role via route", (done) => {
     chai
       .request(server)

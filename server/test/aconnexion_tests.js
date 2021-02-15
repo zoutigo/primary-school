@@ -19,16 +19,16 @@ before((done) => {
     );
 });
 
-beforeEach("Supprime la collection crée", (done) => {
-  mongoose.connection.db.listCollections().toArray(function (err, names) {
-    if (err) {
-      console.log(err);
-    } else {
-      names.forEach(function (e, i, a) {
-        mongoose.connection.db.dropCollection(e.name);
-        // console.warn("--->>", e.name);
-      });
-    }
-  });
-  done();
-});
+// beforeEach("Supprime la collection crée", (done) => {
+//   mongoose.connection.db.listCollections().toArray(function (err, names) {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       names.forEach(function (e, i, a) {
+//         mongoose.connection.db.dropCollection(e.name);
+//         // console.warn("--->>", e.name);
+//       });
+//     }
+//   });
+//   done();
+// });

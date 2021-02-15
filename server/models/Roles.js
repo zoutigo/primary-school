@@ -8,10 +8,11 @@ const roleSchema = new Schema({
     unique: true,
     minlength: 4,
     maxlength: 30,
+    required: true,
   },
   test: {
     type: Boolean,
-    default: true,
+    default: process.env.NODE_ENV === "development",
   },
 });
 

@@ -34,13 +34,7 @@ describe("CATEGORIES", () => {
     categories.drop();
     done();
   });
-  it("should create category via model", (done) => {
-    const category = new Category(newCategory);
-    category.save().then(() => {
-      assert(!category.isNew);
-      done();
-    });
-  });
+
   it("create category via route", (done) => {
     chai
       .request(server)

@@ -11,6 +11,7 @@ const classroomSchema = new Schema({
     type: String,
     minlength: 10,
     maxlength: 300,
+    default: "Nous sommes la classe la plus sympa au monde",
   },
   alias: {
     type: String,
@@ -21,10 +22,12 @@ const classroomSchema = new Schema({
   teacher: {
     type: Schema.ObjectId,
     ref: "User",
+    default: "6026a1bd31aa34384e1c9c8e",
   },
   helper: {
     type: Schema.ObjectId,
     ref: "User",
+    default: "6026a1bd31aa34384e1c9c8e",
   },
   albums: {
     type: String,

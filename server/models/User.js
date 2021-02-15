@@ -38,7 +38,7 @@ const userSchema = new Schema({
   },
   test: {
     type: Boolean,
-    default: false,
+    default: process.env.NODE_ENV === "development",
   },
 
   images: [

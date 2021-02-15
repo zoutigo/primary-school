@@ -53,13 +53,6 @@ describe("CLASSROOMS", () => {
     done();
   });
 
-  it("should create classroom with model", (done) => {
-    const classroom = new Classroom(newClassroom);
-    classroom.save().then(() => {
-      assert(!classroom.isNew);
-      done();
-    });
-  });
   it("should create classroom with route", (done) => {
     chai
       .request(server)

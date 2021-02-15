@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const server = require("../bin/www");
 const User = require("../models/User");
 const Role = require("../models/Roles");
+const Classroom = require("../models/Classroom");
 
 // Configure chai
 chai.use(chaiHttp);
@@ -20,18 +21,11 @@ const newUser = {
 
 describe("USERS", () => {
   beforeEach((done) => {
-    const { users, roles } = mongoose.connection.collections;
+    const { users, roles, classrooms } = mongoose.connection.collections;
     users.drop();
     roles.drop();
+    classrooms.drop();
     done();
-  });
-
-  it("should model  create user", (done) => {
-    const user = new User(newUser);
-    user.save().then(() => {
-      assert(!user.isNew);
-      done();
-    });
   });
 
   it("create user", (done) => {

@@ -36,14 +36,6 @@ describe("RUBRICS", () => {
     done();
   });
 
-  it("should create rubric via model", (done) => {
-    const rubric = new Rubric(newRubric);
-    rubric.save().then(() => {
-      assert(!rubric.isNew);
-      done();
-    });
-  });
-
   it("should create rubric via route", (done) => {
     chai
       .request(server)
