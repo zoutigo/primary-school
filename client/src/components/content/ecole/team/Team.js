@@ -20,15 +20,10 @@ function Team() {
     return <span>Error: {error.message}</span>
   }
 
-  console.log(data)
   return (
     <Grid container>
       {data.data.map((group, index) => {
-        return (
-          <Grid item container key={index}>
-            <Group {...group} />
-          </Grid>
-        )
+        return <Group {...group} key={index} />
       })}
     </Grid>
   )
