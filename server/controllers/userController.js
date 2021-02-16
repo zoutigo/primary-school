@@ -413,7 +413,7 @@ module.exports.usersTeamGet = async (req, res, next) => {
         let {
           _id: mId,
           name: mName,
-          frirstname: mFirstname,
+          firstname: mFirstname,
           gender: mGender,
           roles: mRoles,
         } = membersList[i];
@@ -433,7 +433,7 @@ module.exports.usersTeamGet = async (req, res, next) => {
           groupMembers.push({
             _id: mId,
             lastname: mName,
-            frirstname: mFirstname,
+            firstname: mFirstname,
             gender: mGender,
             position: mClassroomName,
           });
