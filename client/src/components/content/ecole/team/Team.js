@@ -5,11 +5,6 @@ import { apiFecthTeam } from '../../../../utils/api'
 import Group from './group/Group'
 
 function Team() {
-  const Groups = [
-    { department: 'Les enseignants', members: [] },
-    { department: 'La direction', members: [] },
-  ]
-  const [groups, setGroups] = React.useState(Groups)
   const { isLoading, isError, data, error } = useQuery('team', apiFecthTeam)
 
   if (isLoading) {

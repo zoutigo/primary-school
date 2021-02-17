@@ -6,6 +6,7 @@ import Member from './Member'
 
 describe('TEAM MEMBER Component', () => {
   afterEach(cleanup)
+
   const gender = faker.name.gender()
   const firstname = faker.name.firstName()
   const lastname = faker.name.lastName()
@@ -17,8 +18,9 @@ describe('TEAM MEMBER Component', () => {
     position,
   }
   it('render without crashing', () => {
+    const members = [1, 2, 3]
     const div = document.createElement('div')
-    ReactDom.render(<Member />, div)
+    ReactDom.render(<Member members={members} />, div)
   })
 
   it('renders props correctly', () => {

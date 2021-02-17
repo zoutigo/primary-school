@@ -49,16 +49,8 @@ export const apiFecthUserDatas = async (id) => {
   // axios.get(url).then((res) => res)
 }
 
-// const getTodos = () => (
-//   fetch('https://jsonplaceholder.typicode.com/todos').then((res) => res.json())
-// );
-
-// export {
-//   getTodos
-// };
-
 export const apiFecthTeam = async () => {
-  let url = 'https://ecole-saint-augustin.herokuapp.com/users/team'
-  let result = await axios.get(url)
+  let URL = `${process.env.REACT_APP_ENDPOINT}/users/team`
+  let result = await axios.get(URL)
   return result
 }

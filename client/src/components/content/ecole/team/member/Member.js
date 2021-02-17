@@ -1,12 +1,9 @@
 import React, { useMemo } from 'react'
-import { useTheme } from '@material-ui/styles'
 import { Grid, Typography, withStyles } from '@material-ui/core'
 
 function Member({ gender, firstname, lastname, position }) {
-  const theme = useTheme()
-
   const StyledGrid = useMemo(() => {
-    return withStyles({
+    const styles = (theme) => ({
       root: {
         paddingTop: '1em',
         paddingBottom: '1em',
@@ -38,10 +35,20 @@ function Member({ gender, firstname, lastname, position }) {
           color: theme.palette.primary.main,
         },
       },
-    })(Grid)
+    })
+    return withStyles(styles, [{ withTheme: true }])(Grid)
   }, [])
+
   return (
-    <StyledGrid item container data-testid="team-member">
+    <StyledGrid
+      item
+      container
+      data-testid="team-member"
+      xs={12}
+      sm={12}
+      md={12}
+      lg={4}
+    >
       <div>
         <div>
           <Typography variant="h5">{gender}</Typography>

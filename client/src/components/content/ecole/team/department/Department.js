@@ -1,12 +1,9 @@
 import React, { useMemo } from 'react'
-import { makeStyles, useTheme } from '@material-ui/styles'
 import { Box, Typography, withStyles } from '@material-ui/core'
 
 function Department({ department }) {
-  const theme = useTheme()
-
   const StyledDepartment = useMemo(() => {
-    return withStyles({
+    const styles = (theme) => ({
       root: {
         color: theme.palette.secondary.main,
         textTransform: 'capitalize',
@@ -18,12 +15,13 @@ function Department({ department }) {
           marginBottom: '1em',
         },
       },
-    })(Box)
+    })
+    return withStyles(styles, [{ withTheme: true }])(Box)
   }, [])
   return (
     <StyledDepartment data-testid="team-department">
       <Typography variant="h3">{department}</Typography>
-      <div></div>
+      <div data-testid="team-department-spacer"></div>
     </StyledDepartment>
   )
 }

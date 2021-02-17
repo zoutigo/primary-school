@@ -9,11 +9,20 @@ describe('TEAM Group Component', () => {
 
   const department = faker.name.jobArea()
 
-  const props = { department }
+  const members = [
+    {
+      name: 'Hello',
+      firstname: 'Madrid',
+      gender: 'monsieur',
+      position: 'cadre',
+    },
+  ]
+  const props = { department, members }
 
   it('render without crashing', () => {
+    const members = [1, 2, 3]
     const div = document.createElement('div')
-    ReactDom.render(<Group />, div)
+    ReactDom.render(<Group members={members} />, div)
   })
 
   it('renders correctly with props', () => {
