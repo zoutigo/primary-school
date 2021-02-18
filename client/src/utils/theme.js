@@ -1,4 +1,10 @@
 import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles'
+import cyan from '@material-ui/core/colors/cyan'
+import deepPurple from '@material-ui/core/colors/deepPurple'
+import lightGreen from '@material-ui/core/colors/lightGreen'
+import deepOrange from '@material-ui/core/colors/deepOrange'
+import red from '@material-ui/core/colors/red'
+import amber from '@material-ui/core/colors/amber'
 
 let theme = createMuiTheme({
   palette: {
@@ -18,6 +24,36 @@ let theme = createMuiTheme({
       ligth: 'rgb(250,250,210)',
       main: 'rgb(255,215,0)',
       dark: 'rgb(240,230,140)',
+    },
+    ecole: {
+      ligth: cyan[50],
+      main: cyan[200],
+      dark: cyan[600],
+    },
+    viescolaire: {
+      ligth: amber[50],
+      main: amber[300],
+      dark: amber[600],
+    },
+    classes: {
+      ligth: lightGreen[50],
+      main: lightGreen[500],
+      dark: lightGreen[900],
+    },
+    apelogec: {
+      ligth: deepPurple[50],
+      main: deepPurple[300],
+      dark: deepPurple[900],
+    },
+    informations: {
+      ligth: deepOrange[50],
+      main: deepOrange[400],
+      dark: deepOrange[800],
+    },
+    private: {
+      ligth: red[50],
+      main: red[500],
+      dark: red[900],
     },
   },
   typography: {

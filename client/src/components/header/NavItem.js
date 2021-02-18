@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { makeStyles, useTheme } from '@material-ui/styles'
-import purple from '@material-ui/core/colors/purple'
-import yellow from '@material-ui/core/colors/yellow'
+
 import { Box, Typography } from '@material-ui/core'
 
 import { NavLink, useLocation, useHistory } from 'react-router-dom'
@@ -132,7 +131,7 @@ const useStyles = makeStyles((theme) => ({
 
 function NavItem({ rubric, ind }) {
   const theme = useTheme()
-  const { name, link, icon, categories } = rubric
+  const { name, link, icon, categories, alias } = rubric
 
   const classes = useStyles()
   const { pathname } = useLocation()
@@ -172,14 +171,15 @@ function NavItem({ rubric, ind }) {
     dispatch(setCredentials({}))
     history.push('/')
   }
-  const Red = theme.palette.error.main
-  const Yellow = yellow[500]
-  const Green = theme.palette.success.light
-  const Purple = purple[300]
-  const Orange = theme.palette.warning.dark
-  const Blue = theme.palette.info.light
 
-  const iconsColors = [Blue, Yellow, Green, Purple, Orange, Red]
+  const iconsColors = [
+    theme.palette.ecole.main,
+    theme.palette.viescolaire.main,
+    theme.palette.classes.main,
+    theme.palette.informations.main,
+    theme.palette.apelogec.main,
+    theme.palette.private.main,
+  ]
 
   return (
     <div
@@ -202,6 +202,10 @@ function NavItem({ rubric, ind }) {
               rubric: name,
               state: {
                 from: pathname,
+                rubric: {
+                  name: name,
+                  alias: alias,
+                },
               },
             }}
             style={{ color: 'inherit', textDecoration: 'inherit' }}
@@ -254,6 +258,14 @@ function NavItem({ rubric, ind }) {
                         chapters: category.chapters,
                         state: {
                           from: pathname,
+                          rubric: {
+                            name: name,
+                            alias: alias,
+                          },
+                          category: {
+                            name: category.designation,
+                            alias: category.alias,
+                          },
                         },
                       }}
                       style={{ color: 'inherit', textDecoration: 'inherit' }}

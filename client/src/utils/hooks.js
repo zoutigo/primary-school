@@ -1,3 +1,4 @@
+import { useTheme } from '@material-ui/styles'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
@@ -28,4 +29,42 @@ export const useScroll = () => {
       window.removeEventListener('scroll', handleScroll)
     }
   }, [])
+}
+
+export const useLocationColor = () => {
+  const [colors, setColors] = React.useState('')
+  const { state } = useLocation()
+
+  const theme = useTheme()
+
+  const paletteColor = (alias) => {
+    switch (alias) {
+      case 'ecole':
+        return theme.palette.ecole
+      case 'vie-scolaire':
+        return theme.palette.viescolaire
+      case 'classes':
+        return theme.palette.classes
+      case 'informations':
+        return theme.palette.informations
+      case 'apel-ogec':
+        return theme.palette.apelogec
+      case 'private':
+        return theme.palette.private
+
+      default:
+        return theme.palette.primary
+    }
+  }
+
+  React.useEffect(() => {
+    if (state && state.rubric) {
+      setColors(paletteColor(state.rubric.alias))
+    }
+
+    return () => {
+      setColors('')
+    }
+  }, [state])
+  return colors
 }

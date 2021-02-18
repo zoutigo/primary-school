@@ -83,8 +83,8 @@ function SmallScreenMenu(props) {
   return (
     <div className={`${classes.root} ${toogleSmallScreenMenuClass}`}>
       {rubrics.map((element, index) => {
-        const { name, link, categories } = element
-
+        const { name, link, categories, alias } = element
+        const rubricElements = { name: name, alias: alias }
         if (element.alias !== 'home') {
           return (
             <div key={index}>
@@ -97,6 +97,10 @@ function SmallScreenMenu(props) {
                       rubric: name,
                       state: {
                         from: pathname,
+                        rubric: {
+                          name: name,
+                          alias: alias,
+                        },
                       },
                     }}
                     onClick={() => dispatch(toogleSmallScreenMenu())}
@@ -126,7 +130,7 @@ function SmallScreenMenu(props) {
                 <SmallScreenMenuItem
                   categories={categories}
                   index={index}
-                  rubric={element.name}
+                  rubric={rubricElements}
                 />
               )}
             </div>
