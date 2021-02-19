@@ -12,7 +12,6 @@ function Aside({ title, items }) {
       container
       item
       style={{
-        background: 'yellow',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-start',

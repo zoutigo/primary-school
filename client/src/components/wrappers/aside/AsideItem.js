@@ -14,7 +14,11 @@ const styles = {
 function AsideItem({ item, rubricColors }) {
   const { subtitle, text } = item
   const Item = withStyles(styles)(({ classes, rubricColors }) => (
-    <Paper className={classes.root} style={{ background: rubricColors.ligth }}>
+    <Paper
+      className={classes.root}
+      style={{ background: rubricColors.ligth }}
+      data-testid="wrapper-aside-item"
+    >
       <Typography variant="subtitle1">{subtitle}</Typography>
       <Typography variant="body2">{text} </Typography>
     </Paper>

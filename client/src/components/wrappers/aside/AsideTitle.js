@@ -20,8 +20,8 @@ function AsideTitle({ rubricColors, title }) {
   })
 
   const PageTitle = withStyles(styles)(({ classes, title, rubricColors }) => (
-    <div className={classes.root}>
-      <Box className={classes.box}>
+    <div className={classes.root} data-testid="wrapper-aside-title">
+      <Box className={classes.box} data-testid="wrapper-aside-title-box">
         <Typography variant="h6">{title}</Typography>
       </Box>
     </div>

@@ -6,7 +6,6 @@ import { Grid } from '@material-ui/core'
 const styles = (theme) => ({
   root: {
     width: '80%',
-    background: 'green',
     marginLeft: '20%',
   },
 })
