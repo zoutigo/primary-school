@@ -1,8 +1,17 @@
 import { Grid } from '@material-ui/core'
+import { withStyles } from '@material-ui/styles'
 import React from 'react'
+import faker from 'faker'
 import { useQuery } from 'react-query'
 import { apiFecthTeam } from '../../../../utils/api'
+import Wrapper from '../../../wrappers/wrapper/Wrapper'
 import Group from './group/Group'
+
+const styles = (theme) => ({
+  root: {
+    paddingTop: '3em',
+  },
+})
 
 function Team() {
   const { isLoading, isError, data, error } = useQuery('team', apiFecthTeam)
@@ -15,13 +24,23 @@ function Team() {
     return <span>Error: {error.message}</span>
   }
 
-  return (
-    <Grid container>
+  const TeamContent = withStyles(styles)(({ classes, data }) => (
+    <Grid container className={classes.root}>
       {data.data.map((group, index) => {
         return <Group {...group} key={index} />
       })}
     </Grid>
-  )
+  ))
+
+  const pages = [
+    {
+      title: `L'équipe pédagogique`,
+      content: <TeamContent data={data} />,
+    },
+  ]
+
+  const datas = { pages }
+  return <Wrapper {...datas} />
 }
 
 export default Team

@@ -54,7 +54,7 @@ function Main({ pages }) {
     setValue(newValue)
   }
 
-  const StyledMain = withStyles(styles)(({ classes }) => (
+  const StyledMain = withStyles(styles)(({ classes, pages }) => (
     <Grid className={classes.root} item container>
       <AppBar
         position="static"
@@ -89,7 +89,7 @@ function Main({ pages }) {
     </Grid>
   ))
 
-  return <StyledMain />
+  return <StyledMain pages={pages} />
 }
 
 export default Main

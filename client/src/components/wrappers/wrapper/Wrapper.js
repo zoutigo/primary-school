@@ -19,7 +19,7 @@ function Wrapper({ pages, aside }) {
     return (
       <Grid container>
         <Grid item container>
-          <Main />
+          <Main pages={pages} />
         </Grid>
       </Grid>
     )
