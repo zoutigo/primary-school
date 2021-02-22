@@ -65,8 +65,8 @@ function Register({ classes }) {
     const datas = {
       email: data.email,
       password: data.password,
-      role: data.role,
     }
+    console.log('datas', datas)
     await apiRegister(datas)
       .then((response) => {
         if (response.status === 201) {

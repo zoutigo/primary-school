@@ -21,7 +21,7 @@ module.exports.userRegister = async (req, res, next) => {
   const fields =
     process.env.NODE_ENV == "development"
       ? ["email", "password"]
-      : ["email", "password", "test"];
+      : ["email", "password"];
   const submittedFields = fields.filter((field) => {
     return Object.keys(req.body).includes(field) === true;
   });
