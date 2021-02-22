@@ -10,6 +10,7 @@ import { setIsLogged, setTokenValidity } from '../../redux/user/userActions'
 import { rubricComponents } from '../../utils/navComponents'
 import ErrorPage from './ErrorPage'
 import rubrics from '../../utils/rubrics'
+import Identification from './private/credentials/identification/Identification'
 const useStyles = makeStyles((theme) => ({
   root: {
     minWidth: '100vw',
@@ -125,6 +126,11 @@ function Content() {
           {allChapters.map((subsubroute, ind) => (
             <Route key={ind} {...subsubroute} />
           ))}
+          <Route
+            component={Identification}
+            path="/private/identification"
+            exact={true}
+          />
           <Route component={ErrorPage} />
         </Switch>
       </div>

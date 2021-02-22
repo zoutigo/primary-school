@@ -20,14 +20,7 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: '12vh',
     marginTop: '10vh',
   },
-  // toolbar: {
-  //   display: 'flex',
-  //   justifyContent: 'space-betwween',
-  //   alignItems: 'center',
-  //   maxWidth: '100vw',
-  //   minWidth: '100vw',
-  //   minHeight: '12vh',
-  // },
+
   toolbar: {},
   contentLarge: {
     minWidth: '85vw',
@@ -58,7 +51,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
   scrolledStyle: {
-    background: theme.palette.success.main,
+    // background: theme.palette.primary.main,
+    background: `linear-gradient(to bottom, ${theme.palette.primary.main} 75%, ${theme.palette.primary.light})`,
     boxShadow: 'inherit',
     transition: 'background 1s ease',
   },
@@ -81,7 +75,10 @@ const useStyles = makeStyles((theme) => ({
   },
   logo: {
     background: 'none',
-    width: '9vw',
+    width: '9rem',
+    [theme.breakpoints.up('md')]: {
+      width: '9rem',
+    },
   },
   medium: {
     minHeight: '12vh',
@@ -90,13 +87,17 @@ const useStyles = makeStyles((theme) => ({
     },
     '& >:first-child': {
       textAlign: 'center',
-      paddingTop: '0.7%',
+      paddingTop: '1.7%',
     },
     '& >:last-child': {
+      alignSelf: 'center',
       display: 'flex',
       justifyContent: 'space-around',
       alignItems: 'flex-end',
       overflow: 'hidden',
+    },
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
     },
   },
 }))
@@ -104,29 +105,14 @@ const useStyles = makeStyles((theme) => ({
 function Header() {
   const dispatch = useDispatch()
   const classes = useStyles()
-  const [scroll, setScroll] = useState(false)
-  const headerColor = scroll ? classes.scrolledStyle : classes.unscrolledStyle
+  const Scroll = useSelector((state) => state.settings.Scroll)
+  const headerColor = Scroll ? classes.scrolledStyle : classes.unscrolledStyle
   const smallScreenMenuIsOpened = useSelector(
     (state) => state.settings.smallScreenMenuIsOpened
   )
 
   const { pathname } = useLocation()
   const exception = pathname === '/'
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.pageYOffset > 0) {
-        setScroll(true)
-      } else {
-        setScroll(false)
-      }
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
 
   const Logo = () => {
     return (
@@ -146,19 +132,14 @@ function Header() {
   return (
     <AppBar className={`${classes.root} ${headerColor}`}>
       <Toolbar className={classes.toolbar}>
-        <Grid
-          container
-          className={classes.medium}
-          display="flex"
-          alignItems="center"
-        >
+        <Grid container className={classes.medium} display="flex">
           <Grid item md={2} lg={2}>
             <Logo className={classes.logo} />
           </Grid>
           <Grid item md={10} lg={10}>
             {rubrics.map((rubric, index) => {
               if (rubric.alias !== 'home') {
-                return <NavItem key={index} rubric={rubric} />
+                return <NavItem key={index} rubric={rubric} ind={index} />
               }
               return null
             })}

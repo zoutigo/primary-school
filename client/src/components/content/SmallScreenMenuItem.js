@@ -76,6 +76,11 @@ function SmallScreenMenuItem({ categories, rubric, index }) {
                     chapters: category.chapters,
                     state: {
                       from: pathname,
+                      rubric: rubric,
+                      category: {
+                        name: category.designation,
+                        alias: category.alias,
+                      },
                     },
                   }}
                   onClick={handleClick}

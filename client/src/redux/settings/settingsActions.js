@@ -6,6 +6,7 @@ import {
   SHOW_PAPERS,
   SHOW_PAPER_FORM,
   TEST_SETTINGS_REDUCER,
+  SET_SCROLL,
 } from './settingsActionsTypes'
 
 export const testSettings = (value) => {
@@ -51,5 +52,12 @@ export const showPapers = (value) => {
 export const tooglePaperForm = () => {
   return {
     type: SHOW_PAPER_FORM,
+  }
+}
+
+export const setScroll = (value) => {
+  return {
+    type: SET_SCROLL,
+    payload: value,
   }
 }

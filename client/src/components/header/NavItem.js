@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, useTheme } from '@material-ui/styles'
+
 import { Box, Typography } from '@material-ui/core'
 
 import { NavLink, useLocation, useHistory } from 'react-router-dom'
@@ -23,9 +24,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(1),
     display: 'inline-block',
   },
-  bottom: {},
-  rootActive: {},
-  rootNotActive: {},
+
   iconActive: {
     color: theme.palette.common.black,
     transform: 'scale(1.5)',
@@ -45,19 +44,22 @@ const useStyles = makeStyles((theme) => ({
     background: theme.palette.primary.main,
     // marginBottom: theme.spacing(3)
   },
-  hoveredLink: {
-    textAlign: 'center',
-    background: 'green',
-    color: 'red',
-  },
+  // hoveredLink: {
+  //   textAlign: 'center',
+  //   background: 'green',
+  //   color: 'red',
+  // },
   link: {
     textAlign: 'center',
     background: 'transparent',
-    minWidth: '15em',
+    minWidth: '100%',
     '&:hover': {
-      background: theme.palette.success.light,
-      color: 'red',
+      background: theme.palette.secondary.main,
+      color: theme.palette.primary.main,
     },
+    // [theme.breakpoints.up('lg')]: {
+    //   minWidth: '13rem',
+    // },
   },
   hide: {
     display: 'none',
@@ -66,6 +68,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'block',
   },
   root: {
+    '& nav': {
+      width: '100%',
+    },
     '&:hover': {
       // background:theme.palette.primary.main,
       '& >div': {
@@ -95,8 +100,8 @@ const useStyles = makeStyles((theme) => ({
     minHeight: theme.spacing(5),
     borderTop: 'white solid 1px',
     '&:hover ': {
-      background: theme.palette.success.light,
-      color: theme.palette.error.main,
+      background: theme.palette.secondary.main,
+      color: theme.palette.primary.main,
       '& div': {
         display: 'inline-block',
       },
@@ -112,20 +117,21 @@ const useStyles = makeStyles((theme) => ({
       '& li': {
         display: 'block',
         minHeight: '3em',
-        background: theme.palette.third.dark,
+        background: theme.palette.primary.light,
         color: 'black',
         borderTop: 'white solid 1px',
       },
       '& li:hover': {
-        background: theme.palette.success.light,
-        color: theme.palette.error.main,
+        background: theme.palette.secondary.main,
+        color: theme.palette.primary.main,
       },
     },
   },
 }))
 
-function NavItem({ rubric }) {
-  const { name, link, icon, categories } = rubric
+function NavItem({ rubric, ind }) {
+  const theme = useTheme()
+  const { name, link, icon, categories, alias } = rubric
 
   const classes = useStyles()
   const { pathname } = useLocation()
@@ -166,13 +172,28 @@ function NavItem({ rubric }) {
     history.push('/')
   }
 
+  const iconsColors = [
+    theme.palette.ecole.main,
+    theme.palette.viescolaire.main,
+    theme.palette.classes.main,
+    theme.palette.informations.main,
+    theme.palette.apelogec.main,
+    theme.palette.private.main,
+  ]
+
   return (
     <div
       className={`${wasClicked} ${activeRoot}`}
       style={{ minHeight: '100%' }}
     >
       <nav onClick={() => setClicked(true)}>
-        <div className={`${classes.icon} ${activeIcon}`}> {icon} </div>
+        <div
+          className={`${classes.icon} ${activeIcon}`}
+          style={{ color: `${iconsColors[ind - 1]}` }}
+        >
+          {' '}
+          {icon}{' '}
+        </div>
         <div className={classes.link}>
           <NavLink
             to={{
@@ -181,6 +202,10 @@ function NavItem({ rubric }) {
               rubric: name,
               state: {
                 from: pathname,
+                rubric: {
+                  name: name,
+                  alias: alias,
+                },
               },
             }}
             style={{ color: 'inherit', textDecoration: 'inherit' }}
@@ -190,8 +215,11 @@ function NavItem({ rubric }) {
               variant="h6"
               style={{ marginLeft: '8px', marginRight: '8px' }}
             >
-              {' '}
-              {name}{' '}
+              {alias !== 'private'
+                ? name
+                : isLogged
+                ? 'Espace Privé'
+                : `S'identifier`}
             </Typography>
           </NavLink>
         </div>
@@ -233,6 +261,14 @@ function NavItem({ rubric }) {
                         chapters: category.chapters,
                         state: {
                           from: pathname,
+                          rubric: {
+                            name: name,
+                            alias: alias,
+                          },
+                          category: {
+                            name: category.designation,
+                            alias: category.alias,
+                          },
                         },
                       }}
                       style={{ color: 'inherit', textDecoration: 'inherit' }}
