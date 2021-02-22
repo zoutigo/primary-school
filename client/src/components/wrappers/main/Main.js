@@ -81,7 +81,12 @@ function Main({ pages }) {
       </AppBar>
       {pages.map((page, index) => {
         return (
-          <TabPanel value={value} key={index} index={index}>
+          <TabPanel
+            value={value}
+            key={index}
+            index={index}
+            style={{ minWidth: '100%' }}
+          >
             <TabPanelContainer page={page} />
           </TabPanel>
         )

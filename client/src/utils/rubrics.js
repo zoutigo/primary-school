@@ -33,8 +33,8 @@ import Apel from '../components/content/ApelOgec/Apel'
 import Ogec from '../components/content/ApelOgec/Ogec'
 import SubMenuCardGroup from '../components/content/SubMenuCardGroup'
 import Papers from '../components/content/papers/Papers'
-import Login from '../components/content/private/credentials/Login'
-import Register from '../components/content/private/credentials/Register'
+import Login from '../components/content/private/credentials/login/Login'
+import Register from '../components/content/private/credentials/register/Register'
 import Account from '../components/content/private/personal/Account'
 
 const rubrics = [

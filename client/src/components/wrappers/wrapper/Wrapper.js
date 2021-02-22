@@ -7,10 +7,10 @@ function Wrapper({ pages, aside }) {
   if (aside) {
     return (
       <Grid container>
-        <Grid item container md={9} lg={8}>
+        <Grid item container md={12} lg={8}>
           <Main pages={pages} />
         </Grid>
-        <Grid item container md={3} lg={4} style={{ padding: '0 0.2em' }}>
+        <Grid item container md={12} lg={4} style={{ padding: '0 0.2em' }}>
           <Aside {...aside} />
         </Grid>
       </Grid>

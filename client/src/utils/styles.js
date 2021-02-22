@@ -1,50 +1,38 @@
-import { styled } from '@material-ui/styles'
-
 const formStyles = (theme) => ({
-  textField: {
-    width: '100%',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    paddingBottom: '0',
-    marginTop: 0,
-    fontWeight: 500,
-    position: 'relative',
+  root: {
+    // position: 'relative',
+    // minWidth: '100%',
+    // background: 'yellow',
+    // padding: '2em',
   },
+  circularContainer: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+  },
+  form: {
+    minWidth: '100%',
+  },
+
   formGroup: {
-    width: '100%',
-    margin: '0.5em auto',
+    paddingTop: '4em',
+    border: 'solid 1px gray',
+    width: '80%',
+    marginTop: '3em',
     display: 'flex',
     flexDirection: 'column',
     '& label': {
       marginBottom: '0.2em',
     },
     '& input': {
-      minHeight: '2em',
+      minHeight: '4em',
+      witdh: '100%',
       background: 'whitesmoke',
       border: 'none',
     },
     '& p': {
       minHeight: '1em',
       color: 'red',
-    },
-    '& div': {
-      display: 'flex',
-      alignItems: 'center',
-      '& label': {
-        marginRight: '5em',
-      },
-      '& div': {
-        background: 'whitesmoke',
-        textAlign: 'center',
-        '& div': {
-          '& label': {
-            marginLeft: '0.5em',
-          },
-          '& input': {
-            marginTop: '0.1em',
-          },
-        },
-      },
     },
   },
 })

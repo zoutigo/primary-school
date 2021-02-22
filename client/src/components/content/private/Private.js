@@ -72,9 +72,8 @@ function a11yProps(index) {
 }
 
 function Private() {
-  const location = useLocation()
   const classes = useStyles()
-  const { from } = location.state
+  const { state, pathname } = useLocation()
 
   const [value, setValue] = React.useState(0)
   const handleChange = (event, newValue) => {
@@ -115,14 +114,21 @@ function Private() {
     return (
       <Redirect
         to={{
-          pathname: 'private/login',
+          pathname: 'private/identification',
+          state: {
+            from: pathname,
+            rubric: {
+              name: state.rubric.name,
+              alias: state.rubric.alias,
+            },
+          },
         }}
       />
     )
   }
   return (
     <Grid container className={classes.root}>
-      {from && from === '/private/register' && <WelcomeMessage />}
+      {state.from && state.from === '/private/register' && <WelcomeMessage />}
       <Grid item container>
         <AppBar position="static" className={classes.appbar}>
           <Tabs

@@ -1,37 +1,23 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-
-import TitlePanel from '../../../../utils/TitlePanel'
-
-import { makeStyles, withStyles } from '@material-ui/styles'
-import { Button } from '@material-ui/core'
-import CircularProgress from '@material-ui/core/CircularProgress'
-
-import { apiLogin } from '../../../../utils/api'
-import formStyles from '../../../../utils/styles'
+import { apiLogin } from '../../../../../utils/api'
 
 import {
   setToken,
   setCredentials,
   setIsLogged,
   setTokenValidity,
-} from '../../../../redux/user/userActions'
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    marginBottom: '2em',
-    position: 'relative',
-  },
-  circularContainer: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-  },
-}))
+} from '../../../../../redux/user/userActions'
+import { CircularProgress, withStyles } from '@material-ui/core'
+import formStyles from '../../../../../utils/styles'
+import ButtonForm from '../../../../../utils/forms/ButtonForm'
+import EmailInput from '../../../../../utils/forms/EmailInput'
+import PasswordInput from '../../../../../utils/forms/PasswordInput'
+import { StyledForm } from '../../../../../utils/forms/styledComponents'
 
 const passRegExp = new RegExp('^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$')
 const schema = yup.object().shape({
@@ -46,10 +32,9 @@ const schema = yup.object().shape({
     .matches(passRegExp, 'Mot de pass non valide'),
 })
 
-function Login(props) {
+function Login({ classes }) {
   const dispatch = useDispatch()
   const history = useHistory()
-  const classes = useStyles()
 
   const {
     register,
@@ -97,47 +82,35 @@ function Login(props) {
   }
 
   return (
-    <div className={classes.root}>
-      <TitlePanel title={'Login'} />
+    <StyledForm onSubmit={handleSubmit(onSubmit)}>
       {isSubmitting && (
         <div className={classes.circularContainer}>
           <CircularProgress />
         </div>
       )}
-      <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
-        <div className={props.classes.formGroup}>
-          <label htmlFor="email">Email</label>
-          <input
-            name="email"
-            placeholder="mocha@gmail.fr"
-            disabled={isSubmitting}
-            ref={register}
-          />
-          <p>{errors.email?.message}</p>
-        </div>
-        <div className={props.classes.formGroup}>
-          <label htmlFor="password">Mot de pass</label>
-          <input
-            name="password"
-            placeholder="Cantique8715"
-            disabled={isSubmitting}
-            ref={register}
-          />
-          <p>{errors.password?.message}</p>
-        </div>
 
-        <Button
-          disabled={!isValid || isSubmitting}
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-        >
-          {' '}
-          Je m'inscris{' '}
-        </Button>
-      </form>
-    </div>
+      <EmailInput
+        name="email"
+        autoFocus
+        ref={register}
+        label="Email"
+        error={errors.email ? true : false}
+        errors={errors}
+      />
+
+      <PasswordInput
+        name="password"
+        ref={register}
+        label="Mot de passe"
+        error={errors.password ? true : false}
+        errors={errors}
+      />
+      <ButtonForm
+        type="submit"
+        label={`Je me connecte maintenant`}
+        disabled={!isValid ? true : isSubmitting ? true : false}
+      />
+    </StyledForm>
   )
 }
 

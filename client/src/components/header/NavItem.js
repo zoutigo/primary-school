@@ -215,8 +215,11 @@ function NavItem({ rubric, ind }) {
               variant="h6"
               style={{ marginLeft: '8px', marginRight: '8px' }}
             >
-              {' '}
-              {name}{' '}
+              {alias !== 'private'
+                ? name
+                : isLogged
+                ? 'Espace Privé'
+                : `S'identifier`}
             </Typography>
           </NavLink>
         </div>
