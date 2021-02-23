@@ -66,7 +66,7 @@ function Register({ classes }) {
       email: data.email,
       password: data.password,
     }
-    console.log('datas', datas)
+
     await apiRegister(datas)
       .then((response) => {
         if (response.status === 201) {

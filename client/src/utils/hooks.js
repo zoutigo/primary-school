@@ -68,3 +68,12 @@ export const useLocationColor = () => {
   }, [state])
   return colors
 }
+
+export const useToggle = () => {
+  const [toggleState, setToggleState] = React.useState(false)
+
+  const toggle = () => {
+    setToggleState(!toggleState)
+  }
+  return { toggleState, toggle }
+}

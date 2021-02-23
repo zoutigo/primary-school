@@ -1,7 +1,12 @@
 import React from 'react'
+import SitePage from './sitepages/SitePage'
 
 function Administration() {
-  return <div>Administration</div>
+  return (
+    <div>
+      <SitePage />
+    </div>
+  )
 }
 
 export default Administration
