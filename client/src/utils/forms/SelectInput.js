@@ -6,10 +6,10 @@ import styles from './styles'
 const SelectInput = React.forwardRef(({ classes, errors, ...rest }, ref) => {
   const [value, setValue] = React.useState('')
 
-  const { options, initialValue } = rest
+  const { options, initial } = rest
   const handleChange = (event) => {
     const optionValue = event.target.value
-    console.log(optionValue)
+
     setValue(optionValue)
   }
 
@@ -28,7 +28,7 @@ const SelectInput = React.forwardRef(({ classes, errors, ...rest }, ref) => {
           shrink: true,
         }}
       >
-        <option value="">{initialValue}</option>
+        <option value="">{initial}</option>
         {options.map((option, i) => (
           <option key={i} value={option[1]}>
             {option[0]}

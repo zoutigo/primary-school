@@ -1,5 +1,7 @@
 import { Button, useTheme } from '@material-ui/core'
 import React from 'react'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
@@ -11,6 +13,10 @@ import TextInput from '../../../../../utils/forms/TextInput'
 import { useToggle } from '../../../../../utils/hooks'
 import TinyEditor from '../../../../../utils/TinyEditor'
 import SelectInput from '../../../../../utils/forms/SelectInput'
+import { PagesSharp } from '@material-ui/icons'
+import { apiCreatePage } from '../../../../../utils/api'
+import { useHistory } from 'react-router'
+import { useSelector } from 'react-redux'
 
 const pagesList = [
   ['apel', 'apel'],
@@ -20,15 +26,18 @@ const pagesList = [
 const list = pagesList.map((item) => item[1])
 
 const schema = yup.object().shape({
-  // page: yup.string().required('Il faut au moins une phrase'),
-  select: yup.mixed().oneOf(list),
+  // text: yup.string().required('Il faut au moins une phrase'),
+  alias: yup.mixed().oneOf(list),
 })
 
 function SitePage() {
+  const history = useHistory()
+
   const theme = useTheme()
   const { toggle, toggleState } = useToggle()
   const [datas, setDatas] = React.useState('')
-
+  const notify = () => toast(`la page a été créée avec succès`)
+  const token = useSelector((state) => state.user.Token.token)
   const {
     register,
     errors,
@@ -40,12 +49,50 @@ function SitePage() {
     resolver: yupResolver(schema),
   })
 
-  const onSubmit = (data) => {
-    console.log(data)
+  const onSubmit = async (data) => {
+    const { alias, text } = data
+
+    const Page = []
+    pagesList.forEach((page) => {
+      if (page[1] === alias) {
+        Page.push(page)
+      }
+    })
+    const datas = {
+      title: Page[0][1],
+      alias: Page[0][0],
+      text: text,
+    }
+    const options = {
+      headers: { 'x-access-token': token },
+    }
+    console.log(options)
+
+    await apiCreatePage(datas, options).then((response) => {
+      if (response.status === 201) {
+        setDatas('')
+        reset()
+        notify()
+        history.push({
+          pathname: '/private',
+        })
+      }
+    })
   }
 
   return (
     <StyledPrivateForm onSubmit={handleSubmit(onSubmit)}>
+      <ToastContainer
+        position="bottom-left"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <StyledPrivateButton
         bgcolor={theme.palette.primary.main}
         type="button"
@@ -71,15 +118,15 @@ function SitePage() {
           required
           label="Page"
           helperText="Choisir une page"
-          name="select"
-          initialValue="Selectionner"
+          name="alias"
+          initial="Selectionner"
           options={pagesList}
           errors={errors}
         />
       )}
       {toggleState && <TinyEditor datas={datas} setDatas={setDatas} />}
 
-      {/* <TextInput value={datas} name="page" ref={register} errors={errors} /> */}
+      <TextInput value={datas} name="text" ref={register} errors={errors} />
 
       {toggleState && (
         <StyledPrivateButton

@@ -54,3 +54,8 @@ export const apiFecthTeam = async () => {
   let result = await axios.get(URL)
   return result
 }
+export const apiCreatePage = async (datas, options) => {
+  let URL = `${process.env.REACT_APP_ENDPOINT}/pages`
+  let result = await axios.post(URL, datas, options)
+  return result
+}
