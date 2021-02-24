@@ -124,6 +124,30 @@ module.exports.listPages = async (req, res, next) => {
     return next(err);
   }
 };
+
+module.exports.getPage = async (req, res, next) => {
+  const { filter } = req.params;
+
+  let query = {};
+  switch (filter.length) {
+    case 24:
+      query._id = filter;
+      break;
+
+    default:
+      query.alias = filter;
+      break;
+  }
+
+  try {
+    let page = await Page.find(query);
+    if (page.length === 0)
+      return res.status(204).send("no page with this filter");
+    return res.status(200).send(page);
+  } catch (err) {
+    return next(err);
+  }
+};
 module.exports.deletePage = async (req, res, next) => {
   const { grade, _id } = req.user;
   const { id } = req.params;

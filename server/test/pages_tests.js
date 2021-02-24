@@ -134,4 +134,60 @@ describe("PAGE ", () => {
           });
       });
   });
+  it("should get page by id", (done) => {
+    chai
+      .request(server)
+      .post("/users")
+      .send(newUser)
+      .end((err, res) => {
+        const token = res.header["x-access-token"];
+        chai
+          .request(server)
+          .post("/pages")
+          .set("x-access-token", token)
+          .send(newPage)
+          .end((erro, resp) => {
+            const { _id: pageId } = resp.body;
+
+            chai
+              .request(server)
+              .get(`/pages/${pageId}`)
+              .set("x-access-token", token)
+              .end((error, response) => {
+                response.should.have.status(200);
+                response.body.should.be.a("array");
+                response.body.should.have.lengthOf(1);
+                done();
+              });
+          });
+      });
+  });
+  it("should get page by alias", (done) => {
+    chai
+      .request(server)
+      .post("/users")
+      .send(newUser)
+      .end((err, res) => {
+        const token = res.header["x-access-token"];
+        chai
+          .request(server)
+          .post("/pages")
+          .set("x-access-token", token)
+          .send(newPage)
+          .end((erro, resp) => {
+            const { _id: pageId, alias } = resp.body;
+
+            chai
+              .request(server)
+              .get(`/pages/${alias}`)
+              .set("x-access-token", token)
+              .end((error, response) => {
+                response.should.have.status(200);
+                response.body.should.be.a("array");
+                response.body.should.have.lengthOf(1);
+                done();
+              });
+          });
+      });
+  });
 });

@@ -5,6 +5,7 @@ const Classroom = require("../models/Classroom");
 const Roles = require("../models/Roles");
 const Rubric = require("../models/Rubric");
 const User = require("../models/User");
+const Page = require("../models/Page");
 
 const getRandom = (max) => {
   return Math.floor(Math.random() * Math.floor(max));
@@ -30,6 +31,11 @@ const newUser = {
   password: "Valery54",
 };
 const newCategory = { name: faker.name.firstName() };
+const newPage = {
+  alias: faker.name.firstName(),
+  title: faker.company.companyName(),
+  text: `<p>${faker.lorem.paragraph()}</p>`,
+};
 
 describe("MODELS", () => {
   beforeEach((done) => {
@@ -83,6 +89,13 @@ describe("MODELS", () => {
     const user = new User(newUser);
     user.save().then(() => {
       user.should.be.a("object");
+      done();
+    });
+  });
+  it("should create page", (done) => {
+    const page = new Page(newPage);
+    page.save().then(() => {
+      page.should.be.a("object");
       done();
     });
   });
