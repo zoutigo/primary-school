@@ -2,18 +2,24 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const imageSchema = new Schema({
-  name: {
+  filename: {
     type: String,
     required: true,
-    max: 1024,
+    max: 200,
+  },
+  path: {
+    type: String,
+    required: true,
+    max: 200,
   },
   createdAt: {
     type: Date,
     default: Date.now(),
   },
   // parent can be article or event or User or classroom
-  parent: {
+  author: {
     type: Schema.ObjectId,
+    ref: "User",
   },
   alt: {
     type: String,

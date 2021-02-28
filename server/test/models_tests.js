@@ -6,6 +6,7 @@ const Roles = require("../models/Roles");
 const Rubric = require("../models/Rubric");
 const User = require("../models/User");
 const Page = require("../models/Page");
+const Image = require("../models/Image");
 
 const getRandom = (max) => {
   return Math.floor(Math.random() * Math.floor(max));
@@ -44,11 +45,13 @@ describe("MODELS", () => {
       roles,
       classrooms,
       categories,
+      images,
     } = mongoose.connection.collections;
     users.drop();
     roles.drop();
     classrooms.drop();
     categories.drop();
+    images.drop();
     done();
   });
 
@@ -96,6 +99,15 @@ describe("MODELS", () => {
     const page = new Page(newPage);
     page.save().then(() => {
       page.should.be.a("object");
+      done();
+    });
+  });
+  it("should create image with name only", (done) => {
+    const image = new Image({
+      name: faker.name.firstName(),
+    });
+    image.save().then(() => {
+      image.should.be.a("object");
       done();
     });
   });

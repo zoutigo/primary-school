@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { commentSchema } = require("./Comment");
-const { ImageSchema, Picture } = require("./Picture");
+const { ImageSchema, Image } = require("./Image");
 
 const Schema = mongoose.Schema;
 const paperSchema = new Schema({

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { pictureSchema, Picture } = require("./Picture");
+const { imageSchema, Image } = require("./Image");
 const Schema = mongoose.Schema;
 
 const classroomSchema = new Schema({
@@ -35,7 +35,7 @@ const classroomSchema = new Schema({
   images: [
     {
       type: Schema.ObjectId,
-      ref: "Picture",
+      ref: "Image",
     },
   ],
   papers: [

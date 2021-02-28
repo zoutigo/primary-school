@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const { ImageSchema } = require("./Picture");
+const { ImageSchema } = require("./Image");
 
 const userSchema = new Schema({
   name: {
@@ -44,7 +44,7 @@ const userSchema = new Schema({
   images: [
     {
       type: Schema.ObjectId,
-      ref: "Picture",
+      ref: "Image",
     },
   ],
   presentation: {
