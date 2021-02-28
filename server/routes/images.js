@@ -33,7 +33,7 @@ var upload = multer({
 const router = require("express").Router();
 
 //create one image
-router.post("/", upload.single("image"), createImage);
+router.post("/", upload.single("file"), createImage);
 
 //creta many images
 router.post("/multiple", upload.array("images", 15), createImages);

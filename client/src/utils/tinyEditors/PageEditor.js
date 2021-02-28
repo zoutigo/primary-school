@@ -10,6 +10,8 @@ function PageEditor({ onChange, value }) {
         cloudChannel="dev"
         init={{
           selector: 'textarea#image-tools',
+          images_upload_url:
+            'https://ecole-saint-augustin.herokuapp.com/images',
           height: 500,
           plugins: 'link image textpattern lists imagetools ',
           toolbar:
