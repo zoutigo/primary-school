@@ -1,6 +1,4 @@
 import rootReducer from './rootReducer'
-import { userReducers } from './user/userReducers'
-import { settingsReducers } from './settings/settingsReducers'
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
 import {
   persistReducer,

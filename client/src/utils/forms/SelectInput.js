@@ -1,9 +1,12 @@
 import { option, TextField } from '@material-ui/core'
 import { withStyles } from '@material-ui/styles'
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import { setCurrentUpdatePageAlias } from '../../redux/admin/adminActions'
 import styles from './styles'
 
 const SelectInput = React.forwardRef(({ classes, errors, ...rest }, ref) => {
+  const dispatch = useDispatch()
   const [value, setValue] = React.useState('')
 
   const { options, initial } = rest
@@ -11,6 +14,7 @@ const SelectInput = React.forwardRef(({ classes, errors, ...rest }, ref) => {
     const optionValue = event.target.value
 
     setValue(optionValue)
+    dispatch(setCurrentUpdatePageAlias(optionValue))
   }
 
   return (

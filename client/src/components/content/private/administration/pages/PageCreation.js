@@ -13,7 +13,6 @@ import TextInput from '../../../../../utils/forms/TextInput'
 import { useToggle } from '../../../../../utils/hooks'
 import TinyEditor from '../../../../../utils/TinyEditor'
 import SelectInput from '../../../../../utils/forms/SelectInput'
-import { PagesSharp } from '@material-ui/icons'
 import { apiCreatePage } from '../../../../../utils/api'
 import { useHistory } from 'react-router'
 import { useSelector } from 'react-redux'
@@ -30,7 +29,7 @@ const schema = yup.object().shape({
   alias: yup.mixed().oneOf(list),
 })
 
-function SitePage() {
+function PageCreation() {
   const history = useHistory()
 
   const theme = useTheme()
@@ -66,7 +65,6 @@ function SitePage() {
     const options = {
       headers: { 'x-access-token': token },
     }
-    console.log(options)
 
     await apiCreatePage(datas, options).then((response) => {
       if (response.status === 201) {
@@ -145,4 +143,4 @@ function SitePage() {
   )
 }
 
-export default SitePage
+export default PageCreation

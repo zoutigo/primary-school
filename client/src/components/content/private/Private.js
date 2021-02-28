@@ -1,6 +1,6 @@
 import React from 'react'
 import { Redirect, useLocation } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
@@ -16,13 +16,31 @@ import MyDatas from './mydatas/MyDatas'
 import MyDrafts from './drafts/MyDrafts'
 import MyAgenda from './myagendas/MyAgendas'
 import Wrapper from '../../wrappers/wrapper/Wrapper'
+import { setPagesList } from '../../../redux/admin/adminActions'
+import { useQuery } from 'react-query'
+import { apiFecthAllPages } from '../../../utils/api'
 
 function Private() {
+  const dispatch = useDispatch()
   const { state, pathname } = useLocation()
 
   const { isLogged, Credentials } = useSelector((state) => state.user)
   const { role } = Credentials
   const isAdmin = role === 'admin'
+
+  // load pageList in redux
+  const { isLoading, isError, data, error } = useQuery(
+    ['page-list'],
+    apiFecthAllPages,
+    {
+      retry: 1,
+      retryDelay: 500,
+    }
+  )
+  if (isLoading) return <div>...isloading</div>
+  if (isError) return <div>...{error}</div>
+
+  dispatch(setPagesList(data))
 
   if (!isLogged) {
     return (
@@ -60,21 +78,8 @@ function Private() {
     },
   ]
 
-  // const aside = {
-  //   title: 'Quelques chiffres',
-  //   items: [
-  //     {
-  //       subtitle: 'Les inscrits',
-  //       text: '1567',
-  //     },
-  //     {
-  //       subtitle: 'Les articles',
-  //       text: '627',
-  //     },
-  //   ],
-  // }
-
   const datas = { pages }
+
   return <Wrapper {...datas} />
 }
 

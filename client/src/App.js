@@ -15,6 +15,7 @@ import HeadModules from './components/content/HeadModules'
 
 import SmallScreenMenu from './components/content/SmallScreenMenu'
 import { useScroll } from './utils/hooks'
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

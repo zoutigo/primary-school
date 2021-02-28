@@ -4,7 +4,10 @@ import { AppBar, Toolbar, Box, IconButton, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import { NavLink, useLocation } from 'react-router-dom'
 
-import { toogleSmallScreenMenu } from '../../redux/settings/settingsActions'
+import {
+  setPages,
+  toogleSmallScreenMenu,
+} from '../../redux/settings/settingsActions'
 import NavItem from './NavItem'
 
 import MenuIcon from '@material-ui/icons/Menu'
@@ -12,6 +15,8 @@ import CancelIcon from '@material-ui/icons/Cancel'
 
 import logo from '../../images/logo3.png'
 import rubrics from '../../utils/rubrics'
+import { useQuery } from 'react-query'
+import { apiFecthAllPages } from '../../utils/api'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -128,6 +133,19 @@ function Header() {
     }
     return <MenuIcon className={className} />
   }
+
+  // const { isFetching, isError, error, data } = useQuery(
+  //   'Pages',
+  //   apiFecthAllPages
+  // )
+  // if (isFetching) {
+  //   return <span>Fetching...</span>
+  // }
+  // if (isError) {
+  //   return <span>Error: {error.message}</span>
+  // }
+
+  // dispatch(setPages(JSON.stringify(data.data)))
 
   return (
     <AppBar className={`${classes.root} ${headerColor}`}>

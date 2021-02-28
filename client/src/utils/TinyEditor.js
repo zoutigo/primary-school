@@ -4,7 +4,15 @@ import { Editor } from '@tinymce/tinymce-react'
 
 const useDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
 
-function TinyEditor({ datas, setDatas }) {
+function TinyEditor({ datas, setDatas, page }) {
+  const [initial, setInitial] = React.useState('')
+  React.useEffect(() => {
+    const { text } = page
+    setInitial(text)
+    return () => {
+      setInitial('')
+    }
+  }, [page])
   // const [datas, setDatas] = React.useState('')
   const handleEditorChange = (e) => {
     // console.log("Content was updated:", e.target.getContent());
@@ -13,8 +21,9 @@ function TinyEditor({ datas, setDatas }) {
 
   return (
     <Editor
-      apiKey="ab0sk4ydy0ltwp2aip4scmmp37mgi9i7jb3k21xpj1xarfrx"
-      initialValue="<p>Initial content</p>"
+      apiKey={process.env.REACT_APP_TINYMCE_KEY}
+      initialValue={initial}
+      textareaName="text-editor"
       init={{
         plugins:
           'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons',

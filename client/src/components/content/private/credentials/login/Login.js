@@ -69,6 +69,9 @@ function Login({ classes }) {
           dispatch(setTokenValidity(true))
           history.push({
             pathname: '/informations/actualites',
+            state:{
+              from:'/register/login'
+            }
           })
 
           reset()
