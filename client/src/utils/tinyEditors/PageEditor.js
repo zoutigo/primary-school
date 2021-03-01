@@ -13,7 +13,8 @@ function PageEditor({ onChange, value }) {
           images_upload_url:
             'https://ecole-saint-augustin.herokuapp.com/images',
           height: 500,
-          plugins: 'link image textpattern lists imagetools ',
+          plugins:
+            'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons',
           toolbar:
             'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
         }}

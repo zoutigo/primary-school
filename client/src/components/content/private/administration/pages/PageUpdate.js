@@ -179,6 +179,7 @@ function PageUpdate() {
             </StyledPrivateButton>
           )}
         </section>
+        <img src='"https://ecole-saint-augustin.herokuapp.com/public/images/1614577957434_Capture d’écran de 2020-10-27 18-20-23.png"' />
       </StyledPrivateForm>
     </Grid>
   )

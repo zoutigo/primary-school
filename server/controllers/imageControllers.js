@@ -12,7 +12,7 @@ module.exports.createImage = async (req, res, next) => {
   try {
     const savedImage = await newImage.save();
     if (savedImage) {
-      const location = `${process.env.IMAGES_PATH}/${savedImage.path}`;
+      const location = `${process.env.SERVER_ADRESS}/${savedImage.path}`;
       return res.status(201).send({ location: location });
     }
   } catch (err) {
@@ -30,7 +30,7 @@ module.exports.createImages = async (req, res, next) => {
 
     const savedImage = await newImage.save();
     if (savedImage) {
-      const location = `${process.env.IMAGES_PATH}/${savedImage.path}`;
+      const location = `${process.env.SERVER_ADRESS}/${savedImage.path}`;
       locations.push({ location: location });
     }
   }

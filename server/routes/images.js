@@ -1,6 +1,7 @@
 const { response } = require("express");
 const multer = require("multer");
 const fs = require("fs");
+
 const {
   createImage,
   listImages,
@@ -12,7 +13,7 @@ const {
 
 var storage = multer.diskStorage({
   destination: function (req, file, callback) {
-    const dir = "./public/images";
+    const dir = "./public/images/pages";
 
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir);
@@ -40,7 +41,7 @@ var upload = multer({
 const router = require("express").Router();
 
 //create one image
-router.post("/", upload.single("file"), createImage);
+router.post("/page", upload.single("file"), createImage);
 
 //creta many images
 router.post("/multiple", upload.array("images", 15), createImages);
