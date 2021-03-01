@@ -13,7 +13,8 @@ const {
 
 var storage = multer.diskStorage({
   destination: function (req, file, callback) {
-    const dir = "./public/images/pages";
+    const dir =
+      process.env.NODE_ENV === "development" ? "./private" : "./public";
 
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir);

@@ -1,3 +1,4 @@
+var pathe = require("path");
 const Image = require("../models/Image");
 const { BadRequest } = require("../utils/errors");
 
@@ -12,7 +13,7 @@ module.exports.createImage = async (req, res, next) => {
   try {
     const savedImage = await newImage.save();
     if (savedImage) {
-      const location = `${process.env.SERVER_ADRESS}/${savedImage.path}`;
+      const location = pathe.join(process.env.SERVER_ADRESS, filename);
       return res.status(201).send({ location: location });
     }
   } catch (err) {
