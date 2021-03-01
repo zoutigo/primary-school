@@ -11,7 +11,7 @@ function PageEditor({ onChange, value }) {
         init={{
           selector: 'textarea#image-tools',
           images_upload_url:
-            'https://ecole-saint-augustin.herokuapp.com/images',
+            'https://ecole-saint-augustin.herokuapp.com/images/page',
           height: 500,
           plugins:
             'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons',
