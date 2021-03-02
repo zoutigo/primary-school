@@ -6,7 +6,6 @@ import styles from './styles'
 
 const TextInput = React.forwardRef(({ classes, errors, ...rest }, ref) => {
   const { state, rubric } = useLocation()
-  const helperMessage = 'Renseignez votre adresse mail'
 
   return (
     <section id="text-field-box" className={classes.textfield}>
@@ -15,12 +14,11 @@ const TextInput = React.forwardRef(({ classes, errors, ...rest }, ref) => {
         required
         inputRef={ref}
         type="text"
-        helperText={helperMessage}
         InputLabelProps={{
           shrink: true,
         }}
       />
-      <span>{errors.email?.message}</span>
+      <span>{errors?.message}</span>
     </section>
   )
 })

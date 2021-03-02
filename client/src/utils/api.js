@@ -60,9 +60,9 @@ export const apiFecthPage = async (obj) => {
 
   return data
 }
-export const apiCreatePage = async (datas, options) => {
+export const apiCreatePage = async (obj) => {
   let URL = `${process.env.REACT_APP_ENDPOINT}/pages`
-  let result = await axios.post(URL, datas, options)
+  let result = await axios.post(URL, obj.body, obj.options)
   return result
 }
 

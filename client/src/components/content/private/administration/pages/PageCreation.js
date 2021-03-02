@@ -1,145 +1,137 @@
-import { Button, useTheme } from '@material-ui/core'
+import { Grid, Typography, useTheme } from '@material-ui/core'
 import React from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
-import { useForm } from 'react-hook-form'
+
+import { useForm, Controller } from 'react-hook-form'
 import {
   StyledPrivateButton,
   StyledPrivateForm,
+  StyledTitle,
 } from '../../../../../utils/forms/styledComponents'
 import TextInput from '../../../../../utils/forms/TextInput'
-import { useToggle } from '../../../../../utils/hooks'
-import TinyEditor from '../../../../../utils/TinyEditor'
-import SelectInput from '../../../../../utils/forms/SelectInput'
+
 import { apiCreatePage } from '../../../../../utils/api'
-import { useHistory } from 'react-router'
 import { useSelector } from 'react-redux'
-
-const pagesList = [
-  ['apel', 'apel'],
-  ['ogec', 'ogec'],
-  ['histoire', 'histoire'],
-]
-const list = pagesList.map((item) => item[1])
-
-const schema = yup.object().shape({
-  // text: yup.string().required('Il faut au moins une phrase'),
-  alias: yup.mixed().oneOf(list),
-})
+import PageEditor from '../../../../../utils/tinyEditors/PageEditor'
+import { pageCreationSchema } from '../../../../../utils/forms/validators'
+import { QueryClient, useMutation } from 'react-query'
 
 function PageCreation() {
-  const history = useHistory()
-
   const theme = useTheme()
-  const { toggle, toggleState } = useToggle()
-  const [datas, setDatas] = React.useState('')
-  const notify = () => toast(`la page a été créée avec succès`)
+
+  const queryClient = new QueryClient()
+
+  const [submittedData, setSubmittedData] = React.useState({})
+
+  const notify = () =>
+    toast.success(' La page a été crée correctement', {
+      position: 'bottom-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    })
   const token = useSelector((state) => state.user.Token.token)
+
+  const { mutate, info } = useMutation(apiCreatePage, {
+    onSuccess: (data) => {
+      queryClient.invalidateQueries('page-list')
+      notify()
+    },
+  })
+
   const {
     register,
+    control,
     errors,
     handleSubmit,
-    formState: { isValid, isSubmitting },
+    formState: { isValid, isSubmitting, isSubmitSuccessful },
     reset,
   } = useForm({
-    mode: 'onChange',
-    resolver: yupResolver(schema),
+    mode: 'onBlur',
+    resolver: yupResolver(pageCreationSchema),
   })
 
   const onSubmit = async (data) => {
-    const { alias, text } = data
-
-    const Page = []
-    pagesList.forEach((page) => {
-      if (page[1] === alias) {
-        Page.push(page)
-      }
-    })
-    const datas = {
-      title: Page[0][1],
-      alias: Page[0][0],
-      text: text,
-    }
+    const { title, alias, editorText } = data
     const options = {
       headers: { 'x-access-token': token },
     }
-
-    await apiCreatePage(datas, options).then((response) => {
-      if (response.status === 201) {
-        setDatas('')
-        reset()
-        notify()
-        history.push({
-          pathname: '/private',
-          state: {
-            from: '/private/createpage',
-          },
-        })
-      }
-    })
+    try {
+      await mutate({
+        options: options,
+        body: {
+          title: title,
+          alias: alias,
+          text: editorText,
+        },
+      })
+      setSubmittedData(data)
+    } catch (err) {}
   }
 
+  React.useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset({
+        title: '',
+        alias: '',
+        editorText: '',
+      })
+    }
+  }, [isSubmitSuccessful, submittedData, reset])
+
   return (
-    <StyledPrivateForm onSubmit={handleSubmit(onSubmit)}>
-      <ToastContainer
-        position="bottom-left"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-      <StyledPrivateButton
-        bgcolor={theme.palette.primary.main}
-        type="button"
-        onClick={toggle}
-        // disabled={!toggleState}
-      >
-        Creer une page
-      </StyledPrivateButton>
-
-      {/* <StyledPrivateButton
-        bgcolor={theme.palette.success.main}
-        type="submit"
-        onClick={toggle}
-        disabled={!isValid ? true : isSubmitting ? true : false}
-        // disabled={!toggleState}
-      >
-        Je sauvegarde sans publier
-      </StyledPrivateButton> */}
-
-      {toggleState && (
-        <SelectInput
-          ref={register}
-          required
-          label="Page"
-          helperText="Choisir une page"
-          name="alias"
-          initial="Selectionner"
-          options={pagesList}
-          errors={errors}
-        />
-      )}
-      {toggleState && <TinyEditor datas={datas} setDatas={setDatas} />}
-
-      <TextInput value={datas} name="text" ref={register} errors={errors} />
-
-      {toggleState && (
-        <StyledPrivateButton
-          bgcolor={theme.palette.success.main}
-          type="submit"
-          disabled={!isValid}
-          // disabled={!toggleState}
-        >
-          Je publie la page
-        </StyledPrivateButton>
-      )}
-    </StyledPrivateForm>
+    <Grid container>
+      <Grid item container>
+        <StyledTitle>
+          <Typography variant="h5">Creation d'une page</Typography>
+        </StyledTitle>
+        <ToastContainer />
+      </Grid>
+      <Grid item container>
+        <StyledPrivateForm onSubmit={handleSubmit(onSubmit)}>
+          <TextInput
+            label="Titre de la page"
+            name="title"
+            helperText={'caratères: minimum 3 , maximum 20'}
+            ref={register}
+            error={errors.title ? true : false}
+            errors={errors.title}
+          />
+          <TextInput
+            label="alias de la page"
+            name="alias"
+            helperText={'caratères: minimum 3 , maximum 15'}
+            ref={register}
+            error={errors.alias ? true : false}
+            errors={errors.alias}
+          />
+          <section>
+            <Controller
+              name="editorText"
+              control={control}
+              defaultValue=""
+              render={({ onChange, value }) => (
+                <PageEditor onChange={onChange} value={value} />
+              )}
+            />
+          </section>
+          <section style={{ textAlign: 'right', margin: '1em' }}>
+            <StyledPrivateButton
+              bgcolor={theme.palette.success.main}
+              type="submit"
+              disabled={!isValid || isSubmitting}
+            >
+              Je publie la page
+            </StyledPrivateButton>
+          </section>
+        </StyledPrivateForm>
+      </Grid>
+    </Grid>
   )
 }
 

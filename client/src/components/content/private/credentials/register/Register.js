@@ -4,8 +4,7 @@ import { useForm } from 'react-hook-form'
 import { Redirect, useHistory, useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
-import { apiCheckEmail, apiRegister } from '../../../../../utils/api'
+import { apiRegister } from '../../../../../utils/api'
 
 import {
   setToken,
@@ -21,29 +20,7 @@ import ButtonForm from '../../../../../utils/forms/ButtonForm'
 import EmailInput from '../../../../../utils/forms/EmailInput'
 import PasswordInput from '../../../../../utils/forms/PasswordInput'
 import { StyledForm } from '../../../../../utils/forms/styledComponents'
-
-const passRegExp = new RegExp('^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$')
-
-const schema = yup.object().shape({
-  email: yup
-    .string()
-    .required('le mail est obligatoire')
-    .email(`ce format mail n'est pas valide`)
-    .test(
-      'emailExists',
-      'ce mail appartient a un utilisateur',
-      async (value) => (await apiCheckEmail(value)) === true
-    ),
-  password: yup
-    .string()
-    .required('le mot de pass est obligatoire')
-    .matches(passRegExp, 'Mot de pass non valide'),
-
-  passwordConfirm: yup
-    .string()
-    .oneOf([yup.ref('password'), null], 'Mauvaise correspondance')
-    .required('Veillez confirmer le mot de pass'),
-})
+import { registerSchema } from '../../../../../utils/forms/validators'
 
 function Register({ classes }) {
   const dispatch = useDispatch()
@@ -58,7 +35,7 @@ function Register({ classes }) {
     reset,
   } = useForm({
     mode: 'onBlur',
-    resolver: yupResolver(schema),
+    resolver: yupResolver(registerSchema),
   })
 
   const onSubmit = async (data) => {

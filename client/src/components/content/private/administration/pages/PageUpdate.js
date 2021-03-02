@@ -20,6 +20,7 @@ import { Controller, useForm } from 'react-hook-form'
 import {
   StyledPrivateButton,
   StyledPrivateForm,
+  StyledTitle,
 } from '../../../../../utils/forms/styledComponents'
 import { useToggle } from '../../../../../utils/hooks'
 import { apiFecthAllPages, apiUpdatePage } from '../../../../../utils/api'
@@ -27,12 +28,6 @@ import { useSelector } from 'react-redux'
 import { useMutation, useQuery, useQueryClient, QueryCache } from 'react-query'
 import { pageUpdateSchema } from '../../../../../utils/forms/validators'
 import PageEditor from '../../../../../utils/tinyEditors/PageEditor'
-
-const StyledTitle = styled(Box)(({ theme, active }) => ({
-  height: '2.5em',
-  width: '100%',
-  background: theme.palette.secondary.light,
-}))
 
 function PageUpdate() {
   const theme = useTheme()
@@ -42,24 +37,31 @@ function PageUpdate() {
     (state) => state.admin.currentUpdatePage
   )
 
-  const { isLoading, isError, data: pagesList, error } = useQuery(
-    ['page-list'],
-    apiFecthAllPages,
-    {
-      retry: 1,
-      retryDelay: 500,
-      refetchOnWindowFocus: false,
-      onSuccess: () => {
-        setShow(true)
-      },
-      onError: () => {
-        setShow(false)
-      },
-    }
-  )
+  const notify = () =>
+    toast.success(' La page a été correctement modifiée', {
+      position: 'bottom-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    })
+
+  const { data: pagesList } = useQuery(['page-list'], apiFecthAllPages, {
+    retry: 1,
+    retryDelay: 500,
+    refetchOnWindowFocus: false,
+    onSuccess: () => {
+      setShow(true)
+    },
+    onError: () => {
+      setShow(false)
+    },
+  })
 
   const token = useSelector((state) => state.user.Token.token)
-  // const pagesList = useSelector((state) => state.admin.pagesList)
+
   const list = pagesList.map((item) => {
     return [item.title, item.alias]
   })
@@ -69,11 +71,12 @@ function PageUpdate() {
   const [editorContent, setEditorContent] = React.useState('')
   const [show, setShow] = React.useState(false)
 
-  const { mutate, info } = useMutation(apiUpdatePage, {
+  const { mutate, info, isError } = useMutation(apiUpdatePage, {
     onSuccess: (data) => {
+      notify()
       queryClient.invalidateQueries(currentPage.alias)
       queryClient.invalidateQueries('page-list')
-      console.log(data)
+      setShow(false)
     },
   })
   const {
@@ -81,7 +84,7 @@ function PageUpdate() {
     handleSubmit,
     setValue,
     errors,
-    formState: { isValid, isSubmitting },
+    formState: { isValid, isSubmitting, isSubmitSuccessful },
     reset,
   } = useForm({
     mode: 'onChange',
@@ -117,6 +120,12 @@ function PageUpdate() {
     }
   }, [currentAlias])
 
+  React.useEffect(() => {
+    if (isSubmitSuccessful) {
+      setShow(false)
+    }
+  }, [isSubmitSuccessful])
+
   const handleSelectChange = (e) => {
     const selectedAlias = e.value
     const selectedPage = pagesList.find((page) => page.alias === selectedAlias)
@@ -128,59 +137,63 @@ function PageUpdate() {
 
   return (
     <Grid container>
-      <StyledTitle>
-        <Typography variant="h5">Modification d'une page</Typography>
-      </StyledTitle>
-
-      <StyledPrivateForm
-        onSubmit={handleSubmit(onSubmit)}
-        style={{ width: '100%' }}
-      >
-        <section>
-          <label>React Select</label>
-          <Controller
-            isClearable
-            value={'bonbon'}
-            name="alias"
-            control={control}
-            render={() => (
-              <Select
-                isDisabled={isError || isSubmitting}
-                onChange={(e) => handleSelectChange(e)}
-                options={pagesList.map((page) => {
-                  return {
-                    value: page.alias,
-                    label: page.title,
-                  }
-                })}
-              />
-            )}
-          />
-        </section>
-        <section>
-          {show && (
+      <Grid item container>
+        <StyledTitle>
+          <Typography variant="h5">Modification d'une page</Typography>
+        </StyledTitle>
+        <ToastContainer />
+      </Grid>
+      <Grid item container>
+        <StyledPrivateForm
+          onSubmit={handleSubmit(onSubmit)}
+          style={{ width: '100%' }}
+        >
+          <section>
+            <label>React Select</label>
             <Controller
-              name="editor"
+              isClearable
+              name="alias"
               control={control}
-              defaultValue=""
-              render={({ onChange, value }) => (
-                <PageEditor onChange={onChange} value={value} />
+              render={({ value }) => (
+                <Select
+                  isDisabled={isError || isSubmitting}
+                  value={value}
+                  onChange={(e) => handleSelectChange(e)}
+                  options={pagesList.map((page) => {
+                    return {
+                      value: page.alias,
+                      label: page.title,
+                    }
+                  })}
+                />
               )}
             />
-          )}
-        </section>
-        <section>
-          {show && (
-            <StyledPrivateButton
-              bgcolor={theme.palette.success.main}
-              type="submit"
-              disabled={!isValid || isSubmitting}
-            >
-              Je publie la page
-            </StyledPrivateButton>
-          )}
-        </section>
-      </StyledPrivateForm>
+          </section>
+          <section>
+            {show && (
+              <Controller
+                name="editor"
+                control={control}
+                defaultValue=""
+                render={({ onChange, value }) => (
+                  <PageEditor onChange={onChange} value={value} />
+                )}
+              />
+            )}
+          </section>
+          <section>
+            {show && (
+              <StyledPrivateButton
+                bgcolor={theme.palette.success.main}
+                type="submit"
+                disabled={!isValid || isSubmitting}
+              >
+                Je publie la page
+              </StyledPrivateButton>
+            )}
+          </section>
+        </StyledPrivateForm>
+      </Grid>
     </Grid>
   )
 }

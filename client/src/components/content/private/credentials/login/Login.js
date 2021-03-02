@@ -3,7 +3,9 @@ import { useHistory } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
+import { CircularProgress, withStyles } from '@material-ui/core'
+import { loginSchema } from '../../../../../utils/forms/validators'
+
 import { apiLogin } from '../../../../../utils/api'
 
 import {
@@ -12,25 +14,11 @@ import {
   setIsLogged,
   setTokenValidity,
 } from '../../../../../redux/user/userActions'
-import { CircularProgress, withStyles } from '@material-ui/core'
 import formStyles from '../../../../../utils/styles'
 import ButtonForm from '../../../../../utils/forms/ButtonForm'
 import EmailInput from '../../../../../utils/forms/EmailInput'
 import PasswordInput from '../../../../../utils/forms/PasswordInput'
 import { StyledForm } from '../../../../../utils/forms/styledComponents'
-
-const passRegExp = new RegExp('^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$')
-const schema = yup.object().shape({
-  email: yup
-    .string()
-    .required('le mail est obligatoire')
-    .email(`ce format mail n'est pas valide`),
-
-  password: yup
-    .string()
-    .required('le mot de pass est obligatoire')
-    .matches(passRegExp, 'Mot de pass non valide'),
-})
 
 function Login({ classes }) {
   const dispatch = useDispatch()
@@ -44,7 +32,7 @@ function Login({ classes }) {
     reset,
   } = useForm({
     mode: 'onBlur',
-    resolver: yupResolver(schema),
+    resolver: yupResolver(loginSchema),
   })
 
   const onSubmit = async (data) => {
@@ -69,9 +57,9 @@ function Login({ classes }) {
           dispatch(setTokenValidity(true))
           history.push({
             pathname: '/informations/actualites',
-            state:{
-              from:'/register/login'
-            }
+            state: {
+              from: '/register/login',
+            },
           })
 
           reset()
