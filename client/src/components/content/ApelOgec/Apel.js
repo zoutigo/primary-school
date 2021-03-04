@@ -1,4 +1,3 @@
-import { Grid } from '@material-ui/core'
 import ReactHtmlParser from 'react-html-parser'
 
 import React from 'react'

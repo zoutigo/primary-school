@@ -14,12 +14,12 @@ export const pageCreationSchema = yup.object().shape({
     .string()
     .required('le titre de page est obligatoire')
     .min(3, '3 caractètres minimum')
-    .max(20, '20 caractètres maximum'),
+    .max(30, '30 caractètres maximum'),
   alias: yup
     .string()
     .required("l'alias obligatoire")
     .min(3, '3 caractètres minimum')
-    .max(15, '15 caractères maximum'),
+    .max(30, '30 caractères maximum'),
   editorText: yup.string().required('la page doit avoir un contenu'),
 })
 
