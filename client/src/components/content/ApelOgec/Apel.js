@@ -1,24 +1,14 @@
 import { Grid } from '@material-ui/core'
-import ReactHtmlParser, {
-  processNodes,
-  convertNodeToElement,
-  htmlparser2,
-} from 'react-html-parser'
+import ReactHtmlParser from 'react-html-parser'
 
 import React from 'react'
 import { useQuery } from 'react-query'
 import { apiFecthPage } from '../../../utils/api'
 import Wrapper from '../../wrappers/wrapper/Wrapper'
-import { useSelector } from 'react-redux'
 
 function Apel() {
   const pageName = 'apel'
-  const queryKey = {
-    path: '/page',
-    action: 'get',
-    filter: pageName,
-    options: {},
-  }
+
   const { isLoading, isError, data, error } = useQuery(
     ['apel', { alias: pageName }],
     apiFecthPage,

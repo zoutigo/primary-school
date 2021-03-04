@@ -1,17 +1,22 @@
 import React from 'react'
 import Wrapper from '../../../wrappers/wrapper/Wrapper'
-import faker from 'faker'
-import { useTheme } from '@material-ui/styles'
+import ProjetPedagogique from './ProjetPedagogique'
+import ProjetPastoral from './ProjetPastoral'
+import ProjetEducatif from './ProjetEducatif'
 
 function Projects() {
   const pages = [
     {
       title: 'Projet Educatif',
-      content: faker.lorem.paragraphs(3),
+      content: <ProjetEducatif />,
+    },
+    {
+      title: 'Pedagogique',
+      content: <ProjetPedagogique />,
     },
     {
       title: 'Projet Pastoral',
-      content: faker.lorem.paragraphs(2),
+      content: <ProjetPastoral />,
     },
   ]
   const aside = {
