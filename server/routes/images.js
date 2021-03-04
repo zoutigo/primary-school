@@ -1,9 +1,17 @@
+const router = require("express").Router();
 const { response } = require("express");
 const multer = require("multer");
+const fileUpload = require("express-fileupload");
 const fs = require("fs");
 
+router.use(
+  fileUpload({
+    limits: { fileSize: 5 * 1024 * 1024 },
+  })
+);
+
 const {
-  createImage,
+  createPageImage,
   listImages,
   getImage,
   updateImage,
@@ -11,38 +19,42 @@ const {
   createImages,
 } = require("../controllers/imageControllers");
 
-var storage = multer.diskStorage({
+// var storage = multer.diskStorage({
+//   destination: function (req, file, callback) {
+//     const dir =
+//       process.env.NODE_ENV === "development" ? "./private" : "./public";
+
+//     if (!fs.existsSync(dir)) {
+//       fs.mkdirSync(dir);
+//     }
+
+//     callback(null, dir);
+//   },
+//   filename: function (req, file, callback) {
+//     callback(null, Date.now() + "_" + file.originalname);
+//   },
+// });
+
+const storage = multer.memoryStorage({
   destination: function (req, file, callback) {
-    const dir =
-      process.env.NODE_ENV === "development" ? "./private" : "./public";
-
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir);
-    }
-
-    callback(null, dir);
-  },
-  filename: function (req, file, callback) {
-    callback(null, Date.now() + "_" + file.originalname);
+    callback(null, "");
   },
 });
 
-const fileFilter = (req, file, cb) => {
-  if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
-    cb(null, true);
-  } else {
-    cb(null, false);
-  }
-};
+// const fileFilter = (req, file, cb) => {
+//   if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+//     cb(null, true);
+//   } else {
+//     cb(null, false);
+//   }
+// };
 var upload = multer({
   storage: storage,
-  fileFilter: fileFilter,
+  // fileFilter: fileFilter,
 }); //Field name and max count
 
-const router = require("express").Router();
-
 //create one image
-router.post("/page", upload.single("file"), createImage);
+router.post("/page", createPageImage);
 
 //creta many images
 router.post("/multiple", upload.array("images", 15), createImages);

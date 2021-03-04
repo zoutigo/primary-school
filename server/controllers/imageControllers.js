@@ -1,23 +1,34 @@
-var pathe = require("path");
+const AWS = require("aws-sdk");
+const uuid = require("uuid");
 const Image = require("../models/Image");
-const { BadRequest } = require("../utils/errors");
+const { BadRequest, NotFound } = require("../utils/errors");
+const fileUploadService = require("../service/upload");
 
-module.exports.createImage = async (req, res, next) => {
-  const { filename, path } = req.file;
-
-  const newImage = new Image({
-    filename: filename,
-    path: path,
-  });
-
+module.exports.createPageImage = async (req, res, next) => {
   try {
-    const savedImage = await newImage.save();
-    if (savedImage) {
-      const location = pathe.join(process.env.SERVER_ADRESS, filename);
-      return res.status(201).send({ location: location });
+    if (req.files && req.files.file) {
+      const file = req.files.file;
+      const {
+        fileUrl: location,
+        filename,
+      } = await fileUploadService.uploadFileToAws(file);
+      const newImage = new Image({
+        filename: filename,
+        path: location,
+      });
+
+      try {
+        const savedImage = await newImage.save();
+        if (savedImage) {
+          return res.status(201).send({ location: location });
+        }
+      } catch (err) {
+        return next(err);
+      }
     }
-  } catch (err) {
-    return next(err);
+    return next(new NotFound("FILE_NOT_FOUND"));
+  } catch (error) {
+    return next(error);
   }
 };
 module.exports.createImages = async (req, res, next) => {
