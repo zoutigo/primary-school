@@ -295,6 +295,18 @@ function NavItem({ rubric, ind }) {
                                 chapter: chapter.designation,
                                 state: {
                                   from: pathname,
+                                  rubric: {
+                                    name: name,
+                                    alias: alias,
+                                  },
+                                  category: {
+                                    name: category.designation,
+                                    alias: category.alias,
+                                  },
+                                  chapter: {
+                                    chaptername: chapter.designation,
+                                    alias: chapter.alias,
+                                  },
                                 },
                               }}
                             >
