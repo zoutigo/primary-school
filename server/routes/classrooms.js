@@ -5,13 +5,13 @@ const {
   createClassroom,
   updateClassroom,
   deleteClassroom,
-  getClassroomById,
+  getClassroom,
 } = require("../controllers/classroomController");
 const { verifyToken } = require("../validators/tokens");
 
 router.get("/", listClassrooms);
 
-router.get("/:id", getClassroomById);
+router.get("/:filter", getClassroom);
 
 router.post("/", verifyToken, createClassroom);
 

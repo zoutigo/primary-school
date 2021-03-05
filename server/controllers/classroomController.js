@@ -21,16 +21,22 @@ module.exports.listClassrooms = async (req, res, next) => {
   }
 };
 
-module.exports.getClassroomById = async (req, res, next) => {
-  const { id } = req.params;
-  if (!id) {
-    return next(new BadRequest("missing params id"));
+module.exports.getClassroom = async (req, res, next) => {
+  const { filter } = req.params;
+
+  let query = {};
+  switch (filter.length) {
+    case 24:
+      query._id = filter;
+      break;
+
+    default:
+      query.alias = filter;
+      break;
   }
 
-  const filter = { _id: id };
-
   try {
-    let classroom = await Classroom.find(filter);
+    let classroom = await Classroom.findOne(query);
     if (!classroom)
       return next(new NotFound("no classroom with such criterias"));
     res.status(200).send(classroom);
