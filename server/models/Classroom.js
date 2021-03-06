@@ -10,7 +10,7 @@ const classroomSchema = new Schema({
   summary: {
     type: String,
     minlength: 10,
-    maxlength: 300,
+    maxlength: 500,
     default: "Nous sommes la classe la plus sympa au monde",
   },
   alias: {

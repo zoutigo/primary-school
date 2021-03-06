@@ -86,26 +86,41 @@ module.exports.createClassroom = async (req, res, next) => {
 module.exports.updateClassroom = async (req, res, next) => {
   const { grade, roles, _id: requesterId } = req.user;
   const { id: classroomId } = req.params;
+  const datas = {};
+  const grades = ["manager", "admin", "moderator"];
 
   // check if classroom exist
   try {
     const classroom = await Classroom.find({ _id: classroomId });
     if (!classroom) return next(new BadRequest("Classroom does not exists"));
+    datas.classroom = classroom;
   } catch (err) {
     return next(new BadRequest(err));
   }
+
+  // check grade and account owner
+  const isTheTeacher = _id === datas.classroom.teacher;
+  const isGradAllowed = grades.includes(grade);
+
   // check user role
   const AllowedRoles = await Roles.find({
     $or: [{ name: "teacher" }, { name: "assistant" }],
   }).select("_id");
   const roleAllowArray = AllowedRoles.filter((role) => roles.includes(role));
-  const grades = ["manager", "admin", "moderator"];
-  const gardeAllow = !grades.includes(grade);
-  const environmentAllow = process.NODE_ENV !== "production";
-  const roleAllow = roleAllowArray.length > 0;
 
-  if (!gardeAllow && !environmentAllow && !roleAllow)
-    return next(new Forbidden("Operation forbidden"));
+  const environmentAllow = process.NODE_ENV !== "production";
+  const roleIsAllowed = roleAllowArray.length > 0;
+
+  if (
+    process.NODE_ENV === "production" &&
+    (!isGradAllowed || !isTheTeacher || !roleIsAllowed)
+  ) {
+    return next(new Unauthorized("you are not allowed to update this profile"));
+  }
+
+  // check datas were submitted
+  if (Object.keys(req.body).length === 0)
+    return next(new BadRequest("Missing datas"));
 
   // check if requester exists
   try {
@@ -113,6 +128,7 @@ module.exports.updateClassroom = async (req, res, next) => {
     if (!user) {
       return next(new Forbidden("user does not exist"));
     }
+    datas.requester = user;
   } catch (err) {
     return next(err);
   }
@@ -121,22 +137,33 @@ module.exports.updateClassroom = async (req, res, next) => {
   if (Object.keys(req.body).length === 0) {
     return next(new BadRequest("missing datas "));
   }
-  const { name, teacher, helper } = req.body;
+
+  // check only fields that could be modify are submitted.
+  const fields = [
+    "name",
+    "teacher",
+    "helper",
+    "summary",
+    "image",
+    "albums",
+    "papers",
+  ];
+  const fieldsSubmitted = Object.keys(req.body);
+
+  const wrongFields = fieldsSubmitted.filter((field) => {
+    return fields.includes(field) === false;
+  });
+  if (wrongFields.length > 0) return next(new BadRequest("wrong datas"));
+
+  const { name, teacher, helper, summary, image, albums, papers } = req.body;
   const newClassroom = {};
-  // validate classroom name
-  // if (name) {
-  //   if (
-  //     !["admin", "manager", "moderator"].includes(role) &&
-  //     process.NODE_ENV === "production"
-  //   ) {
-  //     return next(
-  //       new Forbidden("only admin is allowed to change classroom name")
-  //     );
-  //   }
-  //   const { error } = await classroomValidator({ name: name });
-  //   if (error) return next(new BadRequest(`${error.details[0].message}`));
-  //   newClassroom.name = name;
-  // }
+
+  if (summary) {
+    const { error } = await classroomValidator({ summary: summary });
+    if (error) return next(new BadRequest(error.details[0].message));
+    newClassroom.summary = summary;
+  }
+
   if (teacher) {
     if (
       grade &&

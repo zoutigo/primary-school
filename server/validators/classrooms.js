@@ -1,5 +1,20 @@
 const Joi = require("@hapi/joi");
 Joi.objectId = require("joi-objectid")(Joi);
+const SanitizeHtml = require("sanitize-html");
+
+const htmlJoi = Joi.extend((joi) => {
+  return {
+    type: "string",
+    base: joi.string(),
+    rules: {
+      htmlStrip: {
+        validate(value) {
+          return SanitizeHtml(value);
+        },
+      },
+    },
+  };
+});
 
 module.exports.classroomValidator = (data) => {
   switch (Object.keys(data)[0]) {
@@ -16,6 +31,11 @@ module.exports.classroomValidator = (data) => {
       });
       return aliasSchema.validate(data);
 
+    case "summary":
+      let summarySchema = Joi.object({
+        summary: htmlJoi.string().required().htmlStrip().min(10).max(500),
+      });
+      return summarySchema.validate(data);
     case "teacher":
       let schemaTeacher = Joi.object({
         teacher: Joi.objectId(),

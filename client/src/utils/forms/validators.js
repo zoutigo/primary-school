@@ -57,7 +57,7 @@ export const registerSchema = yup.object().shape({
 })
 
 export const classroomSummarySchema = yup.object().shape({
-  summaryText: yup
+  summary: yup
     .string()
     .required('la page doit avoir un contenu')
     .min(5, 'au moins 5 caractères'),

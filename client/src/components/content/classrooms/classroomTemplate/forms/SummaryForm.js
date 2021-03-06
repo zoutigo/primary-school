@@ -26,7 +26,7 @@ const StyledButton = styled(StyledPrivateButton)(({ theme, bgcolor }) => ({
   width: '250px',
 }))
 
-function SummaryForm({ id, alias, setShow, summaryText }) {
+function SummaryForm({ id, alias, setShow, summary }) {
   const theme = useTheme()
   const queryClient = new QueryClient()
   const token = useSelector((state) => state.user.Token.token)
@@ -36,11 +36,16 @@ function SummaryForm({ id, alias, setShow, summaryText }) {
       queryClient.invalidateQueries(alias)
     },
     onError: (error, variables, context) => {
-      console.log(error.response.data)
-      console.log(error.response.status)
-      console.log(error.response)
+      switch (error.response.status) {
+        case 498:
+          notifyFailure(
+            "vous n'avez été deconnectés. Enregistrez votre texte et reconnectetez vous"
+          )
+          break
 
-      notifyFailure('hello')
+        default:
+          notifyFailure("une erreur s'est produite")
+      }
     },
   })
 
@@ -58,24 +63,25 @@ function SummaryForm({ id, alias, setShow, summaryText }) {
   })
 
   const onSubmit = async (data) => {
-    const { summaryText } = data
+    const { summary } = data
     const options = {
       headers: { 'x-access-token': token },
     }
     try {
       await mutate({
+        id: id,
         options: options,
         body: {
-          summary: summaryText,
+          summary: summary,
         },
       })
     } catch (err) {}
   }
   // injection of the initial value in the editor
   React.useEffect(() => {
-    setValue('summaryText', summaryText)
+    setValue('summary', summary)
     return () => {
-      setValue('summaryText', '')
+      setValue('summary', '')
     }
   }, [])
 
@@ -99,7 +105,7 @@ function SummaryForm({ id, alias, setShow, summaryText }) {
         </StyledButton>
       </section>
       <Controller
-        name="summaryText"
+        name="summary"
         control={control}
         defaultValue=""
         render={({ onChange, value }) => (
@@ -107,7 +113,7 @@ function SummaryForm({ id, alias, setShow, summaryText }) {
         )}
       />
       <section>
-        <ErrorMessage errors={errors} name="summaryText" as="div" />
+        <ErrorMessage errors={errors} name="summary" as="div" />
       </section>
 
       <section style={{ textAlign: 'right' }}>

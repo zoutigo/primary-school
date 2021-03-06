@@ -89,7 +89,7 @@ function ClassroomSummary({ alias, summary, image, id }) {
           setShow={setShow}
           id={id}
           alias={alias}
-          summaryText={summary}
+          summary={summary}
         />
       )}
     </StyledClassroomContainer>
