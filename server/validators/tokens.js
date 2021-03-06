@@ -20,7 +20,7 @@ module.exports.verifyToken = async (req, res, next) => {
       req.user = verified;
       next();
     } catch (err) {
-      next(err);
+      return next(new TokenIvalid(err));
     }
   }
 };

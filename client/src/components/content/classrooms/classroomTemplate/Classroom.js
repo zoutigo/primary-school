@@ -81,7 +81,12 @@ function Classroom() {
     {
       title: chaptername,
       content: (
-        <ClassroomSummary alias={alias} text={data.text} image={data.image} />
+        <ClassroomSummary
+          alias={alias}
+          summary={data.summary}
+          image={data.image}
+          id={data._id}
+        />
       ),
     },
     {

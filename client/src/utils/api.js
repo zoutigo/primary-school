@@ -77,6 +77,11 @@ export const apiUpdatePage = async (obj) => {
   let { data } = await axios.put(URL, obj.body, obj.options)
   return data
 }
+export const apiUpdateClassroom = async (obj) => {
+  let URL = `${process.env.REACT_APP_ENDPOINT}/classrooms/${obj.id}`
+  let { data } = await axios.put(URL, obj.body, obj.options)
+  return data
+}
 
 export const apiFecthClassroom = async (obj) => {
   let URL = `${process.env.REACT_APP_ENDPOINT}/classrooms/${obj.queryKey[1].alias}`

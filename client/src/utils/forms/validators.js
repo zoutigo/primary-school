@@ -55,3 +55,10 @@ export const registerSchema = yup.object().shape({
     .oneOf([yup.ref('password'), null], 'Mauvaise correspondance')
     .required('Veillez confirmer le mot de pass'),
 })
+
+export const classroomSummarySchema = yup.object().shape({
+  summaryText: yup
+    .string()
+    .required('la page doit avoir un contenu')
+    .min(5, 'au moins 5 caractères'),
+})

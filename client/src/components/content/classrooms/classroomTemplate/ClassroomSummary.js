@@ -1,7 +1,7 @@
-import { Box, styled } from '@material-ui/core'
-import React from 'react'
-import { useQuery } from 'react-query'
-import { apiFecthClassroom } from '../../../../utils/api'
+import { Box, styled, ButtonGroup, Button } from '@material-ui/core'
+import React, { useState } from 'react'
+import ImageForm from './forms/ImageForm'
+import SummaryForm from './forms/SummaryForm'
 
 const StyledClassroomContainer = styled(Box)(({ theme, bgcolor }) => ({
   height: '3em',
@@ -20,30 +20,78 @@ const StyledTextContainer = styled(Box)(({ theme, bgcolor }) => ({
   background: bgcolor,
   width: '100%',
 }))
+const StyledButtonGroup = styled(ButtonGroup)(({ theme, bgcolor }) => ({
+  height: '3em',
+}))
+const StyledButton = styled(Button)(({ theme, bgcolor }) => ({
+  height: '3em',
+  background: theme.palette.primary.main,
+  padding: '0.5em 1em !important',
+}))
 
-function ClassroomSummary({ alias }) {
-  const { isLoading, isError, data, error } = useQuery(
-    [alias, { alias: alias }],
-    apiFecthClassroom,
-    {
-      retry: 1,
-      retryDelay: 500,
-      refetchOnWindowFocus: false,
+function ClassroomSummary({ alias, summary, image, id }) {
+  const [show, setShow] = useState({
+    buttonGroup: true,
+    imageForm: false,
+    summaryForm: false,
+  })
+  const handleClick = (item) => {
+    switch (item) {
+      case 'summary':
+        setShow({
+          buttonGroup: false,
+          imageForm: false,
+          summaryForm: true,
+        })
+        break
+      case 'image':
+        setShow({
+          buttonGroup: false,
+          imageForm: true,
+          summaryForm: false,
+        })
+        break
+
+      default:
+        return setShow(show)
     }
-  )
-
-  if (isLoading) {
-    return <span>Loading...</span>
-  }
-
-  if (isError) {
-    return <span>Error: {error.message}</span>
   }
 
   return (
     <StyledClassroomContainer>
-      <StyledImageContainer></StyledImageContainer>
-      <StyledTextContainer></StyledTextContainer>
+      <StyledImageContainer>
+        <img src={image} />
+      </StyledImageContainer>
+      <StyledTextContainer>{summary}</StyledTextContainer>
+      {show.buttonGroup && (
+        <StyledButtonGroup>
+          <StyledButton
+            onClick={() => {
+              handleClick('summary')
+            }}
+          >
+            Modifier le texte
+          </StyledButton>
+          <StyledButton
+            onClick={() => {
+              handleClick('image')
+            }}
+          >
+            Modifier l'image
+          </StyledButton>
+        </StyledButtonGroup>
+      )}
+
+      {show.imageForm && <ImageForm setShow={setShow} />}
+      {show.summaryForm && (
+        <SummaryForm
+          show={show}
+          setShow={setShow}
+          id={id}
+          alias={alias}
+          summaryText={summary}
+        />
+      )}
     </StyledClassroomContainer>
   )
 }
