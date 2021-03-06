@@ -52,6 +52,7 @@ app.set("view engine", "jade");
 
 app.use(
   cors({
+    origin: "http://localhost:3000",
     exposedHeaders: ["x-access-token"],
   })
 );
@@ -91,6 +92,7 @@ app.use("/images", imagesRouter);
 // if (process.env.NODE_ENV === 'production') {
 //   app.use(express.static('client/build'))
 // }
+// a middleware with no mount path; gets executed for every request to the app
 
 app.use(handleErrors);
 

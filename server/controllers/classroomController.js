@@ -99,7 +99,7 @@ module.exports.updateClassroom = async (req, res, next) => {
   }
 
   // check grade and account owner
-  const isTheTeacher = _id === datas.classroom.teacher;
+  const isTheTeacher = requesterId === datas.classroom.teacher;
   const isGradAllowed = grades.includes(grade);
 
   // check user role
