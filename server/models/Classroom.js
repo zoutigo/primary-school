@@ -32,12 +32,11 @@ const classroomSchema = new Schema({
   albums: {
     type: String,
   },
-  images: [
-    {
-      type: Schema.ObjectId,
-      ref: "Image",
-    },
-  ],
+  image: {
+    type: Schema.ObjectId,
+    ref: "Image",
+  },
+
   papers: [
     {
       type: Schema.ObjectId,

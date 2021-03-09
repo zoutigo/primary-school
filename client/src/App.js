@@ -1,10 +1,5 @@
 import React from 'react'
-import {
-  useQuery,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from 'react-query'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query-devtools'
 import { makeStyles } from '@material-ui/styles'
 import { Grid } from '@material-ui/core'
@@ -19,9 +14,10 @@ import { useScroll } from './utils/hooks'
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: Infinity,
-      refetchOnWindowFocus: true,
-      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+      refetchOnMount: true,
+      retry: 1,
+      retryDelay: 500,
     },
   },
 })
@@ -62,5 +58,4 @@ function App() {
     </QueryClientProvider>
   )
 }
-
 export default App

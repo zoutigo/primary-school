@@ -1,9 +1,11 @@
 import { useTheme } from '@material-ui/styles'
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
+import { useMutation, QueryCache, useQueryClient } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import { setScroll } from '../redux/settings/settingsActions'
 import { setTokenValidity } from '../redux/user/userActions'
+import { notifyApiFailure, notifyFailure } from './notifications'
 
 export const useDispatchOnRouteChange = (someFetchActionCreator) => {
   const dispatch = useDispatch()
@@ -78,7 +80,7 @@ export const useToggle = () => {
   return { toggleState, toggle }
 }
 
-const useLocalStorage = (localStorageKey) => {
+export const useLocalStorage = (localStorageKey) => {
   const [value, setValue] = React.useState(
     localStorage.getItem(localStorageKey) || ''
   )
@@ -90,4 +92,29 @@ const useLocalStorage = (localStorageKey) => {
   return [value, setValue]
 }
 
-export default useLocalStorage
+export const useUpdateMutationOptions = (queryKey) => {
+  const queryClient = useQueryClient()
+  return {
+    onMutate: (newData) => {
+      queryClient.cancelQueries(queryKey)
+
+      const current = queryClient.getQueryData(queryKey)
+
+      queryClient.setQueryData(queryKey, (prev) => newData)
+
+      // in case there is no id , for post, it could be
+      // queryCache.setQueryData(name, (prev)=> [...prev, {...newData, id:new Date().toISOString()}])
+      return current
+    },
+    onSuccess: (newData) => {
+      queryClient.setQueryData(queryKey, (prev) => newData)
+    },
+    onError: (error, variables, context, newData, rollback) => {
+      notifyApiFailure(error)
+      rollback()
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(queryKey)
+    },
+  }
+}

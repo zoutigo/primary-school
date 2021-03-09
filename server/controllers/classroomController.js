@@ -1,6 +1,7 @@
 const Classroom = require("../models/Classroom");
 const Roles = require("../models/Roles");
 const User = require("../models/User");
+const Image = require("../models/Image");
 const {
   Forbidden,
   BadRequest,
@@ -206,6 +207,26 @@ module.exports.updateClassroom = async (req, res, next) => {
     }
 
     newClassroom.helper = helper;
+  }
+
+  if (image) {
+    if (
+      !["admin", "manager", "moderator"].includes(role) &&
+      process.NODE_ENV === "production"
+    )
+      return next(new Unauthorized("only manager can change"));
+
+    try {
+      let newImage = new Image({
+        filename: datas.classroom.name,
+        path: image,
+      });
+
+      const { _id: imageId } = await newImage.save();
+      newClassroom.image = imageId;
+    } catch (err) {
+      return next(err);
+    }
   }
 
   try {

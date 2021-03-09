@@ -2,6 +2,14 @@ import * as yup from 'yup'
 import { apiCheckEmail } from '../api'
 
 const passRegExp = new RegExp('^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$')
+const IMAGE_MAX_SIZE = 1024 * 1024
+const IMAGE_SUPPORTED_FORMATS = [
+  'image/jpg',
+  'image/jpeg',
+  'image/gif',
+  'image/png',
+]
+
 export const pageUpdateSchema = yup.object().shape({
   // text: yup.string().required('Il faut au moins une phrase'),
   // alias: yup.mixed().oneOf(list),
@@ -61,4 +69,19 @@ export const classroomSummarySchema = yup.object().shape({
     .string()
     .required('la page doit avoir un contenu')
     .min(5, 'au moins 5 caractères'),
+})
+export const classroomImageSchema = yup.object().shape({
+  image: yup
+    .mixed()
+    .required('A file is required')
+    .test(
+      'fileSize',
+      'File too large',
+      (value) => value && value[0].size <= IMAGE_MAX_SIZE
+    )
+    .test(
+      'fileFormat',
+      'Unsupported Format',
+      (value) => value && IMAGE_SUPPORTED_FORMATS.includes(value[0].type)
+    ),
 })

@@ -1,27 +1,24 @@
-import { Box, styled, ButtonGroup, Button } from '@material-ui/core'
+import { Box, styled, ButtonGroup, Button, Grid } from '@material-ui/core'
 import React, { useState } from 'react'
 import ImageForm from './forms/ImageForm'
 import SummaryForm from './forms/SummaryForm'
 
-const StyledClassroomContainer = styled(Box)(({ theme, bgcolor }) => ({
-  height: '3em',
+import { ToastContainer } from 'react-toastify'
+
+import { useSelector } from 'react-redux'
+import ClassroomSummaryContent from './ClassroomSummaryContent'
+
+const StyledClassroomContainer = styled(Grid)(({ theme, bgcolor }) => ({
   padding: '0.5em !important',
-  background: bgcolor,
+  background: 'blue',
+  display: 'flex',
+  flexDirection: 'column',
 }))
-const StyledImageContainer = styled(Box)(({ theme, bgcolor }) => ({
-  height: '3em',
-  padding: '0.5em !important',
-  background: bgcolor,
-  width: '100%',
-}))
-const StyledTextContainer = styled(Box)(({ theme, bgcolor }) => ({
-  height: '3em',
-  padding: '0.5em !important',
-  background: bgcolor,
-  width: '100%',
-}))
+
 const StyledButtonGroup = styled(ButtonGroup)(({ theme, bgcolor }) => ({
   height: '3em',
+  marginTop: '1em !important',
+  background: 'green',
 }))
 const StyledButton = styled(Button)(({ theme, bgcolor }) => ({
   height: '3em',
@@ -29,69 +26,67 @@ const StyledButton = styled(Button)(({ theme, bgcolor }) => ({
   padding: '0.5em 1em !important',
 }))
 
-function ClassroomSummary({ alias, summary, image, id }) {
-  const [show, setShow] = useState({
-    buttonGroup: true,
-    imageForm: false,
-    summaryForm: false,
-  })
-  const handleClick = (item) => {
-    switch (item) {
-      case 'summary':
-        setShow({
-          buttonGroup: false,
-          imageForm: false,
-          summaryForm: true,
-        })
-        break
-      case 'image':
-        setShow({
-          buttonGroup: false,
-          imageForm: true,
-          summaryForm: false,
-        })
-        break
+function ClassroomSummary({ alias, id: classroomId, summary }) {
+  const token = useSelector((state) => state.user.Token.token)
 
-      default:
-        return setShow(show)
-    }
-  }
+  const [imageForm, setImageForm] = useState(false)
+  const [summaryForm, setSummaryForm] = useState(false)
+  const [buttonGroup, setButtonGroup] = useState(true)
+  const [summaryContent, setSummaryContent] = useState(true)
 
   return (
-    <StyledClassroomContainer>
-      <StyledImageContainer>
-        <img src={image} />
-      </StyledImageContainer>
-      <StyledTextContainer>{summary}</StyledTextContainer>
-      {show.buttonGroup && (
-        <StyledButtonGroup>
-          <StyledButton
-            onClick={() => {
-              handleClick('summary')
-            }}
-          >
-            Modifier le texte
-          </StyledButton>
-          <StyledButton
-            onClick={() => {
-              handleClick('image')
-            }}
-          >
-            Modifier l'image
-          </StyledButton>
-        </StyledButtonGroup>
-      )}
+    <StyledClassroomContainer container>
+      <ToastContainer />
 
-      {show.imageForm && <ImageForm setShow={setShow} />}
-      {show.summaryForm && (
-        <SummaryForm
-          show={show}
-          setShow={setShow}
-          id={id}
-          alias={alias}
-          summary={summary}
-        />
-      )}
+      <Grid item container md={12} lg={12}>
+        {summaryContent && (
+          <ClassroomSummaryContent id={classroomId} alias={alias} />
+        )}
+      </Grid>
+      <Grid item container md={12} lg={12}>
+        {buttonGroup && (
+          <StyledButtonGroup>
+            <StyledButton
+              onClick={() => {
+                setSummaryForm(true)
+                setButtonGroup(false)
+                setSummaryContent(false)
+              }}
+            >
+              Modifier le texte
+            </StyledButton>
+            <StyledButton
+              onClick={() => {
+                setImageForm(true)
+                setButtonGroup(false)
+                setSummaryContent(false)
+              }}
+            >
+              Modifier l'image
+            </StyledButton>
+          </StyledButtonGroup>
+        )}
+      </Grid>
+      <Grid item container md={12} lg={12}>
+        {imageForm && (
+          <ImageForm
+            id={classroomId}
+            alias={alias}
+            setButtonGroup={setButtonGroup}
+            setImageForm={setImageForm}
+            setSummaryContent={setSummaryContent}
+          />
+        )}
+        {summaryForm && (
+          <SummaryForm
+            id={classroomId}
+            alias={alias}
+            setButtonGroup={setButtonGroup}
+            setSummaryForm={setSummaryForm}
+            setSummaryContent={setSummaryContent}
+          />
+        )}
+      </Grid>
     </StyledClassroomContainer>
   )
 }

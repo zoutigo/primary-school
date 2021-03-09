@@ -1,18 +1,19 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { ToastContainer, toast } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { FormControl } from '@material-ui/core'
 import { styled, useTheme } from '@material-ui/styles'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { QueryClient, useMutation } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import SmallEditor from '../../../../../utils/tinyEditors/SmallEditor'
 import { classroomSummarySchema } from '../../../../../utils/forms/validators'
 import { useSelector } from 'react-redux'
-import { apiUpdateClassroom } from '../../../../../utils/api'
+import { apiFecthClassroom, apiUpdateClassroom } from '../../../../../utils/api'
 import { StyledPrivateButton } from '../../../../../utils/forms/styledComponents'
 import { ErrorMessage } from '@hookform/error-message'
-import { notifyFailure } from '../../../../../utils/notifications'
+
+import { notifySuccess } from '../../../../../utils/notifications'
+import { useUpdateMutationOptions } from '../../../../../utils/hooks'
 const StyledForm = styled('form')(({ theme, bgcolor }) => ({
   height: '3em',
   padding: '0.5em !important',
@@ -26,28 +27,25 @@ const StyledButton = styled(StyledPrivateButton)(({ theme, bgcolor }) => ({
   width: '250px',
 }))
 
-function SummaryForm({ id, alias, setShow, summary }) {
+function SummaryForm({
+  id: classroomId,
+  alias,
+  setButtonGroup,
+  setSummaryForm,
+  setSummaryContent,
+}) {
   const theme = useTheme()
-  const queryClient = new QueryClient()
+
   const token = useSelector((state) => state.user.Token.token)
 
-  const { mutate, info } = useMutation(apiUpdateClassroom, {
-    onSuccess: (data) => {
-      queryClient.invalidateQueries(alias)
-    },
-    onError: (error, variables, context) => {
-      switch (error.response.status) {
-        case 498:
-          notifyFailure(
-            "vous n'avez été deconnectés. Enregistrez votre texte et reconnectetez vous"
-          )
-          break
-
-        default:
-          notifyFailure("une erreur s'est produite")
-      }
-    },
-  })
+  const queryName = `classroom-${alias}`
+  const queryKey = [queryName, classroomId]
+  const {
+    mutate,
+    error: mutationerror,
+    isError: isMutationError,
+    isSuccess: isMutationSuccess,
+  } = useMutation(apiUpdateClassroom, useUpdateMutationOptions(queryKey))
 
   const {
     register,
@@ -62,43 +60,65 @@ function SummaryForm({ id, alias, setShow, summary }) {
     resolver: yupResolver(classroomSummarySchema),
   })
 
-  const onSubmit = async (data) => {
-    const { summary } = data
+  const onSubmit = async (datas) => {
+    const { summary } = datas
     const options = {
       headers: { 'x-access-token': token },
     }
     try {
       await mutate({
-        id: id,
+        id: classroomId,
         options: options,
         body: {
           summary: summary,
         },
       })
-    } catch (err) {}
+    } catch (err) {
+      console.log('error:', err)
+    }
   }
+
+  // close the form
+  React.useEffect(() => {
+    if (isMutationSuccess) {
+      notifySuccess('Le résumé a bien été mis à jour')
+      setSummaryForm(false)
+      setButtonGroup(true)
+      setSummaryContent(true)
+    }
+  }, [isMutationSuccess])
+
+  const { isLoading, isError, data, error, isSuccess } = useQuery(
+    queryKey,
+    () => apiFecthClassroom(classroomId)
+  )
   // injection of the initial value in the editor
   React.useEffect(() => {
-    setValue('summary', summary)
+    setValue('summary', data.summary)
     return () => {
       setValue('summary', '')
     }
-  }, [])
+  }, [isSuccess])
+
+  if (isLoading) {
+    return <span>Loading...</span>
+  }
+
+  if (isError) {
+    return <span>Error: {error.message}</span>
+  }
 
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
-      <ToastContainer />
       <section>
         <StyledButton
           type="button"
           bgcolor={theme.palette.warning.main}
           disabled={isSubmitting}
           onClick={() => {
-            setShow({
-              buttonGroup: true,
-              imageForm: false,
-              summaryForm: false,
-            })
+            setSummaryForm(false)
+            setButtonGroup(true)
+            setSummaryContent(true)
           }}
         >
           Retour
@@ -122,7 +142,7 @@ function SummaryForm({ id, alias, setShow, summary }) {
           bgcolor={theme.palette.success.main}
           disabled={!isValid || isSubmitting}
         >
-          Je publie la page
+          Je publie le resumé
         </StyledButton>
       </section>
     </StyledForm>
