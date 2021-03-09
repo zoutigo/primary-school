@@ -231,6 +231,11 @@ module.exports.updateClassroom = async (req, res, next) => {
       { returnOriginal: false }
     );
     if (!updatedClassroom) return next();
+    if (datas.classroom.image) {
+      await Image.findOneAndDelete({
+        _id: datas.classroom.image,
+      });
+    }
     return res.status(200).send(updatedClassroom);
   } catch (err) {
     return next(err);
