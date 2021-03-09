@@ -78,6 +78,8 @@ function ImageForm({
     const { image } = datas
     const options = {
       headers: { 'x-access-token': token },
+      maxContentLength: 100000000,
+      maxBodyLength: 1000000000,
     }
 
     const imageResized = await resizeFile(image[0])
