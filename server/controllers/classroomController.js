@@ -37,7 +37,7 @@ module.exports.getClassroom = async (req, res, next) => {
   }
 
   try {
-    let classroom = await Classroom.findOne(query);
+    let classroom = await Classroom.findOne(query).populate("image");
     if (!classroom)
       return next(new NotFound("no classroom with such criterias"));
     res.status(200).send(classroom);
@@ -211,7 +211,6 @@ module.exports.updateClassroom = async (req, res, next) => {
 
   if (image) {
     try {
-      console.log(datas);
       let newImage = new Image({
         filename: datas.classroom.name,
         path: image,

@@ -36,6 +36,7 @@ function ClassroomSummaryContent({ alias, id: classroomId }) {
     return <span>Error: {error.message}</span>
   }
 
+  console.log('b64_Image:', data.image)
   return (
     <StyledClassroomContainer item container>
       <Grid item>
