@@ -2,7 +2,7 @@ import * as yup from 'yup'
 import { apiCheckEmail } from '../api'
 
 const passRegExp = new RegExp('^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$')
-const IMAGE_MAX_SIZE = 1024 * 1024
+const IMAGE_MAX_SIZE = 1024 * 1024 * 2
 const IMAGE_SUPPORTED_FORMATS = [
   'image/jpg',
   'image/jpeg',
