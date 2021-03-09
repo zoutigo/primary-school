@@ -10,7 +10,7 @@ const imageSchema = new Schema({
   path: {
     type: String,
     required: true,
-    max: 200,
+    max: 100000,
   },
   createdAt: {
     type: Date,

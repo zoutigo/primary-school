@@ -92,7 +92,7 @@ module.exports.updateClassroom = async (req, res, next) => {
 
   // check if classroom exist
   try {
-    const classroom = await Classroom.find({ _id: classroomId });
+    const classroom = await Classroom.findOne({ _id: classroomId });
     if (!classroom) return next(new BadRequest("Classroom does not exists"));
     datas.classroom = classroom;
   } catch (err) {
@@ -210,13 +210,8 @@ module.exports.updateClassroom = async (req, res, next) => {
   }
 
   if (image) {
-    if (
-      !["admin", "manager", "moderator"].includes(role) &&
-      process.NODE_ENV === "production"
-    )
-      return next(new Unauthorized("only manager can change"));
-
     try {
+      console.log(datas);
       let newImage = new Image({
         filename: datas.classroom.name,
         path: image,
