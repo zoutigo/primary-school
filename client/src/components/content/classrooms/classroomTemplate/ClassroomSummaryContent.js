@@ -44,7 +44,7 @@ function ClassroomSummaryContent({ alias, id: classroomId }) {
       </Grid>
 
       <StyledImageContainer item container>
-        <img src={data.image} />
+        <img src={data.image.path} />
         Here is the image
       </StyledImageContainer>
 
