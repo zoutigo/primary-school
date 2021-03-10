@@ -53,6 +53,7 @@ function Classroom() {
     },
   ]
 
+  // construction de l'aside
   const { teacher } = data
   const classroomInfos = [['enseignant', teacher]]
 

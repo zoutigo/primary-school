@@ -10,7 +10,7 @@ import ClassroomSummaryContent from './ClassroomSummaryContent'
 
 const StyledClassroomContainer = styled(Grid)(({ theme, bgcolor }) => ({
   padding: '0.5em !important',
-  background: 'blue',
+
   display: 'flex',
   flexDirection: 'column',
 }))

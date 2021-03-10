@@ -8,16 +8,17 @@ import { apiFecthClassroom } from '../../../../utils/api'
 
 const StyledClassroomContainer = styled(Grid)(({ theme, bgcolor }) => ({
   padding: '0.1em !important',
-  background: bgcolor,
 }))
 const StyledImageContainer = styled(Grid)(({ theme, bgcolor }) => ({
-  height: '20vh',
+  '& img': {
+    width: '100%',
+    objectFit: 'cover',
+  },
   padding: '0.5em !important',
-  background: 'yellow',
 }))
 const StyledTextContainer = styled(Box)(({ theme, bgcolor }) => ({
   padding: '0.5em !important',
-  background: 'pink',
+  background: 'whitesmoke',
 }))
 
 function ClassroomSummaryContent({ alias, id: classroomId }) {
@@ -36,7 +37,6 @@ function ClassroomSummaryContent({ alias, id: classroomId }) {
     return <span>Error: {error.message}</span>
   }
 
-  console.log('b64_Image:', data.image)
   return (
     <StyledClassroomContainer item container>
       <Grid item>
@@ -44,8 +44,7 @@ function ClassroomSummaryContent({ alias, id: classroomId }) {
       </Grid>
 
       <StyledImageContainer item container>
-        <img src={data.image.path} />
-        Here is the image
+        {data.image && <img src={data.image.path} />}
       </StyledImageContainer>
 
       <Grid item>

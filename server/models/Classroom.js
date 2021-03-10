@@ -29,6 +29,16 @@ const classroomSchema = new Schema({
     ref: "User",
     default: "6026a1bd31aa34384e1c9c8e",
   },
+  students: {
+    type: Number,
+    default: 15,
+  },
+  email: {
+    type: String,
+    maxlength: 50,
+    minlength: 3,
+    default: "saint-augustin@gmail.com",
+  },
   albums: {
     type: String,
   },

@@ -37,7 +37,16 @@ module.exports.getClassroom = async (req, res, next) => {
   }
 
   try {
-    let classroom = await Classroom.findOne(query).populate("image");
+    let classroom = await await Classroom.findOne(query)
+      .populate("image")
+      .populate({
+        path: "helper",
+        select: ["name", "firstname", "gender", "_id"],
+      })
+      .populate({
+        path: "teacher",
+        select: ["name", "firstname", "gender", "_id"],
+      });
     if (!classroom)
       return next(new NotFound("no classroom with such criterias"));
     res.status(200).send(classroom);
