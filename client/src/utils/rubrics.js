@@ -22,9 +22,6 @@ import Cantine from '../components/content/school-life/cantine/Cantine'
 import Pastorale from '../components/content/school-life/pastorale/Pastorale'
 import Schedule from '../components/content/school-life/schedule/Schedule'
 import Nursery from '../components/content/school-life/nursery/Nursery'
-import Contacts from '../components/content/informations/Contacts'
-import Inscriptions from '../components/content/informations/Inscriptions'
-import Blog from '../components/content/classrooms/blog/Blog'
 import Primaire from '../components/content/classrooms/primaire/Primaire'
 import Maternelle from '../components/content/classrooms/maternelle/Maternelle'
 import Classroom from '../components/content/classrooms/classroomTemplate/Classroom'
@@ -32,11 +29,12 @@ import Classroom from '../components/content/classrooms/classroomTemplate/Classr
 import Apel from '../components/content/ApelOgec/Apel'
 import Ogec from '../components/content/ApelOgec/Ogec'
 import SubMenuCardGroup from '../components/content/SubMenuCardGroup'
-import Papers from '../components/content/papers/Papers'
 import Login from '../components/content/private/credentials/login/Login'
 import Register from '../components/content/private/credentials/register/Register'
 import Account from '../components/content/private/personal/Account'
-
+import Contacts from '../components/content/informations/contacts/Contacts'
+import Inscriptions from '../components/content/informations/inscriptions/Inscriptions'
+import Actualites from '../components/content/informations/actualites/Actualites'
 const rubrics = [
   {
     name: 'Acceuil',
@@ -282,12 +280,6 @@ const rubrics = [
           },
         ],
       },
-      {
-        designation: 'Ze Blog',
-        link: '/classes/blog',
-        alias: 'bl',
-        route: { path: '/classes/blog', exact: true, component: Blog },
-      },
     ],
   },
 
@@ -330,7 +322,7 @@ const rubrics = [
         route: {
           path: '/informations/actualites',
           exact: true,
-          component: Papers,
+          component: Actualites,
         },
       },
     ],

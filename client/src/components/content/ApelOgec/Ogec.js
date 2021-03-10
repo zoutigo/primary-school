@@ -9,12 +9,6 @@ import { OGECTEAM } from '../../../utils/constants'
 
 function Ogec() {
   const pageName = 'ogec'
-  const queryKey = {
-    path: '/page',
-    action: 'get',
-    filter: pageName,
-    options: {},
-  }
   const { isLoading, isError, data, error } = useQuery(
     ['ogec', { alias: pageName }],
     apiFecthPage,
@@ -42,12 +36,6 @@ function Ogec() {
     },
   ]
 
-  //   items: [
-  //     {
-  //       subtitle: 'Projet 1',
-  //       text: 'Recolte de gambas',
-  //     },
-  //   ],
   const StyledAsideItem = styled(Box)(({ theme }) => ({
     '& :first-child': {},
     '& :nth(2)-child': { textTransform: 'capitalize' },
