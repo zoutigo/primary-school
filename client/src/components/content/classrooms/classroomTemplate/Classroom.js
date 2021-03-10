@@ -8,6 +8,7 @@ import { useQuery } from 'react-query'
 import { apiFecthClassroom } from '../../../../utils/api'
 import ClassroomArticles from './ClassroomArticles'
 import ClassroomNews from './ClassroomNews'
+import { Box, styled, Typography } from '@material-ui/core'
 
 function Classroom() {
   const { state } = useLocation()
@@ -54,15 +55,71 @@ function Classroom() {
   ]
 
   // construction de l'aside
-  const { teacher } = data
-  const classroomInfos = [['enseignant', teacher]]
+  const { teacher, helper, students, email } = data
+
+  const StyledUserItem = styled(Box)(({ theme, bgcolor }) => ({
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    '& >:first-child': {
+      textTransform: 'capitalize',
+    },
+    '& >:nth(2)-child': {
+      textTransform: 'uppercase',
+      color: 'red',
+    },
+    '& >:last-child': {
+      textTransform: 'uppercase',
+    },
+    '& >div': {
+      marginRight: '7px',
+    },
+  }))
+  const StyledSubTitle = styled(Box)(({ theme, bgcolor }) => ({
+    textTransform: 'uppercase',
+    margin: '0.3em auto !important',
+  }))
+
+  const UserItem = ({ gender, firstname, name }) => (
+    <StyledUserItem>
+      <Box>
+        <Typography variant="span">{gender}</Typography>
+      </Box>
+      <Box>
+        <Typography variant="span">{firstname}</Typography>
+      </Box>
+      <Box>
+        <Typography variant="span">{name}</Typography>
+      </Box>
+    </StyledUserItem>
+  )
+  const SubTitle = (title) => (
+    <StyledSubTitle>
+      <Typography variant="h6"> {title}</Typography>
+    </StyledSubTitle>
+  )
+
+  const asideItems = [
+    [0, SubTitle('enseignant'), UserItem(teacher)],
+    [2, SubTitle('elèves'), students],
+    [3, SubTitle('contacts'), email],
+  ]
+  if (helper) {
+    asideItems.push([1, SubTitle('aide maternelle'), UserItem(helper)])
+  }
+
+  // sort the asideitems array
+
+  asideItems.sort(function (a, b) {
+    return a[0] - b[0]
+  })
 
   const aside = {
     title: 'INFORMATIONS',
-    items: classroomInfos.map((classroom) => {
+    items: asideItems.map((item) => {
       return {
-        subtitle: classroom[0],
-        text: classroom[1],
+        subtitle: item[1],
+        text: item[2],
       }
     }),
   }
