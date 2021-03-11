@@ -7,6 +7,8 @@ const Rubric = require("../models/Rubric");
 const User = require("../models/User");
 const Page = require("../models/Page");
 const Image = require("../models/Image");
+const Paper = require("../models/Paper");
+const { object } = require("@hapi/joi");
 
 const getRandom = (max) => {
   return Math.floor(Math.random() * Math.floor(max));
@@ -32,6 +34,7 @@ const newUser = {
   password: "Valery54",
 };
 const newCategory = { name: faker.name.firstName() };
+const newId = new mongoose.mongo.ObjectId("6026a6db31aa34384e1c9ca5");
 const newPage = {
   alias: faker.name.firstName(),
   title: faker.company.companyName(),
@@ -46,12 +49,15 @@ describe("MODELS", () => {
       classrooms,
       categories,
       images,
+      paper,
     } = mongoose.connection.collections;
     users.drop();
     roles.drop();
     classrooms.drop();
     categories.drop();
     images.drop();
+    paper.drop();
+
     done();
   });
 
@@ -108,6 +114,19 @@ describe("MODELS", () => {
     });
     image.save().then(() => {
       image.should.be.a("object");
+      done();
+    });
+  });
+  it("should create new paper", (done) => {
+    const paper = new Paper({
+      title: faker.name.firstName(),
+      text: faker.lorem.sentence(),
+      type: "article",
+      date: Date.now().toString(),
+      authorId: newId,
+    });
+    paper.save().then(() => {
+      paper.should.be.a("object");
       done();
     });
   });

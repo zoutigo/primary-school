@@ -10,7 +10,7 @@ const {
 
 router.get("/", listPapers);
 router.get("/:id", getPaper);
-router.post("/", verifyToken, createPaper);
+router.post("/:id?", verifyToken, createPaper);
 router.put("/:id", verifyToken, updatePaper);
 router.delete("/:id", verifyToken, deletePaper);
 

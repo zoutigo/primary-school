@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { imageSchema, Image } = require("./Image");
 const Schema = mongoose.Schema;
 
 const classroomSchema = new Schema({

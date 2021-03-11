@@ -1,50 +1,43 @@
 const mongoose = require("mongoose");
-const { commentSchema } = require("./Comment");
-const { ImageSchema, Image } = require("./Image");
 
 const Schema = mongoose.Schema;
 const paperSchema = new Schema({
-  paper_rubric_id: { type: Schema.Types.ObjectId, ref: "Rubric" },
-  paper_category_id: {
-    type: Schema.Types.ObjectId,
-    ref: "Category",
-  },
-  paper_chapter_id: {
-    type: Schema.Types.ObjectId,
-    ref: "Chapter",
-  },
-  paper_type: {
+  type: {
     type: String,
-    enum: ["article", "news", "event", "important"],
+    enum: ["article", "newsletter", "activity", "parent-info"],
     required: true,
   },
+  classroomId: {
+    type: Schema.Types.ObjectId,
+    ref: "Classroom",
+  },
 
-  paper_title: {
+  title: {
     type: String,
     required: true,
     minlength: 3,
     maxlength: 100,
   },
 
-  paper_content: {
+  text: {
     type: String,
     required: true,
-    maxlength: 30000,
+    maxlength: 200000,
+    minlength: 3,
   },
 
-  paper_createdAt: {
-    type: Date,
-    default: Date.now(),
-    required: true,
+  date: {
+    type: Number,
+    default: new Date().getTime(),
   },
-  paper_author_id: {
+  authorId: {
     type: Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
 
-  mediaPath: [{ type: String }],
-  paper_status: {
+  mediasPaths: [{ type: String }],
+  status: {
     type: String,
     enum: ["draft", "undervalidation", "released"],
     default: "draft",

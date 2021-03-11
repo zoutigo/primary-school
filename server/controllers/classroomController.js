@@ -118,7 +118,6 @@ module.exports.updateClassroom = async (req, res, next) => {
   }).select("_id");
   const roleAllowArray = AllowedRoles.filter((role) => roles.includes(role));
 
-  const environmentAllow = process.NODE_ENV !== "production";
   const roleIsAllowed = roleAllowArray.length > 0;
 
   if (
