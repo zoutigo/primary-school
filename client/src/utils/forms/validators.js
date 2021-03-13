@@ -85,3 +85,14 @@ export const classroomImageSchema = yup.object().shape({
       (value) => value && IMAGE_SUPPORTED_FORMATS.includes(value[0].type)
     ),
 })
+
+export const paperSchema = yup.object().shape({
+  title: yup
+    .string()
+    .required('le titre doit avoir un contenu')
+    .min(5, 'au moins 5 caractères'),
+  text: yup
+    .string()
+    .required('la page doit avoir un contenu')
+    .min(5, 'au moins 5 caractères'),
+})

@@ -1,5 +1,6 @@
 import React from 'react'
 import Wrapper from '../../../wrappers/wrapper/Wrapper'
+import Activities from './activities/Activities'
 import Articles from './articles/Articles'
 import NewsLetters from './newsletters/NewsLetters'
 import ParentsInfos from './parentsinfos/ParentsInfos'
@@ -9,6 +10,10 @@ function Actualites() {
     {
       title: `Articles`,
       content: <Articles />,
+    },
+    {
+      title: 'Activités',
+      content: <Activities />,
     },
     {
       title: `Newsletters`,

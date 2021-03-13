@@ -89,3 +89,15 @@ export const apiFecthClassroom = async (param) => {
 
   return data
 }
+export const apiFetchPaper = async (param) => {
+  let URL = `${process.env.REACT_APP_ENDPOINT}/papers/${param}`
+  let { data } = await axios.get(URL)
+
+  return data
+}
+
+export const apiPostPaper = async ({ id, body, options }) => {
+  let URL = `${process.env.REACT_APP_ENDPOINT}/papers/${id}`
+  let { data } = await axios.post(URL, body, options)
+  return data
+}

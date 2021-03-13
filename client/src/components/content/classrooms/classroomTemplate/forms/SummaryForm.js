@@ -9,17 +9,14 @@ import SmallEditor from '../../../../../utils/tinyEditors/SmallEditor'
 import { classroomSummarySchema } from '../../../../../utils/forms/validators'
 import { useSelector } from 'react-redux'
 import { apiFecthClassroom, apiUpdateClassroom } from '../../../../../utils/api'
-import { StyledPrivateButton } from '../../../../../utils/forms/styledComponents'
+import { StyledForm } from '../../../../../utils/forms/styledComponents'
 import { ErrorMessage } from '@hookform/error-message'
 
 import { notifySuccess } from '../../../../../utils/notifications'
 import { useUpdateMutationOptions } from '../../../../../utils/hooks'
-const StyledForm = styled('form')(({ theme, bgcolor }) => ({
-  height: '3em',
-  padding: '0.5em !important',
-  background: bgcolor,
-}))
-const StyledButton = styled(StyledPrivateButton)(({ theme, bgcolor }) => ({
+import { StyledButton } from '../../../../../utils/componentsStyled'
+
+const SummaryStyledButton = styled(StyledButton)(({ theme, bgcolor }) => ({
   height: '3em',
   padding: '0.5em !important',
   margin: '1em 0em ! important',
@@ -111,7 +108,7 @@ function SummaryForm({
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
       <section>
-        <StyledButton
+        <SummaryStyledButton
           type="button"
           bgcolor={theme.palette.warning.main}
           disabled={isSubmitting}
@@ -122,7 +119,7 @@ function SummaryForm({
           }}
         >
           Retour
-        </StyledButton>
+        </SummaryStyledButton>
       </section>
       <Controller
         name="summary"
@@ -137,13 +134,13 @@ function SummaryForm({
       </section>
 
       <section style={{ textAlign: 'right' }}>
-        <StyledButton
+        <SummaryStyledButton
           type="submit"
           bgcolor={theme.palette.success.main}
           disabled={!isValid || isSubmitting}
         >
           Je publie le resumé
-        </StyledButton>
+        </SummaryStyledButton>
       </section>
     </StyledForm>
   )

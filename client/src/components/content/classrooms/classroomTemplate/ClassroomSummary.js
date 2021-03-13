@@ -1,4 +1,4 @@
-import { Box, styled, ButtonGroup, Button, Grid } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 import React, { useState } from 'react'
 import ImageForm from './forms/ImageForm'
 import SummaryForm from './forms/SummaryForm'
@@ -7,24 +7,11 @@ import { ToastContainer } from 'react-toastify'
 
 import { useSelector } from 'react-redux'
 import ClassroomSummaryContent from './ClassroomSummaryContent'
-
-const StyledClassroomContainer = styled(Grid)(({ theme, bgcolor }) => ({
-  padding: '0.5em !important',
-
-  display: 'flex',
-  flexDirection: 'column',
-}))
-
-const StyledButtonGroup = styled(ButtonGroup)(({ theme, bgcolor }) => ({
-  height: '3em',
-  marginTop: '1em !important',
-  background: 'green',
-}))
-const StyledButton = styled(Button)(({ theme, bgcolor }) => ({
-  height: '3em',
-  background: theme.palette.primary.main,
-  padding: '0.5em 1em !important',
-}))
+import {
+  StyledButton,
+  StyledButtonGroup,
+  StyledGridTabContainer,
+} from '../../../../utils/componentsStyled'
 
 function ClassroomSummary({ alias, id: classroomId, summary }) {
   const token = useSelector((state) => state.user.Token.token)
@@ -35,7 +22,7 @@ function ClassroomSummary({ alias, id: classroomId, summary }) {
   const [summaryContent, setSummaryContent] = useState(true)
 
   return (
-    <StyledClassroomContainer container>
+    <StyledGridTabContainer container>
       <ToastContainer />
 
       <Grid item container md={12} lg={12}>
@@ -87,7 +74,7 @@ function ClassroomSummary({ alias, id: classroomId, summary }) {
           />
         )}
       </Grid>
-    </StyledClassroomContainer>
+    </StyledGridTabContainer>
   )
 }
 

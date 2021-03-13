@@ -113,7 +113,6 @@ module.exports.createPaper = async (req, res, next) => {
 
   if (!paperId) {
     // case paper creation
-
     paper.authorId = userId;
     let newPaper = new Paper(paper);
     try {
