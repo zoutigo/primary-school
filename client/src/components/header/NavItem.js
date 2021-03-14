@@ -199,7 +199,6 @@ function NavItem({ rubric, ind }) {
             to={{
               pathname: link,
               categories: categories,
-              rubric: name,
               state: {
                 from: pathname,
                 rubric: {
@@ -268,6 +267,7 @@ function NavItem({ rubric, ind }) {
                           category: {
                             name: category.designation,
                             alias: category.alias,
+                            chapters: category.chapters,
                           },
                         },
                       }}
@@ -304,7 +304,7 @@ function NavItem({ rubric, ind }) {
                                     alias: category.alias,
                                   },
                                   chapter: {
-                                    chaptername: chapter.designation,
+                                    name: chapter.designation,
                                     alias: chapter.alias,
                                   },
                                 },

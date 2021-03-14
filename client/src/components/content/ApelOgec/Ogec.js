@@ -37,9 +37,16 @@ function Ogec() {
   ]
 
   const StyledAsideItem = styled(Box)(({ theme }) => ({
-    '& :first-child': {},
-    '& :nth(2)-child': { textTransform: 'capitalize' },
-    '& :last-child': { textTransform: 'uppercase' },
+    '& >:first-child': {
+      marginRight: '1em',
+    },
+    '& >:nth-child(2)': {
+      textTransform: 'capitalize',
+    },
+    '& >:last-child': {
+      textTransform: 'uppercase',
+      marginLeft: '1em !important',
+    },
   }))
   const StyledRole = styled(Box)(({ theme }) => ({
     textTransform: 'capitalize',
@@ -47,9 +54,9 @@ function Ogec() {
 
   const Member = ({ gender, firstname, lastname }) => (
     <StyledAsideItem>
-      <Typography variant="span">{gender}</Typography>
-      <Typography variant="span"> {firstname}</Typography>
-      <Typography variant="span"> {lastname}</Typography>
+      <Typography variant="body2">{gender}</Typography>
+      <Typography variant="body2"> {firstname}</Typography>
+      <Typography variant="body2"> {lastname}</Typography>
     </StyledAsideItem>
   )
 

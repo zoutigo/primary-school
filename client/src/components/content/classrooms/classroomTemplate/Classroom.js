@@ -1,5 +1,4 @@
 import React from 'react'
-
 import { useLocation } from 'react-router-dom'
 import ClassroomSummary from './ClassroomSummary'
 
@@ -12,9 +11,9 @@ import { Box, styled, Typography } from '@material-ui/core'
 
 function Classroom() {
   const { state } = useLocation()
+  const { category } = state
 
-  const { chapter, category, rubric } = state
-  const { chaptername, alias } = chapter
+  const { name, alias } = category
   const queryName = `classrom-${alias}`
 
   const { isLoading, isError, data, error } = useQuery([queryName, alias], () =>
@@ -30,7 +29,7 @@ function Classroom() {
 
   const pages = [
     {
-      title: chaptername,
+      title: name,
       content: (
         <ClassroomSummary
           alias={alias}
@@ -83,13 +82,13 @@ function Classroom() {
   const UserItem = ({ gender, firstname, name }) => (
     <StyledUserItem>
       <Box>
-        <Typography variant="span">{gender}</Typography>
+        <Typography variant="body2">{gender}</Typography>
       </Box>
       <Box>
-        <Typography variant="span">{firstname}</Typography>
+        <Typography variant="body2">{firstname}</Typography>
       </Box>
       <Box>
-        <Typography variant="span">{name}</Typography>
+        <Typography variant="body2">{name}</Typography>
       </Box>
     </StyledUserItem>
   )
@@ -100,10 +99,13 @@ function Classroom() {
   )
 
   const asideItems = [
-    [0, SubTitle('enseignant'), UserItem(teacher)],
     [2, SubTitle('elèves'), students],
     [3, SubTitle('contacts'), email],
   ]
+
+  if (teacher) {
+    asideItems.push([0, SubTitle('enseignant'), UserItem(teacher)])
+  }
   if (helper) {
     asideItems.push([1, SubTitle('aide maternelle'), UserItem(helper)])
   }

@@ -9,16 +9,12 @@ import Pages from './pages/Pages'
 import Users from './users/Users'
 import Datas from './datas/Datas'
 import { StyledPrivateAdminMainContainer } from '../../../../utils/forms/styledComponents'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import PageCreation from './pages/PageCreation'
 import PageUpdate from './pages/PageUpdate'
 import AdminItem from './AdminItem'
-import { setPagesList } from '../../../../redux/admin/adminActions'
-import { useQuery } from 'react-query'
-import { apiFecthAllPages } from '../../../../utils/api'
 
 function Administration() {
-  const dispatch = useDispatch()
   let { url } = useRouteMatch()
 
   const StyledGrid = styled(Grid)(({ theme }) => ({

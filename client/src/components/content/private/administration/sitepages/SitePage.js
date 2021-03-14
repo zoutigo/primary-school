@@ -1,4 +1,4 @@
-import { Button, useTheme } from '@material-ui/core'
+import { useTheme } from '@material-ui/core'
 import React from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -13,7 +13,6 @@ import TextInput from '../../../../../utils/forms/TextInput'
 import { useToggle } from '../../../../../utils/hooks'
 import TinyEditor from '../../../../../utils/TinyEditor'
 import SelectInput from '../../../../../utils/forms/SelectInput'
-import { PagesSharp } from '@material-ui/icons'
 import { apiCreatePage } from '../../../../../utils/api'
 import { useHistory } from 'react-router'
 import { useSelector } from 'react-redux'
@@ -66,7 +65,6 @@ function SitePage() {
     const options = {
       headers: { 'x-access-token': token },
     }
-    console.log(options)
 
     await apiCreatePage(datas, options).then((response) => {
       if (response.status === 201) {
@@ -100,20 +98,9 @@ function SitePage() {
         bgcolor={theme.palette.primary.main}
         type="button"
         onClick={toggle}
-        // disabled={!toggleState}
       >
         Creer une page
       </StyledPrivateButton>
-
-      {/* <StyledPrivateButton
-        bgcolor={theme.palette.success.main}
-        type="submit"
-        onClick={toggle}
-        disabled={!isValid ? true : isSubmitting ? true : false}
-        // disabled={!toggleState}
-      >
-        Je sauvegarde sans publier
-      </StyledPrivateButton> */}
 
       {toggleState && (
         <SelectInput

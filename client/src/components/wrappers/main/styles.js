@@ -3,6 +3,7 @@ const styles = (theme) => ({
   appBar: {
     background: 'transparent',
     boxShadow: 'none',
+    zIndex: 100,
   },
 })
 

@@ -26,9 +26,11 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function SubMenuCardGroup() {
-  const { pathname, categories, chapters } = useLocation()
-
   const classes = useStyles()
+  // const { pathname, categories, chapters } = useLocation()
+
+  const { categories, chapters, state } = useLocation()
+  console.log('state-sub', state)
 
   const elements = chapters || categories
 

@@ -17,9 +17,7 @@ import Team from '../components/content/ecole/team/Team'
 import Story from '../components/content/ecole/story/Story'
 import Projects from '../components/content/ecole/projects/Projects'
 import Infrastructures from '../components/content/ecole/infrastructures/Infrastructures'
-import Agenda from '../components/content/school-life/agenda/Agenda'
 import Cantine from '../components/content/school-life/cantine/Cantine'
-import Pastorale from '../components/content/school-life/pastorale/Pastorale'
 import Schedule from '../components/content/school-life/schedule/Schedule'
 import Nursery from '../components/content/school-life/nursery/Nursery'
 import Primaire from '../components/content/classrooms/primaire/Primaire'
@@ -147,22 +145,6 @@ const rubrics = [
           component: Schedule,
         },
       },
-      {
-        designation: 'Pastorale',
-        link: '/vie-scolaire/pastorale',
-        alias: 'ps',
-        route: {
-          path: '/vie-scolaire/pastorale',
-          exact: true,
-          component: Pastorale,
-        },
-      },
-      {
-        designation: 'Agenda',
-        link: '/vie-scolaire/agenda',
-        alias: 'ag',
-        route: { path: '/vie-scolaire/agenda', exact: true, component: Agenda },
-      },
     ],
   },
 
@@ -179,106 +161,84 @@ const rubrics = [
     subdisplay: false,
     categories: [
       {
-        designation: 'Maternelle',
-        link: '/classes/maternelle',
-        alias: 'mt',
+        designation: 'Petite section',
+        link: '/classes/petite-section',
+        alias: 'ps',
         route: {
-          path: '/classes/maternelle',
+          path: '/classes/petite-section',
           exact: true,
-          component: Maternelle,
+          component: Classroom,
         },
-        subdisplay: false,
-        chapters: [
-          {
-            designation: 'Petite Section',
-            link: '/classes/maternelle/petite-section',
-            alias: 'ps',
-            route: {
-              path: '/classes/maternelle/petite-section',
-              exact: true,
-              component: Classroom,
-            },
-          },
-          {
-            designation: 'Moyenne Section',
-            link: '/classes/maternelle/moyenne-section',
-            alias: 'ms',
-            route: {
-              path: '/classes/maternelle/moyenne-section',
-              exact: true,
-              component: Classroom,
-            },
-          },
-          {
-            designation: 'Grande Section',
-            link: '/classes/maternelle/grande-section',
-            alias: 'gs',
-            route: {
-              path: '/classes/maternelle/grande-section',
-              exact: true,
-              component: Classroom,
-            },
-          },
-        ],
       },
       {
-        designation: 'Primaire',
-        link: '/classes/primaire',
-        alias: 'pr',
-        route: { path: '/classes/primaire', exact: true, component: Primaire },
-        subdisplay: false,
-        chapters: [
-          {
-            designation: 'CP',
-            link: '/classes/primaire/cp',
-            alias: 'ps',
-            route: {
-              path: '/classes/primaire/cp',
-              exact: true,
-              component: Classroom,
-            },
-          },
-          {
-            designation: 'CE1',
-            link: '/classes/primaire/ce1',
-            alias: 'CE1',
-            route: {
-              path: '/classes/primaire/ce1',
-              exact: true,
-              component: Classroom,
-            },
-          },
-          {
-            designation: 'CE2',
-            link: '/classes/primaire/ce2',
-            alias: 'CE2',
-            route: {
-              path: '/classes/primaire/ce2',
-              exact: true,
-              component: Classroom,
-            },
-          },
-          {
-            designation: 'CM1',
-            link: '/classes/primaire/cm1',
-            alias: 'CM1',
-            route: {
-              path: '/classes/primaire/cm1',
-              exact: true,
-              component: Classroom,
-            },
-          },
-          {
-            designation: 'CM2',
-            link: '/classes/primaire/cm2',
-            alias: 'CM2',
-            route: {
-              path: '/classes/primaire/cm2',
-              exact: true,
-              component: Classroom,
-            },
-          },
-        ],
+        designation: 'Moyenne section',
+        link: '/classes/moyenne-section',
+        alias: 'ms',
+        route: {
+          path: '/classes/moyenne-section',
+          exact: true,
+          component: Classroom,
+        },
+      },
+      {
+        designation: 'Grande section',
+        link: '/classes/grande-section',
+        alias: 'gs',
+        route: {
+          path: '/classes/grande-section',
+          exact: true,
+          component: Classroom,
+        },
+      },
+      {
+        designation: 'CP',
+        link: '/classes/cp',
+        alias: 'cp',
+        route: {
+          path: '/classes/cp',
+          exact: true,
+          component: Classroom,
+        },
+      },
+      {
+        designation: 'CE1',
+        link: '/classes/ce1',
+        alias: 'ce1',
+        route: {
+          path: '/classes/ce1',
+          exact: true,
+          component: Classroom,
+        },
+      },
+      {
+        designation: 'CE2',
+        link: '/classes/ce2',
+        alias: 'ce2',
+        route: {
+          path: '/classes/ce2',
+          exact: true,
+          component: Classroom,
+        },
+      },
+      {
+        designation: 'CM1',
+        link: '/classes/cm1',
+        alias: 'cm1',
+        route: {
+          path: '/classes/cm1',
+          exact: true,
+          component: Classroom,
+        },
+      },
+      {
+        designation: 'CM2',
+        link: '/classes/cm2',
+        alias: 'cm2',
+        route: {
+          path: '/classes/cm2',
+          exact: true,
+          component: Classroom,
+        },
       },
     ],
   },

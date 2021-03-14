@@ -7,7 +7,7 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 
 const useStyles = makeStyles({
   root: {
@@ -18,17 +18,38 @@ const useStyles = makeStyles({
   },
 })
 
-function ChapterCard(props) {
+function ChapterCard({ element }) {
+  const { pathname, state } = useLocation()
+  const { rubric } = state
+  // console.log('stateChaptercard', state)
+
   const classes = useStyles()
   const history = useHistory()
   const [expanded, setExpanded] = React.useState(false)
-  const { element } = props
-  const { alias, designation, link } = element
+
+  const { alias, designation, link, chapters } = element
+
+  console.log('elementstate', state)
   const handleExpandClick = () => {
     setExpanded(!expanded)
   }
-  const handleClick = () => history.push(link)
-  const image = require(`../../images/rubrics${link}/primary.jpg`)
+  const handleClick = () =>
+    history.push({
+      pathname: link,
+
+      state: {
+        rubric: rubric,
+        category: {
+          alias: alias,
+          name: designation,
+        },
+      },
+    })
+  const image = require(`../../images/rubrics/classes/maternelle/primary.jpg`)
+
+  // if (element.alias === 'maternelle') {
+  //   return <div>maternelle</div>
+  // }
   return (
     <Card className={classes.root} onClick={handleClick}>
       <CardActionArea>

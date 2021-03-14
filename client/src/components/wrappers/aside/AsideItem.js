@@ -1,5 +1,5 @@
 import React from 'react'
-import { Paper, Typography } from '@material-ui/core'
+import { Box, Paper, Typography } from '@material-ui/core'
 import { withStyles } from '@material-ui/styles'
 
 const styles = {
@@ -7,7 +7,7 @@ const styles = {
     boxSizing: 'border-box',
     width: '100%',
     textAlign: 'center',
-    height: '5em',
+    minHeight: '5em',
   },
 }
 
@@ -19,8 +19,8 @@ function AsideItem({ item, rubricColors }) {
       style={{ background: rubricColors.ligth }}
       data-testid="wrapper-aside-item"
     >
-      <Typography variant="subtitle1">{subtitle}</Typography>
-      <Typography variant="body2">{text} </Typography>
+      <Box>{subtitle}</Box>
+      <Box>{text} </Box>
     </Paper>
   ))
 
