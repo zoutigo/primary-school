@@ -7,7 +7,8 @@ import { useQuery } from 'react-query'
 import { apiFecthClassroom } from '../../../../utils/api'
 import ClassroomArticles from './ClassroomArticles'
 import ClassroomNews from './ClassroomNews'
-import { Box, styled, Typography } from '@material-ui/core'
+import AsideUser from '../../../wrappers/aside/AsideUser'
+import AsideSubTitle from '../../../wrappers/aside/AsideSubTitle'
 
 function Classroom() {
   const { state } = useLocation()
@@ -56,58 +57,26 @@ function Classroom() {
   // construction de l'aside
   const { teacher, helper, students, email } = data
 
-  const StyledUserItem = styled(Box)(({ theme, bgcolor }) => ({
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    '& >:first-child': {
-      textTransform: 'capitalize',
-    },
-    '& >:nth(2)-child': {
-      textTransform: 'uppercase',
-      color: 'red',
-    },
-    '& >:last-child': {
-      textTransform: 'uppercase',
-    },
-    '& >div': {
-      marginRight: '7px',
-    },
-  }))
-  const StyledSubTitle = styled(Box)(({ theme, bgcolor }) => ({
-    textTransform: 'uppercase',
-    margin: '0.3em auto !important',
-  }))
-
-  const UserItem = ({ gender, firstname, name }) => (
-    <StyledUserItem>
-      <Box>
-        <Typography variant="body2">{gender}</Typography>
-      </Box>
-      <Box>
-        <Typography variant="body2">{firstname}</Typography>
-      </Box>
-      <Box>
-        <Typography variant="body2">{name}</Typography>
-      </Box>
-    </StyledUserItem>
-  )
-  const SubTitle = (title) => (
-    <StyledSubTitle>
-      <Typography variant="h6"> {title}</Typography>
-    </StyledSubTitle>
-  )
-
   const asideItems = [
-    [2, SubTitle('elèves'), students],
-    [3, SubTitle('contacts'), email],
+    [2, <AsideSubTitle subtitle={'élèves'} />, students],
+    [3, <AsideSubTitle subtitle={'contacts'} />, email],
   ]
 
   if (teacher) {
-    asideItems.push([0, SubTitle('enseignant'), UserItem(teacher)])
+    let { name: lastname, firstname, gender } = teacher
+    asideItems.push([
+      0,
+      <AsideSubTitle subtitle={'enseignant'} />,
+      AsideUser({ lastname, firstname, gender }),
+    ])
   }
   if (helper) {
-    asideItems.push([1, SubTitle('aide maternelle'), UserItem(helper)])
+    let { name: lastname, firstname, gender } = helper
+    asideItems.push([
+      1,
+      <AsideSubTitle subtitle={'aide maternelle'} />,
+      AsideUser({ lastname, firstname, gender }),
+    ])
   }
 
   // sort the asideitems array

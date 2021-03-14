@@ -24,8 +24,6 @@ import Primaire from '../components/content/classrooms/primaire/Primaire'
 import Maternelle from '../components/content/classrooms/maternelle/Maternelle'
 import Classroom from '../components/content/classrooms/classroomTemplate/Classroom'
 
-import Apel from '../components/content/ApelOgec/Apel'
-import Ogec from '../components/content/ApelOgec/Ogec'
 import SubMenuCardGroup from '../components/content/SubMenuCardGroup'
 import Login from '../components/content/private/credentials/login/Login'
 import Register from '../components/content/private/credentials/register/Register'
@@ -33,6 +31,8 @@ import Account from '../components/content/private/personal/Account'
 import Contacts from '../components/content/informations/contacts/Contacts'
 import Inscriptions from '../components/content/informations/inscriptions/Inscriptions'
 import Actualites from '../components/content/informations/actualites/Actualites'
+import Apel from '../components/content/ApelOgec/apel/Apel'
+import Ogec from '../components/content/ApelOgec/ogec/Ogec'
 const rubrics = [
   {
     name: 'Acceuil',

@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Grid } from '@material-ui/core'
+import { Box, Button, ButtonGroup, Grid } from '@material-ui/core'
 import { styled } from '@material-ui/styles'
 
 export const StyledGridTabContainer = styled(Grid)(({ theme, bgcolor }) => ({
