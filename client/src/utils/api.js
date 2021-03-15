@@ -57,7 +57,7 @@ export const apiFecthTeam = async () => {
   return result
 }
 export const apiFecthPage = async (obj) => {
-  let URL = `${pprocess.env.REACT_APP_ENDPOINT || ENDPOINT}/pages/${
+  let URL = `${process.env.REACT_APP_ENDPOINT || ENDPOINT}/pages/${
     obj.queryKey[1].alias
   }`
   let { data } = await axios.get(URL)
