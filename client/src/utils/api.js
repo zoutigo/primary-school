@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-ENDPOINT = 'https://ecole-saint-augustin.herokuapp.com'
+const ENDPOINT = 'https://ecole-saint-augustin.herokuapp.com'
 
 export const apiCheckEmail = async (value) => {
   const data = { email: value }
@@ -101,7 +101,7 @@ export const apiFetchPaper = async (param) => {
 }
 
 export const apiPostPaper = async ({ id, body, options }) => {
-  let URL = `${process.env.REACT_APP_ENDPOINT || ENDPOINT}/papers/${id}`
+  let URL = `${process.env.REACT_APP_ENDPOINT}/papers/${id}`
   let { data } = await axios.post(URL, body, options)
   return data
 }
