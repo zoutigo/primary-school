@@ -59,7 +59,7 @@ let theme = createMuiTheme({
   typography: {
     body1: {
       fontFamily: "'Raleway','Roboto','sans-serif",
-      fontSize: '2rem',
+      fontSize: '1rem',
       letterSpacing: 2,
     },
     h2: {

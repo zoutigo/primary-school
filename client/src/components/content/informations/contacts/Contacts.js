@@ -3,6 +3,18 @@ import Location from './Location'
 import Opening from './Opening'
 import ContactForm from './ContactForm'
 import Wrapper from '../../../wrappers/wrapper/Wrapper'
+import AsideSubTitle from '../../../wrappers/aside/AsideSubTitle'
+import { Box, styled, Typography } from '@material-ui/core'
+import { CONTACTS } from '../../../../utils/constants'
+
+const StyledAdressContainer = styled(Box)(({ theme }) => ({
+  boxSizing: 'border-box',
+  '& *': {
+    display: 'flex',
+    justifyContent: 'center',
+    marginRight: '5px !important',
+  },
+}))
 
 function Contacts() {
   const pages = [
@@ -20,23 +32,32 @@ function Contacts() {
     },
   ]
 
-  const DATAS = {
-    adresse: '114B Route de Cremieu, 38230 Tignieu Jameyzieu',
+  const { adress, phone, email } = CONTACTS
 
-    phone: '0650597839',
-
-    email: 'ogec-cremieu@yahoo.fr',
+  const Adress = ({ index, street, zip, city }) => {
+    return (
+      <StyledAdressContainer>
+        <Box>
+          <Typography variant="body2">{index} </Typography>
+          <Typography variant="body2">{street} </Typography>
+        </Box>
+        <Box>
+          <Typography variant="body2">{zip} </Typography>
+          <Typography variant="body2">{city} </Typography>
+        </Box>
+      </StyledAdressContainer>
+    )
   }
   const itemsDatas = [
-    ['adresse', DATAS.adresse],
-    ['Telephone', DATAS.phone],
-    ['email', DATAS.phone],
+    ['adresse', <Adress {...adress} />],
+    ['Telephone', phone],
+    ['Email', email],
   ]
   const aside = {
     title: 'Cordonnées',
     items: itemsDatas.map((item) => {
       return {
-        subtitle: item[0],
+        subtitle: <AsideSubTitle subtitle={item[0]} />,
         text: item[1],
       }
     }),

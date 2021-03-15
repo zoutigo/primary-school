@@ -2,7 +2,8 @@ import { Box, Button, ButtonGroup, Grid } from '@material-ui/core'
 import { styled } from '@material-ui/styles'
 
 export const StyledGridTabContainer = styled(Grid)(({ theme, bgcolor }) => ({
-  padding: '0.5em !important',
+  padding: '0.5em 0px 1em 0px!important',
+  overflow: 'hidden',
   display: 'flex',
   flexDirection: 'column',
 }))
@@ -21,5 +22,12 @@ export const StyledButton = styled(Button)(({ theme, bgcolor }) => ({
 export const StyledForm = styled('form')(({ theme, bgcolor }) => ({
   height: '3em',
   padding: '0.5em !important',
+  background: bgcolor,
+}))
+export const StyledInfoBox = styled(Box)(({ theme, bgcolor }) => ({
+  minHeight: '2em',
+  width: '100%',
+  padding: '0.5em !important',
+  verticalAlign: 'center',
   background: bgcolor,
 }))
