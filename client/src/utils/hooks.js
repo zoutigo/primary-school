@@ -118,3 +118,8 @@ export const useUpdateMutationOptions = (queryKey) => {
     },
   }
 }
+
+export const usePrefetch = async (queryKey, provider) => {
+  const queryClient = useQueryClient()
+  await queryClient.prefetchQuery(queryKey, provider)
+}

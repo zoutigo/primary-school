@@ -1,43 +1,53 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/styles'
-import { Grid } from '@material-ui/core'
+import { Grid, styled } from '@material-ui/core'
 import Contact from './Contact'
-import LatestInfos from './LatestInfos'
 import Timing from './Timing'
-import { QueryClient } from 'react-query'
 import { apiFecthTeam } from '../../utils/api'
+import { usePrefetch } from '../../utils/hooks'
+import Partners from './Partners'
+import FooterLogo from './FooterLogo'
+import Copyrights from './Copyrights'
+import Suggestions from './Suggestions'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    background: theme.palette.grey[800],
-    minWwidth: '100vw',
-    minHeight: '25vh',
-    color: 'white',
-  },
+const StyledFooterInfos = styled(Grid)(({ theme }) => ({
+  background: theme.palette.secondary.dark,
+  minHeight: '5vh',
+  maxHeight: '23vh',
+  minWwidth: '100vw',
+  overflow: 'hidden',
+  padding: '2rem 4rem !important',
+  color: 'white',
 }))
 
 function Footer() {
-  const classes = useStyles()
-  const queryClient = new QueryClient()
-  const prefetchSitePages = async () => {
-    // The results of this query will be cached like a normal query
-    await queryClient.prefetchQuery('team', apiFecthTeam)
-  }
+  usePrefetch('team', apiFecthTeam)
 
-  prefetchSitePages()
   return (
-    <Grid container className={classes.root}>
-      <Grid item sm={12} md={3}>
-        {' '}
-        <Contact />{' '}
-      </Grid>
-      <Grid item sm={12} md={3}>
-        {' '}
-        <Timing />{' '}
-      </Grid>
-      <Grid item sm={12} md={3}>
-        {' '}
-        <LatestInfos />{' '}
+    <Grid container>
+      <StyledFooterInfos item container>
+        <Grid item sm={12} md={2}>
+          {' '}
+          <Contact />{' '}
+        </Grid>
+        <Grid item sm={12} md={2}>
+          {' '}
+          <Timing />{' '}
+        </Grid>
+        <Grid item sm={12} md={3}>
+          {' '}
+          <Partners />
+        </Grid>
+        <Grid item sm={12} md={3}>
+          {' '}
+          <Suggestions />
+        </Grid>
+        <Grid item sm={12} md={2}>
+          {' '}
+          <FooterLogo />
+        </Grid>
+      </StyledFooterInfos>
+      <Grid item container>
+        <Copyrights />
       </Grid>
     </Grid>
   )

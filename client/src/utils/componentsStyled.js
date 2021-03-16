@@ -31,3 +31,12 @@ export const StyledInfoBox = styled(Box)(({ theme, bgcolor }) => ({
   verticalAlign: 'center',
   background: bgcolor,
 }))
+
+export const StyledAdressContainer = styled(Box)(({ theme }) => ({
+  boxSizing: 'border-box',
+  '& >*': {
+    display: 'flex',
+    justifyContent: 'center',
+    marginRight: '5px !important',
+  },
+}))

@@ -1,6 +1,5 @@
 import { Typography } from '@material-ui/core'
 import React from 'react'
-import AvTimerIcon from '@material-ui/icons/AvTimer'
 import {
   StyledFooterElement,
   StyledFooterElementContent,
@@ -8,20 +7,25 @@ import {
   StyledFooterElementTitle,
 } from './styles'
 
-function Timing() {
+function Partners() {
   return (
     <StyledFooterElement>
       <StyledFooterElementTitle>
-        <Typography variant="h6">Les horaires</Typography>
+        <Typography variant="h6">Nos partenaires</Typography>
       </StyledFooterElementTitle>
       <StyledFooterElementContent>
         <StyledFooterElementText>
-          <AvTimerIcon />
-          <Typography variant="body2">Lundi-Vendredi: 07.45 - 18.00</Typography>
+          <Typography variant="body2">La paroisse Saint Jacques</Typography>
+        </StyledFooterElementText>
+        <StyledFooterElementText>
+          <Typography variant="body2">APEL nationale</Typography>
+        </StyledFooterElementText>
+        <StyledFooterElementText>
+          <Typography variant="body2">OGEC nationale</Typography>
         </StyledFooterElementText>
       </StyledFooterElementContent>
     </StyledFooterElement>
   )
 }
 
-export default Timing
+export default Partners
