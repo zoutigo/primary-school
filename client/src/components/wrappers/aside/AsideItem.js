@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Box,
   Grid,
@@ -46,18 +46,30 @@ const StyledAsideItemAction = styled(Box)(({ theme, rubriccolors }) => ({
 
 function AsideItem({ item, rubricColors }) {
   const { subtitle, text } = item
-  const isActionEmail = subtitle.props.subtitle === 'Email'
-  const isActionPhone = subtitle.props.subtitle === 'Telephone'
-  const isActionItem = isActionEmail || isActionPhone
-  if (isActionItem) {
+
+  const [isEmail, setIsEmail] = useState(false)
+  const [isPhone, setIsPhone] = useState(false)
+
+  useEffect(() => {
+    if (subtitle && subtitle.props && subtitle.props.subtitle) {
+      setIsEmail(subtitle.props.subtitle === 'Email')
+      setIsPhone(subtitle.props.subtitle === 'Telephone')
+    }
+    return () => {
+      setIsEmail(false)
+      setIsPhone(false)
+    }
+  }, [subtitle])
+
+  if (isPhone || isEmail) {
     return (
       <StyledAsideItemAction rubriccolors={rubricColors}>
-        {isActionPhone && (
+        {isPhone && (
           <IconButton href="tel:0474907880">
             <PhoneIcon style={{ fontSize: 70 }} />
           </IconButton>
         )}
-        {isActionEmail && (
+        {isEmail && (
           <IconButton href="mailto: ogec-cremieu@yahoo.fr">
             <EmailIcon style={{ fontSize: 70 }} />
           </IconButton>
