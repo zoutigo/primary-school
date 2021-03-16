@@ -1,7 +1,5 @@
 import axios from 'axios'
 
-const ENDPOINT = 'https://ecole-saint-augustin.herokuapp.com'
-
 export const apiCheckEmail = async (value) => {
   const data = { email: value }
   let url = 'https://ecole-saint-augustin.herokuapp.com/users/checkemail'
@@ -52,49 +50,47 @@ export const apiFecthUserDatas = async (id) => {
 }
 
 export const apiFecthTeam = async () => {
-  let URL = `${process.env.REACT_APP_ENDPOINT || ENDPOINT}/users/team`
+  let URL = `${process.env.REACT_APP_ENDPOINT}/users/team`
   let result = await axios.get(URL)
   return result
 }
 export const apiFecthPage = async (obj) => {
-  let URL = `${process.env.REACT_APP_ENDPOINT || ENDPOINT}/pages/${
-    obj.queryKey[1].alias
-  }`
+  let URL = `${process.env.REACT_APP_ENDPOINT}/pages/${obj.queryKey[1].alias}`
   let { data } = await axios.get(URL)
 
   return data
 }
 export const apiCreatePage = async (obj) => {
-  let URL = `${process.env.REACT_APP_ENDPOINT || ENDPOINT}/pages`
+  let URL = `${process.env.REACT_APP_ENDPOINT}/pages`
   let result = await axios.post(URL, obj.body, obj.options)
   return result
 }
 
 export const apiFecthAllPages = async () => {
-  let URL = `${process.env.REACT_APP_ENDPOINT || ENDPOINT}/pages`
+  let URL = `${process.env.REACT_APP_ENDPOINT}/pages`
   let { data } = await axios.get(URL)
   return data
 }
 
 export const apiUpdatePage = async (obj) => {
-  let URL = `${process.env.REACT_APP_ENDPOINT || ENDPOINT}/pages/${obj.id}`
+  let URL = `${process.env.REACT_APP_ENDPOINT}/pages/${obj.id}`
   let { data } = await axios.put(URL, obj.body, obj.options)
   return data
 }
 export const apiUpdateClassroom = async ({ id, body, options }) => {
-  let URL = `${process.env.REACT_APP_ENDPOINT || ENDPOINT}/classrooms/${id}`
+  let URL = `${process.env.REACT_APP_ENDPOINT}/classrooms/${id}`
   let { data } = await axios.put(URL, body, options)
   return data
 }
 
 export const apiFecthClassroom = async (param) => {
-  let URL = `${process.env.REACT_APP_ENDPOINT || ENDPOINT}/classrooms/${param}`
+  let URL = `${process.env.REACT_APP_ENDPOINT}/classrooms/${param}`
   let { data } = await axios.get(URL)
 
   return data
 }
 export const apiFetchPaper = async (param) => {
-  let URL = `${process.env.REACT_APP_ENDPOINT || ENDPOINT}/papers/${param}`
+  let URL = `${process.env.REACT_APP_ENDPOINT}/papers/${param}`
   let { data } = await axios.get(URL)
 
   return data
