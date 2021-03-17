@@ -14,18 +14,7 @@ import returnStoreAndPersistor from './redux/store'
 
 import { PersistGate } from 'redux-persist/integration/react'
 
-import { QueryCache, ReactQueryCacheProvider } from 'react-query'
-
 const { store, persistor } = returnStoreAndPersistor()
-
-const queryCache = new QueryCache({
-  defaultConfig: {
-    queries: {
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
-    },
-  },
-})
 
 ReactDOM.render(
   <React.StrictMode>

@@ -17,6 +17,7 @@ import logo from '../../images/logo3.png'
 import rubrics from '../../utils/rubrics'
 import { useQuery } from 'react-query'
 import { apiFecthAllPages } from '../../utils/api'
+import Logo from './Logo'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -119,13 +120,13 @@ function Header() {
   const { pathname } = useLocation()
   const exception = pathname === '/'
 
-  const Logo = () => {
-    return (
-      <NavLink to="/" style={{ color: 'inherit', textDecoration: 'inherit' }}>
-        <img src={logo} alt="logo" className={classes.logo} />
-      </NavLink>
-    )
-  }
+  // const Logo = () => {
+  //   return (
+  //     <NavLink to="/" style={{ color: 'inherit', textDecoration: 'inherit' }}>
+  //       <img src={logo} alt="logo" className={classes.logo} />
+  //     </NavLink>
+  //   )
+  // }
 
   const ToogleButton = ({ className }) => {
     if (smallScreenMenuIsOpened) {
@@ -134,25 +135,13 @@ function Header() {
     return <MenuIcon className={className} />
   }
 
-  // const { isFetching, isError, error, data } = useQuery(
-  //   'Pages',
-  //   apiFecthAllPages
-  // )
-  // if (isFetching) {
-  //   return <span>Fetching...</span>
-  // }
-  // if (isError) {
-  //   return <span>Error: {error.message}</span>
-  // }
-
-  // dispatch(setPages(JSON.stringify(data.data)))
-
   return (
     <AppBar className={`${classes.root} ${headerColor}`}>
       <Toolbar className={classes.toolbar}>
         <Grid container className={classes.medium} display="flex">
           <Grid item md={2} lg={2}>
-            <Logo className={classes.logo} />
+            {/* <Logo className={classes.logo} /> */}
+            <Logo />
           </Grid>
           <Grid item md={10} lg={10}>
             {rubrics.map((rubric, index) => {
@@ -165,7 +154,8 @@ function Header() {
         </Grid>
 
         <Box className={classes.contentSmall}>
-          <Logo className={`${classes.smallIconsSizes} `} />
+          {/* <Logo className={`${classes.smallIconsSizes} `} /> */}
+          <Logo />
           <div>
             <IconButton onClick={() => dispatch(toogleSmallScreenMenu())}>
               <ToogleButton

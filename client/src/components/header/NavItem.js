@@ -211,7 +211,7 @@ function NavItem({ rubric, ind }) {
             className={`${classes.navLink} ${activeText}}`}
           >
             <Typography
-              variant="h6"
+              variant="h2"
               style={{ marginLeft: '8px', marginRight: '8px' }}
             >
               {alias !== 'private'

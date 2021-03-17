@@ -57,27 +57,32 @@ let theme = createMuiTheme({
     },
   },
   typography: {
-    body1: {
-      fontFamily: "'Raleway','Roboto','sans-serif",
-      fontSize: '1rem',
-      letterSpacing: 2,
-    },
-    h2: {
-      fontSize: '4rem',
-      fontFamily: "'Poppins','sans-serif'",
-    },
-    h6: {
-      fontSize: '1em',
-      fontFamily: "'Poppins', 'Raleway'",
-      letterSpacing: '1px',
-      lineHeight: 3,
-    },
     h1: {
       fontFamily: "'Poppins','Raleway', sans-serif",
       fontSize: '5em',
       fontWeight: 'bold',
       letterSpacing: '1px',
       lineHeight: 1.2,
+    },
+    h2: {
+      fontFamily: "'Comfortaa',cursive",
+      fontSize: '1rem',
+      // fontWeight: 'bold',
+      letterSpacing: '1px',
+      lineHeight: 3,
+      textTransform: 'uppercase',
+    },
+    body1: {
+      fontFamily: "'Raleway','Roboto','sans-serif",
+      fontSize: '1rem',
+      letterSpacing: 2,
+    },
+
+    h6: {
+      fontSize: '1em',
+      fontFamily: "'Poppins', 'Raleway'",
+      letterSpacing: '1px',
+      lineHeight: 3,
     },
     subtitle1: {
       fontFamily: 'sans-serif',
