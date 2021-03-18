@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { makeStyles, useTheme } from '@material-ui/styles'
 
-import { Box, Typography } from '@material-ui/core'
+import { Box, styled, Typography } from '@material-ui/core'
 
 import { NavLink, useLocation, useHistory } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
@@ -12,6 +12,10 @@ import {
   setIsLogged,
   setToken,
 } from '../../redux/user/userActions'
+import { StyledNavLink } from '../../utils/componentsStyled'
+import TextLink from './TextLink'
+import SubTextLink from './SubTextLink'
+import { useLocationColor, usePaletteColors } from '../../utils/hooks'
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -30,9 +34,6 @@ const useStyles = makeStyles((theme) => ({
     transform: 'scale(1.5)',
   },
 
-  textActive: {
-    color: theme.palette.success.main,
-  },
   lineNotActive: {
     minHeight: '3px',
     minWidth: '2px',
@@ -68,65 +69,44 @@ const useStyles = makeStyles((theme) => ({
     display: 'block',
   },
   root: {
-    '& nav': {
-      width: '100%',
-    },
-    '&:hover': {
-      // background:theme.palette.primary.main,
-      '& >div': {
-        display: 'block',
-      },
-    },
+    // '& nav': {
+    //   width: '100%',
+    // },
+    // '&:hover': {
+    //   // background:theme.palette.primary.main,
+    //   '& >div': {
+    //     display: 'block',
+    //   },
+    // },
   },
 
   rootClicked: {
-    maxWidth: '10em',
-    minWidth: '5em',
-    '&:hover': {
-      background: theme.palette.primary.main,
-    },
+    // maxWidth: '10em',
+    // minWidth: '5em',
+    // '&:hover': {
+    //   background: theme.palette.primary.main,
+    // },
   },
+}))
 
-  dropdownContent: {
-    display: 'none',
-    position: 'absolute',
-    zIndex: 1,
-    minWidth: '15em',
-    background: theme.palette.primary.main,
+const StyledNavItem = styled(Box)(({ theme, clicked }) => ({
+  minHeight: '100%',
+  minWidth: '100%',
+  '& nav': {
+    width: '100%',
   },
-  dropdownLink: {
-    position: 'relative',
-    display: 'block',
-    minHeight: theme.spacing(5),
-    borderTop: 'white solid 1px',
-    '&:hover ': {
-      background: theme.palette.secondary.main,
-      color: theme.palette.primary.main,
-      '& div': {
-        display: 'inline-block',
-      },
-    },
-    '& div': {
-      display: 'none',
-      background: 'pink',
-      position: 'absolute',
-      top: 0,
-      left: '100%',
-      minWidth: '15em',
-      zIndex: 1,
-      '& li': {
-        display: 'block',
-        minHeight: '3em',
-        background: theme.palette.primary.light,
-        color: 'black',
-        borderTop: 'white solid 1px',
-      },
-      '& li:hover': {
-        background: theme.palette.secondary.main,
-        color: theme.palette.primary.main,
-      },
+  '&:hover': {
+    // background:theme.palette.primary.main,
+    '& >div': {
+      display: 'block',
     },
   },
+}))
+
+const StyledTitleLink = styled(StyledNavLink)(({ theme }) => ({
+  marginRight: theme.spacing(1),
+  marginLeft: theme.spacing(1),
+  display: 'inline-block',
 }))
 
 function NavItem({ rubric, ind }) {
@@ -143,17 +123,10 @@ function NavItem({ rubric, ind }) {
   const { tokenIsValid } = Token
   const [clicked, setClicked] = useState(false)
 
-  const activeRoot =
-    link === pathname ? classes.rootActive : classes.rootNotActive
   const activeIcon =
     link === pathname ? classes.iconActive : classes.iconNotActive
   const activeLine =
     link === pathname ? classes.lineActive : classes.lineNotActive
-
-  const activeText =
-    link === pathname ? classes.textActive : classes.textNotActive
-
-  const wasClicked = clicked ? classes.rootClicked : classes.root
 
   useEffect(() => {
     const handleClick = () => {
@@ -172,166 +145,38 @@ function NavItem({ rubric, ind }) {
     history.push('/')
   }
 
-  const iconsColors = [
-    theme.palette.ecole.main,
-    theme.palette.viescolaire.main,
-    theme.palette.classes.main,
-    theme.palette.informations.main,
-    theme.palette.apelogec.main,
-    theme.palette.private.main,
-  ]
+  const rubriccolors = usePaletteColors(alias)
 
   return (
-    <div
-      className={`${wasClicked} ${activeRoot}`}
-      style={{ minHeight: '100%' }}
-    >
+    <StyledNavItem>
       <nav onClick={() => setClicked(true)}>
         <div
           className={`${classes.icon} ${activeIcon}`}
-          style={{ color: `${iconsColors[ind - 1]}` }}
+          style={{ color: `${rubriccolors.main}` }}
         >
           {' '}
           {icon}{' '}
         </div>
-        <div className={classes.link}>
-          <NavLink
-            to={{
-              pathname: link,
-              categories: categories,
-              state: {
-                from: pathname,
-                rubric: {
-                  name: name,
-                  alias: alias,
-                },
-              },
-            }}
-            style={{ color: 'inherit', textDecoration: 'inherit' }}
-            className={`${classes.navLink} ${activeText}}`}
-          >
-            <Typography
-              variant="h2"
-              style={{ marginLeft: '8px', marginRight: '8px' }}
-            >
-              {alias !== 'private'
-                ? name
-                : isLogged
-                ? 'Espace Privé'
-                : `S'identifier`}
-            </Typography>
-          </NavLink>
-        </div>
+        <TextLink
+          {...rubric}
+          isLogged
+          clicked
+          pathname
+          rubriccolors={rubriccolors}
+        />
 
         <div className={activeLine}></div>
       </nav>
 
-      <div className={`${classes.dropdownContent} `}>
-        {categories &&
-          categories.map(
-            (category, index) => {
-              return rubric.alias === 'private' &&
-                isLogged &&
-                (category.alias === 'login' ||
-                  category.alias === 'register') ? null : rubric.alias ===
-                  'private' &&
-                !isLogged &&
-                (category.alias === 'loggout' ||
-                  category.alias === 'my-account') ? null : (
-                <div
-                  key={index}
-                  className={`${classes.dropdownLink} `}
-                  onClick={() => setClicked(true)}
-                >
-                  {category.alias === 'loggout' ? (
-                    <Typography
-                      variant="h6"
-                      style={{ marginLeft: '8px', cursor: 'pointer' }}
-                      onClick={handleLoggout}
-                    >
-                      {category.designation}
-                    </Typography>
-                  ) : (
-                    <NavLink
-                      to={{
-                        pathname: category.link,
-                        rubric: name,
-                        category: category.designation,
-                        chapters: category.chapters,
-                        state: {
-                          from: pathname,
-                          rubric: {
-                            name: name,
-                            alias: alias,
-                          },
-                          category: {
-                            name: category.designation,
-                            alias: category.alias,
-                            chapters: category.chapters,
-                          },
-                        },
-                      }}
-                      style={{ color: 'inherit', textDecoration: 'inherit' }}
-                    >
-                      <Typography variant="h6" style={{ marginLeft: '8px' }}>
-                        {' '}
-                        {category.designation}{' '}
-                      </Typography>
-                    </NavLink>
-                  )}
-
-                  <div>
-                    {category.chapters &&
-                      category.chapters.map((chapter, ind) => {
-                        return (
-                          <li key={ind}>
-                            <NavLink
-                              style={{
-                                color: 'inherit',
-                                textDecoration: 'inherit',
-                              }}
-                              to={{
-                                pathname: chapter.link,
-                                chapter: chapter.designation,
-                                state: {
-                                  from: pathname,
-                                  rubric: {
-                                    name: name,
-                                    alias: alias,
-                                  },
-                                  category: {
-                                    name: category.designation,
-                                    alias: category.alias,
-                                  },
-                                  chapter: {
-                                    name: chapter.designation,
-                                    alias: chapter.alias,
-                                  },
-                                },
-                              }}
-                            >
-                              <Typography
-                                variant="h6"
-                                style={{
-                                  marginLeft: '8px',
-                                  marginRight: '8px',
-                                }}
-                              >
-                                {' '}
-                                {chapter.designation}{' '}
-                              </Typography>
-                            </NavLink>
-                          </li>
-                        )
-                      })}
-                  </div>
-                </div>
-              )
-            }
-            // end of the map
-          )}
-      </div>
-    </div>
+      <SubTextLink
+        {...rubric}
+        pathname
+        clicked
+        setClicked={setClicked}
+        handleLoggout={handleLoggout}
+        rubriccolors={rubriccolors}
+      />
+    </StyledNavItem>
   )
 }
 

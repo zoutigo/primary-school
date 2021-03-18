@@ -33,41 +33,62 @@ export const useScroll = () => {
   }, [])
 }
 
+export const usePaletteColors = (alias) => {
+  const theme = useTheme()
+
+  switch (alias) {
+    case 'ecole':
+      return theme.palette.ecole
+    case 'vie-scolaire':
+      return theme.palette.viescolaire
+    case 'classes':
+      return theme.palette.classes
+    case 'informations':
+      return theme.palette.informations
+    case 'apel-ogec':
+      return theme.palette.apelogec
+    case 'private':
+      return theme.palette.private
+
+    default:
+      return theme.palette.primary
+  }
+}
+
 export const useLocationColor = () => {
   const [colors, setColors] = React.useState('')
   const { state } = useLocation()
 
   const theme = useTheme()
 
-  const paletteColor = (alias) => {
-    switch (alias) {
-      case 'ecole':
-        return theme.palette.ecole
-      case 'vie-scolaire':
-        return theme.palette.viescolaire
-      case 'classes':
-        return theme.palette.classes
-      case 'informations':
-        return theme.palette.informations
-      case 'apel-ogec':
-        return theme.palette.apelogec
-      case 'private':
-        return theme.palette.private
-
-      default:
-        return theme.palette.primary
-    }
-  }
-
   React.useEffect(() => {
+    const paletteColor = (alias) => {
+      switch (alias) {
+        case 'ecole':
+          return theme.palette.ecole
+        case 'vie-scolaire':
+          return theme.palette.viescolaire
+        case 'classes':
+          return theme.palette.classes
+        case 'informations':
+          return theme.palette.informations
+        case 'apel-ogec':
+          return theme.palette.apelogec
+        case 'private':
+          return theme.palette.private
+
+        default:
+          return theme.palette.primary
+      }
+    }
     if (state && state.rubric) {
       setColors(paletteColor(state.rubric.alias))
     }
-
     return () => {
       setColors('')
     }
   }, [state])
+
   return colors
 }
 

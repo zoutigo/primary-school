@@ -66,11 +66,18 @@ let theme = createMuiTheme({
     },
     h2: {
       fontFamily: "'Comfortaa',cursive",
-      fontSize: '1rem',
-      // fontWeight: 'bold',
-      letterSpacing: '1px',
+      fontSize: '1.1rem',
+      fontWeight: 800,
+      letterSpacing: '2px',
       lineHeight: 3,
       textTransform: 'uppercase',
+    },
+    h3: {
+      fontFamily: "'Comfortaa',cursive",
+      fontSize: '1.1rem',
+      fontWeight: 800,
+      letterSpacing: '1px',
+      lineHeight: 3,
     },
     body1: {
       fontFamily: "'Raleway','Roboto','sans-serif",

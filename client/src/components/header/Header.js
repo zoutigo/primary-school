@@ -143,10 +143,14 @@ function Header() {
             {/* <Logo className={classes.logo} /> */}
             <Logo />
           </Grid>
-          <Grid item md={10} lg={10}>
+          <Grid item container md={10} lg={10}>
             {rubrics.map((rubric, index) => {
               if (rubric.alias !== 'home') {
-                return <NavItem key={index} rubric={rubric} ind={index} />
+                return (
+                  <Grid item md={2} lg={2} key={index}>
+                    <NavItem key={index} rubric={rubric} ind={index} />
+                  </Grid>
+                )
               }
               return null
             })}

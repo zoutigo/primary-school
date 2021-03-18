@@ -1,5 +1,6 @@
 import { Box, Button, ButtonGroup, Grid } from '@material-ui/core'
 import { styled } from '@material-ui/styles'
+import { NavLink } from 'react-router-dom'
 
 export const StyledGridTabContainer = styled(Grid)(({ theme, bgcolor }) => ({
   padding: '0.5em 0px 1em 0px!important',
@@ -39,4 +40,9 @@ export const StyledAdressContainer = styled(Box)(({ theme }) => ({
     justifyContent: 'center',
     marginRight: '5px !important',
   },
+}))
+
+export const StyledNavLink = styled(NavLink)(() => ({
+  color: 'inherit',
+  textDecoration: 'inherit',
 }))
