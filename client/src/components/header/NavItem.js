@@ -1,95 +1,21 @@
 import React, { useState } from 'react'
-import { makeStyles, useTheme } from '@material-ui/styles'
-
-import { Box, styled, Typography } from '@material-ui/core'
-
-import { NavLink, useLocation, useHistory } from 'react-router-dom'
+import { Box, styled } from '@material-ui/core'
+import { useLocation, useHistory } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-
 import { useEffect } from 'react'
 import {
   setCredentials,
   setIsLogged,
   setToken,
 } from '../../redux/user/userActions'
-import { StyledNavLink } from '../../utils/componentsStyled'
 import TextLink from './TextLink'
 import SubTextLink from './SubTextLink'
-import { useLocationColor, usePaletteColors } from '../../utils/hooks'
+import { usePaletteColors } from '../../utils/hooks'
+import { withTheme } from '@material-ui/styles'
 
-const useStyles = makeStyles((theme) => ({
-  icon: {
-    textAlign: 'center',
-    marginTop: theme.spacing(2),
-    color: 'white',
-  },
-  navLink: {
-    marginRight: theme.spacing(1),
-    marginLeft: theme.spacing(1),
-    display: 'inline-block',
-  },
-
-  iconActive: {
-    color: theme.palette.common.black,
-    transform: 'scale(1.5)',
-  },
-
-  lineNotActive: {
-    minHeight: '3px',
-    minWidth: '2px',
-    background: 'transparent',
-  },
-  lineActive: {
-    minHeight: '3px',
-    minWidth: '2px',
-    background: theme.palette.primary.main,
-    // marginBottom: theme.spacing(3)
-  },
-  // hoveredLink: {
-  //   textAlign: 'center',
-  //   background: 'green',
-  //   color: 'red',
-  // },
-  link: {
-    textAlign: 'center',
-    background: 'transparent',
-    minWidth: '100%',
-    '&:hover': {
-      background: theme.palette.secondary.main,
-      color: theme.palette.primary.main,
-    },
-    // [theme.breakpoints.up('lg')]: {
-    //   minWidth: '13rem',
-    // },
-  },
-  hide: {
-    display: 'none',
-  },
-  show: {
-    display: 'block',
-  },
-  root: {
-    // '& nav': {
-    //   width: '100%',
-    // },
-    // '&:hover': {
-    //   // background:theme.palette.primary.main,
-    //   '& >div': {
-    //     display: 'block',
-    //   },
-    // },
-  },
-
-  rootClicked: {
-    // maxWidth: '10em',
-    // minWidth: '5em',
-    // '&:hover': {
-    //   background: theme.palette.primary.main,
-    // },
-  },
-}))
-
-const StyledNavItem = styled(Box)(({ theme, clicked }) => ({
+const StyledNavItem = styled(({ theme, clicked, ...rest }) => (
+  <Box {...rest} />
+))({
   minHeight: '100%',
   minWidth: '100%',
   '& nav': {
@@ -98,23 +24,34 @@ const StyledNavItem = styled(Box)(({ theme, clicked }) => ({
   '&:hover': {
     // background:theme.palette.primary.main,
     '& >div': {
-      display: 'block',
+      // display: clicked ? 'none' : 'block',
+      display: ({ clicked }) => (clicked ? 'none' : 'block'),
     },
   },
-}))
+})
 
-const StyledTitleLink = styled(StyledNavLink)(({ theme }) => ({
-  marginRight: theme.spacing(1),
-  marginLeft: theme.spacing(1),
-  display: 'inline-block',
-}))
+const StyledIconBox = withTheme(
+  styled(({ color, theme, ...rest }) => <Box {...rest} />)({
+    color: ({ color }) => color,
+    marginTop: ({ theme }) => theme.spacing(2),
+    textAlign: 'center',
+  })
+)
+
+const StyledLine = withTheme(
+  styled(({ active, theme, ...rest }) => <Box {...rest} />)({
+    minHeight: '3px',
+    width: '50px',
+    margin: '0px auto !important',
+    background: ({ active, theme: { palette } }) =>
+      active ? palette.secondary.dark : 'transparent',
+  })
+)
 
 function NavItem({ rubric, ind }) {
-  const theme = useTheme()
-  const { name, link, icon, categories, alias } = rubric
+  const { icon, alias } = rubric
 
-  const classes = useStyles()
-  const { pathname } = useLocation()
+  const { pathname, state } = useLocation()
 
   const dispatch = useDispatch()
   const history = useHistory()
@@ -122,21 +59,28 @@ function NavItem({ rubric, ind }) {
   const { isLogged, Token } = useSelector((state) => state.user)
   const { tokenIsValid } = Token
   const [clicked, setClicked] = useState(false)
-
-  const activeIcon =
-    link === pathname ? classes.iconActive : classes.iconNotActive
-  const activeLine =
-    link === pathname ? classes.lineActive : classes.lineNotActive
+  const [activeRubric, setActiveRubric] = useState(false)
 
   useEffect(() => {
     const handleClick = () => {
       setClicked(false)
     }
+
     window.addEventListener('mousemove', handleClick)
     return () => {
       window.removeEventListener('mousemove', handleClick)
     }
   }, [clicked])
+
+  useEffect(() => {
+    if (pathname !== '/' && state.rubric.alias === alias) {
+      setActiveRubric(true)
+    }
+
+    return () => {
+      setActiveRubric(false)
+    }
+  }, [pathname])
 
   const handleLoggout = () => {
     dispatch(setIsLogged())
@@ -148,30 +92,16 @@ function NavItem({ rubric, ind }) {
   const rubriccolors = usePaletteColors(alias)
 
   return (
-    <StyledNavItem>
+    <StyledNavItem clicked={clicked}>
       <nav onClick={() => setClicked(true)}>
-        <div
-          className={`${classes.icon} ${activeIcon}`}
-          style={{ color: `${rubriccolors.main}` }}
-        >
-          {' '}
-          {icon}{' '}
-        </div>
-        <TextLink
-          {...rubric}
-          isLogged
-          clicked
-          pathname
-          rubriccolors={rubriccolors}
-        />
-
-        <div className={activeLine}></div>
+        <StyledIconBox color={rubriccolors.main}> {icon} </StyledIconBox>
+        <TextLink {...rubric} isLogged pathname rubriccolors={rubriccolors} />
+        <StyledLine active={activeRubric} />
       </nav>
 
       <SubTextLink
         {...rubric}
         pathname
-        clicked
         setClicked={setClicked}
         handleLoggout={handleLoggout}
         rubriccolors={rubriccolors}

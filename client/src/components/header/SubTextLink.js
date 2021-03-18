@@ -57,13 +57,16 @@ function SubTextLink({
   alias,
   pathname,
   setClicked,
-  clicked,
   handleLoggout,
   isLogged,
   rubriccolors,
 }) {
   return (
-    <StyledSubTextLinkContainer clicked={clicked}>
+    <StyledSubTextLinkContainer
+      onClick={() => {
+        setClicked(true)
+      }}
+    >
       {categories &&
         categories.map(
           (category, index) => {
@@ -76,7 +79,6 @@ function SubTextLink({
                 category.alias === 'my-account') ? null : (
               <StyledSubTextLink
                 key={index}
-                clicked
                 onClick={() => setClicked(true)}
                 rubriccolors={rubriccolors}
               >
