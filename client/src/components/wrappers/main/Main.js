@@ -8,9 +8,12 @@ import {
   AppBar,
   TabScrollButton,
   withStyles,
+  Typography,
 } from '@material-ui/core'
 import { styles } from './styles'
 import { useLocationColor } from '../../../utils/hooks'
+
+const StyledTabTitle = (title) => <Typography variant="h2">{title}</Typography>
 
 function Main({ pages }) {
   const { main, ligth, dark } = useLocationColor()
@@ -70,7 +73,7 @@ function Main({ pages }) {
             let { title } = page
             return (
               <Tab
-                label={title}
+                label={StyledTabTitle(title)}
                 {...a11yProps(index)}
                 key={index}
                 style={{ background: main }}

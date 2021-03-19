@@ -9,6 +9,7 @@ import ClassroomArticles from './ClassroomArticles'
 import ClassroomNews from './ClassroomNews'
 import AsideUser from '../../../wrappers/aside/AsideUser'
 import AsideSubTitle from '../../../wrappers/aside/AsideSubTitle'
+import { Typography } from '@material-ui/core'
 
 function Classroom() {
   const { state } = useLocation()

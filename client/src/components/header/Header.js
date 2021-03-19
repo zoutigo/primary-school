@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppBar, Toolbar, Box, IconButton, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
@@ -13,10 +13,8 @@ import NavItem from './NavItem'
 import MenuIcon from '@material-ui/icons/Menu'
 import CancelIcon from '@material-ui/icons/Cancel'
 
-import logo from '../../images/logo3.png'
 import rubrics from '../../utils/rubrics'
-import { useQuery } from 'react-query'
-import { apiFecthAllPages } from '../../utils/api'
+
 import Logo from './Logo'
 
 const useStyles = makeStyles((theme) => ({
@@ -25,6 +23,8 @@ const useStyles = makeStyles((theme) => ({
     margin: '0px',
     maxHeight: '12vh',
     marginTop: '10vh',
+    background: 'white',
+    boxShadow: 'none',
   },
 
   toolbar: {},
@@ -56,17 +56,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 
-  scrolledStyle: {
-    // background: theme.palette.primary.main,
-    background: `linear-gradient(to bottom, ${theme.palette.primary.main} 75%, ${theme.palette.primary.light})`,
-    boxShadow: 'inherit',
-    transition: 'background 1s ease',
-  },
-  unscrolledStyle: {
-    background: 'transparent',
-    boxShadow: 'none',
-    transition: 'background 1s ease',
-  },
   logoLarge: {
     width: theme.spacing(12),
     height: theme.spacing(12),
@@ -112,21 +101,11 @@ function Header() {
   const dispatch = useDispatch()
   const classes = useStyles()
   const Scroll = useSelector((state) => state.settings.Scroll)
-  const headerColor = Scroll ? classes.scrolledStyle : classes.unscrolledStyle
   const smallScreenMenuIsOpened = useSelector(
     (state) => state.settings.smallScreenMenuIsOpened
   )
 
   const { pathname } = useLocation()
-  const exception = pathname === '/'
-
-  // const Logo = () => {
-  //   return (
-  //     <NavLink to="/" style={{ color: 'inherit', textDecoration: 'inherit' }}>
-  //       <img src={logo} alt="logo" className={classes.logo} />
-  //     </NavLink>
-  //   )
-  // }
 
   const ToogleButton = ({ className }) => {
     if (smallScreenMenuIsOpened) {
@@ -136,7 +115,7 @@ function Header() {
   }
 
   return (
-    <AppBar className={`${classes.root} ${headerColor}`}>
+    <AppBar className={`${classes.root}`}>
       <Toolbar className={classes.toolbar}>
         <Grid container className={classes.medium} display="flex">
           <Grid item md={2} lg={2}>

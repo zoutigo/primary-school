@@ -12,7 +12,10 @@ const useStyles = makeStyles((theme) => ({
   },
   svg: {
     height: '24vh',
-    width: '13vw',
+    // width: '13vw',
+    // [theme.breakpoints.down('md')]:{
+    //   height:
+    // }
 
     // marginTop: '-40px !important',
     // marginBottom: '-40px !important',

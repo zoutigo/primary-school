@@ -12,6 +12,7 @@ function AsideTitle({ rubricColors, title }) {
       background: rubricColors.main,
       marginLeft: '20%',
       textAlign: 'center',
+
       [theme.breakpoints.down('sm')]: {
         width: '100%',
         margin: '0 auto',
@@ -22,7 +23,7 @@ function AsideTitle({ rubricColors, title }) {
   const PageTitle = withStyles(styles)(({ classes, title, rubricColors }) => (
     <div className={classes.root} data-testid="wrapper-aside-title">
       <Box className={classes.box} data-testid="wrapper-aside-title-box">
-        <Typography variant="h6">{title}</Typography>
+        <Typography variant="h2">{title}</Typography>
       </Box>
     </div>
   ))
