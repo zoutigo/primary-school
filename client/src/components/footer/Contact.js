@@ -12,6 +12,7 @@ import {
 
 import { CONTACTS } from '../../utils/constants'
 import Address from '../content/informations/contacts/Address'
+import { H3Title } from '../../utils/components'
 
 export const StyledAdressContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -31,7 +32,7 @@ function Contact() {
   return (
     <StyledFooterElement>
       <StyledFooterElementTitle>
-        <Typography variant="h6">Nous contacter</Typography>
+        {H3Title('Nous contacter')}
       </StyledFooterElementTitle>
       <StyledFooterElementContent>
         <StyledAdressContainer>

@@ -49,10 +49,7 @@ function TextLink({
           },
         }}
       >
-        <Typography
-          variant="h2"
-          style={{ marginLeft: '8px', marginRight: '8px' }}
-        >
+        <Typography variant="h3">
           {alias !== 'private'
             ? name
             : isLogged

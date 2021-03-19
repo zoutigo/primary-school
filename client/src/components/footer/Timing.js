@@ -7,12 +7,13 @@ import {
   StyledFooterElementText,
   StyledFooterElementTitle,
 } from './styles'
+import { H3Title } from '../../utils/components'
 
 function Timing() {
   return (
     <StyledFooterElement>
       <StyledFooterElementTitle>
-        <Typography variant="h6">Les horaires</Typography>
+        {H3Title('Les horaires')}
       </StyledFooterElementTitle>
       <StyledFooterElementContent>
         <StyledFooterElementText>

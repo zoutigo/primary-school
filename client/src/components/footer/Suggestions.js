@@ -1,5 +1,6 @@
 import { Typography } from '@material-ui/core'
 import React from 'react'
+import { H3Title } from '../../utils/components'
 import {
   StyledFooterElement,
   StyledFooterElementContent,
@@ -11,7 +12,7 @@ function Suggestions() {
   return (
     <StyledFooterElement>
       <StyledFooterElementTitle>
-        <Typography variant="h6">Remarques et suggestions</Typography>
+        {H3Title('Ameliorations')}
       </StyledFooterElementTitle>
       <StyledFooterElementContent>
         <StyledFooterElementText>

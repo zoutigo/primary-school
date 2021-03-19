@@ -25,26 +25,28 @@ function Footer() {
   return (
     <Grid container>
       <StyledFooterInfos item container>
-        <Grid item sm={12} md={2}>
+        <Grid item sm={0} md={1}></Grid>
+        <Grid item sm={6} md={2}>
           {' '}
           <Contact />{' '}
         </Grid>
-        <Grid item sm={12} md={2}>
+        <Grid item sm={6} md={2}>
           {' '}
           <Timing />{' '}
         </Grid>
-        <Grid item sm={12} md={3}>
+        <Grid item sm={4} md={2}>
           {' '}
           <Partners />
         </Grid>
-        <Grid item sm={12} md={3}>
+        <Grid item sm={4} md={2}>
           {' '}
           <Suggestions />
         </Grid>
-        <Grid item sm={12} md={2}>
+        <Grid item sm={4} md={2}>
           {' '}
           <FooterLogo />
         </Grid>
+        <Grid item sm={0} md={1}></Grid>
       </StyledFooterInfos>
       <Grid item container>
         <Copyrights />

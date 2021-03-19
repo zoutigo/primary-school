@@ -84,7 +84,7 @@ function SubTextLink({
               >
                 {category.alias === 'loggout' ? (
                   <Typography
-                    variant="h3"
+                    variant="h4"
                     style={{ marginLeft: '8px', cursor: 'pointer' }}
                     onClick={handleLoggout}
                   >
@@ -111,7 +111,7 @@ function SubTextLink({
                       },
                     }}
                   >
-                    <Typography variant="h3" style={{ marginLeft: '8px' }}>
+                    <Typography variant="h4" style={{ marginLeft: '8px' }}>
                       {' '}
                       {category.designation}{' '}
                     </Typography>

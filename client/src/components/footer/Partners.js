@@ -1,5 +1,6 @@
 import { Typography } from '@material-ui/core'
 import React from 'react'
+import { H3Title } from '../../utils/components'
 import {
   StyledFooterElement,
   StyledFooterElementContent,
@@ -11,7 +12,7 @@ function Partners() {
   return (
     <StyledFooterElement>
       <StyledFooterElementTitle>
-        <Typography variant="h6">Nos partenaires</Typography>
+        {H3Title('Nos Partenaires')}
       </StyledFooterElementTitle>
       <StyledFooterElementContent>
         <StyledFooterElementText>
