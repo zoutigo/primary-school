@@ -304,7 +304,19 @@ const rubrics = [
         designation: 'APEL',
         link: '/apel-ogec/apel',
         alias: 'ap',
-        route: { path: '/apel-ogec/apel', exact: true, component: Apel },
+        route: { path: '/apel-ogec/apel', exact: false, component: Apel },
+        // chapters: [
+        //   {
+        //     designation: 'APEL SUMMARY',
+        //     link: '/apel-ogec/apel/summary',
+        //     alias: 'apel',
+        //     route: {
+        //       path: '/apel-ogec/apel/summary',
+        //       exact: true,
+        //       component: Apel,
+        //     },
+        //   },
+        // ],
       },
       {
         designation: 'OGEC',

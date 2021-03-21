@@ -13,6 +13,7 @@ function Aside({ title, items }) {
       item
       style={{
         display: 'flex',
+
         flexDirection: 'column',
         justifyContent: 'flex-start',
       }}

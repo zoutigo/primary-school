@@ -9,6 +9,9 @@ import {
 } from '@material-ui/core'
 import PhoneIcon from '@material-ui/icons/Phone'
 import EmailIcon from '@material-ui/icons/Email'
+import { useSelector } from 'react-redux'
+import { useLocation } from 'react-router'
+import { CONTACTS } from '../../../utils/constants'
 
 export const StyledAsideItem = styled(Grid)(({ theme, rubriccolors }) => ({
   boxSizing: 'border-box',
@@ -16,6 +19,7 @@ export const StyledAsideItem = styled(Grid)(({ theme, rubriccolors }) => ({
   textAlign: 'center',
   minHeight: '5em',
   background: rubriccolors.ligth,
+
   '& >div': {
     width: '100%',
     display: 'flex',
@@ -46,6 +50,24 @@ const StyledAsideItemAction = styled(Box)(({ theme, rubriccolors }) => ({
 
 function AsideItem({ item, rubricColors }) {
   const { subtitle, text } = item
+  const { state } = useLocation()
+  const Roles = useSelector((state) => state.settings.Roles)
+  const userRole = useSelector((state) => state.user.Credentials.role)
+
+  const { email, phone, adress } = CONTACTS
+  const phoneString = `tel:${phone}`
+  const emailString = `mailto:${phone}`
+
+  const alias = 'apel'
+  let pageRoles = []
+
+  for (const [page, roles] of Object.entries(Roles)) {
+    if (page === alias) {
+      pageRoles = roles
+    }
+  }
+
+  const roleIsAllowedToModify = pageRoles.includes(userRole)
 
   const [isEmail, setIsEmail] = useState(false)
   const [isPhone, setIsPhone] = useState(false)
@@ -65,12 +87,12 @@ function AsideItem({ item, rubricColors }) {
     return (
       <StyledAsideItemAction rubriccolors={rubricColors}>
         {isPhone && (
-          <IconButton href="tel:0474907880">
+          <IconButton href={phoneString}>
             <PhoneIcon style={{ fontSize: 70 }} />
           </IconButton>
         )}
         {isEmail && (
-          <IconButton href="mailto: ogec-cremieu@yahoo.fr">
+          <IconButton href={emailString}>
             <EmailIcon style={{ fontSize: 70 }} />
           </IconButton>
         )}
@@ -84,9 +106,12 @@ function AsideItem({ item, rubricColors }) {
 
   return (
     <StyledAsideItem rubriccolors={rubricColors} container>
-      <Grid item container>
+      <Grid item xs={roleIsAllowedToModify ? 10 : 12}>
         <Grid item>{subtitle}</Grid>
         <Grid item>{text}</Grid>
+      </Grid>
+      <Grid item xs={roleIsAllowedToModify ? 2 : 0}>
+        Hello
       </Grid>
     </StyledAsideItem>
   )

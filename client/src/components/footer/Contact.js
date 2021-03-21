@@ -1,9 +1,10 @@
-import { Box, styled, Typography } from '@material-ui/core'
+import { Box, Link, styled, Typography } from '@material-ui/core'
 import React from 'react'
 import LocationOnIcon from '@material-ui/icons/LocationOn'
 import EmailIcon from '@material-ui/icons/Email'
 import PhoneIcon from '@material-ui/icons/Phone'
 import {
+  StyledAdressContainer,
   StyledFooterElement,
   StyledFooterElementContent,
   StyledFooterElementText,
@@ -14,20 +15,10 @@ import { CONTACTS } from '../../utils/constants'
 import Address from '../content/informations/contacts/Address'
 import { H3Title } from '../../utils/components'
 
-export const StyledAdressContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  //   paddingLeft: '1rem !important',
-  '& >:last-child': {
-    textAlign: 'left',
-    paddingLeft: '1rem',
-  },
-  '& >:first-child': {
-    textAlign: 'left',
-  },
-}))
-
 function Contact() {
   const { email, phone, adress } = CONTACTS
+  const phoneString = `tel:${phone}`
+  const emailString = `mailto:${email}`
 
   return (
     <StyledFooterElement>
@@ -42,11 +33,16 @@ function Contact() {
 
         <StyledFooterElementText>
           <PhoneIcon />
-          <Typography variant="body2">{phone}</Typography>
+
+          <Typography variant="body2">
+            <Link href={phoneString}>{phone} </Link>
+          </Typography>
         </StyledFooterElementText>
         <StyledFooterElementText>
           <EmailIcon />
-          <Typography variant="body2">{email} </Typography>
+          <Typography variant="body2">
+            <Link href={emailString}>{email} </Link>
+          </Typography>
         </StyledFooterElementText>
       </StyledFooterElementContent>
     </StyledFooterElement>

@@ -11,10 +11,10 @@ import { rubricComponents } from '../../utils/navComponents'
 import ErrorPage from './ErrorPage'
 import rubrics from '../../utils/rubrics'
 import Identification from './private/credentials/identification/Identification'
+import { Grid } from '@material-ui/core'
 const useStyles = makeStyles((theme) => ({
   root: {
     minWidth: '100vw',
-
     paddingTop: '1em',
   },
   hide: {
@@ -22,28 +22,6 @@ const useStyles = makeStyles((theme) => ({
   },
   show: {
     display: 'flex',
-  },
-  empty: {
-    [theme.breakpoints.up('lg')]: {
-      minWidth: '15%',
-    },
-    [theme.breakpoints.between('sm', 'md')]: {
-      minWidth: '7%',
-    },
-    [theme.breakpoints.down('sm')]: {
-      minWidth: '1%',
-    },
-  },
-  content: {
-    [theme.breakpoints.up('lg')]: {
-      minWidth: '70%',
-    },
-    [theme.breakpoints.between('sm', 'md')]: {
-      minWidth: '86%',
-    },
-    [theme.breakpoints.down('sm')]: {
-      minWidth: '98%',
-    },
   },
 }))
 
@@ -60,7 +38,6 @@ function Content() {
 
   const home = '/'
   const isHome = pathname === home
-  const rootClass = () => (!isHome ? classes.root : null)
 
   const Rubrics = []
   rubrics.forEach((rubric) => {
@@ -107,25 +84,21 @@ function Content() {
   }, [pathname])
 
   return (
-    <div
-      className={`${
-        isSmallScreen && smallScreenMenuIsOpened ? classes.show : classes.show
-      } ${rootClass()}`}
-    >
-      <div className={`${!isHome && classes.empty}`}></div>
-      <div className={classes.content}>
+    <Grid container>
+      <Grid item md={false} lg={isHome ? false : 1}></Grid>
+      <Grid item md={12} lg={isHome ? 12 : 10}>
         <Switch>
           {Rubrics.map((element, index) => (
             <Route key={index} {...element.route} />
           ))}
 
+          {allChapters.map((subsubroute, ind) => (
+            <Route key={ind} {...subsubroute} />
+          ))}
           {allCategories.map((subroute, i) => (
             <Route key={i} {...subroute} />
           ))}
 
-          {allChapters.map((subsubroute, ind) => (
-            <Route key={ind} {...subsubroute} />
-          ))}
           <Route
             component={Identification}
             path="/private/identification"
@@ -133,9 +106,9 @@ function Content() {
           />
           <Route component={ErrorPage} />
         </Switch>
-      </div>
-      <div className={`${!isHome && classes.empty}`}></div>
-    </div>
+      </Grid>
+      <Grid item md={false} lg={isHome ? false : 1}></Grid>
+    </Grid>
   )
 }
 

@@ -13,7 +13,7 @@ function AsideTitle({ rubricColors, title }) {
       marginLeft: '20%',
       textAlign: 'center',
 
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('md')]: {
         width: '100%',
         margin: '0 auto',
       },

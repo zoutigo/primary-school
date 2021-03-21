@@ -7,6 +7,10 @@ const styles = (theme) => ({
   root: {
     width: '80%',
     marginLeft: '20%',
+    [theme.breakpoints.down('lg')]: {
+      width: '100%',
+      marginLeft: '0px',
+    },
   },
 })
 

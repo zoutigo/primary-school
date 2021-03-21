@@ -24,25 +24,10 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: '12vh',
     marginTop: '10vh',
     background: 'white',
+    boxSizing: 'border-box',
     boxShadow: 'none',
   },
 
-  toolbar: {},
-  contentLarge: {
-    minWidth: '85vw',
-    display: 'flex',
-    marginLeft: '7vw',
-    alignItems: 'center',
-    '& > :first-child': {
-      flexGrow: 1,
-    },
-    '& > :last-child': {
-      minWidth: '75%',
-    },
-    [theme.breakpoints.down('sm')]: {
-      display: 'none',
-    },
-  },
   contentSmall: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -51,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     '& > :last-child': {
       marginRight: '7vw',
     },
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('lg')]: {
       display: 'none',
     },
   },
@@ -67,13 +52,6 @@ const useStyles = makeStyles((theme) => ({
 
   burgerColor: {
     color: theme.palette.warning.light,
-  },
-  logo: {
-    background: 'none',
-    width: '9rem',
-    [theme.breakpoints.up('md')]: {
-      width: '9rem',
-    },
   },
   medium: {
     minHeight: '12vh',
@@ -91,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
       alignItems: 'flex-end',
       overflow: 'hidden',
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       display: 'none',
     },
   },
@@ -116,37 +94,39 @@ function Header() {
 
   return (
     <AppBar className={`${classes.root}`}>
-      <Toolbar className={classes.toolbar}>
-        <Grid container className={classes.medium} display="flex">
-          <Grid item md={2} lg={2}>
-            {/* <Logo className={classes.logo} /> */}
-            <Logo />
+      <Toolbar>
+        <Grid container>
+          <Grid item container className={classes.medium}>
+            <Grid item md={false} lg={2}>
+              <Logo />
+            </Grid>
+            <Grid item container md={false} lg={10}>
+              {rubrics.map((rubric, index) => {
+                if (rubric.alias !== 'home') {
+                  return (
+                    <Grid item md={false} lg={2} key={index}>
+                      <NavItem key={index} rubric={rubric} ind={index} />
+                    </Grid>
+                  )
+                }
+                return null
+              })}
+            </Grid>
           </Grid>
-          <Grid item container md={10} lg={10}>
-            {rubrics.map((rubric, index) => {
-              if (rubric.alias !== 'home') {
-                return (
-                  <Grid item md={2} lg={2} key={index}>
-                    <NavItem key={index} rubric={rubric} ind={index} />
-                  </Grid>
-                )
-              }
-              return null
-            })}
+          <Grid item container>
+            <Grid item className={classes.contentSmall}>
+              {/* <Logo className={`${classes.smallIconsSizes} `} /> */}
+              <Logo />
+              <div>
+                <IconButton onClick={() => dispatch(toogleSmallScreenMenu())}>
+                  <ToogleButton
+                    className={`${classes.smallIconsSizes} ${classes.burgerColor}`}
+                  />
+                </IconButton>
+              </div>
+            </Grid>
           </Grid>
         </Grid>
-
-        <Box className={classes.contentSmall}>
-          {/* <Logo className={`${classes.smallIconsSizes} `} /> */}
-          <Logo />
-          <div>
-            <IconButton onClick={() => dispatch(toogleSmallScreenMenu())}>
-              <ToogleButton
-                className={`${classes.smallIconsSizes} ${classes.burgerColor}`}
-              />
-            </IconButton>
-          </div>
-        </Box>
       </Toolbar>
     </AppBar>
   )

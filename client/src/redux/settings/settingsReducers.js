@@ -8,6 +8,10 @@ const initialState = {
   displayPapers: false,
   displayPaperForm: false,
   pages: [],
+  Roles: {
+    apel: ['apel-secretaire'],
+    ogec: ['apel-secretaire'],
+  },
 }
 
 export const settingsReducers = createReducer(initialState, {
