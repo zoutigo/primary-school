@@ -59,7 +59,7 @@ let theme = createMuiTheme({
   typography: {
     h1: {
       fontFamily: "'Poppins','Raleway', sans-serif",
-      fontSize: '5em',
+      fontSize: '12em',
       fontWeight: 'bold',
       letterSpacing: '1px',
       lineHeight: 1.2,

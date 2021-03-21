@@ -3,6 +3,7 @@ import { Paper, Typography } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/styles'
 import { useSelector } from 'react-redux'
 import image from '../../../images/rubrics/home/landing/land6.JPG'
+import Movie from './Movie'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -82,7 +83,9 @@ function Landing() {
   }
   return (
     <div className={classes.root}>
-      {!Scroll && <Banner />}
+      {/* {!Scroll && <Banner />} */}
+
+      <Movie />
       <div className={classes.land}>
         <img src={image} />
       </div>
