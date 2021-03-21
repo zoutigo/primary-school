@@ -7,7 +7,8 @@ export const StyledFooterElement = styled(Box)(({ theme }) => ({
 }))
 export const StyledFooterElementContent = styled(Box)(({ theme }) => ({}))
 export const StyledFooterElementText = styled(Box)(({ theme }) => ({
-  marginTop: '1rem !important',
+  marginTop: '0.2rem !important',
+  minHeight: '2.5rem',
   '& a': {
     textDecoration: 'none',
     color: 'inherit',
@@ -22,16 +23,10 @@ export const StyledFooterElementText = styled(Box)(({ theme }) => ({
   },
 }))
 
-export const StyledAdressContainer = styled(Box)(({ theme }) => ({
-  background: 'yellow',
+export const StyledAdressBox = styled(Box)(({ theme }) => ({
   display: 'flex',
-  justifyContent: 'center',
-  //   paddingLeft: '1rem !important',
-  '& >:last-child': {
-    textAlign: 'left',
-    paddingLeft: '1rem',
-  },
-  '& >:first-child': {
-    textAlign: 'left',
+  alignItems: 'center',
+  '& div': {
+    marginLeft: '0.3rem',
   },
 }))

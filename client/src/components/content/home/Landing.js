@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '93vh',
     backgroundSize: '2100px',
     backgroundRepeat: 'no-repeat',
-    backgroundPositionY: '-16vh',
+    backgroundPositionY: '-8vh',
     backgroundPosition: 'bottom, left',
     background: `linear-gradient(to top, transparent 80%, white),
         url(${image}) `,

@@ -1,13 +1,12 @@
 import { makeStyles } from '@material-ui/core'
 import React from 'react'
 
-const logo = require('../../images/logoaugustin.svg')
 const useStyles = makeStyles((theme) => ({
   root: {
     boxSizing: 'border-box',
     verticalAlign: 'top',
     maxHeight: '25vh ',
-    textAlign: 'center',
+    textAlign: 'left !important',
     overflow: 'hidden',
   },
   svg: {

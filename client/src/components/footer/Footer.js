@@ -12,7 +12,6 @@ import Suggestions from './Suggestions'
 const StyledFooterInfos = styled(Grid)(({ theme }) => ({
   background: theme.palette.secondary.main,
   minHeight: '5vh',
-
   minWwidth: '100vw',
   overflow: 'hidden',
   padding: '2rem 4rem !important',
@@ -25,34 +24,27 @@ function Footer() {
   return (
     <Grid container>
       <StyledFooterInfos item container>
-        {/* <Grid item sm={false} md={1}></Grid> */}
-
-        <Grid item xs={12} sm={6} md={4} justify="center">
+        <Grid item container xs={12} sm={6} md={4} justify="center">
           {' '}
           <Contact />{' '}
-        </Grid>
-
-        <Grid item xs={12} sm={6} md={4}>
-          {' '}
-          <Timing />{' '}
-        </Grid>
-
-        <Grid item xs={6} sm={3} md={4}>
-          {' '}
-          <FooterLogo />
-        </Grid>
-
-        <Grid item xs={6} sm={6} md={4}>
-          {' '}
-          <Partners />
-        </Grid>
-
-        <Grid item xs={6} sm={6} md={4}>
+        </Grid>{' '}
+        <Grid item xs={12} sm={6} md={4} container justify="center">
           {' '}
           <Suggestions />
         </Grid>
-
-        {/* <Grid item xs={6} sm={false} md={1}></Grid> */}
+        <Grid item xs={12} sm={6} md={4} container justify="center">
+          {' '}
+          <Partners />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} container justify="center">
+          {' '}
+          <Timing />{' '}
+        </Grid>
+        <Grid item xs={12} sm={6} md={4}></Grid>
+        <Grid item xs={12} sm={6} md={4} container justify="center">
+          {' '}
+          <FooterLogo />
+        </Grid>
       </StyledFooterInfos>
       <Grid item container>
         <Copyrights />

@@ -1,6 +1,7 @@
-import { Typography } from '@material-ui/core'
+import { Link, Typography } from '@material-ui/core'
 import React from 'react'
 import { H3Title } from '../../utils/components'
+import FooterCard from './card/FooterCard'
 import {
   StyledFooterElement,
   StyledFooterElementContent,
@@ -9,26 +10,36 @@ import {
 } from './styles'
 
 function Suggestions() {
-  return (
-    <StyledFooterElement>
-      <StyledFooterElementTitle>
-        {H3Title('Ameliorations')}
-      </StyledFooterElementTitle>
-      <StyledFooterElementContent>
-        <StyledFooterElementText>
-          <Typography variant="body2">Proposer un idée pour l'école</Typography>
-        </StyledFooterElementText>
-        <StyledFooterElementText>
-          <Typography variant="body2">Signaler un bug</Typography>
-        </StyledFooterElementText>
-        <StyledFooterElementText>
-          <Typography variant="body2">
-            suggerer une amélioration du site
-          </Typography>
-        </StyledFooterElementText>
-      </StyledFooterElementContent>
-    </StyledFooterElement>
-  )
+  const suggestions = [
+    {
+      name: "proposer un idée à l'école",
+      link: '/informations/contacts',
+    },
+    {
+      name: 'suggérer une amélioration du site',
+      link: '/informations/contacts',
+    },
+    {
+      name: 'signaler un bug',
+      link: '/informations/contacts',
+    },
+  ]
+
+  const items = suggestions.map((partner) => {
+    const { link, name } = partner
+    return (
+      <StyledFooterElementText>
+        <Typography variant="body2">
+          <Link href={link} target="blank">
+            {name}
+          </Link>
+        </Typography>
+      </StyledFooterElementText>
+    )
+  })
+
+  const title = 'Améliorations'
+  return <FooterCard items={items} title={title} />
 }
 
 export default Suggestions

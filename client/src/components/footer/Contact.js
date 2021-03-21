@@ -1,52 +1,49 @@
-import { Box, Link, styled, Typography } from '@material-ui/core'
+import { Link, Typography } from '@material-ui/core'
 import React from 'react'
 import LocationOnIcon from '@material-ui/icons/LocationOn'
 import EmailIcon from '@material-ui/icons/Email'
 import PhoneIcon from '@material-ui/icons/Phone'
-import {
-  StyledAdressContainer,
-  StyledFooterElement,
-  StyledFooterElementContent,
-  StyledFooterElementText,
-  StyledFooterElementTitle,
-} from './styles'
+import { StyledAdressBox, StyledFooterElementText } from './styles'
 
 import { CONTACTS } from '../../utils/constants'
-import Address from '../content/informations/contacts/Address'
-import { H3Title } from '../../utils/components'
+
+import FooterCard from './card/FooterCard'
+import Adress from '../others.js/Adress'
 
 function Contact() {
-  const { email, phone, adress } = CONTACTS
+  const { email, phone } = CONTACTS
   const phoneString = `tel:${phone}`
   const emailString = `mailto:${email}`
 
-  return (
-    <StyledFooterElement>
-      <StyledFooterElementTitle>
-        {H3Title('Nous contacter')}
-      </StyledFooterElementTitle>
-      <StyledFooterElementContent>
-        <StyledAdressContainer>
-          <LocationOnIcon />
-          <Address {...adress} />
-        </StyledAdressContainer>
-
-        <StyledFooterElementText>
-          <PhoneIcon />
-
-          <Typography variant="body2">
-            <Link href={phoneString}>{phone} </Link>
-          </Typography>
-        </StyledFooterElementText>
-        <StyledFooterElementText>
-          <EmailIcon />
-          <Typography variant="body2">
-            <Link href={emailString}>{email} </Link>
-          </Typography>
-        </StyledFooterElementText>
-      </StyledFooterElementContent>
-    </StyledFooterElement>
+  const PhoneBloc = () => (
+    <StyledFooterElementText>
+      <PhoneIcon />
+      <Typography variant="body2">
+        <Link href={phoneString}>{phone} </Link>
+      </Typography>
+    </StyledFooterElementText>
   )
+  const EmailBloc = () => (
+    <StyledFooterElementText>
+      <EmailIcon />
+      <Typography variant="body2">
+        <Link href={emailString}>{email} </Link>
+      </Typography>
+    </StyledFooterElementText>
+  )
+
+  const AdressBloc = () => (
+    <StyledAdressBox>
+      <LocationOnIcon />
+      <Adress />
+    </StyledAdressBox>
+  )
+
+  const items = [<AdressBloc />, <PhoneBloc />, <EmailBloc />]
+
+  const title = 'Nous contacter'
+
+  return <FooterCard items={items} title={title} />
 }
 
 export default Contact

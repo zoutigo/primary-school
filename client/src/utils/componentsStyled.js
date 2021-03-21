@@ -33,15 +33,6 @@ export const StyledInfoBox = styled(Box)(({ theme, bgcolor }) => ({
   background: bgcolor,
 }))
 
-export const StyledAdressContainer = styled(Box)(({ theme }) => ({
-  boxSizing: 'border-box',
-  '& >*': {
-    display: 'flex',
-    justifyContent: 'center',
-    marginRight: '5px !important',
-  },
-}))
-
 export const StyledNavLink = styled(NavLink)(() => ({
   color: 'inherit',
   textDecoration: 'inherit',

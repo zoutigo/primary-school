@@ -1,17 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import {
-  Box,
-  Grid,
-  IconButton,
-  Paper,
-  styled,
-  Typography,
-} from '@material-ui/core'
-import PhoneIcon from '@material-ui/icons/Phone'
-import EmailIcon from '@material-ui/icons/Email'
+import React from 'react'
+import { Box, Grid, styled } from '@material-ui/core'
+
 import { useSelector } from 'react-redux'
-import { useLocation } from 'react-router'
-import { CONTACTS } from '../../../utils/constants'
 
 export const StyledAsideItem = styled(Grid)(({ theme, rubriccolors }) => ({
   boxSizing: 'border-box',
@@ -49,14 +39,10 @@ const StyledAsideItemAction = styled(Box)(({ theme, rubriccolors }) => ({
 }))
 
 function AsideItem({ item, rubricColors }) {
-  const { subtitle, text } = item
-  const { state } = useLocation()
+  const { subtitle, text, icon } = item
+
   const Roles = useSelector((state) => state.settings.Roles)
   const userRole = useSelector((state) => state.user.Credentials.role)
-
-  const { email, phone, adress } = CONTACTS
-  const phoneString = `tel:${phone}`
-  const emailString = `mailto:${phone}`
 
   const alias = 'apel'
   let pageRoles = []
@@ -69,33 +55,10 @@ function AsideItem({ item, rubricColors }) {
 
   const roleIsAllowedToModify = pageRoles.includes(userRole)
 
-  const [isEmail, setIsEmail] = useState(false)
-  const [isPhone, setIsPhone] = useState(false)
-
-  useEffect(() => {
-    if (subtitle && subtitle.props && subtitle.props.subtitle) {
-      setIsEmail(subtitle.props.subtitle === 'Email')
-      setIsPhone(subtitle.props.subtitle === 'Telephone')
-    }
-    return () => {
-      setIsEmail(false)
-      setIsPhone(false)
-    }
-  }, [subtitle])
-
-  if (isPhone || isEmail) {
+  if (icon) {
     return (
       <StyledAsideItemAction rubriccolors={rubricColors}>
-        {isPhone && (
-          <IconButton href={phoneString}>
-            <PhoneIcon style={{ fontSize: 70 }} />
-          </IconButton>
-        )}
-        {isEmail && (
-          <IconButton href={emailString}>
-            <EmailIcon style={{ fontSize: 70 }} />
-          </IconButton>
-        )}
+        {icon}
         <Box>
           {subtitle}
           {text}
@@ -110,9 +73,7 @@ function AsideItem({ item, rubricColors }) {
         <Grid item>{subtitle}</Grid>
         <Grid item>{text}</Grid>
       </Grid>
-      <Grid item xs={roleIsAllowedToModify ? 2 : 0}>
-        Hello
-      </Grid>
+      <Grid item xs={roleIsAllowedToModify ? 2 : 0}></Grid>
     </StyledAsideItem>
   )
 }
