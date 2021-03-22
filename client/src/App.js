@@ -10,6 +10,7 @@ import HeadModules from './components/content/HeadModules'
 
 import SmallScreenMenu from './components/content/SmallScreenMenu'
 import { useScroll } from './utils/hooks'
+import HelmetMetaData from './components/others.js/HelmetMetaData'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -40,6 +41,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <HelmetMetaData></HelmetMetaData>
       <Grid container direction="column" className={classes.root}>
         <Grid item container>
           {' '}

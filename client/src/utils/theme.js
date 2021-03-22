@@ -105,6 +105,9 @@ let theme = createMuiTheme({
       fontFamily: 'sans-serif',
       letterSpacing: 1,
     },
+    caption: {
+      fontFamily: "'Comfortaa',cursive",
+    },
   },
   overrides: {
     MuiInputBase: {

@@ -8,6 +8,8 @@ import Partners from './Partners'
 import FooterLogo from './FooterLogo'
 import Copyrights from './Copyrights'
 import Suggestions from './Suggestions'
+import FooterCard from './card/FooterCard'
+import Share from './Share'
 
 const StyledFooterInfos = styled(Grid)(({ theme }) => ({
   background: theme.palette.secondary.main,
@@ -40,10 +42,13 @@ function Footer() {
           {' '}
           <Timing />{' '}
         </Grid>
-        <Grid item xs={12} sm={6} md={4}></Grid>
+        <Grid item xs={12} sm={6} md={4} container justify="center">
+          <Share />
+        </Grid>
         <Grid item xs={12} sm={6} md={4} container justify="center">
           {' '}
-          <FooterLogo />
+          {/* <FooterLogo /> */}
+          <FooterCard items={[<FooterLogo />]} title={''} />
         </Grid>
       </StyledFooterInfos>
       <Grid item container>

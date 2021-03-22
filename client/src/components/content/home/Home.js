@@ -4,10 +4,11 @@ import { Grid, makeStyles } from '@material-ui/core'
 import Landing from './Landing'
 import Introduction from './Introduction'
 import Figures from './Figures'
-import News from './News'
+
 import Illustrations from './Illustrations'
 import ContactForm from './ContactForm'
 import PopularRubrics from './PopularRubrics'
+import News from './news/News'
 
 const useStyles = makeStyles((theme) => ({
   root: {},
