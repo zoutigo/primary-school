@@ -1,4 +1,4 @@
-const jwt = require("jsonwebtoken");
+const Joi = require("joi");
 const { BadRequest, Unauthorized, TokenIvalid } = require("../utils/errors");
 const User = require("../models/User");
 

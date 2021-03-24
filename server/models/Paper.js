@@ -4,12 +4,8 @@ const Schema = mongoose.Schema;
 const paperSchema = new Schema({
   type: {
     type: String,
-    enum: ["article", "newsletter", "activity", "parent-info"],
+    enum: ["article", "activity", "parent-info"],
     required: true,
-  },
-  classroomId: {
-    type: Schema.Types.ObjectId,
-    ref: "Classroom",
   },
 
   title: {
@@ -17,6 +13,11 @@ const paperSchema = new Schema({
     required: true,
     minlength: 3,
     maxlength: 100,
+  },
+  entity: {
+    type: Schema.Types.ObjectId,
+    ref: "Entity",
+    required: true,
   },
 
   text: {
@@ -36,12 +37,13 @@ const paperSchema = new Schema({
     required: true,
   },
 
-  mediasPaths: [{ type: String }],
   status: {
     type: String,
     enum: ["draft", "undervalidation", "released"],
-    default: "draft",
+    default: "released",
   },
+  tags: [{ type: String }],
+  mediasPaths: [{ type: String }],
 });
 
 module.exports = mongoose.model("Paper", paperSchema);

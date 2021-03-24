@@ -1,27 +1,35 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const eventSchema = new Schema({
+const fileSchema = new Schema({
   title: {
     type: String,
     min: 3,
-    max: 100,
+    max: 500,
     required: true,
+  },
+  type: {
+    type: String,
+    required: true,
+    enum: ["menu", "newsletter", "document", "image"],
   },
   description: {
     type: String,
     min: 10,
     max: 500,
   },
-  place: {
+  url: {
     type: String,
+    min: 10,
+    max: 500,
     required: true,
-    min: 4,
-    max: 100,
-    default: "Ecole Saint Augustin",
   },
   date: {
     type: Date,
+    required: true,
+  },
+  validweek: {
+    type: Number,
     required: true,
   },
 
@@ -30,8 +38,9 @@ const eventSchema = new Schema({
   },
   createdat: {
     type: Date,
-    default: new Date().getTime(),
+    default: Date.now(),
+    required: true,
   },
 });
 
-module.exports = mongoose.model("Event", eventSchema);
+module.exports = mongoose.model("File", fileSchema);

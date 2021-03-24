@@ -11,7 +11,6 @@ const {
   NotFound,
 } = require("../utils/errors");
 const Classroom = require("../models/Classroom");
-const object = require("@hapi/joi/lib/types/object");
 
 module.exports.userRegister = async (req, res, next) => {
   // check if req.body is not empty

@@ -1,8 +1,7 @@
 const Joi = require("joi");
 Joi.objectId = require("joi-objectid")(Joi);
-const now = new Date().getTime();
 
-module.exports.eventValidator = (datas) => {
+module.exports.fileValidator = (datas) => {
   const validator = (data) => {
     switch (Object.keys(data)[0]) {
       case "id":
@@ -17,11 +16,13 @@ module.exports.eventValidator = (datas) => {
         });
         return titleSchema.validate(data);
 
-      case "place":
-        let placeSchema = Joi.object({
-          place: Joi.string().required().min(3).max(100),
+      case "type":
+        let typeSchema = Joi.object({
+          type: Joi.string()
+            .required()
+            .valid("menu", "newsletter", "document", "image"),
         });
-        return placeSchema.validate(data);
+        return typeSchema.validate(data);
 
       case "description":
         let descriptionSchema = Joi.object({
@@ -29,11 +30,23 @@ module.exports.eventValidator = (datas) => {
         });
         return descriptionSchema.validate(data);
 
+      case "url":
+        let urlSchema = Joi.object({
+          url: Joi.string().required().min(3).max(500),
+        });
+        return urlSchema.validate(data);
+
       case "date":
         let dateSchema = Joi.object({
-          date: Joi.date().timestamp("javascript").min(new Date().getTime()),
+          date: Joi.required().date().timestamp().greater(Date.now()),
         });
         return dateSchema.validate(data);
+
+      case "validweek":
+        let validweekSchema = Joi.object({
+          validweek: Joi.string().required().min(3).max(500),
+        });
+        return validweekSchema.validate(data);
 
       case "author":
         let authorSchema = Joi.object({

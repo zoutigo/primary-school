@@ -1,4 +1,3 @@
-const { boolean } = require("@hapi/joi");
 const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
