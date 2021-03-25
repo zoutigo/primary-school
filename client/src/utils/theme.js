@@ -75,10 +75,10 @@ let theme = createMuiTheme({
       marginRight: '8px',
     },
     h3: {
-      fontFamily: "'Comfortaa',cursive",
-      fontSize: '1.1rem',
-      fontWeight: 800,
-      letterSpacing: '2px',
+      fontFamily: "'Comfortaa,cursive",
+      fontSize: '1rem',
+      // fontWeight: 400,
+      letterSpacing: 4,
       lineHeight: 3,
       textTransform: 'uppercase',
     },
@@ -90,18 +90,19 @@ let theme = createMuiTheme({
       lineHeight: 3,
     },
     body1: {
-      fontFamily: "'Raleway','Roboto','sans-serif",
+      fontFamily: "Comfortaa',cursive",
       fontSize: '1rem',
-      letterSpacing: 2,
+      letterSpacing: 4,
     },
 
     h6: {
-      fontSize: '1em',
+      fontSize: '1rem',
       fontFamily: "'Poppins', 'Raleway'",
       letterSpacing: '1px',
       lineHeight: 3,
     },
     subtitle1: {
+      fontSize: '0.8rem',
       fontFamily: 'sans-serif',
       letterSpacing: 1,
     },
@@ -130,6 +131,6 @@ let theme = createMuiTheme({
   },
 })
 
-theme = responsiveFontSizes(theme)
+theme = responsiveFontSizes(theme, { factor: 3 })
 
 export default theme

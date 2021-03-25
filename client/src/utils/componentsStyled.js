@@ -37,3 +37,6 @@ export const StyledNavLink = styled(NavLink)(() => ({
   color: 'inherit',
   textDecoration: 'inherit',
 }))
+export const StyledHomeSection = styled(Grid)(({ theme }) => ({
+  padding: '2rem 3rem !important',
+}))

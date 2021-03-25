@@ -49,7 +49,7 @@ function TextLink({
           },
         }}
       >
-        <Typography variant="h3">
+        <Typography variant="h2">
           {alias !== 'private'
             ? name
             : isLogged

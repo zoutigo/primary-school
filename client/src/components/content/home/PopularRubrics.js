@@ -1,30 +1,24 @@
 import React from 'react'
-import { Grid, Typography } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
+import { Box, Grid, Icon, Typography } from '@material-ui/core'
+import { makeStyles, styled, useTheme } from '@material-ui/styles'
 import rubrics from '../../../utils/rubrics'
-import { Button } from '@material-ui/core'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp'
+
 import LocalMallIcon from '@material-ui/icons/LocalMall'
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance'
 import RestaurantIcon from '@material-ui/icons/Restaurant'
 import HelpIcon from '@material-ui/icons/Help'
 import { useHistory } from 'react-router-dom'
+import { StyledHomeSection } from '../../../utils/componentsStyled'
+import ButtonComponent from '../../others.js/ButtonComponent'
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    padding: '10vh 0 !important',
-  },
   card: {
     textAlign: 'center',
     padding: '0 5vw !important',
     '& >h2': {
       color: theme.palette.secondary.main,
       marginTop: '0.8rem',
-    },
-    '& >button': {
-      marginTop: '1.5rem',
-      '& :hover': {
-        background: theme.palette.primary.light,
-      },
     },
   },
   icon: {
@@ -33,9 +27,31 @@ const useStyles = makeStyles((theme) => ({
     height: '5em',
   },
 }))
+const StyledIconBox = styled(Box)(({ theme }) => ({
+  width: '100%',
+  height: '15vh',
+  background: 'yellow',
+  '& .MuiIcon-root': {
+    color: 'green',
+    width: '5rem',
+    height: '5em',
+  },
+}))
 
-const populars = ['classes', 'vie-scolaire', 'cantine']
-const Populars = []
+const StyledTextBox = styled(Box)(({ theme }) => ({
+  [theme.breakpoints.up('md')]: {
+    minHeight: '12vh ',
+  },
+}))
+
+const StyledPopularItemCard = styled(Grid)(({ theme }) => ({
+  textAlign: 'center',
+  padding: '0 5vw !important',
+  [theme.breakpoints.down('md')]: {
+    borderTop: `solid 1px ${theme.palette.secondary.main}`,
+    paddingBottom: '2rem ! important',
+  },
+}))
 
 function PopularRubrics() {
   const classes = useStyles()
@@ -71,25 +87,32 @@ function PopularRubrics() {
   const PopularItem = (props) => {
     const { item } = props
     const [title, link, text, icon] = item
+    const theme = useTheme()
 
     return (
-      <Grid item className={classes.card} sm={12} md={6} lg={3}>
-        <div>{icon}</div>
+      <StyledPopularItemCard item sm={12} md={6} lg={3}>
+        <box>{icon}</box>
 
         <Typography variant="h2"> {title}</Typography>
+        <StyledTextBox>
+          <Typography variant="body1">{text}</Typography>
+        </StyledTextBox>
 
-        <Typography variant="subtitle1">{text}</Typography>
-
-        <Button
-          variant="outlined"
-          color="secondary"
+        <ButtonComponent
+          color={theme.palette.secondary.main}
+          background={theme.palette.secondary.light}
+          hovercolor={theme.palette.primary.main}
+          hoverbackground={theme.palette.secondary.main}
+          minwidth={'250px'}
+          text={'Allons Y'}
+          icon={<ExitToAppIcon />}
           onClick={() => {
             handleClick(link)
           }}
         >
           Allons y
-        </Button>
-      </Grid>
+        </ButtonComponent>
+      </StyledPopularItemCard>
     )
   }
 
@@ -103,11 +126,11 @@ function PopularRubrics() {
   }
 
   return (
-    <Grid container className={classes.root}>
+    <StyledHomeSection container>
       {Populars.map((Popular, index) => {
         return <PopularItem item={Popular} key={index} />
       })}
-    </Grid>
+    </StyledHomeSection>
   )
 }
 

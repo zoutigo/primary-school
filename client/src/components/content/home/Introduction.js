@@ -1,18 +1,10 @@
-import { Box, Typography } from '@material-ui/core'
+import { Box, styled, Typography } from '@material-ui/core'
 import React from 'react'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, useTheme } from '@material-ui/styles'
+import { StyledHomeSection } from '../../../utils/componentsStyled'
+import Title from '../../others.js/Title'
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
-    background: theme.palette.secondary.main,
-    padding: '1em 5vw !important',
-    '& >div:last-child': {
-      textAlign: 'right',
-      color: theme.palette.primary.main,
-    },
-  },
-
   text: {
     color: 'white',
     textAlign: 'justify',
@@ -29,14 +21,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+const StyledIntroductionContainer = styled(StyledHomeSection)(({ theme }) => ({
+  background: theme.palette.secondary.main,
+  paddingTop: '6rem ! important',
+  '& >div:last-child': {
+    textAlign: 'right',
+    color: theme.palette.primary.main,
+  },
+}))
+
 function Introduction() {
   const classes = useStyles()
+  const theme = useTheme()
   return (
-    <div className={classes.root}>
+    <StyledIntroductionContainer>
       <div className={classes.text}>
-        <Typography variant="h2">
-          L'Ecole Saint Augustin vous souhaite la bienvenue !
-        </Typography>
+        <Title
+          title={"L'Ecole Saint Augustin vous souhaite la bienvenue !"}
+          color={theme.palette.primary.main}
+        />
+
         <div>
           <Typography variant="body1">
             L'école St Augustin, école catholique sous contrat d'association
@@ -63,7 +67,7 @@ function Introduction() {
           Frédéric CINTAS , le directeur.
         </Typography>
       </div>
-    </div>
+    </StyledIntroductionContainer>
   )
 }
 
