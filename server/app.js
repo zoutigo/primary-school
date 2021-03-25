@@ -92,13 +92,13 @@ app.use("/images", imagesRouter);
 app.use("/events", eventsRouter);
 app.use("/files", filesRouter);
 
+app.use(handleErrors);
+
 // Heroku definition
 // if (process.env.NODE_ENV === 'production') {
 //   app.use(express.static('client/build'))
 // }
 // a middleware with no mount path; gets executed for every request to the app
-
-app.use(handleErrors);
 
 // // catch 404 and forward to error handler
 // app.use(function (req, res, next) {

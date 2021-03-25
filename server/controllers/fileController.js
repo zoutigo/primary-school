@@ -1,3 +1,4 @@
+const fileUploadService = require("../service/upload");
 const File = require("../models/File");
 const { fieldsforvalidator } = require("../utils/fieldtoarray");
 const { fileValidator } = require("../validators/files");
@@ -25,6 +26,10 @@ module.exports.postFile = async (req, res, next) => {
   const { id: fileId } = req.query;
   const grades = ["manager", "admin", "moderator"];
 
+  if (Object.keys(req.body).length < 1) {
+    return next(new BadRequest("datas missing"));
+  }
+
   const fields = fieldsforvalidator(req.body);
   const errors = fileValidator(fields);
   if (errors.length > 0) {
@@ -36,7 +41,7 @@ module.exports.postFile = async (req, res, next) => {
   if (!fileId) {
     // file creation
     // upload file
-    console.log("files", req.files);
+
     try {
       if (req.files && req.files.file) {
         const file = req.files.file;

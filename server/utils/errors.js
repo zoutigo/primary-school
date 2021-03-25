@@ -17,7 +17,7 @@ class GeneralError extends Error {
     if (this instanceof Forbidden) {
       return 403;
     }
-    if (this instanceof TokenIvalid) {
+    if (this instanceof TokenInvalid) {
       return 498;
     }
     if (this instanceof PreConditionFailed) {
@@ -32,7 +32,7 @@ class BadRequest extends GeneralError {}
 class NotFound extends GeneralError {}
 class Unauthorized extends GeneralError {}
 class Forbidden extends GeneralError {}
-class TokenIvalid extends GeneralError {}
+class TokenInvalid extends GeneralError {}
 class PreConditionFailed extends GeneralError {}
 
 module.exports = {
@@ -41,6 +41,6 @@ module.exports = {
   NotFound,
   Unauthorized,
   Forbidden,
-  TokenIvalid,
+  TokenInvalid,
   PreConditionFailed,
 };

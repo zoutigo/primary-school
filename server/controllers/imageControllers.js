@@ -5,6 +5,7 @@ const { BadRequest, NotFound } = require("../utils/errors");
 const fileUploadService = require("../service/upload");
 
 module.exports.createPageImage = async (req, res, next) => {
+  console.log(req.files);
   try {
     if (req.files && req.files.file) {
       const file = req.files.file;

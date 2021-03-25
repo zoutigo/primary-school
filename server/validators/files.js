@@ -38,13 +38,13 @@ module.exports.fileValidator = (datas) => {
 
       case "date":
         let dateSchema = Joi.object({
-          date: Joi.required().date().timestamp().greater(Date.now()),
+          date: Joi.date().timestamp().greater(Date.now()),
         });
         return dateSchema.validate(data);
 
       case "validweek":
         let validweekSchema = Joi.object({
-          validweek: Joi.string().required().min(3).max(500),
+          validweek: Joi.number().integer().required().min(1).max(52),
         });
         return validweekSchema.validate(data);
 

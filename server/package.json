@@ -10,7 +10,7 @@
     "kill": "kill $(lsof -t -i:3500)",
     "mocha": "cross-env NODE_ENV=development mocha --require babel-register test/*.js --exit",
     "test": "npm run kill & npm run mocha",
-    "dev": "cross-env NODE_ENV=development nodemon --exec babel-node --presets babel-preset-env ./bin/www"
+    "dev": "cross-env NODE_ENV=development  DEBUG=express nodemon ./bin/www"
   },
   "dependencies": {
     "aws-sdk": "^2.854.0",
@@ -29,10 +29,12 @@
     "mongoose": "^5.10.7",
     "morgan": "~1.9.1",
     "multer": "^1.4.2",
-    "sanitize-html": "^2.3.2",
+    "sanitize-html": "^2.3.3",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.13.10",
+    "@babel/node": "^7.13.12",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "chai": "^4.2.0",
