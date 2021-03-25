@@ -19,8 +19,8 @@ const pagesRouter = require("./routes/pages");
 const imagesRouter = require("./routes/images");
 // var datasRouter = require("./routes/datas");
 var articlesRouter = require("./routes/articles");
-// var eventsRouter = require("./routes/events");
-// var filesRouter = require("./routes/files");
+var eventsRouter = require("./routes/events");
+var filesRouter = require("./routes/files");
 // var studentsRouter = require("./routes/students");
 // var commentsRouter = require("./routes/comments");
 
@@ -95,8 +95,8 @@ app.use("/images", imagesRouter);
 // app.use("/articles", articlesRouter);
 // app.use("/comments", commentsRouter);
 // app.use("/students", studentsRouter);
-// app.use("/events", eventsRouter);
-// app.use("/files", filesRouter);
+app.use("/events", eventsRouter);
+app.use("/files", filesRouter);
 
 app.use(handleErrors);
 
