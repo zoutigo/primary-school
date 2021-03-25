@@ -53,7 +53,7 @@ app.set("view engine", "jade");
 
 app.use(
   cors({
-    exposedHeaders: ["x-access-token"],
+    // exposedHeaders: ["x-access-token"],
   })
 );
 app.all("*", function (req, res, next) {
