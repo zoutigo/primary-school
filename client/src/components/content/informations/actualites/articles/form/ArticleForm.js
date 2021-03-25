@@ -14,7 +14,7 @@ import { notifySuccess } from '../../../../../../utils/notifications'
 import { StyledForm } from '../../../../../../utils/forms/styledComponents'
 import { StyledButton } from '../../../../../../utils/componentsStyled'
 import { styled, useTheme } from '@material-ui/styles'
-import SmallEditor from '../../../../../../utils/tinyEditors/SmallEditor'
+import PageEditor from '../../../../../../utils/tinyEditors/SmallEditor'
 
 const ArticleStyledForm = styled(StyledForm)(({ theme, bgcolor }) => ({
   '& section': {
@@ -125,7 +125,7 @@ function ArticleForm({ setArticleForm, setArticleContent, setButtonGroup }) {
           control={control}
           defaultValue=""
           render={({ onChange, value }) => (
-            <SmallEditor onChange={onChange} value={value} />
+            <PageEditor onChange={onChange} value={value} />
           )}
         />
       </section>

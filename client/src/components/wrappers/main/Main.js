@@ -12,8 +12,9 @@ import {
 } from '@material-ui/core'
 import { styles } from './styles'
 import { useLocationColor } from '../../../utils/hooks'
+import TabTitle from '../../others.js/TabTitle'
 
-const StyledTabTitle = (title) => <Typography variant="h2">{title}</Typography>
+const StyledTabTitle = (title) => <Typography variant="h6">{title}</Typography>
 
 function Main({ pages }) {
   const { main, ligth, dark } = useLocationColor()
@@ -73,7 +74,7 @@ function Main({ pages }) {
             let { title } = page
             return (
               <Tab
-                label={StyledTabTitle(title)}
+                label={<TabTitle title={title} />}
                 {...a11yProps(index)}
                 key={index}
                 style={{ background: main }}

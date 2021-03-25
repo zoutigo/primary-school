@@ -6,7 +6,7 @@ import Jalons from './Jalons'
 function Inscriptions() {
   const pages = [
     {
-      title: `Formalités d'incription`,
+      title: `Modalités`,
       content: <Formalite />,
     },
     {

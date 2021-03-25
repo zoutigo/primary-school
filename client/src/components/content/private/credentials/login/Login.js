@@ -59,6 +59,9 @@ function Login({ classes }) {
             pathname: '/informations/actualites',
             state: {
               from: '/register/login',
+              rubric: {
+                alias: 'private',
+              },
             },
           })
 

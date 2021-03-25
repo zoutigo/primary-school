@@ -97,7 +97,7 @@ let theme = createMuiTheme({
 
     h6: {
       fontSize: '1rem',
-      fontFamily: "'Poppins', 'Raleway'",
+      fontFamily: "'Comfortaa',cursive",
       letterSpacing: '1px',
       lineHeight: 3,
     },
