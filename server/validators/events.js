@@ -1,5 +1,6 @@
 const Joi = require("joi");
 Joi.objectId = require("joi-objectid")(Joi);
+const moment = require("moment");
 const now = new Date().getTime();
 
 module.exports.eventValidator = (datas) => {
@@ -31,7 +32,7 @@ module.exports.eventValidator = (datas) => {
 
       case "date":
         let dateSchema = Joi.object({
-          date: Joi.date().timestamp("javascript").min(new Date().getTime()),
+          date: Joi.date().timestamp("javascript"),
         });
         return dateSchema.validate(data);
 

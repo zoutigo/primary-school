@@ -1,6 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Grid, TextField } from '@material-ui/core'
 import { makeStyles, styled, useTheme } from '@material-ui/styles'
+import moment from 'moment'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import ReactDatePicker from 'react-datepicker'
@@ -85,7 +86,7 @@ function PaperForm({
     const options = {
       headers: { 'x-access-token': token },
     }
-    console.log(dateToTimeStamp(date))
+    console.log(moment(date).unix)
     const requestbody = (definition) => {
       switch (definition) {
         case 'events':
