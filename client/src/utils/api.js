@@ -101,3 +101,16 @@ export const apiPostPaper = async ({ id, body, options }) => {
   let { data } = await axios.post(URL, body, options)
   return data
 }
+
+export const apiFetchEvents = async (param) => {
+  let URL = `${process.env.REACT_APP_ENDPOINT}/events?${param}`
+  let { data } = await axios.get(URL)
+
+  return data
+}
+
+export const apiPostEvents = async ({ id, body, options }) => {
+  let URL = `${process.env.REACT_APP_ENDPOINT}/events?${id}`
+  let { data } = await axios.post(URL, body, options)
+  return data
+}

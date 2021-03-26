@@ -73,7 +73,7 @@ function AsideItem({ item, rubricColors }) {
         <Grid item>{subtitle}</Grid>
         <Grid item>{text}</Grid>
       </Grid>
-      <Grid item xs={roleIsAllowedToModify ? 2 : 0}></Grid>
+      <Grid item xs={roleIsAllowedToModify ? 2 : false}></Grid>
     </StyledAsideItem>
   )
 }

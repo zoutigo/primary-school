@@ -3,7 +3,7 @@ import Wrapper from '../../../wrappers/wrapper/Wrapper'
 import Activities from './activities/Activities'
 import Articles from './articles/Articles'
 import NewsLetters from './newsletters/NewsLetters'
-import ParentsInfos from './parentsinfos/ParentsInfos'
+import Events from './events/Events'
 
 function Actualites() {
   const pages = [
@@ -20,8 +20,8 @@ function Actualites() {
       content: <NewsLetters />,
     },
     {
-      title: `Infos Parents`,
-      content: <ParentsInfos />,
+      title: `Evenements`,
+      content: <Events />,
     },
   ]
 
