@@ -15,7 +15,7 @@ const StyledButton = styled(Button)(
     marginTop: '1rem !important',
     background: background,
     height: '2.6rem',
-    width: width,
+    width: width || '300px',
     minWidth: minwidth,
     color: color,
     '&:hover': {
@@ -38,10 +38,13 @@ function ButtonComponent({
   hoverbackground,
   width,
   minwidth,
+  disabled,
+  type,
+  ...rest
 }) {
   return (
     <StyledButton
-      type="button"
+      type={type || 'button'}
       startIcon={icon}
       color={color}
       hovercoor={hovercolor}
@@ -49,6 +52,8 @@ function ButtonComponent({
       hoverbackground={hoverbackground}
       minwidth={minwidth}
       width={width}
+      disabled={disabled}
+      {...rest}
     >
       <StyledTypo variant="button">{text}</StyledTypo>
     </StyledButton>

@@ -22,7 +22,7 @@ function Contacts() {
       content: <Opening />,
     },
     {
-      title: `Formulaire de Contact`,
+      title: `Formulaire`,
       content: <ContactForm />,
     },
   ]
