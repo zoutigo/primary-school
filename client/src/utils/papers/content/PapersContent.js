@@ -58,6 +58,8 @@ function PapersContent({ paper: { queryKey, queryParams, fetcher } }) {
     return <span>Error: {error.message}</span>
   }
 
+  console.log('datalengt', data.length)
+
   return (
     <Grid container className={'title'}>
       {data &&

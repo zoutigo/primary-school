@@ -3,12 +3,12 @@ import { styled } from '@material-ui/styles'
 import React from 'react'
 import ReactHtmlParser from 'react-html-parser'
 
-const StyledArticleBody = styled(Grid)(({ theme, bgcolor }) => ({
+const StyledPaperBody = styled(Grid)(({ theme, bgcolor }) => ({
   display: 'none',
 }))
 
 function PaperBody({ text }) {
-  return <StyledArticleBody item>{ReactHtmlParser(text)}</StyledArticleBody>
+  return <StyledPaperBody item>{ReactHtmlParser(text)}</StyledPaperBody>
 }
 
 export default PaperBody

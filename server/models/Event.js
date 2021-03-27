@@ -9,7 +9,7 @@ const eventSchema = new Schema({
     max: 100,
     required: true,
   },
-  description: {
+  text: {
     type: String,
     min: 10,
     max: 500,

@@ -24,11 +24,11 @@ module.exports.eventValidator = (datas) => {
         });
         return placeSchema.validate(data);
 
-      case "description":
-        let descriptionSchema = Joi.object({
-          description: Joi.string().required().min(3).max(500),
+      case "text":
+        let textSchema = Joi.object({
+          text: Joi.string().required().min(3).max(500),
         });
-        return descriptionSchema.validate(data);
+        return textSchema.validate(data);
 
       case "date":
         let dateSchema = Joi.object({
