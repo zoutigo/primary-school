@@ -9,46 +9,52 @@ const useStyles = makeStyles(() => ({
     display: 'none',
   },
   show: {
-    '& :last-child': {
-      display: 'block',
-    },
+    display: 'block',
   },
 }))
 
-function PapersContent({ paper: { queryKey, queryParams, fetcher } }) {
+function PapersContent({ paper }) {
   const classes = useStyles()
+  const { queryKey, queryParams, fetcher } = paper
   const { isLoading, isError, data, error, isSuccess } = useQuery(
     queryKey,
     () => fetcher(queryParams)
   )
 
   useEffect(() => {
-    const articles = document.querySelectorAll('[id=paper-container]')
-    const openArticle = (e) => {
-      e.target.classList.add(classes.show)
-      for (let i = 0; i < articles.length; i++) {
-        if (articles[i] !== e.target) {
-          articles[i].classList.remove(classes.show)
+    const papersheaders = document.querySelectorAll('[id=paper-header]')
+    const papersbodies = document.querySelectorAll('[id=paper-body]')
+    const papersfooters = document.querySelectorAll('[id=paper-footer]')
+    const count = papersheaders.length
+
+    const openPaper = (j) => {
+      papersbodies[j].classList.add(classes.show)
+      papersfooters[j].classList.add(classes.show)
+      for (let i = 0; i < count; i++) {
+        if (j !== i) {
+          papersbodies[i].classList.remove(classes.show)
+          papersfooters[i].classList.remove(classes.show)
         }
       }
     }
-    if (data) {
-      articles[0].classList.add(classes.show)
+    if (data && count > 0) {
+      papersbodies[0].classList.add(classes.show)
+      papersfooters[0].classList.add(classes.show)
 
-      for (let i = 0; i < articles.length; i++) {
-        articles[i].addEventListener('click', openArticle)
+      for (let i = 0; i < count; i++) {
+        papersheaders[i].addEventListener('click', () => openPaper(i))
       }
     }
     return () => {
-      if (data) {
-        for (let i = 0; i < articles.length; i++) {
-          articles[0].classList.add(classes.show)
-
-          articles[i].removeEventListener('click', openArticle)
-        }
-      }
+      // if (data & (count > 0)) {
+      //   for (let i = 0; i < count; i++) {
+      //     papersbodies[0].classList.remove(classes.show)
+      //     papersfooters[0].classList.remove(classes.show)
+      //     papersheaders[i].removeEventListener('click', openPaper)
+      //   }
+      // }
     }
-  }, [isSuccess])
+  }, [])
 
   if (isLoading) {
     return <span>Loading...</span>
@@ -58,13 +64,15 @@ function PapersContent({ paper: { queryKey, queryParams, fetcher } }) {
     return <span>Error: {error.message}</span>
   }
 
-  console.log('datalengt', data.length)
+  if (!Array.isArray(data)) {
+    return null
+  }
 
   return (
     <Grid container className={'title'}>
       {data &&
         data.map((item, i) => {
-          return <PaperContainer {...item} key={i} />
+          return <PaperContainer paper={paper} item={item} key={i} />
         })}
     </Grid>
   )

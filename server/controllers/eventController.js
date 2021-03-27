@@ -5,7 +5,7 @@ const { eventValidator } = require("../validators/events");
 
 module.exports.postEvent = async (req, res, next) => {
   const { grade, roles, _id: userId } = req.user;
-  const { id: eventId } = req.query;
+  const { id: eventId, action } = req.query;
   const grades = ["manager", "admin", "moderator"];
 
   if (Object.keys(req.body).length < 1) {
@@ -21,7 +21,7 @@ module.exports.postEvent = async (req, res, next) => {
     return next(new BadRequest(errors));
   }
 
-  if (!eventId) {
+  if ((action = "create")) {
     // case event creation
     const event = req.body;
     event.author = userId;
@@ -37,7 +37,7 @@ module.exports.postEvent = async (req, res, next) => {
     } catch (err) {
       return next(err);
     }
-  } else {
+  } else if ((action = "update" & eventId)) {
     // case update
 
     try {
@@ -53,6 +53,17 @@ module.exports.postEvent = async (req, res, next) => {
     } catch (err) {
       return next(err);
     }
+  } else if ((action = "delete" & eventId)) {
+    try {
+      let deletedEvent = await Event.findOneAndDelete({ _id: eventId });
+      if (deletedEvent) {
+        return res.status(200).send("event deleted successfully");
+      }
+    } catch (err) {
+      return next(err);
+    }
+  } else {
+    return next(new BadRequest("params missing"));
   }
 };
 

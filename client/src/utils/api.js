@@ -109,8 +109,8 @@ export const apiFetchEvents = async (param) => {
   return data
 }
 
-export const apiPostEvents = async ({ id, body, options }) => {
-  let URL = `${process.env.REACT_APP_ENDPOINT}/events?${id}`
+export const apiPostEvents = async ({ id, action, body, options }) => {
+  let URL = `${process.env.REACT_APP_ENDPOINT}/events?action=${action}&id=${id}`
   let { data } = await axios.post(URL, body, options)
   return data
 }

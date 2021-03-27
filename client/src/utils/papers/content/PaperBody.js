@@ -8,7 +8,12 @@ const StyledPaperBody = styled(Grid)(({ theme, bgcolor }) => ({
 }))
 
 function PaperBody({ text }) {
-  return <StyledPaperBody item>{ReactHtmlParser(text)}</StyledPaperBody>
+  return (
+    <StyledPaperBody item id="paper-body">
+      {/* {ReactHtmlParser(text)} */}
+      HELLO EVERYONE
+    </StyledPaperBody>
+  )
 }
 
 export default PaperBody
