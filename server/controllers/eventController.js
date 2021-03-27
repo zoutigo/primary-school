@@ -8,7 +8,7 @@ module.exports.postEvent = async (req, res, next) => {
   const { id: eventId, action } = req.query;
   const grades = ["manager", "admin", "moderator"];
 
-  if (Object.keys(req.body).length < 1) {
+  if ((Object.keys(req.body).length < 1) & (action !== "delete")) {
     return next(new BadRequest("datas missing"));
   }
 
@@ -21,7 +21,7 @@ module.exports.postEvent = async (req, res, next) => {
     return next(new BadRequest(errors));
   }
 
-  if ((action = "create")) {
+  if (action === "create") {
     // case event creation
     const event = req.body;
     event.author = userId;
@@ -37,7 +37,7 @@ module.exports.postEvent = async (req, res, next) => {
     } catch (err) {
       return next(err);
     }
-  } else if ((action = "update" & eventId)) {
+  } else if ((action === "update") & eventId) {
     // case update
 
     try {
@@ -53,7 +53,7 @@ module.exports.postEvent = async (req, res, next) => {
     } catch (err) {
       return next(err);
     }
-  } else if ((action = "delete" & eventId)) {
+  } else if ((action === "delete") & eventId) {
     try {
       let deletedEvent = await Event.findOneAndDelete({ _id: eventId });
       if (deletedEvent) {
