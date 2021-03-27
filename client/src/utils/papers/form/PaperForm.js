@@ -105,6 +105,7 @@ function PaperForm({
     try {
       await mutate({
         id: '',
+        action: 'create',
         options: options,
         body: requestbody(def),
       })

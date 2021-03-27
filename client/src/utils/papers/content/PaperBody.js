@@ -4,7 +4,7 @@ import React from 'react'
 import ReactHtmlParser from 'react-html-parser'
 
 const StyledPaperBody = styled(Grid)(({ theme, bgcolor }) => ({
-  display: 'none',
+  // display: 'none',
 }))
 
 function PaperBody({ text }) {

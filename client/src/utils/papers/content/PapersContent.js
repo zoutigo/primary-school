@@ -1,6 +1,6 @@
 import { Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import PaperContainer from './PaperContainer'
 
@@ -15,6 +15,8 @@ const useStyles = makeStyles(() => ({
 
 function PapersContent({ paper }) {
   const classes = useStyles()
+
+  const [openIndex, setOpenIndex] = useState(false)
   const { queryKey, queryParams, fetcher } = paper
   const { isLoading, isError, data, error, isSuccess } = useQuery(
     queryKey,
@@ -22,39 +24,19 @@ function PapersContent({ paper }) {
   )
 
   useEffect(() => {
-    const papersheaders = document.querySelectorAll('[id=paper-header]')
-    const papersbodies = document.querySelectorAll('[id=paper-body]')
-    const papersfooters = document.querySelectorAll('[id=paper-footer]')
-    const count = papersheaders.length
-
-    const openPaper = (j) => {
-      papersbodies[j].classList.add(classes.show)
-      papersfooters[j].classList.add(classes.show)
-      for (let i = 0; i < count; i++) {
-        if (j !== i) {
-          papersbodies[i].classList.remove(classes.show)
-          papersfooters[i].classList.remove(classes.show)
+    if (isSuccess && data && data.length > 0) {
+      const array = []
+      for (let i = 0; i < data.length; i++) {
+        if (i == 0) {
+          array.push(1)
+        } else {
+          array.push(0)
         }
       }
-    }
-    if (data && count > 0) {
-      papersbodies[0].classList.add(classes.show)
-      papersfooters[0].classList.add(classes.show)
 
-      for (let i = 0; i < count; i++) {
-        papersheaders[i].addEventListener('click', () => openPaper(i))
-      }
+      setOpenIndex(array)
     }
-    return () => {
-      // if (data & (count > 0)) {
-      //   for (let i = 0; i < count; i++) {
-      //     papersbodies[0].classList.remove(classes.show)
-      //     papersfooters[0].classList.remove(classes.show)
-      //     papersheaders[i].removeEventListener('click', openPaper)
-      //   }
-      // }
-    }
-  }, [])
+  }, [isSuccess])
 
   if (isLoading) {
     return <span>Loading...</span>
@@ -72,7 +54,16 @@ function PapersContent({ paper }) {
     <Grid container className={'title'}>
       {data &&
         data.map((item, i) => {
-          return <PaperContainer paper={paper} item={item} key={i} />
+          return (
+            <PaperContainer
+              paper={paper}
+              item={item}
+              index={i}
+              key={i}
+              openIndex={openIndex}
+              setOpenIndex={setOpenIndex}
+            />
+          )
         })}
     </Grid>
   )

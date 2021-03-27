@@ -19,7 +19,7 @@ import ModalValidation from '../../../components/others.js/ModalValidation'
 import { useSelector } from 'react-redux'
 
 const StyledPaperFooter = styled(Grid)(({ theme, bgcolor }) => ({
-  display: 'none',
+  // display: 'none',
   background: 'gray',
   textAlign: 'right',
 }))
