@@ -12,6 +12,8 @@ module.exports.postEvent = async (req, res, next) => {
     return next(new BadRequest("datas missing"));
   }
 
+  console.log("action:", action);
+  console.log("evenID:", eventId);
   // check grade and role
   const isGradAllowed = grades.includes(grade);
 
@@ -37,7 +39,7 @@ module.exports.postEvent = async (req, res, next) => {
     } catch (err) {
       return next(err);
     }
-  } else if ((action === "update") & eventId) {
+  } else if (action === "update" && eventId) {
     // case update
 
     try {
@@ -53,7 +55,7 @@ module.exports.postEvent = async (req, res, next) => {
     } catch (err) {
       return next(err);
     }
-  } else if ((action === "delete") & eventId) {
+  } else if (action === "delete" && eventId) {
     try {
       let deletedEvent = await Event.findOneAndDelete({ _id: eventId });
       if (deletedEvent) {
