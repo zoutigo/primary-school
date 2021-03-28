@@ -5,6 +5,7 @@ import {
   Grid,
   IconButton,
   styled,
+  Tooltip,
   useTheme,
 } from '@material-ui/core'
 import Alert from '@material-ui/lab/Alert'
@@ -19,14 +20,14 @@ import ModalValidation from '../../../components/others.js/ModalValidation'
 import { useSelector } from 'react-redux'
 
 const StyledPaperFooter = styled(Grid)(({ theme, bgcolor }) => ({
-  // display: 'none',
-  background: 'gray',
-  textAlign: 'right',
+  boxSizing: 'border-box',
+  padding: '0px 1rem !important',
 }))
 
 const StyledIconButton = styled(IconButton)(({ color, theme }) => ({
   color: color,
   fontSize: '3rem',
+  marginLeft: '2rem !important',
 }))
 
 function PaperFooter({ paper, item }) {
@@ -110,19 +111,25 @@ function PaperFooter({ paper, item }) {
         modalheadtext="Confirmation de suppression"
         callback={mutatePaper}
       />
-      <ButtonGroup className="buttongroup">
-        <StyledIconButton
-          color={theme.palette.warning.main}
-          onClick={handleUpdate}
-        >
-          <UpdateIcon style={{ fontSize: 'inherit', color: 'inherit' }} />
-        </StyledIconButton>
-        <StyledIconButton
-          color={theme.palette.error.main}
-          onClick={handleDelete}
-        >
-          <HighlightOffIcon style={{ fontSize: 'inherit', color: 'inherit' }} />
-        </StyledIconButton>
+      <ButtonGroup>
+        <Tooltip title="Modifier" placement="bottom">
+          <StyledIconButton
+            color={theme.palette.warning.main}
+            onClick={handleUpdate}
+          >
+            <UpdateIcon style={{ fontSize: 'inherit', color: 'inherit' }} />
+          </StyledIconButton>
+        </Tooltip>
+        <Tooltip title="Supprimer" placement="bottom">
+          <StyledIconButton
+            color={theme.palette.error.main}
+            onClick={handleDelete}
+          >
+            <HighlightOffIcon
+              style={{ fontSize: 'inherit', color: 'inherit' }}
+            />
+          </StyledIconButton>
+        </Tooltip>
       </ButtonGroup>
     </StyledPaperFooter>
   )

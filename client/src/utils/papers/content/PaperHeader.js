@@ -1,30 +1,35 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import moment from 'moment'
 import { styled } from '@material-ui/styles'
-import { Grid, Typography } from '@material-ui/core'
+import { Box, Grid, Typography } from '@material-ui/core'
 
 const StyledPaperHeader = styled(Grid)(({ theme, bgcolor }) => ({
-  padding: '0.1em !important',
+  padding: '0px 1rem !important',
   background: 'whitesmoke',
-  pointerEvents: 'auto !important',
-  border: 'solid 1px green',
-  '& :last-child': {
-    display: 'flex !important',
-    flexDirection: 'raw',
-    justifyContent: 'flex-end',
-  },
+  cursor: 'pointer',
+}))
+
+const StyledEventsDetails = styled(Grid)(() => ({
+  display: 'flex',
+  justifyContent: 'space-between',
 }))
 
 function PaperHeader({
   date,
+  place,
   title,
   authorId,
   _id: paperId,
   setOpenIndex,
   openIndex,
   index,
+  paper,
 }) {
+  const { def } = paper
+  const id = `paper-header-${index}`
+
   const dateString = moment(date).format('DD/MM/YYYY')
+
   const handleClick = () => {
     const array = []
     for (let i = 0; i < openIndex.length; i++) {
@@ -36,15 +41,28 @@ function PaperHeader({
     }
     setOpenIndex(array)
   }
+
   return (
-    <StyledPaperHeader item container id="paper-header" onClick={handleClick}>
+    <StyledPaperHeader container id={id} onClick={handleClick}>
       <Grid item container>
         <Typography variant="body1">{title}</Typography>
       </Grid>
-      <Grid item container>
-        <Grid item>Publié le: {dateString}</Grid>
-        <Grid item>Par: {authorId}</Grid>
-      </Grid>
+      {def === 'articles' && (
+        <Grid item container>
+          <Grid item>Publié le: {dateString}</Grid>
+          <Grid item>Par: {authorId}</Grid>
+        </Grid>
+      )}
+      {def === 'events' && (
+        <StyledEventsDetails item container>
+          <Box>
+            <Typography variant="caption">Date: {dateString}</Typography>
+          </Box>
+          <Box>
+            <Typography variant="caption">{place}</Typography>
+          </Box>
+        </StyledEventsDetails>
+      )}
     </StyledPaperHeader>
   )
 }

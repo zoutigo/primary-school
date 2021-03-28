@@ -19,7 +19,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   overflow: 'hidden',
   padding: theme.spacing(2, 4, 3),
   width: '600px',
-  height: '300px',
+
   position: 'absolute',
   fontSize: '2rem',
   top: '50vh',
@@ -40,6 +40,7 @@ const StyledModalHeader = styled(Box)(({ theme, color }) => ({
   '&:first-child': {},
 }))
 const StyledModalBody = styled(Box)(({ theme, color }) => ({
+  boxSizing: 'border-box',
   width: '100%',
   paddingTop: '2rem !important',
   paddingBottom: '2rem !important',

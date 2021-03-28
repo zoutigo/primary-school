@@ -15,6 +15,7 @@ import { paperSchema } from '../../forms/validators'
 import { useUpdateMutationOptions } from '../../hooks'
 import DatePicker from './DatePicker'
 import { dateToTimeStamp } from '../../dates'
+import PageEditor from '../../tinyEditors/PageEditor'
 
 const useStyles = makeStyles({
   input: {
@@ -95,6 +96,7 @@ function PaperForm({
             description: description,
             date: dateToTimeStamp(date),
             place: place,
+            text: text,
           }
           break
 
@@ -161,19 +163,7 @@ function PaperForm({
             )}
           />
         </Grid>
-        {/* <Grid item container>
-          <label className={classes.label}>React Datepicker</label>
-          <Controller
-            as={ReactDatePicker}
-            control={control}
-            valueName="selected" // DateSelect value's name is selected
-            onChange={([selected]) => selected}
-            name="ReactDatepicker"
-            className="input"
-            placeholderText="Select date"
-            className={classes.input}
-          />
-        </Grid> */}
+
         <Grid item container>
           <Controller
             as={TextField}
@@ -216,18 +206,16 @@ function PaperForm({
             )}
           />
         </Grid>
-        {/* <Grid item container>
-          <TextField
-            id="date"
-            label="Birthday"
-            type="date"
-            defaultValue="2017-05-24"
-            className={classes.textField}
-            InputLabelProps={{
-              shrink: true,
-            }}
+        <Grid item container>
+          <Controller
+            name="text"
+            control={control}
+            defaultValue=""
+            render={({ onChange, value }) => (
+              <PageEditor onChange={onChange} value={value} />
+            )}
           />
-        </Grid> */}
+        </Grid>
 
         <Grid item container alignItems="center" justify="flex-end">
           <ButtonComponent

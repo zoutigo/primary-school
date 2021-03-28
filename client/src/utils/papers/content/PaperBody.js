@@ -4,14 +4,15 @@ import React from 'react'
 import ReactHtmlParser from 'react-html-parser'
 
 const StyledPaperBody = styled(Grid)(({ theme, bgcolor }) => ({
-  // display: 'none',
+  minWidth: '100%',
+  padding: '1rem !important',
 }))
 
 function PaperBody({ text }) {
+  const textcontent = ReactHtmlParser(text) || "il n'y a pas plus de détails"
   return (
-    <StyledPaperBody item id="paper-body">
-      {/* {ReactHtmlParser(text)} */}
-      HELLO EVERYONE
+    <StyledPaperBody item container id="paper-body">
+      {textcontent}
     </StyledPaperBody>
   )
 }
