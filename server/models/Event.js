@@ -22,7 +22,7 @@ const eventSchema = new Schema({
     default: "Ecole Saint Augustin",
   },
   date: {
-    type: Date,
+    type: Number,
     required: true,
   },
 

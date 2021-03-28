@@ -54,10 +54,14 @@ const PaperStyledForm = styled('form')(({ theme, bgcolor }) => ({
 
 function PaperForm({
   paper: { queryKey, poster, def },
+  currentdatas,
   setPaperForm,
   setPaperContent,
   setButtonGroup,
 }) {
+  const { text, place, date, title } = currentdatas
+  const initialdate = moment.unix(date)
+  console.log('initialdate', initialdate)
   const theme = useTheme()
   const token = useSelector((state) => state.user.Token.token)
   const classes = useStyles()
@@ -82,19 +86,18 @@ function PaperForm({
   })
 
   const onSubmit = async (datas) => {
-    console.log('datas', datas)
     const { text, title, description, place, date } = datas
     const options = {
       headers: { 'x-access-token': token },
     }
-    console.log(moment(date).unix)
+
     const requestbody = (definition) => {
       switch (definition) {
         case 'events':
           return {
             title: title,
             description: description,
-            date: dateToTimeStamp(date),
+            date: moment(date).valueOf(),
             place: place,
             text: text,
           }
@@ -148,7 +151,7 @@ function PaperForm({
             name="title"
             control={control}
             fullWidth
-            defaultValue=""
+            defaultValue={title}
             helperText="Full width!"
             label="Titre:"
             render={() => (
@@ -191,7 +194,7 @@ function PaperForm({
             name="place"
             control={control}
             fullWidth
-            defaultValue=""
+            defaultValue={place}
             helperText="Full width!"
             label="Lieu:"
             render={() => (

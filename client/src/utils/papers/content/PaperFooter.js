@@ -30,13 +30,14 @@ const StyledIconButton = styled(IconButton)(({ color, theme }) => ({
   marginLeft: '2rem !important',
 }))
 
-function PaperFooter({ paper, item }) {
+function PaperFooter({ paper, item, setShowform }) {
   const theme = useTheme()
   const { queryKey, poster } = paper
   const { _id: paperId } = item
   const token = useSelector((state) => state.user.Token.token)
 
   const [open, setOpen] = React.useState(false)
+  const [openupdatemodal, setOpenupdatemodal] = React.useState(false)
   const [openAlert, setOpenAlert] = React.useState(false)
 
   const {
@@ -72,11 +73,9 @@ function PaperFooter({ paper, item }) {
   }, [isError])
 
   const handleUpdate = () => {
-    alert('update')
+    setShowform(true)
   }
-  const handleDelete = () => {
-    setOpen(true)
-  }
+
   return (
     <StyledPaperFooter
       item
@@ -106,16 +105,22 @@ function PaperFooter({ paper, item }) {
         </Alert>
       </Collapse>
       <ModalValidation
+        modaltype="delete"
         open={open}
         setOpen={setOpen}
-        modalheadtext="Confirmation de suppression"
         callback={mutatePaper}
+      />
+      <ModalValidation
+        modaltype="update"
+        open={openupdatemodal}
+        setOpen={setOpenupdatemodal}
+        callback={handleUpdate}
       />
       <ButtonGroup>
         <Tooltip title="Modifier" placement="bottom">
           <StyledIconButton
             color={theme.palette.warning.main}
-            onClick={handleUpdate}
+            onClick={() => setOpenupdatemodal(true)}
           >
             <UpdateIcon style={{ fontSize: 'inherit', color: 'inherit' }} />
           </StyledIconButton>
@@ -123,7 +128,7 @@ function PaperFooter({ paper, item }) {
         <Tooltip title="Supprimer" placement="bottom">
           <StyledIconButton
             color={theme.palette.error.main}
-            onClick={handleDelete}
+            onClick={() => setOpen(true)}
           >
             <HighlightOffIcon
               style={{ fontSize: 'inherit', color: 'inherit' }}

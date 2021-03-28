@@ -32,7 +32,7 @@ module.exports.eventValidator = (datas) => {
 
       case "date":
         let dateSchema = Joi.object({
-          date: Joi.date().timestamp("javascript"),
+          date: Joi.number().integer(),
         });
         return dateSchema.validate(data);
 

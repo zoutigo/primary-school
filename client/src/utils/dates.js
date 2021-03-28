@@ -5,3 +5,8 @@ export const dateToTimeStamp = (date) => {
   const newDate = new Date(date).getTime()
   return newDate
 }
+
+export const timestampTodate = (date) => {
+  const unixdate = date
+  const newdate = new Date(date * 1000)
+}

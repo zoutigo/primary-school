@@ -14,7 +14,7 @@ import React from 'react'
 import ButtonComponent from './ButtonComponent'
 import FontAwesomeIcon from './FontAwesomeIcon'
 
-const StyledPaper = styled(Paper)(({ theme }) => ({
+const StyledPaper = styled(Paper)(({ theme, color }) => ({
   boxSizing: 'border-box',
   overflow: 'hidden',
   padding: theme.spacing(2, 4, 3),
@@ -26,7 +26,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   left: '50vw',
   transform: 'translate(-50%, -50%)',
   '& >:first-child': {
-    background: theme.palette.error.main,
+    background: color,
     paddingTop: '1rem',
     paddingBottom: '1rem',
   },
@@ -51,12 +51,40 @@ const StyledModalFooter = styled(Box)(({ theme, color }) => ({
   width: '100%',
 }))
 
-function ModalValidation({ open, setOpen, modalheadtext, callback }) {
+function ModalValidation({ open, setOpen, callback, modaltype }) {
   const theme = useTheme()
 
+  const costum = (type) => {
+    switch (type) {
+      case 'delete':
+        return {
+          title: 'Suppression document',
+          color: theme.palette.error.main,
+          actiontext: 'Je supprime',
+          question: 'souhaitez  vous supprimer cet éélément ?',
+        }
+
+      case 'update':
+        return {
+          title: 'Modification document',
+          color: theme.palette.info.main,
+          actiontext: 'Je mofifie',
+          question: 'souhaitez vous supprimer cet élément ?',
+        }
+
+      default:
+        return {
+          title: 'Demande de confirmation',
+          color: theme.palette.primary.main,
+          actiontext: 'Je confirme',
+          question: 'souhaitez vous continuer ?',
+        }
+    }
+  }
+
+  const { color: modalcolor, actiontext, question, title } = costum(modaltype)
   const handleConfirm = () => {
     setOpen(false)
-    console.log('hello')
     callback()
   }
   return (
@@ -73,15 +101,13 @@ function ModalValidation({ open, setOpen, modalheadtext, callback }) {
       }}
     >
       <Fade in={open}>
-        <StyledPaper>
+        <StyledPaper color={modalcolor}>
           <StyledModalHeader>
             <FontAwesomeIcon faclass="fa fa-exclamation-circle" />
-            <Typography variant="body1">{modalheadtext} </Typography>
+            <Typography variant="body1">{title} </Typography>
           </StyledModalHeader>
           <StyledModalBody>
-            <Typography variant="body1">
-              Souhaitez vous supprimer cet élément ?
-            </Typography>
+            <Typography variant="body1">{question}</Typography>
           </StyledModalBody>
           <StyledModalFooter>
             <ButtonComponent
@@ -91,8 +117,8 @@ function ModalValidation({ open, setOpen, modalheadtext, callback }) {
               onClick={() => setOpen(false)}
             />
             <ButtonComponent
-              text="Je supprimme"
-              background={theme.palette.error.main}
+              text={actiontext}
+              background={modalcolor}
               icon={<DeleteForeverIcon />}
               onClick={handleConfirm}
             />

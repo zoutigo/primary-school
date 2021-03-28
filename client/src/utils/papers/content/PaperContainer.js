@@ -1,6 +1,7 @@
 import { Box, Collapse, Grid } from '@material-ui/core'
 import { styled } from '@material-ui/styles'
 import React, { useEffect, useState } from 'react'
+import PaperForm from '../form/PaperForm'
 import PaperBody from './PaperBody'
 import PaperFooter from './PaperFooter'
 import PaperHeader from './PaperHeader'
@@ -15,9 +16,11 @@ const StyledGridItem = styled(Grid)(({ theme, bgcolor }) => ({
 
 function PaperContainer({ paper, item, index, openIndex, setOpenIndex }) {
   const { text, ...rest } = item
+  const [showform, setShowform] = useState(false)
 
   return (
     <StyledGridItem item container id="paper-container">
+      {showform && <PaperForm paper={paper} currentdatas={item} />}
       <Box boxShadow={3}>
         <PaperHeader
           {...rest}
@@ -35,7 +38,11 @@ function PaperContainer({ paper, item, index, openIndex, setOpenIndex }) {
           >
             <Grid container>
               <PaperBody text={text} />
-              <PaperFooter paper={paper} item={item} />
+              <PaperFooter
+                paper={paper}
+                item={item}
+                setShowform={setShowform}
+              />
             </Grid>
           </Collapse>
         </Grid>
