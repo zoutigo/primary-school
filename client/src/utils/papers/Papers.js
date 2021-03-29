@@ -40,6 +40,7 @@ function Papers({ paper }) {
             setPaperContent={setPaperContent}
             setPaperForm={setPaperForm}
             setButtonGroup={setButtonGroup}
+            action="create"
           />
         )}
       </Grid>

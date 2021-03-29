@@ -7,6 +7,10 @@ import * as serviceWorker from './serviceWorker'
 import { ThemeProvider } from '@material-ui/styles'
 import theme from './utils/theme'
 import { BrowserRouter as Router } from 'react-router-dom'
+import MomentUtils from '@date-io/moment'
+import moment from 'moment'
+import 'moment/locale/fr'
+import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 
 import { Provider } from 'react-redux'
 
@@ -16,13 +20,17 @@ import { PersistGate } from 'redux-persist/integration/react'
 
 const { store, persistor } = returnStoreAndPersistor()
 
+moment.locale('fr')
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <Router>
           <ThemeProvider theme={theme}>
-            <App />
+            <MuiPickersUtilsProvider utils={MomentUtils} locale="fr">
+              <App />
+            </MuiPickersUtilsProvider>
           </ThemeProvider>
         </Router>
       </PersistGate>

@@ -2,9 +2,9 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Grid, TextField } from '@material-ui/core'
 import { makeStyles, styled, useTheme } from '@material-ui/styles'
 import moment from 'moment'
-import React from 'react'
+import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import ReactDatePicker from 'react-datepicker'
+import { DatePicker } from '@material-ui/pickers'
 
 import { useMutation } from 'react-query'
 import { useSelector } from 'react-redux'
@@ -13,9 +13,10 @@ import BackspaceIcon from '@material-ui/icons/Backspace'
 import ButtonComponent from '../../../components/others.js/ButtonComponent'
 import { paperSchema } from '../../forms/validators'
 import { useUpdateMutationOptions } from '../../hooks'
-import DatePicker from './DatePicker'
+
 import { dateToTimeStamp } from '../../dates'
 import PageEditor from '../../tinyEditors/PageEditor'
+import DatePickerControl from '../../forms/DatePickerControl'
 
 const useStyles = makeStyles({
   input: {
@@ -54,14 +55,16 @@ const PaperStyledForm = styled('form')(({ theme, bgcolor }) => ({
 
 function PaperForm({
   paper: { queryKey, poster, def },
-  currentdatas,
+  datasformupdate,
   setPaperForm,
   setPaperContent,
   setButtonGroup,
+  action,
 }) {
-  const { text, place, date, title } = currentdatas
-  const initialdate = moment.unix(date)
-  console.log('initialdate', initialdate)
+  // const { place, date, title } = datasforupdate
+  // const initialdate = moment.unix(date)
+  // console.log('initialdate', initialdate)
+  const [selectedDate, handleDateChange] = useState(new Date())
   const theme = useTheme()
   const token = useSelector((state) => state.user.Token.token)
   const classes = useStyles()
@@ -87,6 +90,7 @@ function PaperForm({
 
   const onSubmit = async (datas) => {
     const { text, title, description, place, date } = datas
+
     const options = {
       headers: { 'x-access-token': token },
     }
@@ -97,7 +101,7 @@ function PaperForm({
           return {
             title: title,
             description: description,
-            date: moment(date).valueOf(),
+            date: date.valueOf(),
             place: place,
             text: text,
           }
@@ -107,10 +111,12 @@ function PaperForm({
           return {}
       }
     }
+
+    console.log('body:', requestbody(def))
     try {
       await mutate({
-        id: '',
-        action: 'create',
+        id: datasformupdate ? datasformupdate._id : '',
+        action: action,
         options: options,
         body: requestbody(def),
       })
@@ -151,7 +157,7 @@ function PaperForm({
             name="title"
             control={control}
             fullWidth
-            defaultValue={title}
+            defaultValue={datasformupdate ? datasformupdate.title : ''}
             helperText="Full width!"
             label="Titre:"
             render={() => (
@@ -167,7 +173,7 @@ function PaperForm({
           />
         </Grid>
 
-        <Grid item container>
+        {/* <Grid item container>
           <Controller
             as={TextField}
             name="date"
@@ -175,7 +181,9 @@ function PaperForm({
             label="date de l'évènement"
             className={classes.datepicker}
             type="date"
-            defaultValue="2017-05-24"
+            defaultValue={
+              datasforupdate ? moment(datasforupdate.date).format('DD/MM/YYYY') : ''
+            }
             onChange={([selected]) => selected}
             render={() => (
               <TextField
@@ -187,14 +195,50 @@ function PaperForm({
               />
             )}
           />
+        </Grid> */}
+
+        {/* <Grid item container>
+          <Controller
+            as={DatePicker}
+            name="date"
+            label="Date de l'évènement"
+            defaultValue={
+              datasformupdate
+                ? moment(datasformupdate.date).format('MMMM Do YYYY')
+                : moment().format('MMMM Do YYYY')
+            }
+            control={control}
+            onChange={([selected]) => selected}
+            // format="MMMM Do YYYY"
+            autoOk
+            render={() => (
+              <DatePicker
+                clearable
+                disableFuture
+                value={selectedDate}
+                onChange={handleDateChange}
+              />
+            )}
+          />
+        </Grid> */}
+        <Grid item container>
+          <DatePickerControl
+            control={control}
+            name="date"
+            label="Date de l'évènement"
+            initialvalue={datasformupdate ? datasformupdate.date : ''}
+          />
         </Grid>
+
         <Grid item container>
           <Controller
             as={TextField}
             name="place"
             control={control}
             fullWidth
-            defaultValue={place}
+            defaultValue={
+              datasformupdate ? datasformupdate.place : 'Ecole Saint Augustin'
+            }
             helperText="Full width!"
             label="Lieu:"
             render={() => (

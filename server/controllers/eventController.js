@@ -12,8 +12,6 @@ module.exports.postEvent = async (req, res, next) => {
     return next(new BadRequest("datas missing"));
   }
 
-  console.log("action:", action);
-  console.log("evenID:", eventId);
   // check grade and role
   const isGradAllowed = grades.includes(grade);
 
@@ -43,14 +41,19 @@ module.exports.postEvent = async (req, res, next) => {
     // case update
 
     try {
-      let updatedEvent = Event.findOneAndUpdate({ _id: eventId }, req.body, {
-        returnOriginal: false,
-      });
+      let updatedEvent = await Event.findOneAndUpdate(
+        { _id: eventId },
+        req.body,
+        {
+          returnOriginal: false,
+        }
+      );
       if (updatedEvent) {
         if (process.env.NODE_ENV === "production") {
           return res.status(200).send("event successfully updated");
         }
-        return res.status(200).send("event successfully updated");
+
+        return res.status(200).send(updatedEvent);
       }
     } catch (err) {
       return next(err);
@@ -82,7 +85,7 @@ module.exports.getEvents = async (req, res, next) => {
       req.query._id = req.query.id;
       delete req.query.id;
     }
-    const events = await Event.find(req.query);
+    const events = await Event.find(req.query).sort([["date", -1]]);
     events.length > 0
       ? res.status(200).send(events)
       : next(new NotFound("event not found"));

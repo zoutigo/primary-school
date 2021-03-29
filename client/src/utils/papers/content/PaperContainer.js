@@ -20,7 +20,9 @@ function PaperContainer({ paper, item, index, openIndex, setOpenIndex }) {
 
   return (
     <StyledGridItem item container id="paper-container">
-      {showform && <PaperForm paper={paper} currentdatas={item} />}
+      {showform && (
+        <PaperForm paper={paper} datasformupdate={item} action="update" />
+      )}
       <Box boxShadow={3}>
         <PaperHeader
           {...rest}
