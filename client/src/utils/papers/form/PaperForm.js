@@ -1,22 +1,32 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Grid, TextField } from '@material-ui/core'
 import { makeStyles, styled, useTheme } from '@material-ui/styles'
-import moment from 'moment'
-import React, { useState } from 'react'
+
+import React, { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { DatePicker } from '@material-ui/pickers'
 
 import { useMutation } from 'react-query'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import BackspaceIcon from '@material-ui/icons/Backspace'
 
 import ButtonComponent from '../../../components/others.js/ButtonComponent'
 import { paperSchema } from '../../forms/validators'
-import { useUpdateMutationOptions } from '../../hooks'
+import {
+  useDispatchOnMount,
+  useDispatchOnMutation,
+  useUpdateMutationOptions,
+} from '../../hooks'
 
-import { dateToTimeStamp } from '../../dates'
 import PageEditor from '../../tinyEditors/PageEditor'
 import DatePickerControl from '../../forms/DatePickerControl'
+import InputTextControl from '../../forms/InputTextControl'
+import InputText from '../../forms/InputText'
+import {
+  setShowPapersForm,
+  setShowPapersInnerForm,
+  setShowPapersItems,
+  setShowPapersList,
+} from '../../../redux'
 
 const useStyles = makeStyles({
   input: {
@@ -53,17 +63,11 @@ const PaperStyledForm = styled('form')(({ theme, bgcolor }) => ({
   },
 }))
 
-function PaperForm({
-  paper: { queryKey, poster, def },
-  datasformupdate,
-  setPaperForm,
-  setPaperContent,
-  setButtonGroup,
-  action,
-}) {
-  // const { place, date, title } = datasforupdate
-  // const initialdate = moment.unix(date)
-  // console.log('initialdate', initialdate)
+function PaperForm({ paper: { queryKey, poster, def }, action }) {
+  const dispatch = useDispatch()
+  const {
+    currentPaperItem: { datas: currentDatas },
+  } = useSelector((state) => state.papers)
   const [selectedDate, handleDateChange] = useState(new Date())
   const theme = useTheme()
   const token = useSelector((state) => state.user.Token.token)
@@ -115,7 +119,7 @@ function PaperForm({
     console.log('body:', requestbody(def))
     try {
       await mutate({
-        id: datasformupdate ? datasformupdate._id : '',
+        id: currentDatas ? currentDatas._id : '',
         action: action,
         options: options,
         body: requestbody(def),
@@ -125,139 +129,77 @@ function PaperForm({
     }
   }
 
-  // close the form
-  React.useEffect(() => {
-    if (isMutationSuccess) {
-      setPaperForm(false)
-      setPaperContent(true)
-      setButtonGroup(true)
-    }
-  }, [isMutationSuccess])
+  // close the form if successfull mutation
+
+  useDispatchOnMutation(isMutationSuccess, setShowPapersList, true)
+  useDispatchOnMutation(isMutationSuccess, setShowPapersForm, false)
+  useDispatchOnMutation(isMutationSuccess, setShowPapersItems, true)
+  useDispatchOnMutation(isMutationSuccess, setShowPapersInnerForm, false)
+
+  // Hide papers items on form mount
+
+  useDispatchOnMount(setShowPapersItems, false)
 
   return (
     <PaperStyledForm onSubmit={handleSubmit(onSubmit)}>
       <Grid container>
-        <Grid item container alignItems="center">
-          <ButtonComponent
-            disabled={isSubmitting}
-            icon={<BackspaceIcon />}
-            background={theme.palette.info.main}
-            width={'200px'}
-            text={'retour'}
-            onClick={() => {
-              setPaperForm(false)
-              setPaperContent(true)
-              setButtonGroup(true)
-            }}
-          />
-        </Grid>
+        {action === 'create' && (
+          <Grid item container alignItems="center">
+            <ButtonComponent
+              disabled={isSubmitting}
+              icon={<BackspaceIcon />}
+              background={theme.palette.info.main}
+              width={'200px'}
+              text={'retour'}
+              onClick={() => {
+                dispatch(setShowPapersForm(false))
+                dispatch(setShowPapersList(true))
+                dispatch(setShowPapersItems(true))
+              }}
+            />
+          </Grid>
+        )}
+
         <Grid item container>
-          <Controller
-            as={TextField}
+          <InputTextControl
             name="title"
             control={control}
-            fullWidth
-            defaultValue={datasformupdate ? datasformupdate.title : ''}
-            helperText="Full width!"
-            label="Titre:"
-            render={() => (
-              <TextField
-                id="standard-full-width"
-                style={{ margin: '8px', minHeight: '3rem' }}
-                margin="normal"
-                InputLabelProps={{
-                  shrink: false,
-                }}
-              />
-            )}
+            initialvalue={currentDatas ? currentDatas.title : ''}
+            helperText="au moins 10 caractères"
+            label="Titrememnt"
+            width="100%"
           />
         </Grid>
 
-        {/* <Grid item container>
-          <Controller
-            as={TextField}
-            name="date"
-            control={control}
-            label="date de l'évènement"
-            className={classes.datepicker}
-            type="date"
-            defaultValue={
-              datasforupdate ? moment(datasforupdate.date).format('DD/MM/YYYY') : ''
-            }
-            onChange={([selected]) => selected}
-            render={() => (
-              <TextField
-                id="date-picker"
-                margin="normal"
-                InputLabelProps={{
-                  shrink: false,
-                }}
-              />
-            )}
-          />
-        </Grid> */}
-
-        {/* <Grid item container>
-          <Controller
-            as={DatePicker}
-            name="date"
-            label="Date de l'évènement"
-            defaultValue={
-              datasformupdate
-                ? moment(datasformupdate.date).format('MMMM Do YYYY')
-                : moment().format('MMMM Do YYYY')
-            }
-            control={control}
-            onChange={([selected]) => selected}
-            // format="MMMM Do YYYY"
-            autoOk
-            render={() => (
-              <DatePicker
-                clearable
-                disableFuture
-                value={selectedDate}
-                onChange={handleDateChange}
-              />
-            )}
-          />
-        </Grid> */}
         <Grid item container>
           <DatePickerControl
             control={control}
             name="date"
             label="Date de l'évènement"
-            initialvalue={datasformupdate ? datasformupdate.date : ''}
+            initialdate={
+              currentDatas ? new Date(currentDatas.date) : new Date()
+            }
+          />
+        </Grid>
+
+        <Grid item container>
+          <InputTextControl
+            name="place"
+            control={control}
+            initialvalue={
+              currentDatas ? currentDatas.place : 'Ecole Saint Augustin'
+            }
+            helperText="au moins 10 caractères"
+            label="Lieu de l'évènement"
+            width="50%"
           />
         </Grid>
 
         <Grid item container>
           <Controller
-            as={TextField}
-            name="place"
-            control={control}
-            fullWidth
-            defaultValue={
-              datasformupdate ? datasformupdate.place : 'Ecole Saint Augustin'
-            }
-            helperText="Full width!"
-            label="Lieu:"
-            render={() => (
-              <TextField
-                id="event-place"
-                style={{ margin: '8px', minHeight: '3rem' }}
-                margin="normal"
-                InputLabelProps={{
-                  shrink: false,
-                }}
-              />
-            )}
-          />
-        </Grid>
-        <Grid item container>
-          <Controller
             name="text"
             control={control}
-            defaultValue=""
+            defaultValue={currentDatas ? currentDatas.text : ''}
             render={({ onChange, value }) => (
               <PageEditor onChange={onChange} value={value} />
             )}

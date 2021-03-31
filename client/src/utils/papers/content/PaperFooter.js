@@ -17,7 +17,13 @@ import ButtonComponent from '../../../components/others.js/ButtonComponent'
 import { isError, useMutation } from 'react-query'
 import { useUpdateMutationOptions } from '../../hooks'
 import ModalValidation from '../../../components/others.js/ModalValidation'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  setShowPapersForm,
+  setShowPapersInnerForm,
+  setShowPapersItems,
+  setShowPapersList,
+} from '../../../redux'
 
 const StyledPaperFooter = styled(Grid)(({ theme, bgcolor }) => ({
   boxSizing: 'border-box',
@@ -30,8 +36,10 @@ const StyledIconButton = styled(IconButton)(({ color, theme }) => ({
   marginLeft: '2rem !important',
 }))
 
-function PaperFooter({ paper, item, setShowform }) {
+function PaperFooter({ paper, item }) {
   const theme = useTheme()
+  const dispatch = useDispatch()
+
   const { queryKey, poster } = paper
   const { _id: paperId } = item
   const token = useSelector((state) => state.user.Token.token)
@@ -73,7 +81,9 @@ function PaperFooter({ paper, item, setShowform }) {
   }, [isError])
 
   const handleUpdate = () => {
-    setShowform(true)
+    dispatch(setShowPapersForm(true))
+    dispatch(setShowPapersList(false))
+    dispatch(setShowPapersItems(false))
   }
 
   return (

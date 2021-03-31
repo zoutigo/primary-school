@@ -1,48 +1,51 @@
 import { Grid } from '@material-ui/core'
+import { TramRounded } from '@material-ui/icons'
 import SendIcon from '@material-ui/icons/Send'
 import { useTheme } from '@material-ui/styles'
 
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import ButtonComponent from '../../components/others.js/ButtonComponent'
+import {
+  setShowPapersForm,
+  setShowPapersItems,
+  setShowPapersList,
+} from '../../redux/papers/papersActions'
 import { StyledGridTabContainer } from '../componentsStyled'
+import { useDispatchOnMount } from '../hooks'
 import PapersContent from './content/PapersContent'
 import PaperForm from './form/PaperForm'
 
 function Papers({ paper }) {
   const theme = useTheme()
-  const [paperContent, setPaperContent] = useState(true)
-  const [paperForm, setPaperForm] = useState(false)
-  const [buttonGroup, setButtonGroup] = useState(true)
+  const dispatch = useDispatch()
+  const { showPaperForm, showPaperList, currentPaperItem } = useSelector(
+    (state) => state.papers
+  )
+  const { showPaperItems } = useSelector((state) => state.papers)
+
+  useDispatchOnMount(setShowPapersItems, true)
 
   return (
     <StyledGridTabContainer container>
       <Grid item container md={12} lg={12}>
-        {paperContent && <PapersContent paper={paper} />}
+        {showPaperList && <PapersContent paper={paper} />}
       </Grid>
       <Grid item container>
-        {buttonGroup && (
+        {showPaperList && showPaperItems && (
           <ButtonComponent
             text={'poster un evenement'}
             icon={<SendIcon />}
             background={theme.palette.primary.main}
             onClick={() => {
-              setPaperContent(false)
-              setPaperForm(true)
-              setButtonGroup(false)
+              dispatch(setShowPapersForm(true))
+              dispatch(setShowPapersList(false))
             }}
           />
         )}
       </Grid>
       <Grid item container>
-        {paperForm && (
-          <PaperForm
-            paper={paper}
-            setPaperContent={setPaperContent}
-            setPaperForm={setPaperForm}
-            setButtonGroup={setButtonGroup}
-            action="create"
-          />
-        )}
+        {showPaperForm && <PaperForm paper={paper} action="create" />}
       </Grid>
     </StyledGridTabContainer>
   )

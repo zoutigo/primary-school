@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 import moment from 'moment'
 import { styled } from '@material-ui/styles'
 import { Box, Grid, Typography } from '@material-ui/core'
+import { useDispatch } from 'react-redux'
+import { setCurrentPaperItem } from '../../../redux'
 
 const StyledPaperHeader = styled(Grid)(({ theme, bgcolor }) => ({
   padding: '0px 1rem !important',
@@ -20,26 +22,19 @@ function PaperHeader({
   title,
   authorId,
   _id: paperId,
-  setOpenIndex,
-  openIndex,
+
   index,
   paper,
+  item,
 }) {
+  const dispatch = useDispatch()
   const { def } = paper
   const id = `paper-header-${index}`
 
   const dateString = moment(date).format('DD/MM/YYYY')
 
   const handleClick = () => {
-    const array = []
-    for (let i = 0; i < openIndex.length; i++) {
-      if (index === i) {
-        array.push(1)
-      } else {
-        array.push(0)
-      }
-    }
-    setOpenIndex(array)
+    dispatch(setCurrentPaperItem({ index: index, datas: item }))
   }
 
   return (

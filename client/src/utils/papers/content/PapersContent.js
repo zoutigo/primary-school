@@ -1,42 +1,21 @@
 import { Grid } from '@material-ui/core'
+import { TrafficRounded } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/styles'
 import React, { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
+import { setCurrentPaperItem } from '../../../redux'
+import { useDispatchOnMutation } from '../../hooks'
 import PaperContainer from './PaperContainer'
 
-const useStyles = makeStyles(() => ({
-  hide: {
-    display: 'none',
-  },
-  show: {
-    display: 'block',
-  },
-}))
-
-function PapersContent({ paper }) {
-  const classes = useStyles()
-
-  const [openIndex, setOpenIndex] = useState(false)
+function PapersContent({ paper, ...rest }) {
   const { queryKey, queryParams, fetcher } = paper
   const { isLoading, isError, data, error, isSuccess } = useQuery(
     queryKey,
     () => fetcher(queryParams)
   )
 
-  useEffect(() => {
-    if (isSuccess && data && data.length > 0) {
-      const array = []
-      for (let i = 0; i < data.length; i++) {
-        if (i == 0) {
-          array.push(1)
-        } else {
-          array.push(0)
-        }
-      }
-
-      setOpenIndex(array)
-    }
-  }, [isSuccess])
+  const item = data ? { index: 0, datas: data[0] } : null
+  useDispatchOnMutation(isSuccess, setCurrentPaperItem, item)
 
   if (isLoading) {
     return <span>Loading...</span>
@@ -60,8 +39,7 @@ function PapersContent({ paper }) {
               item={item}
               index={i}
               key={i}
-              openIndex={openIndex}
-              setOpenIndex={setOpenIndex}
+              {...rest}
             />
           )
         })}

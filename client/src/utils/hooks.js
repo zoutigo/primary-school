@@ -15,6 +15,22 @@ export const useDispatchOnRouteChange = (someFetchActionCreator) => {
   }, [pathname])
 }
 
+export const useDispatchOnMutation = (mutationStatus, action, value) => {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    if (mutationStatus) {
+      dispatch(action(value))
+    }
+  }, [mutationStatus])
+}
+
+export const useDispatchOnMount = (action, value) => {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(action(value))
+  }, [])
+}
+
 export const useScroll = () => {
   const dispatch = useDispatch()
   React.useEffect(() => {

@@ -1,4 +1,4 @@
-import { Box, Button, ButtonGroup, Grid } from '@material-ui/core'
+import { Box, Button, ButtonGroup, Grid, TextField } from '@material-ui/core'
 import { styled } from '@material-ui/styles'
 import { NavLink } from 'react-router-dom'
 
@@ -40,3 +40,11 @@ export const StyledNavLink = styled(NavLink)(() => ({
 export const StyledHomeSection = styled(Grid)(({ theme }) => ({
   padding: '2rem 3rem !important',
 }))
+export const StyledInputTextFieldControl = styled(TextField)(
+  ({ theme, width }) => ({
+    margin: '8px',
+    minHeight: '3rem',
+    background: 'yellow',
+    width: width,
+  })
+)
