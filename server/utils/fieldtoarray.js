@@ -1,5 +1,4 @@
 module.exports.fieldsforvalidator = (request) => {
-  console.log("request", request);
   const fields = [];
   for (let i = 0; i < Object.keys(request).length; i++) {
     let object = {};

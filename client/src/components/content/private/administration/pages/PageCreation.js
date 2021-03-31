@@ -12,7 +12,7 @@ import {
 } from '../../../../../utils/forms/styledComponents'
 import TextInput from '../../../../../utils/forms/TextInput'
 
-import { apiCreatePage } from '../../../../../utils/api'
+import { apiPostPage } from '../../../../../utils/api'
 import { useSelector } from 'react-redux'
 import PageEditor from '../../../../../utils/tinyEditors/PageEditor'
 import { pageCreationSchema } from '../../../../../utils/forms/validators'
@@ -37,7 +37,7 @@ function PageCreation() {
     })
   const token = useSelector((state) => state.user.Token.token)
 
-  const { mutate, info } = useMutation(apiCreatePage, {
+  const { mutate, info } = useMutation(apiPostPage, {
     onSuccess: (data) => {
       queryClient.invalidateQueries('page-list')
       notify()

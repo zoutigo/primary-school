@@ -54,13 +54,8 @@ export const apiFecthTeam = async () => {
   let result = await axios.get(URL)
   return result
 }
-export const apiFecthPage = async (obj) => {
-  let URL = `${process.env.REACT_APP_ENDPOINT}/pages/${obj.queryKey[1].alias}`
-  let { data } = await axios.get(URL)
 
-  return data
-}
-export const apiCreatePage = async (obj) => {
+export const apiPostPage = async (obj) => {
   let URL = `${process.env.REACT_APP_ENDPOINT}/pages`
   let result = await axios.post(URL, obj.body, obj.options)
   return result
@@ -112,5 +107,12 @@ export const apiFetchEvents = async (param) => {
 export const apiPostEvents = async ({ id, action, body, options }) => {
   let URL = `${process.env.REACT_APP_ENDPOINT}/events?action=${action}&id=${id}`
   let { data } = await axios.post(URL, body, options)
+  return data
+}
+
+export const apiFecthPage = async (obj) => {
+  let URL = `${process.env.REACT_APP_ENDPOINT}/pages/${obj.queryKey[1].alias}`
+  let { data } = await axios.get(URL)
+
   return data
 }

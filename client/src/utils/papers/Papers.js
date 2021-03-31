@@ -1,5 +1,4 @@
 import { Grid } from '@material-ui/core'
-import { TramRounded } from '@material-ui/icons'
 import SendIcon from '@material-ui/icons/Send'
 import { useTheme } from '@material-ui/styles'
 

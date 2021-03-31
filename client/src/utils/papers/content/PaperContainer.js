@@ -17,7 +17,7 @@ const StyledGridItem = styled(Grid)(({ theme, bgcolor }) => ({
 function PaperContainer({ paper, item, index }) {
   const { text, ...rest } = item
 
-  const { showPaperItems, showPaperInnerForm, currentPaperItem } = useSelector(
+  const { showPaperItems, currentPaperItem } = useSelector(
     (state) => state.papers
   )
 

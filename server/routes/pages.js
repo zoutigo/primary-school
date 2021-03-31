@@ -1,26 +1,18 @@
+const router = require("express").Router();
 const {
-  listPages,
   deletePage,
-  updatePage,
-  createPage,
-  getPage,
+  postPage,
+  getPages,
 } = require("../controllers/pageController");
 const { verifyToken } = require("../validators/tokens");
-const router = require("express").Router();
 
-// create page
-router.post("/", verifyToken, createPage);
+// Post Pages
+router.post("/", verifyToken, postPage);
 
-// get page
-router.get("/:filter", getPage);
-
-// update page
-router.put("/:id", verifyToken, updatePage);
+// get pages
+router.get("/:id?", getPages);
 
 // delete page
 router.delete("/:id", verifyToken, deletePage);
-
-// list pages
-router.get("/", listPages);
 
 module.exports = router;

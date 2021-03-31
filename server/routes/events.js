@@ -6,10 +6,10 @@ const {
 } = require("../controllers/eventController");
 const { verifyToken } = require("../validators/tokens");
 
-// Get event list
+// Get events
 router.get("/:id?", getEvents);
 
-// Create a event
+// Post events
 router.post("/:id?", verifyToken, postEvent);
 
 // Delete a event

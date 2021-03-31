@@ -13,9 +13,10 @@ import TextInput from '../../../../../utils/forms/TextInput'
 import { useToggle } from '../../../../../utils/hooks'
 import TinyEditor from '../../../../../utils/TinyEditor'
 import SelectInput from '../../../../../utils/forms/SelectInput'
-import { apiCreatePage } from '../../../../../utils/api'
+
 import { useHistory } from 'react-router'
 import { useSelector } from 'react-redux'
+import { apiPostPage } from '../../../../../utils/api'
 
 const pagesList = [
   ['apel', 'apel'],
@@ -66,7 +67,7 @@ function SitePage() {
       headers: { 'x-access-token': token },
     }
 
-    await apiCreatePage(datas, options).then((response) => {
+    await apiPostPage(datas, options).then((response) => {
       if (response.status === 201) {
         setDatas('')
         reset()

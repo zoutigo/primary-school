@@ -6,48 +6,67 @@ const {
   NotFound,
   Unauthorized,
 } = require("../utils/errors");
+const { fieldsforvalidator } = require("../utils/fieldtoarray");
 const { pageValidator } = require("../validators/pages");
 
-module.exports.createPage = async (req, res, next) => {
-  const { grade, _id: userId } = req.user;
+module.exports.postPage = async (req, res, next) => {
+  const { grade, roles, _id: userId } = req.user;
+  const { id: pageId, action } = req.query;
   const grades = ["admin"];
   if (!grades.includes(grade) && process.NODE_ENV === "production") {
     return next(new Unauthorized("unautorized operation"));
   }
 
-  const { text, alias, title } = req.body;
-  if (!text || !alias || !title)
-    return next(new BadRequest("missing text or alias or title"));
-
-  if (alias) {
-    let { error } = await pageValidator({ alias: alias });
-    if (error) return next(new BadRequest(`${error.details[0].message}`));
-  }
-  if (text) {
-    let { error } = await pageValidator({ text: text });
-    if (error) return next(new BadRequest(`${error.details[0].message}`));
-  }
-  if (title) {
-    let { error } = await pageValidator({ title: title });
-    if (error) return next(new BadRequest(`${error.details[0].message}`));
+  const fields = fieldsforvalidator(req.body);
+  const errors = pageValidator(fields);
+  if (errors.length > 0) {
+    return next(new BadRequest(errors));
   }
 
-  try {
-    const newPage = new Page({
-      text: text,
-      alias: alias,
-      title: title,
-    });
+  if (action === "create") {
+    // case page creation
+    const page = req.body;
+    page.author = userId;
+    let newPage = new Page(page);
+    try {
+      let savedPage = await newPage.save();
+      if (savedPage) {
+        if (process.env.NODE_ENV === "production") {
+          return res.status(201).send("page successfully created");
+        }
+        return res.status(201).send(savedPage);
+      }
+    } catch (err) {
+      return next(err);
+    }
+  } else if (action === "update" && pageId) {
+    // case update
 
-    const createdPage = await newPage.save();
-    if (!createdPage) return next();
+    try {
+      let updatedPage = await Page.findOneAndUpdate({ _id: pageId }, req.body, {
+        returnOriginal: false,
+      });
+      if (updatedPage) {
+        if (process.env.NODE_ENV === "production") {
+          return res.status(200).send("page successfully updated");
+        }
 
-    res.status(201).send(createdPage);
-  } catch (err) {
-    if (err.code === 11000)
-      return next(new BadRequest("Dupliclate not allowed on alias"));
-    // return next(err);
-    return next(err);
+        return res.status(200).send(updatedPage);
+      }
+    } catch (err) {
+      return next(err);
+    }
+  } else if (action === "delete" && pageId) {
+    try {
+      let deletedPage = await Page.findOneAndDelete({ _id: pageId });
+      if (deletedPage) {
+        return res.status(200).send("page deleted successfully");
+      }
+    } catch (err) {
+      return next(err);
+    }
+  } else {
+    return next(new BadRequest("params missing"));
   }
 };
 module.exports.updatePage = async (req, res, next) => {
@@ -125,27 +144,25 @@ module.exports.listPages = async (req, res, next) => {
   }
 };
 
-module.exports.getPage = async (req, res, next) => {
-  const { filter } = req.params;
+module.exports.getPages = async (req, res, next) => {
+  const fields = fieldsforvalidator(req.query);
+  const errors = pageValidator(fields);
 
-  let query = {};
-  switch (filter.length) {
-    case 24:
-      query._id = filter;
-      break;
-
-    default:
-      query.alias = filter;
-      break;
+  if (errors.length > 0) {
+    return next(new BadRequest(errors));
   }
 
   try {
-    let page = await Page.find(query);
-    if (page.length === 0)
-      return res.status(204).send("no page with this filter");
-    return res.status(200).send(page);
+    if (req.query.id) {
+      req.query._id = req.query.id;
+      delete req.query.id;
+    }
+    const pages = await Page.find(req.query);
+    pages.length > 0
+      ? res.status(200).send(pages)
+      : next(new NotFound("pages not found"));
   } catch (err) {
-    return next(err);
+    next(err);
   }
 };
 module.exports.deletePage = async (req, res, next) => {

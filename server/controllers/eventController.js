@@ -12,9 +12,6 @@ module.exports.postEvent = async (req, res, next) => {
     return next(new BadRequest("datas missing"));
   }
 
-  // check grade and role
-  const isGradAllowed = grades.includes(grade);
-
   const fields = fieldsforvalidator(req.body);
   const errors = eventValidator(fields);
   if (errors.length > 0) {

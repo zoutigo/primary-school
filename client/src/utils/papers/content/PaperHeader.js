@@ -22,7 +22,6 @@ function PaperHeader({
   title,
   authorId,
   _id: paperId,
-
   index,
   paper,
   item,
