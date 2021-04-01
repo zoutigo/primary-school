@@ -5,6 +5,7 @@ const initialState = {
   showPaperInnerForm: false,
   showPaperList: true,
   showPaperItems: true,
+  formAction: '',
   currentPaperItem: {},
 }
 
@@ -20,5 +21,8 @@ export const papersReducers = createReducer(initialState, {
   },
   SET_CURRENT_PAPER_ITEM: (state, action) => {
     state.currentPaperItem = action.payload
+  },
+  SET_FORM_ACTION: (state, action) => {
+    state.formAction = action.payload
   },
 })

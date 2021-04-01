@@ -5,6 +5,7 @@ import {
   SET_SHOW_PAPERS_ITEMS,
   SET_SHOW_PAPERS_INNER_FORM,
   SET_CURRENT_PAPER_ITEM,
+  SET_FORM_ACTION,
 } from './papersActionsTypes'
 
 export const setShowPapersList = (value) => {
@@ -41,5 +42,11 @@ export const setCurrentPaperItem = (datas) => {
   return {
     type: SET_CURRENT_PAPER_ITEM,
     payload: datas,
+  }
+}
+export const setFormAction = (action) => {
+  return {
+    type: SET_FORM_ACTION,
+    payload: action,
   }
 }

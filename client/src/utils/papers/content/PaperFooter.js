@@ -19,6 +19,8 @@ import { useUpdateMutationOptions } from '../../hooks'
 import ModalValidation from '../../../components/others.js/ModalValidation'
 import { useDispatch, useSelector } from 'react-redux'
 import {
+  setCurrentPaperItem,
+  setFormAction,
   setShowPapersForm,
   setShowPapersInnerForm,
   setShowPapersItems,
@@ -36,7 +38,7 @@ const StyledIconButton = styled(IconButton)(({ color, theme }) => ({
   marginLeft: '2rem !important',
 }))
 
-function PaperFooter({ paper, item }) {
+function PaperFooter({ paper, item, index }) {
   const theme = useTheme()
   const dispatch = useDispatch()
 
@@ -84,6 +86,8 @@ function PaperFooter({ paper, item }) {
     dispatch(setShowPapersForm(true))
     dispatch(setShowPapersList(false))
     dispatch(setShowPapersItems(false))
+    dispatch(setFormAction('update'))
+    dispatch(setCurrentPaperItem({ index: index, datas: item }))
   }
 
   return (

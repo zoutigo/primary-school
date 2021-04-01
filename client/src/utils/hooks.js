@@ -31,6 +31,15 @@ export const useDispatchOnMount = (action, value) => {
   }, [])
 }
 
+export const useDispatchOnUnmount = (action, value) => {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    return () => {
+      dispatch(action(value))
+    }
+  }, [])
+}
+
 export const useScroll = () => {
   const dispatch = useDispatch()
   React.useEffect(() => {

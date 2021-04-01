@@ -55,12 +55,6 @@ export const apiFecthTeam = async () => {
   return result
 }
 
-export const apiPostPage = async (obj) => {
-  let URL = `${process.env.REACT_APP_ENDPOINT}/pages`
-  let result = await axios.post(URL, obj.body, obj.options)
-  return result
-}
-
 export const apiFecthAllPages = async () => {
   let URL = `${process.env.REACT_APP_ENDPOINT}/pages`
   let { data } = await axios.get(URL)
@@ -91,12 +85,6 @@ export const apiFetchPaper = async (param) => {
   return data
 }
 
-export const apiPostPaper = async ({ id, body, options }) => {
-  let URL = `${process.env.REACT_APP_ENDPOINT}/papers/${id}`
-  let { data } = await axios.post(URL, body, options)
-  return data
-}
-
 export const apiFetchEvents = async (param) => {
   let URL = `${process.env.REACT_APP_ENDPOINT}/events?${param}`
   let { data } = await axios.get(URL)
@@ -110,9 +98,22 @@ export const apiPostEvents = async ({ id, action, body, options }) => {
   return data
 }
 
-export const apiFecthPage = async (obj) => {
-  let URL = `${process.env.REACT_APP_ENDPOINT}/pages/${obj.queryKey[1].alias}`
+export const apiFecthPage = async (param) => {
+  let URL = `${process.env.REACT_APP_ENDPOINT}/pages?${param}`
   let { data } = await axios.get(URL)
 
   return data
+}
+
+export const apiPostPaper = async ({ id, body, options, action }) => {
+  let URL = `${process.env.REACT_APP_ENDPOINT}/papers?action=${action}&id=${id}`
+  let { data } = await axios.post(URL, body, options)
+  return data
+}
+
+export const apiPostPage = async ({ id, body, options, action }) => {
+  console.log('action:', action)
+  let URL = `${process.env.REACT_APP_ENDPOINT}/pages?action=${action}&id=${id}`
+  let result = await axios.post(URL, body, options)
+  return result
 }

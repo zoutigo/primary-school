@@ -16,6 +16,7 @@ const StyledGridItem = styled(Grid)(({ theme, bgcolor }) => ({
 
 function PaperContainer({ paper, item, index }) {
   const { text, ...rest } = item
+  const { def } = paper
 
   const { showPaperItems, currentPaperItem } = useSelector(
     (state) => state.papers
@@ -25,7 +26,9 @@ function PaperContainer({ paper, item, index }) {
     <StyledGridItem item container id="paper-container">
       {showPaperItems && (
         <Box boxShadow={3}>
-          <PaperHeader {...rest} paper={paper} index={index} item={item} />
+          {def !== 'page' && (
+            <PaperHeader {...rest} paper={paper} index={index} item={item} />
+          )}
           <Grid item container>
             <Collapse
               in={index === currentPaperItem.index}
@@ -35,7 +38,7 @@ function PaperContainer({ paper, item, index }) {
             >
               <Grid container>
                 <PaperBody text={text} />
-                <PaperFooter paper={paper} item={item} />
+                <PaperFooter paper={paper} item={item} index={index} />
               </Grid>
             </Collapse>
           </Grid>

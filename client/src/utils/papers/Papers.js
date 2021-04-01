@@ -6,6 +6,7 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import ButtonComponent from '../../components/others.js/ButtonComponent'
 import {
+  setFormAction,
   setShowPapersForm,
   setShowPapersItems,
   setShowPapersList,
@@ -22,7 +23,7 @@ function Papers({ paper }) {
     (state) => state.papers
   )
   const { showPaperItems } = useSelector((state) => state.papers)
-
+  const { def } = paper
   useDispatchOnMount(setShowPapersItems, true)
 
   return (
@@ -31,7 +32,7 @@ function Papers({ paper }) {
         {showPaperList && <PapersContent paper={paper} />}
       </Grid>
       <Grid item container>
-        {showPaperList && showPaperItems && (
+        {showPaperList && showPaperItems && def !== 'page' && (
           <ButtonComponent
             text={'poster un evenement'}
             icon={<SendIcon />}
@@ -39,12 +40,13 @@ function Papers({ paper }) {
             onClick={() => {
               dispatch(setShowPapersForm(true))
               dispatch(setShowPapersList(false))
+              dispatch(setFormAction('create'))
             }}
           />
         )}
       </Grid>
       <Grid item container>
-        {showPaperForm && <PaperForm paper={paper} action="create" />}
+        {showPaperForm && <PaperForm paper={paper} />}
       </Grid>
     </StyledGridTabContainer>
   )

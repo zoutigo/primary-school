@@ -14,6 +14,7 @@ import { paperSchema } from '../../forms/validators'
 import {
   useDispatchOnMount,
   useDispatchOnMutation,
+  useDispatchOnUnmount,
   useUpdateMutationOptions,
 } from '../../hooks'
 
@@ -22,6 +23,7 @@ import DatePickerControl from '../../forms/DatePickerControl'
 import InputTextControl from '../../forms/InputTextControl'
 import InputText from '../../forms/InputText'
 import {
+  setFormAction,
   setShowPapersForm,
   setShowPapersInnerForm,
   setShowPapersItems,
@@ -63,9 +65,10 @@ const PaperStyledForm = styled('form')(({ theme, bgcolor }) => ({
   },
 }))
 
-function PaperForm({ paper: { queryKey, poster, def }, action }) {
+function PaperForm({ paper: { queryKey, poster, def } }) {
   const dispatch = useDispatch()
   const {
+    formAction: action,
     currentPaperItem: { datas: currentDatas },
   } = useSelector((state) => state.papers)
   const [selectedDate, handleDateChange] = useState(new Date())
@@ -93,7 +96,7 @@ function PaperForm({ paper: { queryKey, poster, def }, action }) {
   })
 
   const onSubmit = async (datas) => {
-    const { text, title, description, place, date } = datas
+    const { text, title, description, place, date, alias } = datas
 
     const options = {
       headers: { 'x-access-token': token },
@@ -107,6 +110,11 @@ function PaperForm({ paper: { queryKey, poster, def }, action }) {
             description: description,
             date: date.valueOf(),
             place: place,
+            text: text,
+          }
+          break
+        case 'page':
+          return {
             text: text,
           }
           break
@@ -135,10 +143,16 @@ function PaperForm({ paper: { queryKey, poster, def }, action }) {
   useDispatchOnMutation(isMutationSuccess, setShowPapersForm, false)
   useDispatchOnMutation(isMutationSuccess, setShowPapersItems, true)
   useDispatchOnMutation(isMutationSuccess, setShowPapersInnerForm, false)
-
+  useDispatchOnMutation(isMutationSuccess, setFormAction, '')
   // Hide papers items on form mount
 
   useDispatchOnMount(setShowPapersItems, false)
+
+  // close form on unmount
+  useDispatchOnUnmount(setShowPapersForm, false)
+  useDispatchOnUnmount(setShowPapersList, true)
+  useDispatchOnUnmount(setShowPapersItems, true)
+  useDispatchOnUnmount(setFormAction, '')
 
   return (
     <PaperStyledForm onSubmit={handleSubmit(onSubmit)}>
@@ -160,40 +174,46 @@ function PaperForm({ paper: { queryKey, poster, def }, action }) {
           </Grid>
         )}
 
-        <Grid item container>
-          <InputTextControl
-            name="title"
-            control={control}
-            initialvalue={currentDatas ? currentDatas.title : ''}
-            helperText="au moins 10 caractères"
-            label="Titrememnt"
-            width="100%"
-          />
-        </Grid>
+        {def !== 'page' && (
+          <Grid item container>
+            <InputTextControl
+              name="title"
+              control={control}
+              initialvalue={currentDatas ? currentDatas.title : ''}
+              helperText="au moins 10 caractères"
+              label="Titrememnt"
+              width="100%"
+            />
+          </Grid>
+        )}
 
-        <Grid item container>
-          <DatePickerControl
-            control={control}
-            name="date"
-            label="Date de l'évènement"
-            initialdate={
-              currentDatas ? new Date(currentDatas.date) : new Date()
-            }
-          />
-        </Grid>
+        {def === 'events' && (
+          <Grid item container>
+            <DatePickerControl
+              control={control}
+              name="date"
+              label="Date de l'évènement"
+              initialdate={
+                currentDatas ? new Date(currentDatas.date) : new Date()
+              }
+            />
+          </Grid>
+        )}
 
-        <Grid item container>
-          <InputTextControl
-            name="place"
-            control={control}
-            initialvalue={
-              currentDatas ? currentDatas.place : 'Ecole Saint Augustin'
-            }
-            helperText="au moins 10 caractères"
-            label="Lieu de l'évènement"
-            width="50%"
-          />
-        </Grid>
+        {def === 'events' && (
+          <Grid item container>
+            <InputTextControl
+              name="place"
+              control={control}
+              initialvalue={
+                currentDatas ? currentDatas.place : 'Ecole Saint Augustin'
+              }
+              helperText="au moins 10 caractères"
+              label="Lieu de l'évènement"
+              width="50%"
+            />
+          </Grid>
+        )}
 
         <Grid item container>
           <Controller
