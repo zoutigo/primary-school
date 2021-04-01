@@ -1,30 +1,20 @@
 import React from 'react'
-import { useQuery } from 'react-query'
-import ReactHtmlParser from 'react-html-parser'
 
-import { apiFecthPage } from '../../../../utils/api'
+import { apiFecthPage, apiPostPage } from '../../../../utils/api'
+import Papers from '../../../../utils/papers/Papers'
 
 function ProjetPastoral() {
   const pageName = 'projet-pastoral'
 
-  const { isLoading, isError, data, error } = useQuery(
-    ['projet-pastoral', { alias: pageName }],
-    apiFecthPage,
-    {
-      retry: 1,
-      retryDelay: 500,
-      refetchOnWindowFocus: false,
-    }
-  )
-
-  if (isLoading) {
-    return <span>Loading...</span>
+  const paper = {
+    queryKey: [pageName, { alias: pageName }],
+    queryParams: `alias=${pageName}`,
+    def: 'page',
+    fetcher: apiFecthPage,
+    poster: apiPostPage,
   }
 
-  if (isError) {
-    return <span>Error: {error.message}</span>
-  }
-  return <div>{ReactHtmlParser(data[0].text)}</div>
+  return <Papers paper={paper} />
 }
 
 export default ProjetPastoral

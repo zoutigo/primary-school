@@ -1,37 +1,24 @@
 import React from 'react'
-import ReactHtmlParser from 'react-html-parser'
 
-import { useQuery } from 'react-query'
-import { apiFecthPage } from '../../../../utils/api'
+import { apiFecthPage, apiPostPage } from '../../../../utils/api'
+import Papers from '../../../../utils/papers/Papers'
 import Wrapper from '../../../wrappers/wrapper/Wrapper'
 
 function Nursery() {
   const pageName = 'garderie'
 
-  const { isLoading, isError, data, error } = useQuery(
-    ['garderie', { alias: pageName }],
-    apiFecthPage,
-    {
-      retry: 1,
-      retryDelay: 500,
-    }
-  )
-
-  if (isLoading) {
-    return <span>Loading...</span>
+  const paper = {
+    queryKey: [pageName, { alias: pageName }],
+    queryParams: `alias=${pageName}`,
+    def: 'page',
+    fetcher: apiFecthPage,
+    poster: apiPostPage,
   }
-
-  if (isError) {
-    console.log('error', error)
-    return <span>Error: {error.message}</span>
-  }
-
-  const NurseryContent = () => <div>{ReactHtmlParser(data[0].text)}</div>
 
   const pages = [
     {
       title: `LA GARDERIE`,
-      content: <NurseryContent />,
+      content: <Papers paper={paper} />,
     },
   ]
   const datas = { pages }
