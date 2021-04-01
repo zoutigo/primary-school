@@ -23,7 +23,7 @@ module.exports.getFiles = async (req, res, next) => {
 };
 module.exports.postFile = async (req, res, next) => {
   const { grade, roles, _id: userId } = req.user;
-  const { id: fileId } = req.query;
+  const { id: fileId, action } = req.query;
   const grades = ["manager", "admin", "moderator"];
 
   if (Object.keys(req.body).length < 1) {
@@ -36,12 +36,8 @@ module.exports.postFile = async (req, res, next) => {
     return next(new BadRequest(errors));
   }
 
-  const newFile = new File(req.body);
-
-  if (!fileId) {
-    // file creation
-    // upload file
-
+  if (action === "create") {
+    let newFile = new File(req.body);
     try {
       if (req.files && req.files.file) {
         const file = req.files.file;
@@ -61,42 +57,108 @@ module.exports.postFile = async (req, res, next) => {
           return next(err);
         }
       } else {
-        return next(new NotFound("FILE_NOT_FOUND"));
+        return next(new BadRequest("No file uploaded"));
       }
     } catch (err) {
       return next(err);
     }
-  } else {
-    // file update
+  } else if (action === "update" && fileId) {
+    const newDatas = req.body;
     if (req.files && req.files.file) {
       const file = req.files.file;
       const {
         fileUrl: location,
         filename,
       } = await fileUploadService.uploadFileToAws(file);
-      newFile.url = location;
+      newDatas.url = location;
 
       // should delete previous file from aws or public folder
-
-      try {
-        const savedFile = await newFile.save();
-        if (savedFile) {
-          return res.status(200).send("file updated");
-        }
-      } catch (err) {
-        return next(err);
-      }
-    } else {
-      // only save File without upload
-      try {
-        const savedFile = await newFile.save();
-        if (savedFile) {
-          return res.status(200).send("file updated");
-        }
-      } catch (err) {
-        return next(err);
-      }
     }
+    try {
+      const updatedFile = await File.findOneAndUpdate(
+        { _id: fileId },
+        newDatas,
+        {
+          returnOriginal: false,
+        }
+      );
+      if (updatedFile) {
+        return res.status(200).send("file updated");
+      }
+    } catch (err) {
+      return next(err);
+    }
+  } else if (action === "delete") {
+    try {
+      const deletedFile = await File.findOneAndDelete({ _id: fileId });
+      if (deletedFile) {
+        return res.status(200).send("file have been deleted");
+      }
+    } catch (err) {
+      return next(err);
+    }
+  } else {
+    return next(new BadRequest("params missings"));
   }
+
+  // if (!fileId) {
+  //   // file creation
+  //   // upload file
+
+  //   try {
+  //     if (req.files && req.files.file) {
+  //       const file = req.files.file;
+  //       const {
+  //         fileUrl: location,
+  //         filename,
+  //       } = await fileUploadService.uploadFileToAws(file);
+  //       newFile.url = location;
+  //       newFile.author = userId;
+
+  //       try {
+  //         const savedFile = await newFile.save();
+  //         if (savedFile) {
+  //           return res.status(201).send("file created");
+  //         }
+  //       } catch (err) {
+  //         return next(err);
+  //       }
+  //     } else {
+  //       return next(new NotFound("FILE_NOT_FOUND"));
+  //     }
+  //   } catch (err) {
+  //     return next(err);
+  //   }
+  // } else {
+  //   // file update
+  //   if (req.files && req.files.file) {
+  //     const file = req.files.file;
+  //     const {
+  //       fileUrl: location,
+  //       filename,
+  //     } = await fileUploadService.uploadFileToAws(file);
+  //     newFile.url = location;
+
+  //     // should delete previous file from aws or public folder
+
+  //     try {
+  //       const savedFile = await newFile.save();
+  //       if (savedFile) {
+  //         return res.status(200).send("file updated");
+  //       }
+  //     } catch (err) {
+  //       return next(err);
+  //     }
+  //   } else {
+  //     // only save File without upload
+  //     try {
+  //       const savedFile = await newFile.save();
+  //       if (savedFile) {
+  //         return res.status(200).send("file updated");
+  //       }
+  //     } catch (err) {
+  //       return next(err);
+  //     }
+  //   }
+  // }
 };
-module.exports.deleteFile = async (req, res, next) => {};

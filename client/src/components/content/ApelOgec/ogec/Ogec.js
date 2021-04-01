@@ -1,11 +1,8 @@
-import ReactHtmlParser from 'react-html-parser'
-
 import React from 'react'
-import { useQuery } from 'react-query'
 
 import Wrapper from '../../../wrappers/wrapper/Wrapper'
 import { OGECTEAM } from '../../../../utils/constants'
-import { apiFecthPage } from '../../../../utils/api'
+
 import AsideUser from '../../../wrappers/aside/AsideUser'
 import AsideSubTitle from '../../../wrappers/aside/AsideSubTitle'
 import OgecContent from './OgecContent'

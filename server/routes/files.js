@@ -1,11 +1,7 @@
 const fileUpload = require("express-fileupload");
 
 const router = require("express").Router();
-const {
-  getFiles,
-  postFile,
-  deleteFile,
-} = require("../controllers/fileController");
+const { getFiles, postFile } = require("../controllers/fileController");
 const { verifyToken } = require("../validators/tokens");
 
 router.use(
@@ -17,8 +13,6 @@ router.use(
 router.get("/:id?/:type?", getFiles);
 
 // router.post("/:id?", verifyToken, postFile);
-router.post("/", verifyToken, postFile);
-
-router.delete("/:id", verifyToken, deleteFile);
+router.post("/:id?", verifyToken, postFile);
 
 module.exports = router;
