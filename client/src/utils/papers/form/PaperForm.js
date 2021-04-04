@@ -3,7 +3,7 @@ import { Button, Grid, TextField } from '@material-ui/core'
 import { makeStyles, styled, useTheme } from '@material-ui/styles'
 
 import React, { useEffect, useState } from 'react'
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 
 import { useMutation } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
@@ -18,10 +18,6 @@ import {
   useUpdateMutationOptions,
 } from '../../hooks'
 
-import PageEditor from '../../tinyEditors/PageEditor'
-import DatePickerControl from '../../forms/DatePickerControl'
-import InputTextControl from '../../forms/InputTextControl'
-import InputText from '../../forms/InputText'
 import {
   setFormAction,
   setShowPapersForm,
@@ -29,6 +25,10 @@ import {
   setShowPapersItems,
   setShowPapersList,
 } from '../../../redux'
+import { requestbody } from './formutils'
+import PagesFields from './fields/PagesFields'
+import EventsFields from './fields/EventsFields'
+import FilesFields from './fields/FilesFields'
 
 const useStyles = makeStyles({
   input: {
@@ -96,41 +96,16 @@ function PaperForm({ paper: { queryKey, poster, def } }) {
   })
 
   const onSubmit = async (datas) => {
-    const { text, title, description, place, date, alias } = datas
-
     const options = {
       headers: { 'x-access-token': token },
     }
 
-    const requestbody = (definition) => {
-      switch (definition) {
-        case 'events':
-          return {
-            title: title,
-            description: description,
-            date: date.valueOf(),
-            place: place,
-            text: text,
-          }
-          break
-        case 'page':
-          return {
-            text: text,
-          }
-          break
-
-        default:
-          return {}
-      }
-    }
-
-    console.log('body:', requestbody(def))
     try {
       await mutate({
         id: currentDatas ? currentDatas._id : '',
         action: action,
         options: options,
-        body: requestbody(def),
+        body: requestbody(def, datas),
       })
     } catch (err) {
       console.log('error:', err)
@@ -173,58 +148,15 @@ function PaperForm({ paper: { queryKey, poster, def } }) {
             />
           </Grid>
         )}
-
-        {def !== 'page' && (
-          <Grid item container>
-            <InputTextControl
-              name="title"
-              control={control}
-              initialvalue={currentDatas ? currentDatas.title : ''}
-              helperText="au moins 10 caractères"
-              label="Titrememnt"
-              width="100%"
-            />
-          </Grid>
+        {def === 'page' && (
+          <PagesFields control={control} initialdatas={currentDatas} />
         )}
-
         {def === 'events' && (
-          <Grid item container>
-            <DatePickerControl
-              control={control}
-              name="date"
-              label="Date de l'évènement"
-              initialdate={
-                currentDatas ? new Date(currentDatas.date) : new Date()
-              }
-            />
-          </Grid>
+          <EventsFields control={control} initialdatas={currentDatas} />
         )}
-
-        {def === 'events' && (
-          <Grid item container>
-            <InputTextControl
-              name="place"
-              control={control}
-              initialvalue={
-                currentDatas ? currentDatas.place : 'Ecole Saint Augustin'
-              }
-              helperText="au moins 10 caractères"
-              label="Lieu de l'évènement"
-              width="50%"
-            />
-          </Grid>
+        {def === 'file' && (
+          <FilesFields control={control} initialdatas={currentDatas} />
         )}
-
-        <Grid item container>
-          <Controller
-            name="text"
-            control={control}
-            defaultValue={currentDatas ? currentDatas.text : ''}
-            render={({ onChange, value }) => (
-              <PageEditor onChange={onChange} value={value} />
-            )}
-          />
-        </Grid>
 
         <Grid item container alignItems="center" justify="flex-end">
           <ButtonComponent
@@ -235,7 +167,6 @@ function PaperForm({ paper: { queryKey, poster, def } }) {
             width={'300px'}
             text={'Je poste mon évènement'}
           />
-          {/* <Button type="submit">Soumettre</Button> */}
         </Grid>
       </Grid>
     </PaperStyledForm>

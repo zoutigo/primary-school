@@ -19,7 +19,6 @@ function DatePickerControl({ control, name, initialdate, ...rest }) {
       inputRef={ref}
       autoOk
       clearable
-      format="dd Do MMMM yyyy"
       minDate={new Date()}
       {...rest}
     />

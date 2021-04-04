@@ -16,6 +16,17 @@ module.exports.fileValidator = (datas) => {
         });
         return titleSchema.validate(data);
 
+      case "month":
+        let monthSchema = Joi.object({
+          month: Joi.number().required(),
+        });
+        return monthSchema.validate(data);
+
+      case "file":
+        let fileSchema = Joi.object({
+          file: Joi.string().required(),
+        });
+        return fileSchema.validate(data);
       case "type":
         let typeSchema = Joi.object({
           type: Joi.string()

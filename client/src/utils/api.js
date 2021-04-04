@@ -112,8 +112,30 @@ export const apiPostPaper = async ({ id, body, options, action }) => {
 }
 
 export const apiPostPage = async ({ id, body, options, action }) => {
-  console.log('action:', action)
   let URL = `${process.env.REACT_APP_ENDPOINT}/pages?action=${action}&id=${id}`
   let result = await axios.post(URL, body, options)
   return result
+}
+
+export const apiPostFile = async ({ id, body, options, action }) => {
+  let URL = `${process.env.REACT_APP_ENDPOINT}/files?action=${action}&id=${id}`
+  const formdata = new FormData()
+  formdata.append('month', body.month)
+  formdata.append('file', body.file)
+
+  // let { data } = await axios.post(URL, formdata, options)
+  console.log('headers', options.headers)
+  let { data } = await fetch(URL, {
+    method: 'POST',
+    headers: new Headers(options.headers),
+    body: formdata,
+  })
+  return data
+}
+
+export const apiFecthFile = async (param) => {
+  let URL = `${process.env.REACT_APP_ENDPOINT}/files?${param}`
+  let { data } = await axios.get(URL)
+
+  return data
 }

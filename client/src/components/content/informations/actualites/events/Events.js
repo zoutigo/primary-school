@@ -3,10 +3,12 @@ import { apiFetchEvents, apiPostEvents } from '../../../../../utils/api'
 import Papers from '../../../../../utils/papers/Papers'
 
 function Events() {
+  const pageName = 'events'
+
   const paper = {
-    queryKey: ['events'],
+    queryKey: [pageName],
     queryParams: '',
-    def: 'events',
+    def: pageName,
     fetcher: apiFetchEvents,
     poster: apiPostEvents,
   }
