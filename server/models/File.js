@@ -6,7 +6,6 @@ const fileSchema = new Schema({
     type: String,
     min: 3,
     max: 500,
-    required: true,
   },
   type: {
     type: String,
@@ -26,11 +25,12 @@ const fileSchema = new Schema({
   },
   date: {
     type: Date,
-    required: true,
   },
   validweek: {
     type: Number,
-    required: true,
+  },
+  month: {
+    type: Number,
   },
 
   author: {

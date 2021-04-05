@@ -19,6 +19,7 @@ import {
 } from '../../hooks'
 
 import {
+  setCurrentPaperItem,
   setFormAction,
   setShowPapersForm,
   setShowPapersInnerForm,
@@ -100,6 +101,8 @@ function PaperForm({ paper: { queryKey, poster, def } }) {
       headers: { 'x-access-token': token },
     }
 
+    console.log('datas:', requestbody(def, datas))
+
     try {
       await mutate({
         id: currentDatas ? currentDatas._id : '',
@@ -109,6 +112,7 @@ function PaperForm({ paper: { queryKey, poster, def } }) {
       })
     } catch (err) {
       console.log('error:', err)
+      dispatch(setCurrentPaperItem({ datas: currentDatas, index: 0 }))
     }
   }
 
@@ -157,6 +161,10 @@ function PaperForm({ paper: { queryKey, poster, def } }) {
         {def === 'file' && (
           <FilesFields control={control} initialdatas={currentDatas} />
         )}
+        <Grid item container>
+          <label htmlFor="file">Select a Photo</label>
+          <input type="file" id="file-upload" name="file" ref={register} />
+        </Grid>
 
         <Grid item container alignItems="center" justify="flex-end">
           <ButtonComponent

@@ -122,6 +122,7 @@ export const apiPostFile = async ({ id, body, options, action }) => {
   const formdata = new FormData()
   formdata.append('month', body.month)
   formdata.append('file', body.file)
+  formdata.append('type', 'newsletter')
 
   // let { data } = await axios.post(URL, formdata, options)
   console.log('headers', options.headers)

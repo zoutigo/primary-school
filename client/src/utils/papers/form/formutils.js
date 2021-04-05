@@ -17,9 +17,11 @@ export const requestbody = (definition, datas) => {
       }
       break
     case 'file':
+      console.log('file:', file)
+      console.log('file0:', file[0])
       return {
-        file: file,
-        month: month,
+        file: file[0],
+        month: month.valueOf(),
       }
       break
 

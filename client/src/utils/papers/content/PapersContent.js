@@ -26,7 +26,6 @@ function PapersContent({ paper, ...rest }) {
   if (!Array.isArray(data)) {
     return null
   }
-  console.log('data', data)
 
   return (
     <Grid container className={'title'}>

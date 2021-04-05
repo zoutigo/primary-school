@@ -35,7 +35,7 @@ function InputFileControl({ control, name, label, error, onChange, ...rest }) {
     // rules: { required: false },
   })
 
-  const [attachment, setAttachment] = useState(null)
+  const [attachment, setAttachment] = useState()
 
   const handleChange = (event) => {
     const files = Array.from(event.target.files)
@@ -45,42 +45,45 @@ function InputFileControl({ control, name, label, error, onChange, ...rest }) {
   }
 
   return (
-    <Box style={{ width: '100%', marginBottom: '3rem' }}>
-      <input
-        {...inputProps}
-        ref={ref}
-        {...rest}
-        accept="image/*"
-        id="icon-button-file"
-        type="file"
-        style={{ display: 'none' }}
-      />
-      <label htmlFor="icon-button-file">
-        <IconButton
-          color="primary"
-          aria-label="upload picture"
-          component="span"
-        >
-          <IconComponent
-            icon={<CloudUploadIcon style={{ fontSize: 'inherit' }} />}
-            costumcolor={theme.palette.secondary.dark}
-          />
-        </IconButton>
-      </label>
+    <Box
+      position="relative"
+      height={98}
+      color={
+        !!error ? theme.palette.error.main : theme.palette.background.paper
+      }
+      borderBottom={4}
+    >
+      <Box position="absolute" top={0} bottom={0} left={0} right={0} mx={2}>
+        <TextField
+          inputRef={ref}
+          {...rest}
+          {...inputProps}
+          className={classes.field}
+          InputProps={{ disableUnderline: true }}
+          margin="normal"
+          fullWidth
+          disabled
+          label={label}
+          // value={attachment?.name || ''}
+          error={!!error}
+          helperText={error?.message || ' '}
+        />
+      </Box>
+      <ButtonBase
+        className={classes.button}
+        component="label"
+        onKeyDown={(e) => e.keyCode === 32 && ref.current?.click()}
+      >
+        <input
+          ref={ref}
+          type="file"
+          accept="image/*"
+          hidden
+          onChange={handleChange}
+        />
+      </ButtonBase>
     </Box>
   )
-
-  // return (
-  //   <TextField
-  //     {...rest}
-  //     required
-  //     inputRef={ref}
-  //     type="text"
-  //     InputLabelProps={{
-  //       shrink: true,
-  //     }}
-  //   />
-  // )
 }
 
 const useStyles = makeStyles((theme) => ({
