@@ -30,6 +30,8 @@ function PaperHeader({
   const { def } = paper
   const id = `paper-header-${index}`
 
+  const { month, type } = item
+
   const dateString = moment(date).format('DD/MM/YYYY')
 
   const handleClick = () => {
@@ -45,6 +47,15 @@ function PaperHeader({
         <Grid item container>
           <Grid item>Publié le: {dateString}</Grid>
           <Grid item>Par: {authorId}</Grid>
+        </Grid>
+      )}
+      {def === 'file' && (
+        <Grid item container>
+          <Grid item>
+            <Typography variant="body1">
+              {type} -{month}{' '}
+            </Typography>
+          </Grid>
         </Grid>
       )}
       {def === 'events' && (
