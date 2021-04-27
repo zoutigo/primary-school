@@ -7,6 +7,7 @@ import { Grid } from '@material-ui/core'
 import { styled } from '@material-ui/styles'
 import React from 'react'
 import ReactHtmlParser from 'react-html-parser'
+import PdfDocument from '../../pdf/PdfDocument'
 import PaperPDFTRON from './PaperPDFTRON'
 
 const StyledPaperBody = styled(Grid)(({ theme, bgcolor }) => ({
@@ -16,6 +17,7 @@ const StyledPaperBody = styled(Grid)(({ theme, bgcolor }) => ({
 
 function PaperBody({ item, def }) {
   const { text, url } = item
+ 
 
   const textcontent = ReactHtmlParser(text) || "il n'y a pas plus de détails"
   return (
@@ -23,7 +25,8 @@ function PaperBody({ item, def }) {
       <Grid item> {textcontent}</Grid>
       {def === 'file' && (
         <Grid item container>
-          <PaperPDFTRON url={url} />
+          <PdfDocument url={url} />
+          {/* <PaperPDFTRON url={url} /> */}
         </Grid>
       )}
     </StyledPaperBody>
