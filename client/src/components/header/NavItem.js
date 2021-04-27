@@ -73,7 +73,7 @@ function NavItem({ rubric, ind }) {
   }, [clicked])
 
   useEffect(() => {
-    if (pathname !== '/' && state.rubric.alias === alias) {
+    if (pathname !== '/' && state && state.rubric.alias === alias) {
       setActiveRubric(true)
     }
 

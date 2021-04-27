@@ -37,7 +37,7 @@ function PaperContainer({ paper, item, index }) {
               style={{ minWidth: '100%' }}
             >
               <Grid container>
-                <PaperBody text={text} />
+                <PaperBody item={item} def={def} />
                 <PaperFooter paper={paper} item={item} index={index} />
               </Grid>
             </Collapse>
