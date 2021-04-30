@@ -1,11 +1,12 @@
 import { Grid } from '@material-ui/core'
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+
 import ImageForm from './forms/ImageForm'
 import SummaryForm from './forms/SummaryForm'
 
 import { ToastContainer } from 'react-toastify'
 
-import { useSelector } from 'react-redux'
 import ClassroomSummaryContent from './ClassroomSummaryContent'
 import {
   StyledButton,
@@ -13,9 +14,7 @@ import {
   StyledGridTabContainer,
 } from '../../../../utils/componentsStyled'
 
-function ClassroomSummary({ alias, id: classroomId, summary }) {
-  const token = useSelector((state) => state.user.Token.token)
-
+function ClassroomSummary({ alias, id: classroomId }) {
   const [imageForm, setImageForm] = useState(false)
   const [summaryForm, setSummaryForm] = useState(false)
   const [buttonGroup, setButtonGroup] = useState(true)
@@ -49,7 +48,7 @@ function ClassroomSummary({ alias, id: classroomId, summary }) {
                 setSummaryContent(false)
               }}
             >
-              Modifier l'image
+              Modifier image
             </StyledButton>
           </StyledButtonGroup>
         )}
@@ -76,6 +75,10 @@ function ClassroomSummary({ alias, id: classroomId, summary }) {
       </Grid>
     </StyledGridTabContainer>
   )
+}
+ClassroomSummary.propTypes = {
+  alias: PropTypes.string,
+  id: PropTypes.string,
 }
 
 export default ClassroomSummary

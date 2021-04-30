@@ -1,8 +1,7 @@
 import React from 'react'
-import { Paper, Typography } from '@material-ui/core'
-import { makeStyles, useTheme } from '@material-ui/styles'
-import { useSelector } from 'react-redux'
-import image from '../../../images/rubrics/home/landing/land6.JPG'
+import { Typography } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
+import landingImage from '../../../images/rubrics/home/landing/land6.JPG'
 import Movie from './Movie'
 
 const useStyles = makeStyles((theme) => ({
@@ -14,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundPositionY: '-8vh',
     backgroundPosition: 'bottom, left',
     background: `linear-gradient(to top, transparent 80%, white),
-        url(${image}) `,
+        url(${landingImage}) `,
     position: 'relative',
     [theme.breakpoints.down('md')]: {
       background: 'none',
@@ -69,40 +68,45 @@ const useStyles = makeStyles((theme) => ({
 
 function Landing() {
   const classes = useStyles()
-  const Scroll = useSelector((state) => state.settings.Scroll)
 
-  const Banner = () => {
-    return (
-      <Paper className={classes.banner} elevation={3}>
-        <Typography variant="h1">ECOLE SAINT AUGUSTIN</Typography>
-        <Typography variant="h3">
-          Etablissement Privé Catholique, Crémieu{' '}
-        </Typography>
-      </Paper>
-    )
-  }
+  // const Banner = () => {
+  //   return (
+  //     <Paper className={classes.banner} elevation={3}>
+  //       <Typography variant="h1">ECOLE SAINT AUGUSTIN</Typography>
+  //       <Typography variant="h3">
+  //         Etablissement Privé Catholique, Crémieu{' '}
+  //       </Typography>
+  //     </Paper>
+  //   )
+  // }
+
+  const firstText = `
+  Bienvenue à l'Ecole Saint Augustin
+  `
+  const secondText = `
+  L'école St Augustin, école catholique sous contrat d'association avec
+          l'état, se situe au coeur de Crémieu, cité médiévale iséroise, à une
+          cinquantaine de kilomètres au sud-est de Lyon.
+  `
+
+  const thirdText = `
+  Toute l'équipe pédagogique a à coeur un encadrement et un enseignement
+  prenant en compte chaque enfant : ateliers, décloisonnements,
+  différenciations (aides pédagogiques, bilans pédagogiques, conseils,
+  contrats, groupes de travail, soutien, partenariat avec les parents
+  ...).
+  `
   return (
     <div className={classes.root}>
       {/* {!Scroll && <Banner />} */}
-
       <Movie />
       <div className={classes.land}>
-        <img src={image} />
+        <img src={landingImage} alt="acceuil" />
       </div>
       <div className={classes.text}>
-        <Typography variant="h3">Bienvenue à l'Ecole Saint Augustin</Typography>
-        <Typography variant="body2">
-          L'école St Augustin, école catholique sous contrat d'association avec
-          l'état, se situe au coeur de Crémieu, cité médiévale iséroise, à une
-          cinquantaine de kilomètres au sud-est de Lyon.
-        </Typography>
-        <Typography variant="body2">
-          Toute l'équipe pédagogique a à coeur un encadrement et un enseignement
-          prenant en compte chaque enfant : ateliers, décloisonnements,
-          différenciations (aides pédagogiques, bilans pédagogiques, conseils,
-          contrats, groupes de travail, soutien, partenariat avec les parents
-          ...).
-        </Typography>
+        <Typography variant="h3">{firstText}</Typography>
+        <Typography variant="body2">{secondText}</Typography>
+        <Typography variant="body2">{thirdText}</Typography>
       </div>
     </div>
   )

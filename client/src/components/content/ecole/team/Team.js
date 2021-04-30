@@ -1,13 +1,13 @@
 import { Grid } from '@material-ui/core'
 import { withStyles } from '@material-ui/styles'
 import React from 'react'
-import faker from 'faker'
+
 import { useQuery } from 'react-query'
 import { apiFecthTeam } from '../../../../utils/api'
 import Wrapper from '../../../wrappers/wrapper/Wrapper'
 import Group from './group/Group'
 
-const styles = (theme) => ({
+const styles = () => ({
   root: {
     paddingTop: '3em',
   },

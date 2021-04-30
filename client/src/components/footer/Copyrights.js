@@ -1,6 +1,6 @@
 import { Box, styled, Typography } from '@material-ui/core'
 import React from 'react'
-const StyledContainer = styled(Box)(({ theme }) => ({
+const StyledContainer = styled(Box)(() => ({
   '& div': {
     display: 'inline-block ',
     marginRight: '2rem',

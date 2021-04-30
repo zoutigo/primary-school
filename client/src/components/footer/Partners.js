@@ -6,10 +6,10 @@ import FooterCard from './card/FooterCard'
 import { StyledFooterElementText } from './styles'
 
 function Partners() {
-  const items = PARTNERS.map((partner) => {
+  const items = PARTNERS.map((partner, i) => {
     const { link, name } = partner
     return (
-      <StyledFooterElementText>
+      <StyledFooterElementText key={i}>
         <Typography variant="body2">
           <Link href={link} target="blank">
             {name}

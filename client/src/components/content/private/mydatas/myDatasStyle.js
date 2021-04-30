@@ -1,4 +1,4 @@
-const myDatasStyle = (theme) => ({
+const myDatasStyle = () => ({
   root: {
     background: 'yellow',
     '& div': {

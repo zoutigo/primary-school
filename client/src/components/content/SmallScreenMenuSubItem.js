@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
+
 import { makeStyles } from '@material-ui/styles'
 import { Typography } from '@material-ui/core'
 import { NavLink, useLocation } from 'react-router-dom'
@@ -20,7 +22,6 @@ function SmallScreenMenuSubItem(props) {
   const classes = useStyles()
   const { pathname } = useLocation()
   const { chapter, rubric, handleClick } = props
-  const [show, setShow] = useState(false)
 
   return (
     <div className={classes.root}>
@@ -41,6 +42,15 @@ function SmallScreenMenuSubItem(props) {
       </NavLink>
     </div>
   )
+}
+
+SmallScreenMenuSubItem.propTypes = {
+  chapter: PropTypes.shape({
+    link: PropTypes.string,
+    designation: PropTypes.string,
+  }),
+  rubric: PropTypes.object,
+  handleClick: PropTypes.func,
 }
 
 export default SmallScreenMenuSubItem

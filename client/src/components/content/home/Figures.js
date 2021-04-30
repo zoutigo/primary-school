@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import { Grid, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import image from '../../../images/rubrics/home/landing/land7.JPG'
@@ -62,6 +64,12 @@ function Figures() {
         </div>
       </Grid>
     )
+  }
+  Card.propTypes = {
+    item: PropTypes.shape({
+      name: PropTypes.string,
+      count: PropTypes.number,
+    }),
   }
   const classes = useStyles()
   return (

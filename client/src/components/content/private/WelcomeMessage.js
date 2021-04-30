@@ -5,7 +5,7 @@ import { Paper } from '@material-ui/core'
 import { Typography } from '@material-ui/core'
 import { useLocation } from 'react-router-dom'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     '& div': {
       background: 'green',
@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
 function WelcomeMessage() {
   const classes = useStyles()
   const { state } = useLocation()
-  const { from } = state
 
   return (
     <Grid

@@ -48,7 +48,7 @@ function Footer() {
         <Grid item xs={12} sm={6} md={4} container justify="center">
           {' '}
           {/* <FooterLogo /> */}
-          <FooterCard items={[<FooterLogo />]} title={''} />
+          <FooterCard items={[<FooterLogo key="footerlogo" />]} title={''} />
         </Grid>
       </StyledFooterInfos>
       <Grid item container>

@@ -1,14 +1,9 @@
-import React from 'react'
-import SmallScreenToogleShow from './HighOrderComponents/SmallScreenToogleShow'
+import React, { useRef, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/styles'
-
-import { TimelineLite, TweenMax, Power3 } from 'gsap'
-import { useRef, useEffect } from 'react'
-
+import { TweenMax, Power3 } from 'gsap'
 import { useLocation } from 'react-router-dom'
-
-import image from '../../images/content2.jpg'
-import img from '../../images/head.jpg'
+import SmallScreenToogleShow from './HighOrderComponents/SmallScreenToogleShow'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,10 +51,8 @@ const useStyles = makeStyles((theme) => ({
 
 function HeadModules(props) {
   const classes = useStyles()
-  const { rubric, category, chapter, page } = useLocation()
+  const { rubric, category, chapter } = useLocation()
   const { toogleHeadModulesClass } = props
-
-  const contentText = page || chapter || category || rubric
 
   let slider = useRef(null)
 
@@ -81,6 +74,10 @@ function HeadModules(props) {
       </div>
     </div>
   )
+}
+
+HeadModules.propTypes = {
+  toogleHeadModulesClass: PropTypes.object,
 }
 
 export default SmallScreenToogleShow(HeadModules)

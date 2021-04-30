@@ -1,8 +1,10 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { styled, TextField, useTheme } from '@material-ui/core'
+import { styled, useTheme } from '@material-ui/core'
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import Resizer from 'react-image-file-resizer'
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { useMutation } from 'react-query'
 import { useSelector } from 'react-redux'
 import { apiUpdateClassroom } from '../../../../../utils/api'
@@ -12,7 +14,7 @@ import { classroomImageSchema } from '../../../../../utils/forms/validators'
 import { notifySuccess } from '../../../../../utils/notifications'
 import { ToastContainer } from 'react-toastify'
 import { ErrorMessage } from '@hookform/error-message'
-const StyledButton = styled(StyledPrivateButton)(({ theme, bgcolor }) => ({
+const StyledButton = styled(StyledPrivateButton)(({ bgcolor }) => ({
   height: '3em',
   padding: '0.5em !important',
   margin: '1em 0em ! important',
@@ -20,7 +22,7 @@ const StyledButton = styled(StyledPrivateButton)(({ theme, bgcolor }) => ({
   width: '250px',
 }))
 
-const StyledForm = styled('form')(({ theme, bgcolor }) => ({
+const StyledForm = styled('form')(({ bgcolor }) => ({
   height: '3em',
   padding: '0.5em !important',
   background: bgcolor,
@@ -54,21 +56,16 @@ function ImageForm({
   const queryName = `classroom-${alias}`
   const queryKey = [queryName, classroomId]
 
-  const {
-    mutate,
-    error: mutationerror,
-    isError: isMutationError,
-    isSuccess: isMutationSuccess,
-  } = useMutation(apiUpdateClassroom, useUpdateMutationOptions(queryKey))
+  const { mutate, isSuccess: isMutationSuccess } = useMutation(
+    apiUpdateClassroom,
+    useUpdateMutationOptions(queryKey)
+  )
 
   const {
     register,
-    control,
     errors,
-    setValue,
     handleSubmit,
-    formState: { isValid, isSubmitting, isSubmitSuccessful },
-    reset,
+    formState: { isValid, isSubmitting },
   } = useForm({
     mode: 'onChange',
     resolver: yupResolver(classroomImageSchema),
@@ -106,10 +103,6 @@ function ImageForm({
       setSummaryContent(true)
     }
   }, [isMutationSuccess])
-
-  const handleChange = (e) => {
-    console.log('helle')
-  }
 
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
@@ -149,6 +142,13 @@ function ImageForm({
       </section>
     </StyledForm>
   )
+}
+ImageForm.propTypes = {
+  id: PropTypes.string,
+  alias: PropTypes.string,
+  setButtonGroup: PropTypes.bool,
+  setImageForm: PropTypes.bool,
+  setSummaryContent: PropTypes.bool,
 }
 
 export default ImageForm

@@ -5,12 +5,10 @@ import Landing from './Landing'
 import Introduction from './Introduction'
 import Figures from './Figures'
 
-import Illustrations from './Illustrations'
-import ContactForm from './ContactForm'
 import PopularRubrics from './PopularRubrics'
 import News from './news/News'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {},
 }))
 

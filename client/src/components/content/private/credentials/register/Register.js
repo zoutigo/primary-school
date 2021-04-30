@@ -1,7 +1,8 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import PropTypes from 'prop-types'
 
-import { Redirect, useHistory, useLocation } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { apiRegister } from '../../../../../utils/api'
@@ -119,6 +120,10 @@ function Register({ classes }) {
       />
     </StyledForm>
   )
+}
+
+Register.propTypes = {
+  classes: PropTypes.object,
 }
 
 export default withStyles(formStyles)(Register)

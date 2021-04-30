@@ -1,5 +1,6 @@
 import { Box, styled, Typography } from '@material-ui/core'
 import React from 'react'
+import media from '../../../video/home.mp4'
 
 const StyledH1 = styled(Typography)(({ theme }) => ({
   fontSize: '12rem',
@@ -40,12 +41,10 @@ const StyledContainer = styled(Box)(() => ({
 }))
 
 function Movie() {
-  const media = require('../../../video/home.mp4')
   return (
-    <StyledContainer style={{}}>
+    <StyledContainer>
       <video src={media} autoPlay muted loop />
-
-      <StyledH1 variant="h1"> ECOLE</StyledH1>
+      <StyledH1 variant="h1"> ECOLES</StyledH1>
       <StyledH1 variant="h1"> SAINT AUGUSTIN</StyledH1>
       <StyledH1 variant="h1"> Cremieu</StyledH1>
     </StyledContainer>

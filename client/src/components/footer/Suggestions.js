@@ -1,13 +1,8 @@
 import { Link, Typography } from '@material-ui/core'
 import React from 'react'
-import { H3Title } from '../../utils/components'
+
 import FooterCard from './card/FooterCard'
-import {
-  StyledFooterElement,
-  StyledFooterElementContent,
-  StyledFooterElementText,
-  StyledFooterElementTitle,
-} from './styles'
+import { StyledFooterElementText } from './styles'
 
 function Suggestions() {
   const suggestions = [
@@ -25,10 +20,10 @@ function Suggestions() {
     },
   ]
 
-  const items = suggestions.map((partner) => {
+  const items = suggestions.map((partner, i) => {
     const { link, name } = partner
     return (
-      <StyledFooterElementText>
+      <StyledFooterElementText key={i}>
         <Typography variant="body2">
           <Link href={link} target="blank">
             {name}

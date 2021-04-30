@@ -1,41 +1,24 @@
 import React from 'react'
 import Select from 'react-select'
-import {
-  AppBar,
-  Box,
-  Button,
-  Grid,
-  styled,
-  Typography,
-  useTheme,
-} from '@material-ui/core'
+import { Grid, Typography, useTheme } from '@material-ui/core'
 
-import InputLabel from '@material-ui/core/InputLabel'
-import MenuItem from '@material-ui/core/MenuItem'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
+
 import { Controller, useForm } from 'react-hook-form'
 import {
   StyledPrivateButton,
   StyledPrivateForm,
   StyledTitle,
 } from '../../../../../utils/forms/styledComponents'
-import { useToggle } from '../../../../../utils/hooks'
 import { apiFecthAllPages, apiUpdatePage } from '../../../../../utils/api'
 import { useSelector } from 'react-redux'
-import { useMutation, useQuery, useQueryClient, QueryCache } from 'react-query'
-import { pageUpdateSchema } from '../../../../../utils/forms/validators'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import PageEditor from '../../../../../utils/tinyEditors/PageEditor'
 
 function PageUpdate() {
   const theme = useTheme()
   const queryClient = useQueryClient()
-  const { toggleState, toggle } = useToggle()
-  const currentUpdatePage = useSelector(
-    (state) => state.admin.currentUpdatePage
-  )
 
   const notify = () =>
     toast.success(' La page a été correctement modifiée', {
@@ -62,17 +45,12 @@ function PageUpdate() {
 
   const token = useSelector((state) => state.user.Token.token)
 
-  const list = pagesList.map((item) => {
-    return [item.title, item.alias]
-  })
-
   const [currentPage, setCurrentPage] = React.useState('nopage')
   const [currentAlias, setCurrentAlias] = React.useState('')
-  const [editorContent, setEditorContent] = React.useState('')
   const [show, setShow] = React.useState(false)
 
-  const { mutate, info, isError } = useMutation(apiUpdatePage, {
-    onSuccess: (data) => {
+  const { mutate } = useMutation(apiUpdatePage, {
+    onSuccess: () => {
       notify()
       queryClient.invalidateQueries(currentPage.alias)
       queryClient.invalidateQueries('page-list')
@@ -83,9 +61,7 @@ function PageUpdate() {
     control,
     handleSubmit,
     setValue,
-    errors,
-    formState: { isValid, isSubmitting, isSubmitSuccessful },
-    reset,
+    formState: { isValid, isSubmitting, isSubmitSuccessful, isError },
   } = useForm({
     mode: 'onChange',
     // resolver: yupResolver(pageUpdateSchema),
@@ -103,7 +79,9 @@ function PageUpdate() {
           text: data.editor,
         },
       })
-    } catch (err) {}
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   React.useEffect(() => {
@@ -135,11 +113,13 @@ function PageUpdate() {
     setCurrentAlias(selectedAlias)
   }
 
+  const text = `Modification d'une page`
+
   return (
     <Grid container>
       <Grid item container>
         <StyledTitle>
-          <Typography variant="h5">Modification d'une page</Typography>
+          <Typography variant="h5">{text}</Typography>
         </StyledTitle>
         <ToastContainer />
       </Grid>

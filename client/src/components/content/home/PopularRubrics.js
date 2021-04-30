@@ -1,7 +1,9 @@
 import React from 'react'
-import { Box, Grid, Icon, Typography } from '@material-ui/core'
+import PropTypes from 'prop-types'
+
+import { Box, Grid, Typography } from '@material-ui/core'
 import { makeStyles, styled, useTheme } from '@material-ui/styles'
-import rubrics from '../../../utils/rubrics'
+
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 
 import LocalMallIcon from '@material-ui/icons/LocalMall'
@@ -24,16 +26,6 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     color: theme.palette.primary.main,
     width: '5em',
-    height: '5em',
-  },
-}))
-const StyledIconBox = styled(Box)(({ theme }) => ({
-  width: '100%',
-  height: '15vh',
-  background: 'yellow',
-  '& .MuiIcon-root': {
-    color: 'green',
-    width: '5rem',
     height: '5em',
   },
 }))
@@ -62,25 +54,25 @@ function PopularRubrics() {
       'Classes',
       '/classes',
       'Accédez aux différentes classes et informations les concernant, de la Petite Section au CM2',
-      <LocalMallIcon className={classes.icon} />,
+      <LocalMallIcon className={classes.icon} key="1" />,
     ],
     [
       'Ecole',
       '/ecole',
       'Venez découvrir l’histoire, les valeurs de notre établissement et les avis des parents',
-      <AccountBalanceIcon className={classes.icon} />,
+      <AccountBalanceIcon className={classes.icon} key="2" />,
     ],
     [
       'Cantine',
       '/vie-scolaire/cantine',
       'Toutes les informations concernant la cantine, les menus et nos prestataires restauration',
-      <RestaurantIcon className={classes.icon} />,
+      <RestaurantIcon className={classes.icon} key="3" />,
     ],
     [
       'Contacts',
       '/informations/contacts',
       'Retrouvez ici nos coordonnées, plan d’accès et formulaire de contact',
-      <HelpIcon className={classes.icon} />,
+      <HelpIcon className={classes.icon} key="4" />,
     ],
   ]
 
@@ -114,6 +106,10 @@ function PopularRubrics() {
         </ButtonComponent>
       </StyledPopularItemCard>
     )
+  }
+
+  PopularItem.propTypes = {
+    item: PropTypes.array,
   }
 
   const handleClick = (link) => {

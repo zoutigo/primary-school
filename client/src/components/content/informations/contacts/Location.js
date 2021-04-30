@@ -19,14 +19,16 @@ const mapStyle = {
 function Location() {
   const theme = useTheme()
 
+  const text = `
+  L'école Saint Augustin est située au coeur de la cité médiévale de
+          Crémieu, sur la place principale,guarantissant un accès sécurisé à vos
+          enfants.
+  `
+
   return (
     <StyledGridTabContainer>
       <StyledInfoBox bgcolor={theme.palette.primary.light}>
-        <Typography variant="body1">
-          L'école Saint Augustin est située au coeur de la cité médiévale de
-          Crémieu, sur la place principale,guarantissant un accès sécurisé à vos
-          enfants.
-        </Typography>
+        <Typography variant="body1">{text}</Typography>
       </StyledInfoBox>
       <Box>
         <iframe

@@ -1,5 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import PropTypes from 'prop-types'
 
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
@@ -42,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function NewsCard({ cardTitle, items, recipe }) {
+function NewsCard({ cardTitle, items, recipe }) {
   const classes = useStyles()
 
   const Title = (title) => <Typography variant="h4">{title}</Typography>
@@ -65,3 +66,11 @@ export default function NewsCard({ cardTitle, items, recipe }) {
     </Card>
   )
 }
+
+NewsCard.propTypes = {
+  cardTitle: PropTypes.string,
+  recipe: PropTypes.string,
+  items: PropTypes.array,
+}
+
+export default NewsCard

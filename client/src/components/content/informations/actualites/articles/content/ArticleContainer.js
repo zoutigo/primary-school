@@ -1,9 +1,10 @@
 import { Grid, styled } from '@material-ui/core'
 import React from 'react'
+import PropTypes from 'prop-types'
 import ArticleBody from './ArticleBody'
 import ArticleHeader from './ArticleHeader'
 
-const StyledGridItem = styled(Grid)(({ theme, bgcolor }) => ({
+const StyledGridItem = styled(Grid)(() => ({
   '& *': {
     pointerEvents: 'none',
   },
@@ -16,6 +17,10 @@ function ArticleContainer({ text, ...rest }) {
       <ArticleBody text={text} />
     </StyledGridItem>
   )
+}
+
+ArticleContainer.propTypes = {
+  text: PropTypes.string,
 }
 
 export default ArticleContainer

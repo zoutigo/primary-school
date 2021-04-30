@@ -13,9 +13,7 @@ import SubTextLink from './SubTextLink'
 import { usePaletteColors } from '../../utils/hooks'
 import { withTheme } from '@material-ui/styles'
 
-const StyledNavItem = styled(({ theme, clicked, ...rest }) => (
-  <Box {...rest} />
-))({
+const StyledNavItem = styled(({ clicked, ...rest }) => <Box {...rest} />)({
   minHeight: '100%',
   minWidth: '100%',
   '& nav': {

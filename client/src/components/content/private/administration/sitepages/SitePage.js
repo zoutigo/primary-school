@@ -42,7 +42,7 @@ function SitePage() {
     register,
     errors,
     handleSubmit,
-    formState: { isValid, isSubmitting },
+    formState: { isValid },
     reset,
   } = useForm({
     mode: 'onChange',

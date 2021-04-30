@@ -39,7 +39,11 @@ function Contact() {
     </StyledAdressBox>
   )
 
-  const items = [<AdressBloc />, <PhoneBloc />, <EmailBloc />]
+  const items = [
+    <AdressBloc key="adress" />,
+    <PhoneBloc key="phone" />,
+    <EmailBloc key="email" />,
+  ]
 
   const title = 'Nous contacter'
 

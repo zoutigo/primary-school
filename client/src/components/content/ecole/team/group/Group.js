@@ -1,4 +1,6 @@
 import React, { useMemo } from 'react'
+import PropTypes from 'prop-types'
+
 import { Grid, withStyles, Box } from '@material-ui/core'
 import Department from '../department/Department'
 import Member from '../member/Member'
@@ -57,6 +59,11 @@ function Group({ department, members }) {
       </Grid>
     </StyledGrid>
   )
+}
+
+Group.propTypes = {
+  department: PropTypes.string,
+  members: PropTypes.array,
 }
 
 export default Group

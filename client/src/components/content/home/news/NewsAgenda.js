@@ -12,9 +12,8 @@ function NewsAgenda() {
   const queryKey = ['events']
   const queryParams = ''
 
-  const { isLoading, isError, data, error, isSuccess } = useQuery(
-    queryKey,
-    () => apiFetchEvents(queryParams)
+  const { isLoading, isError, data, error } = useQuery(queryKey, () =>
+    apiFetchEvents(queryParams)
   )
 
   if (isLoading) {
@@ -39,20 +38,6 @@ function NewsAgenda() {
     }
   }
 
-  const itemse = [
-    <CardItem
-      title={'Conseil de Classe'}
-      detail={'Saint Augustin - 01 Avril 2021'}
-    />,
-    <CardItem
-      title={'Cross departemental'}
-      detail={'Cremieu - 12 Avril 2021'}
-    />,
-    <CardItem
-      title={'Messe de paques'}
-      detail={'Paroisse Saint Martin - 18 Avril 2021'}
-    />,
-  ]
   return (
     <NewsCard cardTitle={cardTitle} items={items} recipe={<DateRangeIcon />} />
   )

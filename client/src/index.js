@@ -1,22 +1,21 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './index.css'
-import App from './App'
-import * as serviceWorker from './serviceWorker'
 
 import { ThemeProvider } from '@material-ui/styles'
-import theme from './utils/theme'
 import { BrowserRouter as Router } from 'react-router-dom'
 import MomentUtils from '@date-io/moment'
 import moment from 'moment'
 import 'moment/locale/fr'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 
+import { PersistGate } from 'redux-persist/integration/react'
 import { Provider } from 'react-redux'
+import App from './App'
+import './index.css'
+import theme from './utils/theme'
+import * as serviceWorker from './serviceWorker'
 
 import returnStoreAndPersistor from './redux/store'
-
-import { PersistGate } from 'redux-persist/integration/react'
 
 const { store, persistor } = returnStoreAndPersistor()
 

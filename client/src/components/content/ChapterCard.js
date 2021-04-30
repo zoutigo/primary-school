@@ -8,6 +8,7 @@ import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import { useHistory, useLocation } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 const useStyles = makeStyles({
   root: {
@@ -19,20 +20,19 @@ const useStyles = makeStyles({
 })
 
 function ChapterCard({ element }) {
-  const { pathname, state } = useLocation()
+  const { state } = useLocation()
   const { rubric } = state
   // console.log('stateChaptercard', state)
 
   const classes = useStyles()
   const history = useHistory()
-  const [expanded, setExpanded] = React.useState(false)
+  // const [expanded, setExpanded] = React.useState(false)
 
-  const { alias, designation, link, chapters } = element
+  const { alias, designation, link } = element
 
-  console.log('elementstate', state)
-  const handleExpandClick = () => {
-    setExpanded(!expanded)
-  }
+  // const handleExpandClick = () => {
+  //   setExpanded(!expanded)
+  // }
   const handleClick = () =>
     history.push({
       pathname: link,
@@ -78,6 +78,10 @@ function ChapterCard({ element }) {
       </CardActions>
     </Card>
   )
+}
+
+ChapterCard.propTypes = {
+  element: PropTypes.object,
 }
 
 export default ChapterCard

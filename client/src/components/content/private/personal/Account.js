@@ -1,12 +1,10 @@
 import React from 'react'
-import { useLocation } from 'react-router-dom'
 
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
-import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import { Grid } from '@material-ui/core'
 
@@ -66,39 +64,29 @@ function a11yProps(index) {
 }
 
 function Account() {
-  const location = useLocation()
   const classes = useStyles()
-  const { from } = location.state
 
   const [value, setValue] = React.useState(0)
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
 
-  const WelcomeMessage = () => {
-    return (
-      <div>
-        <Typography variant="h6">Bienvenue</Typography>
-        <p>
-          Bienvenue sur le site de l'école saint augustin de cremieu. Vous
-          pouvez desormais consulter des informations privilégiées
-        </p>
-      </div>
-    )
-  }
-
   const tabs = ['Mon compte', 'Administration', 'Mes Brouillons', 'Mon agenda']
-  const TabPanelContainer = (props) => {
-    const { tab } = props
+  const TabPanelContainer = ({ tab }) => {
     return (
       <div style={{ minHeight: '60vh' }}>
         <TabPanelContent tab={tab} />
       </div>
     )
   }
-  const TabPanelContent = (props) => {
-    const { tab } = props
+  TabPanelContainer.propTypes = {
+    tab: PropTypes.string,
+  }
+  const TabPanelContent = () => {
     return <div>Hello</div>
+  }
+  TabPanelContent.propTypes = {
+    tab: PropTypes.string,
   }
 
   return (

@@ -1,8 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { makeStyles, useTheme } from '@material-ui/styles'
 import { useLocation } from 'react-router-dom'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { Switch, Route } from 'react-router-dom'
 
 import { setIsLogged, setTokenValidity } from '../../redux/user/userActions'
@@ -12,36 +10,17 @@ import ErrorPage from './ErrorPage'
 import rubrics from '../../utils/rubrics'
 import Identification from './private/credentials/identification/Identification'
 import { Grid } from '@material-ui/core'
-const useStyles = makeStyles((theme) => ({
-  root: {
-    minWidth: '100vw',
-    paddingTop: '1em',
-  },
-  hide: {
-    display: 'none',
-  },
-  show: {
-    display: 'flex',
-  },
-}))
 
 function Content() {
-  const theme = useTheme()
-  const classes = useStyles()
   const dispatch = useDispatch()
   const { pathname } = useLocation()
-
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'))
-  const smallScreenMenuIsOpened = useSelector(
-    (state) => state.settings.smallScreenMenuIsOpened
-  )
 
   const home = '/'
   const isHome = pathname === home
 
   const Rubrics = []
   rubrics.forEach((rubric) => {
-    let { alias, route } = rubric
+    let { alias } = rubric
     rubricComponents.forEach((rc) => {
       if (alias === rc[0]) {
         let newRubric = { ...rubric }

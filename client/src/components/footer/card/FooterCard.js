@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import { styled } from '@material-ui/styles'
 import { H3Title } from '../../../utils/components'
 import { Grid } from '@material-ui/core'
@@ -40,6 +42,11 @@ function FooterCard({ title, items }) {
       <FooterCardBody items={items} />
     </StyledFooterCard>
   )
+}
+
+FooterCard.propTypes = {
+  title: PropTypes.string,
+  items: PropTypes.array,
 }
 
 export default FooterCard

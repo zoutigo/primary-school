@@ -1,8 +1,9 @@
 import { Grid, styled, Typography } from '@material-ui/core'
 import React from 'react'
+import PropTypes from 'prop-types'
 import moment from 'moment'
 
-const StyledHeaderArticlecontainer = styled(Grid)(({ theme, bgcolor }) => ({
+const StyledHeaderArticlecontainer = styled(Grid)(() => ({
   padding: '0.1em !important',
   background: 'whitesmoke',
   '& :last-child': {
@@ -12,7 +13,7 @@ const StyledHeaderArticlecontainer = styled(Grid)(({ theme, bgcolor }) => ({
   },
 }))
 
-function ArticleHeader({ date, title, authorId, _id: paperId }) {
+function ArticleHeader({ date, title, authorId }) {
   var dateString = moment(date).format('DD/MM/YYYY')
   return (
     <StyledHeaderArticlecontainer item container id="container">
@@ -25,6 +26,12 @@ function ArticleHeader({ date, title, authorId, _id: paperId }) {
       </Grid>
     </StyledHeaderArticlecontainer>
   )
+}
+
+ArticleHeader.propTypes = {
+  date: PropTypes.number,
+  title: PropTypes.string,
+  authorId: PropTypes.string,
 }
 
 export default ArticleHeader

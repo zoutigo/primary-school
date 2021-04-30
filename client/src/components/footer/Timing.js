@@ -14,7 +14,7 @@ function Timing() {
     </StyledFooterElementText>
   )
 
-  const items = [<Timingbloc />]
+  const items = [<Timingbloc key="timingbloc" />]
 
   return <FooterCard items={items} title={title} />
 }

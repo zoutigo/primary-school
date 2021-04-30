@@ -60,7 +60,7 @@ function Share() {
   )
 
   const items = [
-    <StyledButtonGroup>
+    <StyledButtonGroup key="buttons">
       <Facebook />
       <Whatsapp />
       <Twitter />

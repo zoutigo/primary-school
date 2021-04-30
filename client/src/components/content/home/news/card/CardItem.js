@@ -1,5 +1,6 @@
 import { Grid, styled, Typography } from '@material-ui/core'
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const StyledCardItem = styled(Grid)(() => ({
   padding: '1rem !important',
@@ -22,6 +23,11 @@ function CardItem({ title, detail }) {
       </Grid>
     </StyledCardItem>
   )
+}
+
+CardItem.propTypes = {
+  title: PropTypes.string,
+  detail: PropTypes.string,
 }
 
 export default CardItem

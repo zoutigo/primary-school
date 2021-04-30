@@ -1,13 +1,11 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { AppBar, Toolbar, Box, IconButton, Grid } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
-import { NavLink, useLocation } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
-import {
-  setPages,
-  toogleSmallScreenMenu,
-} from '../../redux/settings/settingsActions'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppBar, Toolbar, IconButton, Grid } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
+
+import { toogleSmallScreenMenu } from '../../redux/settings/settingsActions'
 import NavItem from './NavItem'
 
 import MenuIcon from '@material-ui/icons/Menu'
@@ -78,18 +76,18 @@ const useStyles = makeStyles((theme) => ({
 function Header() {
   const dispatch = useDispatch()
   const classes = useStyles()
-  const Scroll = useSelector((state) => state.settings.Scroll)
   const smallScreenMenuIsOpened = useSelector(
     (state) => state.settings.smallScreenMenuIsOpened
   )
-
-  const { pathname } = useLocation()
 
   const ToogleButton = ({ className }) => {
     if (smallScreenMenuIsOpened) {
       return <CancelIcon className={className} />
     }
     return <MenuIcon className={className} />
+  }
+  ToogleButton.propTypes = {
+    className: PropTypes.object,
   }
 
   return (

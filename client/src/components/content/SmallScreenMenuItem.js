@@ -1,15 +1,13 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import { NavLink, useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
 import { makeStyles } from '@material-ui/styles'
-import { Button, Typography, IconButton } from '@material-ui/core'
+import { Typography, IconButton } from '@material-ui/core'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import SmallScreenMenuSubItem from './SmallScreenMenuSubItem'
-import {
-  toogleSmallScreenMenu,
-  openSubMenu,
-} from '../../redux/settings/settingsActions'
+import { toogleSmallScreenMenu } from '../../redux/settings/settingsActions'
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -47,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function SmallScreenMenuItem({ categories, rubric, index }) {
+function SmallScreenMenuItem({ categories, rubric }) {
   const classes = useStyles()
   const dispatch = useDispatch()
   const { pathname } = useLocation()
@@ -119,6 +117,11 @@ function SmallScreenMenuItem({ categories, rubric, index }) {
       })}
     </div>
   )
+}
+
+SmallScreenMenuItem.propTypes = {
+  categories: PropTypes.object,
+  rubric: PropTypes.object,
 }
 
 export default SmallScreenMenuItem

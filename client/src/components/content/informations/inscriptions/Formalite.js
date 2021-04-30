@@ -1,7 +1,10 @@
 import React from 'react'
 
 function Formalite() {
-  return <div>Les formalites de l'inscription</div>
+  const text = `
+  Les formalites de l'inscription
+  `
+  return <div>{text} </div>
 }
 
 export default Formalite

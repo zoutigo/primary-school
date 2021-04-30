@@ -1,10 +1,11 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import { withStyles } from '@material-ui/styles'
 import myDatasStyle from './myDatasStyle'
-import { Grid, Paper, Button } from '@material-ui/core'
+import { Grid, Button } from '@material-ui/core'
 import { useQuery } from 'react-query'
 import { useSelector } from 'react-redux'
-import { apiFecthUserDatas } from '../../../../utils/api'
 
 function MyDatas(props) {
   const id = useSelector((state) => state.user.Credentials.id)
@@ -53,7 +54,7 @@ function MyDatas(props) {
           <div> {query.data && query.data.role}</div>
         </div>
         <div className={props.classes.dataGroup}>
-          <div>Date d'inscription: </div>
+          <div>Date d inscription: </div>
           <div> 16/03/2020</div>
         </div>
         <div className={props.classes.dataGroup}>
@@ -66,6 +67,10 @@ function MyDatas(props) {
       </Grid>
     </Grid>
   )
+}
+
+MyDatas.propTypes = {
+  classes: PropTypes.object,
 }
 
 export default withStyles(myDatasStyle)(MyDatas)

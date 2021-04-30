@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Grid } from '@material-ui/core'
 import Aside from '../aside/Aside'
 import Main from '../main/Main'
@@ -15,15 +16,22 @@ function Wrapper({ pages, aside }) {
         </Grid>
       </Grid>
     )
-  } else {
-    return (
-      <Grid container>
-        <Grid item container>
-          <Main pages={pages} />
-        </Grid>
-      </Grid>
-    )
   }
+  return (
+    <Grid container>
+      <Grid item container>
+        <Main pages={pages} />
+      </Grid>
+    </Grid>
+  )
+}
+Wrapper.defaultProps = null
+
+Wrapper.propTypes = {
+  pages: PropTypes.shape({
+    content: PropTypes.element,
+  }),
+  aside: PropTypes.element.isRequired,
 }
 
 export default Wrapper

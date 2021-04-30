@@ -1,22 +1,24 @@
 import { Box, Grid, styled } from '@material-ui/core'
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import ReactHtmlParser from 'react-html-parser'
 
 import { ToastContainer } from 'react-toastify'
 import { useQuery } from 'react-query'
 import { apiFecthClassroom } from '../../../../utils/api'
 
-const StyledClassroomContainer = styled(Grid)(({ theme, bgcolor }) => ({
+const StyledClassroomContainer = styled(Grid)(() => ({
   padding: '0.1em !important',
 }))
-const StyledImageContainer = styled(Grid)(({ theme, bgcolor }) => ({
+const StyledImageContainer = styled(Grid)(() => ({
   '& img': {
     width: '100%',
     objectFit: 'cover',
   },
   padding: '0.5em !important',
 }))
-const StyledTextContainer = styled(Box)(({ theme, bgcolor }) => ({
+const StyledTextContainer = styled(Box)(() => ({
   padding: '0.5em !important',
   background: 'whitesmoke',
 }))
@@ -54,6 +56,10 @@ function ClassroomSummaryContent({ alias, id: classroomId }) {
       </Grid>
     </StyledClassroomContainer>
   )
+}
+ClassroomSummaryContent.propTypes = {
+  alias: PropTypes.string,
+  id: PropTypes.string,
 }
 
 export default ClassroomSummaryContent

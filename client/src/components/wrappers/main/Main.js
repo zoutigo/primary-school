@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import {
   Grid,
@@ -8,21 +8,17 @@ import {
   AppBar,
   TabScrollButton,
   withStyles,
-  Typography,
 } from '@material-ui/core'
 import { styles } from './styles'
 import { useLocationColor } from '../../../utils/hooks'
 import TabTitle from '../../others.js/TabTitle'
 
-const StyledTabTitle = (title) => <Typography variant="h6">{title}</Typography>
-
 function Main({ pages }) {
   const { main, ligth, dark } = useLocationColor()
   const [value, setValue] = React.useState(0)
-  const TabPanelContainer = (props) => {
-    const { page } = props
-    return <div style={{ minHeight: '60vh' }}>{page.content}</div>
-  }
+  const TabPanelContainer = ({ page }) => (
+    <div style={{ minHeight: '60vh' }}>{page.content}</div>
+  )
   function TabPanel(props) {
     const { children, value, index, ...other } = props
 
@@ -71,7 +67,7 @@ function Main({ pages }) {
           aria-label="simple tabs example"
         >
           {pages.map((page, index) => {
-            let { title } = page
+            const { title } = page
             return (
               <Tab
                 label={<TabTitle title={title} />}
@@ -83,18 +79,16 @@ function Main({ pages }) {
           })}
         </Tabs>
       </AppBar>
-      {pages.map((page, index) => {
-        return (
-          <TabPanel
-            value={value}
-            key={index}
-            index={index}
-            style={{ minWidth: '100%' }}
-          >
-            <TabPanelContainer page={page} />
-          </TabPanel>
-        )
-      })}
+      {pages.map((page, index) => (
+        <TabPanel
+          value={value}
+          key={index}
+          index={index}
+          style={{ minWidth: '100%' }}
+        >
+          <TabPanelContainer page={page} />
+        </TabPanel>
+      ))}
     </Grid>
   ))
 

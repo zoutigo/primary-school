@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
 import { Grid, Typography, withStyles } from '@material-ui/core'
+import PropTypes from 'prop-types'
 
 function Member({ gender, firstname, lastname, position }) {
   const StyledGrid = useMemo(() => {
@@ -65,6 +66,13 @@ function Member({ gender, firstname, lastname, position }) {
       </div>
     </StyledGrid>
   )
+}
+
+Member.propTypes = {
+  gender: PropTypes.string,
+  firstname: PropTypes.string,
+  lastname: PropTypes.string,
+  position: PropTypes.string,
 }
 
 export default Member

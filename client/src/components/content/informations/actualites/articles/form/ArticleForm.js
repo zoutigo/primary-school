@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import { useMutation } from 'react-query'
 import { useSelector } from 'react-redux'
 import { ErrorMessage } from '@hookform/error-message'
@@ -16,7 +18,7 @@ import { StyledButton } from '../../../../../../utils/componentsStyled'
 import { styled, useTheme } from '@material-ui/styles'
 import PageEditor from '../../../../../../utils/tinyEditors/SmallEditor'
 
-const ArticleStyledForm = styled(StyledForm)(({ theme, bgcolor }) => ({
+const ArticleStyledForm = styled(StyledForm)(() => ({
   '& section': {
     marginTop: '1em !important',
     width: '100%',
@@ -30,21 +32,16 @@ function ArticleForm({ setArticleForm, setArticleContent, setButtonGroup }) {
 
   const theme = useTheme()
 
-  const {
-    mutate,
-    error: mutationerror,
-    isError: isMutationError,
-    isSuccess: isMutationSuccess,
-  } = useMutation(apiPostPaper, useUpdateMutationOptions(queryKey))
+  const { mutate, isSuccess: isMutationSuccess } = useMutation(
+    apiPostPaper,
+    useUpdateMutationOptions(queryKey)
+  )
 
   const {
-    register,
     control,
     errors,
-    setValue,
     handleSubmit,
-    formState: { isValid, isSubmitting, isSubmitSuccessful },
-    reset,
+    formState: { isValid, isSubmitting },
   } = useForm({
     mode: 'onChange',
     resolver: yupResolver(paperSchema),
@@ -143,6 +140,12 @@ function ArticleForm({ setArticleForm, setArticleContent, setButtonGroup }) {
       </section>
     </ArticleStyledForm>
   )
+}
+
+ArticleForm.propTypes = {
+  setArticleForm: PropTypes.func,
+  setArticleContent: PropTypes.func,
+  setButtonGroup: PropTypes.func,
 }
 
 export default ArticleForm

@@ -1,13 +1,13 @@
 import { Box, Button, styled, Typography } from '@material-ui/core'
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import Accordion from '@material-ui/core/Accordion'
 import AccordionSummary from '@material-ui/core/AccordionSummary'
 import AccordionDetails from '@material-ui/core/AccordionDetails'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown'
-import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp'
+
 import { Link, useRouteMatch } from 'react-router-dom'
-import { useToggle } from '../../../../utils/hooks'
 
 const StyledAccordion = styled(Accordion)(({ theme }) => ({
   margin: '0.8em 0.2em !important',
@@ -21,7 +21,7 @@ const StyledSubItemBox = styled(Box)(({ theme }) => ({
   background: theme.palette.primary.light,
 }))
 
-const StyledButton = styled(Button)(({ theme, active }) => ({
+const StyledButton = styled(Button)(() => ({
   height: '3em',
   width: '100%',
   padding: '0.5em ',
@@ -30,7 +30,7 @@ const StyledButton = styled(Button)(({ theme, active }) => ({
 
 function AdminItem({ adminItem }) {
   let { url } = useRouteMatch()
-  const { path, name, subitems } = adminItem
+  const { name, subitems } = adminItem
 
   return (
     <StyledAccordion>
@@ -63,6 +63,13 @@ function AdminItem({ adminItem }) {
       </AccordionDetails>
     </StyledAccordion>
   )
+}
+
+AdminItem.propTypes = {
+  adminItem: PropTypes.shape({
+    name: PropTypes.string,
+    subitems: PropTypes.array,
+  }),
 }
 
 export default AdminItem

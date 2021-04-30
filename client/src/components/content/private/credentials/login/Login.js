@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import { useHistory } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
@@ -106,6 +108,10 @@ function Login({ classes }) {
       />
     </StyledForm>
   )
+}
+
+Login.propTypes = {
+  classes: PropTypes.object,
 }
 
 export default withStyles(formStyles)(Login)

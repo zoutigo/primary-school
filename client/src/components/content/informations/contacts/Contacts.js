@@ -27,7 +27,7 @@ function Contacts() {
     },
   ]
 
-  const { email, phone, adress } = CONTACTS
+  const { email, phone } = CONTACTS
   const phoneString = `tel:${phone}`
   const emailString = `mailto:${phone}`
 
@@ -47,9 +47,9 @@ function Contacts() {
     </IconButton>
   )
   const itemsDatas = [
-    ['adresse', <Adress />, <AdressItemIcon />],
-    ['Telephone', phone, <PhoneItemIcon />],
-    ['Email', email, <EmailItemIcon />],
+    ['adresse', <Adress key="adress" />, <AdressItemIcon key="adress" />],
+    ['Telephone', phone, <PhoneItemIcon key="phone" />],
+    ['Email', email, <EmailItemIcon key="email" />],
   ]
 
   const aside = {

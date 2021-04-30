@@ -9,7 +9,6 @@ import ClassroomArticles from './ClassroomArticles'
 import ClassroomNews from './ClassroomNews'
 import AsideUser from '../../../wrappers/aside/AsideUser'
 import AsideSubTitle from '../../../wrappers/aside/AsideSubTitle'
-import { Typography } from '@material-ui/core'
 
 function Classroom() {
   const { state } = useLocation()
@@ -59,15 +58,15 @@ function Classroom() {
   const { teacher, helper, students, email } = data
 
   const asideItems = [
-    [2, <AsideSubTitle subtitle={'élèves'} />, students],
-    [3, <AsideSubTitle subtitle={'contacts'} />, email],
+    [2, <AsideSubTitle subtitle="élèves" key="2" />, students],
+    [3, <AsideSubTitle subtitle="contacts" key="3" />, email],
   ]
 
   if (teacher) {
     let { name: lastname, firstname, gender } = teacher
     asideItems.push([
       0,
-      <AsideSubTitle subtitle={'enseignant'} />,
+      <AsideSubTitle subtitle="enseignants" key="0" />,
       AsideUser({ lastname, firstname, gender }),
     ])
   }
@@ -75,7 +74,7 @@ function Classroom() {
     let { name: lastname, firstname, gender } = helper
     asideItems.push([
       1,
-      <AsideSubTitle subtitle={'aide maternelle'} />,
+      <AsideSubTitle subtitle="aide maternelle" key="1" />,
       AsideUser({ lastname, firstname, gender }),
     ])
   }

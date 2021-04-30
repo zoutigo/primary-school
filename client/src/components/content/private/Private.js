@@ -2,19 +2,9 @@ import React from 'react'
 import { Redirect, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
-import PropTypes from 'prop-types'
-import { makeStyles } from '@material-ui/core/styles'
-import AppBar from '@material-ui/core/AppBar'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
-import Box from '@material-ui/core/Box'
-import { Grid } from '@material-ui/core'
-
-import WelcomeMessage from './WelcomeMessage'
 import Administration from './administration/Administration'
 import MyDatas from './mydatas/MyDatas'
-import MyDrafts from './drafts/MyDrafts'
-import MyAgenda from './myagendas/MyAgendas'
+
 import Wrapper from '../../wrappers/wrapper/Wrapper'
 import { setPagesList } from '../../../redux/admin/adminActions'
 import { useQuery } from 'react-query'
@@ -24,9 +14,7 @@ function Private() {
   const dispatch = useDispatch()
   const { state, pathname } = useLocation()
 
-  const { isLogged, Credentials } = useSelector((state) => state.user)
-  const { role } = Credentials
-  const isAdmin = role === 'admin'
+  const { isLogged } = useSelector((state) => state.user)
 
   // load pageList in redux
   const { isLoading, isError, data, error } = useQuery(

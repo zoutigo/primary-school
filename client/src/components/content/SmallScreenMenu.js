@@ -1,5 +1,7 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import PropTypes from 'prop-types'
+
+import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/styles'
 
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
@@ -10,11 +12,7 @@ import { Button, Typography, IconButton } from '@material-ui/core'
 import SmallScreenMenuItem from './SmallScreenMenuItem'
 import rubrics from '../../utils/rubrics'
 
-import {
-  openSubMenu,
-  toogleSmallScreenMenu,
-  openCategory,
-} from '../../redux/settings/settingsActions'
+import { toogleSmallScreenMenu } from '../../redux/settings/settingsActions'
 import SmallScreenToogleShow from './HighOrderComponents/SmallScreenToogleShow'
 
 const useStyles = makeStyles((theme) => ({
@@ -147,6 +145,10 @@ function SmallScreenMenu(props) {
       </Button>
     </div>
   )
+}
+
+SmallScreenMenu.propTypes = {
+  toogleSmallScreenMenuClass: PropTypes.bool,
 }
 
 export default SmallScreenToogleShow(SmallScreenMenu)

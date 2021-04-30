@@ -1,8 +1,9 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { styled, useTheme } from '@material-ui/styles'
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import { Controller, useForm } from 'react-hook-form'
 import { useMutation, useQuery } from 'react-query'
 import SmallEditor from '../../../../../utils/tinyEditors/SmallEditor'
@@ -16,7 +17,7 @@ import { notifySuccess } from '../../../../../utils/notifications'
 import { useUpdateMutationOptions } from '../../../../../utils/hooks'
 import { StyledButton } from '../../../../../utils/componentsStyled'
 
-const SummaryStyledButton = styled(StyledButton)(({ theme, bgcolor }) => ({
+const SummaryStyledButton = styled(StyledButton)(({ bgcolor }) => ({
   height: '3em',
   padding: '0.5em !important',
   margin: '1em 0em ! important',
@@ -37,21 +38,17 @@ function SummaryForm({
 
   const queryName = `classroom-${alias}`
   const queryKey = [queryName, classroomId]
-  const {
-    mutate,
-    error: mutationerror,
-    isError: isMutationError,
-    isSuccess: isMutationSuccess,
-  } = useMutation(apiUpdateClassroom, useUpdateMutationOptions(queryKey))
+  const { mutate, isSuccess: isMutationSuccess } = useMutation(
+    apiUpdateClassroom,
+    useUpdateMutationOptions(queryKey)
+  )
 
   const {
-    register,
     control,
     errors,
     setValue,
     handleSubmit,
-    formState: { isValid, isSubmitting, isSubmitSuccessful },
-    reset,
+    formState: { isValid, isSubmitting },
   } = useForm({
     mode: 'onChange',
     resolver: yupResolver(classroomSummarySchema),
@@ -145,5 +142,11 @@ function SummaryForm({
     </StyledForm>
   )
 }
-
+SummaryForm.propTypes = {
+  id: PropTypes.string,
+  alias: PropTypes.string,
+  setButtonGroup: PropTypes.bool,
+  setSummaryForm: PropTypes.bool,
+  setSummaryContent: PropTypes.bool,
+}
 export default SummaryForm

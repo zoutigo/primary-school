@@ -37,8 +37,8 @@ function PageCreation() {
     })
   const token = useSelector((state) => state.user.Token.token)
 
-  const { mutate, info } = useMutation(apiPostPage, {
-    onSuccess: (data) => {
+  const { mutate } = useMutation(apiPostPage, {
+    onSuccess: () => {
       queryClient.invalidateQueries('page-list')
       notify()
     },
@@ -71,7 +71,9 @@ function PageCreation() {
         },
       })
       setSubmittedData(data)
-    } catch (err) {}
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   React.useEffect(() => {
@@ -84,11 +86,13 @@ function PageCreation() {
     }
   }, [isSubmitSuccessful, submittedData, reset])
 
+  const text = `Creation d'une page`
+
   return (
     <Grid container>
       <Grid item container>
         <StyledTitle>
-          <Typography variant="h5">Creation d'une page</Typography>
+          <Typography variant="h5">{text} </Typography>
         </StyledTitle>
         <ToastContainer />
       </Grid>

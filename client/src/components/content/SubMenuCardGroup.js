@@ -1,9 +1,9 @@
 import React from 'react'
-import { useLocation, NavLink } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import ChapterCard from './ChapterCard'
 import { makeStyles } from '@material-ui/styles'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     minWidth: '100%',
     maxWidth: '100%',

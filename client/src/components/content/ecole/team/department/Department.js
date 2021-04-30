@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
 import { Box, Typography, withStyles } from '@material-ui/core'
+import PropTypes from 'prop-types'
 
 function Department({ department }) {
   const StyledDepartment = useMemo(() => {
@@ -24,6 +25,10 @@ function Department({ department }) {
       <div data-testid="team-department-spacer"></div>
     </StyledDepartment>
   )
+}
+
+Department.propTypes = {
+  department: PropTypes.string,
 }
 
 export default Department

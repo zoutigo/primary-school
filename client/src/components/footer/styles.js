@@ -1,12 +1,12 @@
 import { Box, styled } from '@material-ui/core'
 
-export const StyledFooterElementTitle = styled(Box)(({ theme }) => ({}))
-export const StyledFooterElement = styled(Box)(({ theme }) => ({
+export const StyledFooterElementTitle = styled(Box)(() => ({}))
+export const StyledFooterElement = styled(Box)(() => ({
   marginBottom: '1rem !important',
   textAlign: 'center',
 }))
-export const StyledFooterElementContent = styled(Box)(({ theme }) => ({}))
-export const StyledFooterElementText = styled(Box)(({ theme }) => ({
+export const StyledFooterElementContent = styled(Box)(() => ({}))
+export const StyledFooterElementText = styled(Box)(() => ({
   marginTop: '0.2rem !important',
   minHeight: '2.5rem',
   '& a': {
@@ -23,7 +23,7 @@ export const StyledFooterElementText = styled(Box)(({ theme }) => ({
   },
 }))
 
-export const StyledAdressBox = styled(Box)(({ theme }) => ({
+export const StyledAdressBox = styled(Box)(() => ({
   display: 'flex',
   alignItems: 'center',
   '& div': {

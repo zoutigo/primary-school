@@ -1,11 +1,12 @@
 import React from 'react'
 
 function Schedule() {
-    return (
-        <div>
-           <h1> Les horaires de l'école</h1>
-        </div>
-    )
+  const text = `Les horaires de l'école`
+  return (
+    <div>
+      <h1> {text}</h1>
+    </div>
+  )
 }
 
 export default Schedule
