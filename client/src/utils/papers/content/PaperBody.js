@@ -1,16 +1,12 @@
 import { Grid } from '@material-ui/core'
 import PropTypes from 'prop-types'
-// import PaperPDF from './PaperPDF'
-
-// import PaperPdfFrame from './PaperPdfFrame'
 
 import { styled } from '@material-ui/styles'
 import React from 'react'
 import ReactHtmlParser from 'react-html-parser'
 import MyPdfViewer from '../../pdf/MyPdfViewer'
 import PdfDocument from '../../pdf/PdfDocument'
-import PaperPDFTRON from './PaperPDFTRON'
-import MikePdf from '../../pdf/MikePdf'
+
 
 const StyledPaperBody = styled(Grid)(() => ({
   minWidth: '100%',
@@ -18,21 +14,11 @@ const StyledPaperBody = styled(Grid)(() => ({
 }))
 
 const StyledDocumentContainer = styled(Grid)(() => ({
-  background: 'green',
-  position: 'relative',
   minHeight: '100vh',
   padding: '0px',
 }))
 
-const StyledDocument = styled(PdfDocument)(() => ({
-  minWidth: '100% !important',
-  objectFit: 'cover',
-  position: 'absolute',
-  top: 0,
-  bottom: 0,
-  left: 0,
-  right: 0,
-}))
+const StyledDocument = styled(PdfDocument)(() => ({}))
 
 function PaperBody({ item: { text, url }, def }) {
   const textcontent = ReactHtmlParser(text) || "il n'y a pas plus de détails"
@@ -41,11 +27,10 @@ function PaperBody({ item: { text, url }, def }) {
       <Grid item>{textcontent}</Grid>
       {def === 'file' && (
         <StyledDocumentContainer item container justify="center">
-          <MikePdf url={url} style={{ marginTop: '10em !important' }} />
+          {/* <MikePdf url={url} /> */}
           {/* <StyledDocument url={url} /> */}
-          {/* <PdfDocument url={url} /> */}
+          <PdfDocument url={url} />
           {/* <MyPdfViewer url={url} /> */}
-          {/* <PaperPDFTRON url={url} /> */}
         </StyledDocumentContainer>
       )}
     </StyledPaperBody>
