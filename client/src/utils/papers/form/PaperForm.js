@@ -30,6 +30,8 @@ import { requestbody } from './formutils'
 import PagesFields from './fields/PagesFields'
 import EventsFields from './fields/EventsFields'
 import FilesFields from './fields/FilesFields'
+import PapersFields from './fields/PapersFields'
+import paperparams from '../paperparams'
 
 const useStyles = makeStyles({
   input: {
@@ -68,6 +70,8 @@ const PaperStyledForm = styled('form')(({ theme, bgcolor }) => ({
 
 function PaperForm({ paper: { queryKey, poster, def } }) {
   const dispatch = useDispatch()
+  const { submitButtonText } = paperparams(def)
+
   const {
     formAction: action,
     currentPaperItem: { datas: currentDatas },
@@ -101,8 +105,6 @@ function PaperForm({ paper: { queryKey, poster, def } }) {
       headers: { 'x-access-token': token },
     }
 
-    console.log('datas:', requestbody(def, datas))
-
     try {
       await mutate({
         id: currentDatas ? currentDatas._id : '',
@@ -111,7 +113,6 @@ function PaperForm({ paper: { queryKey, poster, def } }) {
         body: requestbody(def, datas),
       })
     } catch (err) {
-      console.log('error:', err)
       dispatch(setCurrentPaperItem({ datas: currentDatas, index: 0 }))
     }
   }
@@ -142,8 +143,8 @@ function PaperForm({ paper: { queryKey, poster, def } }) {
               disabled={isSubmitting}
               icon={<BackspaceIcon />}
               background={theme.palette.info.main}
-              width={'200px'}
-              text={'retour'}
+              width="200px"
+              text="retour"
               onClick={() => {
                 dispatch(setShowPapersForm(false))
                 dispatch(setShowPapersList(true))
@@ -155,25 +156,28 @@ function PaperForm({ paper: { queryKey, poster, def } }) {
         {def === 'page' && (
           <PagesFields control={control} initialdatas={currentDatas} />
         )}
+        {def === 'activites' && (
+          <PapersFields control={control} initialdatas={currentDatas} />
+        )}
         {def === 'events' && (
           <EventsFields control={control} initialdatas={currentDatas} />
         )}
         {def === 'file' && (
-          <FilesFields control={control} initialdatas={currentDatas} />
+          // <FilesFields control={control} initialdatas={currentDatas} />
+          <Grid item container>
+            <label htmlFor="file">Select a Photo</label>
+            <input type="file" id="file-upload" name="file" ref={register} />
+          </Grid>
         )}
-        <Grid item container>
-          <label htmlFor="file">Select a Photo</label>
-          <input type="file" id="file-upload" name="file" ref={register} />
-        </Grid>
 
         <Grid item container alignItems="center" justify="flex-end">
           <ButtonComponent
-            type={'submit'}
+            type="submit"
             disabled={isSubmitting}
             icon={<BackspaceIcon />}
             background={theme.palette.success.main}
-            width={'300px'}
-            text={'Je poste mon évènement'}
+            width="300px"
+            text={submitButtonText}
           />
         </Grid>
       </Grid>

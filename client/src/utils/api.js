@@ -2,9 +2,9 @@ import axios from 'axios'
 
 export const apiCheckEmail = async (value) => {
   const data = { email: value }
-  let url = 'https://ecole-saint-augustin.herokuapp.com/users/checkemail'
+  const url = 'https://ecole-saint-augustin.herokuapp.com/users/checkemail'
   try {
-    let response = await axios.post(url, data)
+    const response = await axios.post(url, data)
     if (response.status === 200) {
       return false
     }
@@ -15,20 +15,20 @@ export const apiCheckEmail = async (value) => {
 }
 
 export const apiRegister = async (datas) => {
-  let url = 'https://ecole-saint-augustin.herokuapp.com/users'
+  const url = 'https://ecole-saint-augustin.herokuapp.com/users'
 
   try {
-    let req = await axios.post(url, datas)
+    const req = await axios.post(url, datas)
     return req
   } catch (err) {
     return err
   }
 }
 export const apiLogin = async (datas) => {
-  let url = 'https://ecole-saint-augustin.herokuapp.com/users/login'
+  const url = 'https://ecole-saint-augustin.herokuapp.com/users/login'
 
   try {
-    let req = await axios.post(url, datas)
+    const req = await axios.post(url, datas)
     return req
   } catch (err) {
     return err
@@ -36,13 +36,11 @@ export const apiLogin = async (datas) => {
 }
 
 export const apiFecthUserDatas = async (id) => {
-  let url = `http://localhost:3500/users/${id}`
+  const url = `http://localhost:3500/users/${id}`
 
-  let result = await fetch(
+  const result = await fetch(
     'http://localhost:3500/users/5ff991c7eba87d14d21fa08f'
-  ).then((res) => {
-    return res
-  })
+  ).then((res) => res)
 
   return result.json()
 
@@ -50,75 +48,75 @@ export const apiFecthUserDatas = async (id) => {
 }
 
 export const apiFecthTeam = async () => {
-  let URL = `${process.env.REACT_APP_ENDPOINT}/users/team`
-  let result = await axios.get(URL)
+  const URL = `${process.env.REACT_APP_ENDPOINT}/users/team`
+  const result = await axios.get(URL)
   return result
 }
 
 export const apiFecthAllPages = async () => {
-  let URL = `${process.env.REACT_APP_ENDPOINT}/pages`
-  let { data } = await axios.get(URL)
+  const URL = `${process.env.REACT_APP_ENDPOINT}/pages`
+  const { data } = await axios.get(URL)
   return data
 }
 
 export const apiUpdatePage = async (obj) => {
-  let URL = `${process.env.REACT_APP_ENDPOINT}/pages/${obj.id}`
-  let { data } = await axios.put(URL, obj.body, obj.options)
+  const URL = `${process.env.REACT_APP_ENDPOINT}/pages/${obj.id}`
+  const { data } = await axios.put(URL, obj.body, obj.options)
   return data
 }
 export const apiUpdateClassroom = async ({ id, body, options }) => {
-  let URL = `${process.env.REACT_APP_ENDPOINT}/classrooms/${id}`
-  let { data } = await axios.put(URL, body, options)
+  const URL = `${process.env.REACT_APP_ENDPOINT}/classrooms/${id}`
+  const { data } = await axios.put(URL, body, options)
   return data
 }
 
 export const apiFecthClassroom = async (param) => {
-  let URL = `${process.env.REACT_APP_ENDPOINT}/classrooms/${param}`
-  let { data } = await axios.get(URL)
+  const URL = `${process.env.REACT_APP_ENDPOINT}/classrooms/${param}`
+  const { data } = await axios.get(URL)
 
   return data
 }
 export const apiFetchPaper = async (param) => {
-  let URL = `${process.env.REACT_APP_ENDPOINT}/papers/${param}`
-  let { data } = await axios.get(URL)
+  const URL = `${process.env.REACT_APP_ENDPOINT}/papers/?${param}`
+  const { data } = await axios.get(URL)
 
   return data
 }
 
 export const apiFetchEvents = async (param) => {
-  let URL = `${process.env.REACT_APP_ENDPOINT}/events?${param}`
-  let { data } = await axios.get(URL)
+  const URL = `${process.env.REACT_APP_ENDPOINT}/events?${param}`
+  const { data } = await axios.get(URL)
 
   return data
 }
 
 export const apiPostEvents = async ({ id, action, body, options }) => {
-  let URL = `${process.env.REACT_APP_ENDPOINT}/events?action=${action}&id=${id}`
-  let { data } = await axios.post(URL, body, options)
+  const URL = `${process.env.REACT_APP_ENDPOINT}/events?action=${action}&id=${id}`
+  const { data } = await axios.post(URL, body, options)
   return data
 }
 
 export const apiFecthPage = async (param) => {
-  let URL = `${process.env.REACT_APP_ENDPOINT}/pages?${param}`
-  let { data } = await axios.get(URL)
+  const URL = `${process.env.REACT_APP_ENDPOINT}/pages?${param}`
+  const { data } = await axios.get(URL)
 
   return data
 }
 
 export const apiPostPaper = async ({ id, body, options, action }) => {
-  let URL = `${process.env.REACT_APP_ENDPOINT}/papers?action=${action}&id=${id}`
-  let { data } = await axios.post(URL, body, options)
+  const URL = `${process.env.REACT_APP_ENDPOINT}/papers?action=${action}&id=${id}`
+  const { data } = await axios.post(URL, body, options)
   return data
 }
 
 export const apiPostPage = async ({ id, body, options, action }) => {
-  let URL = `${process.env.REACT_APP_ENDPOINT}/pages?action=${action}&id=${id}`
-  let result = await axios.post(URL, body, options)
+  const URL = `${process.env.REACT_APP_ENDPOINT}/pages?action=${action}&id=${id}`
+  const result = await axios.post(URL, body, options)
   return result
 }
 
 export const apiPostFile = async ({ id, body, options, action }) => {
-  let URL = `${process.env.REACT_APP_ENDPOINT}/files?action=${action}&id=${id}`
+  const URL = `${process.env.REACT_APP_ENDPOINT}/files?action=${action}&id=${id}`
   const formdata = new FormData()
   formdata.append('month', body.month)
   formdata.append('file', body.file)
@@ -126,7 +124,7 @@ export const apiPostFile = async ({ id, body, options, action }) => {
 
   // let { data } = await axios.post(URL, formdata, options)
   console.log('headers', options.headers)
-  let { data } = await fetch(URL, {
+  const { data } = await fetch(URL, {
     method: 'POST',
     headers: new Headers(options.headers),
     body: formdata,
@@ -135,8 +133,8 @@ export const apiPostFile = async ({ id, body, options, action }) => {
 }
 
 export const apiFecthFile = async (param) => {
-  let URL = `${process.env.REACT_APP_ENDPOINT}/files?${param}`
-  let { data } = await axios.get(URL)
+  const URL = `${process.env.REACT_APP_ENDPOINT}/files?${param}`
+  const { data } = await axios.get(URL)
 
   return data
 }

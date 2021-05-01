@@ -15,6 +15,7 @@ import { StyledGridTabContainer } from '../componentsStyled'
 import { useDispatchOnMount } from '../hooks'
 import PapersContent from './content/PapersContent'
 import PaperForm from './form/PaperForm'
+import paperparams from './paperparams'
 
 function Papers({ paper }) {
   const theme = useTheme()
@@ -24,6 +25,7 @@ function Papers({ paper }) {
   )
   const { showPaperItems } = useSelector((state) => state.papers)
   const { def } = paper
+  const { bottomButtonText } = paperparams(def)
   useDispatchOnMount(setShowPapersItems, true)
 
   return (
@@ -34,7 +36,7 @@ function Papers({ paper }) {
       <Grid item container>
         {showPaperList && showPaperItems && def !== 'page' && (
           <ButtonComponent
-            text={'poster un evenement'}
+            text={bottomButtonText}
             icon={<SendIcon />}
             background={theme.palette.primary.main}
             onClick={() => {

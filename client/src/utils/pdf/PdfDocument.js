@@ -28,16 +28,16 @@ function PdfDocument(url) {
   React.useEffect(() => {
     pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
     /* To Prevent right click on screen */
-    document.addEventListener('contextmenu', (event) => {
-      event.preventDefault()
-    })
+    // document.addEventListener('contextmenu', (event) => {
+    //   event.preventDefault()
+    // })
 
-    return () => {
-      /* To Prevent right click on screen */
-      document.removeEventListener('contextmenu', (event) => {
-        event.preventDefault()
-      })
-    }
+    // return () => {
+    //   /* To Prevent right click on screen */
+    //   document.removeEventListener('contextmenu', (event) => {
+    //     event.preventDefault()
+    //   })
+    // }
   }, [])
 
   function onDocumentLoadSuccess({ numPages }) {

@@ -1,12 +1,9 @@
 import { Grid } from '@material-ui/core'
 import PropTypes from 'prop-types'
-
 import { styled } from '@material-ui/styles'
 import React from 'react'
 import ReactHtmlParser from 'react-html-parser'
-import MyPdfViewer from '../../pdf/MyPdfViewer'
 import PdfDocument from '../../pdf/PdfDocument'
-
 
 const StyledPaperBody = styled(Grid)(() => ({
   minWidth: '100%',
@@ -18,8 +15,6 @@ const StyledDocumentContainer = styled(Grid)(() => ({
   padding: '0px',
 }))
 
-const StyledDocument = styled(PdfDocument)(() => ({}))
-
 function PaperBody({ item: { text, url }, def }) {
   const textcontent = ReactHtmlParser(text) || "il n'y a pas plus de détails"
   return (
@@ -27,7 +22,7 @@ function PaperBody({ item: { text, url }, def }) {
       <Grid item>{textcontent}</Grid>
       {def === 'file' && (
         <StyledDocumentContainer item container justify="center">
-          {/* <MikePdf url={url} /> */}
+       
           {/* <StyledDocument url={url} /> */}
           <PdfDocument url={url} />
           {/* <MyPdfViewer url={url} /> */}

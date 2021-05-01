@@ -1,5 +1,6 @@
 import { Grid } from '@material-ui/core'
 import React from 'react'
+import PropTypes from 'prop-types'
 import { useQuery } from 'react-query'
 import { setCurrentPaperItem } from '../../../redux'
 import { useDispatchOnMutation } from '../../hooks'
@@ -20,7 +21,12 @@ function PapersContent({ paper, ...rest }) {
   }
 
   if (isError) {
-    return <span>Error: {error.message}</span>
+    return (
+      <span>
+        Error:
+        {error.message}
+      </span>
+    )
   }
 
   if (!Array.isArray(data)) {
@@ -28,21 +34,27 @@ function PapersContent({ paper, ...rest }) {
   }
 
   return (
-    <Grid container className={'title'}>
+    <Grid container className="title">
       {data &&
-        data.map((item, i) => {
-          return (
-            <PaperContainer
-              paper={paper}
-              item={item}
-              index={i}
-              key={i}
-              {...rest}
-            />
-          )
-        })}
+        data.map((item, i) => (
+          <PaperContainer
+            paper={paper}
+            item={item}
+            index={i}
+            key={i}
+            {...rest}
+          />
+        ))}
     </Grid>
   )
+}
+PapersContent.defaultProps = null
+PapersContent.propTypes = {
+  paper: PropTypes.shape({
+    queryKey: PropTypes.string,
+    queryParams: PropTypes.string,
+    fetcher: PropTypes.func,
+  }),
 }
 
 export default PapersContent

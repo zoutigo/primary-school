@@ -13,11 +13,11 @@ import CloseIcon from '@material-ui/icons/Close'
 import React from 'react'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff'
 import UpdateIcon from '@material-ui/icons/Update'
-import ButtonComponent from '../../../components/others.js/ButtonComponent'
 import { isError, useMutation } from 'react-query'
+import { useDispatch, useSelector } from 'react-redux'
+import ButtonComponent from '../../../components/others.js/ButtonComponent'
 import { useUpdateMutationOptions } from '../../hooks'
 import ModalValidation from '../../../components/others.js/ModalValidation'
-import { useDispatch, useSelector } from 'react-redux'
 import {
   setCurrentPaperItem,
   setFormAction,
