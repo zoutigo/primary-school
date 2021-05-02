@@ -15,8 +15,19 @@ const paperSchema = new Schema({
     maxlength: 100,
   },
   entity: {
-    type: Schema.Types.ObjectId,
-    ref: "Entity",
+    type: String,
+    enum: [
+      "direction",
+      "apel",
+      "ogec",
+      "ps",
+      "ms",
+      "gs",
+      "cp",
+      "ce1",
+      "ce2",
+      "cm1",
+    ],
     required: true,
   },
 

@@ -34,7 +34,20 @@ module.exports.paperValidator = (datas) => {
 
       case "entity":
         let entitySchema = Joi.object({
-          entity: Joi.objectId(),
+          entity: Joi.string()
+            .required()
+            .valid(
+              "direction",
+              "apel",
+              "ogec",
+              "ps",
+              "ms",
+              "gs",
+              "cp",
+              "ce1",
+              "ce2",
+              "cm1"
+            ),
         });
         return entitySchema.validate(data);
 
@@ -43,8 +56,6 @@ module.exports.paperValidator = (datas) => {
           id: Joi.objectId(),
         });
         return idSchema.validate(data);
-
-        break;
     }
   };
 

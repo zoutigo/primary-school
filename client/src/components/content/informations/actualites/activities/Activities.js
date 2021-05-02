@@ -11,6 +11,7 @@ function Activities() {
     def: pageName,
     fetcher: apiFetchPaper,
     poster: apiPostPaper,
+    entity: 'direction',
   }
 
   return <Papers paper={paper} />

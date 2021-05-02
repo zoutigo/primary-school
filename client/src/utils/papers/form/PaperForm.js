@@ -1,6 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Grid, TextField } from '@material-ui/core'
 import { makeStyles, styled, useTheme } from '@material-ui/styles'
+import PropTypes from 'prop-types'
 
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -26,12 +27,13 @@ import {
   setShowPapersItems,
   setShowPapersList,
 } from '../../../redux'
-import { requestbody } from './formutils'
+
 import PagesFields from './fields/PagesFields'
 import EventsFields from './fields/EventsFields'
 import FilesFields from './fields/FilesFields'
 import PapersFields from './fields/PapersFields'
 import paperparams from '../paperparams'
+import requestbody from './requestbody'
 
 const useStyles = makeStyles({
   input: {
@@ -68,7 +70,7 @@ const PaperStyledForm = styled('form')(({ theme, bgcolor }) => ({
   },
 }))
 
-function PaperForm({ paper: { queryKey, poster, def } }) {
+function PaperForm({ paper: { queryKey, poster, def, entity } }) {
   const dispatch = useDispatch()
   const { submitButtonText } = paperparams(def)
 
@@ -104,13 +106,18 @@ function PaperForm({ paper: { queryKey, poster, def } }) {
     const options = {
       headers: { 'x-access-token': token },
     }
+    const finalDatas = requestbody(def, datas)
+    if (def === 'activites') {
+      finalDatas.entity = entity
+      finalDatas.type = 'activity'
+    }
 
     try {
       await mutate({
         id: currentDatas ? currentDatas._id : '',
         action: action,
         options: options,
-        body: requestbody(def, datas),
+        body: finalDatas,
       })
     } catch (err) {
       dispatch(setCurrentPaperItem({ datas: currentDatas, index: 0 }))
@@ -183,6 +190,16 @@ function PaperForm({ paper: { queryKey, poster, def } }) {
       </Grid>
     </PaperStyledForm>
   )
+}
+
+PaperForm.defaultProps = null
+PaperForm.propTypes = {
+  paper: PropTypes.shape({
+    queryKey: PropTypes.arrayOf(PropTypes.string),
+    poster: PropTypes.func,
+    def: PropTypes.string,
+    entity: PropTypes.string,
+  }),
 }
 
 export default PaperForm

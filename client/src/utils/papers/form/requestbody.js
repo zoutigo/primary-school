@@ -1,5 +1,15 @@
-export const requestbody = (definition, datas) => {
-  const { text, title, description, place, date, alias, file, month } = datas
+const requestbody = (definition, datas) => {
+  const {
+    text,
+    title,
+    description,
+    place,
+    date,
+    alias,
+    file,
+    month,
+    entity,
+  } = datas
 
   switch (definition) {
     case 'events':
@@ -10,22 +20,25 @@ export const requestbody = (definition, datas) => {
         place: place,
         text: text,
       }
-      break
     case 'page':
       return {
         text: text,
       }
-      break
     case 'file':
-      console.log('file:', file)
-      console.log('file0:', file[0])
       return {
         file: file[0],
         month: month.valueOf(),
       }
-      break
+    case 'activity':
+      return {
+        title: title,
+        text: text,
+        entity: entity,
+      }
 
     default:
       return {}
   }
 }
+
+export default requestbody
