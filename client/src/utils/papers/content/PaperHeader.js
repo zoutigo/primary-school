@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
 import moment from 'moment'
 import { styled } from '@material-ui/styles'
 import { Box, Grid, Typography } from '@material-ui/core'
@@ -25,6 +26,7 @@ function PaperHeader({
   index,
   paper,
   item,
+  entity,
 }) {
   const dispatch = useDispatch()
   const { def } = paper
@@ -45,15 +47,32 @@ function PaperHeader({
       </Grid>
       {def === 'articles' && (
         <Grid item container>
-          <Grid item>Publié le: {dateString}</Grid>
-          <Grid item>Par: {authorId}</Grid>
+          <Grid item>
+            Publié le:
+            {dateString}
+          </Grid>
+          <Grid item>
+            Par:
+            {authorId}
+          </Grid>
+        </Grid>
+      )}
+      {def === 'activites' && (
+        <Grid item container>
+          <Grid item xs={6}>
+            {' '}
+            {dateString}
+          </Grid>
+          <Grid item xs={6} container justify="flex-end">
+            {entity}
+          </Grid>
         </Grid>
       )}
       {def === 'file' && (
         <Grid item container>
           <Grid item>
             <Typography variant="body1">
-              {type} -{month}{' '}
+              {type}-{month}
             </Typography>
           </Grid>
         </Grid>
@@ -61,7 +80,10 @@ function PaperHeader({
       {def === 'events' && (
         <StyledEventsDetails item container>
           <Box>
-            <Typography variant="caption">Date: {dateString}</Typography>
+            <Typography variant="caption">
+              Date:
+              {dateString}
+            </Typography>
           </Box>
           <Box>
             <Typography variant="caption">{place}</Typography>
@@ -70,6 +92,30 @@ function PaperHeader({
       )}
     </StyledPaperHeader>
   )
+}
+
+PaperHeader.defaultProps = null
+PaperHeader.propTypes = {
+  date: PropTypes.number,
+  place: PropTypes.string,
+  title: PropTypes.string,
+  authorId: PropTypes.string,
+  _id: PropTypes.string,
+  index: PropTypes.number,
+  item: PropTypes.shape({
+    type: PropTypes.string,
+    month: PropTypes.string,
+  }),
+  entity: PropTypes.string,
+  paper: PropTypes.shape({
+    queryKey: PropTypes.arrayOf(PropTypes.String),
+    queryParams: PropTypes.string,
+    def: PropTypes.string,
+    fetcher: PropTypes.func,
+    poster: PropTypes.func,
+    entity: PropTypes.string,
+    type: PropTypes.string,
+  }),
 }
 
 export default PaperHeader

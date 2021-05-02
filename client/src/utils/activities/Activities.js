@@ -1,7 +1,31 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+import { apiFetchPaper, apiPostPaper } from '../api'
+import Papers from '../papers/Papers'
 
-function Activities() {
-  return <div>La liste des activités</div>
+function Activities({ entity, type, pageName }) {
+  const paper = {
+    queryKey: [pageName],
+    queryParams: `type=${type}&entity=${entity}`,
+    def: 'activites',
+    fetcher: apiFetchPaper,
+    poster: apiPostPaper,
+    entity: entity,
+    type: type,
+  }
+
+  return <Papers paper={paper} />
+}
+Activities.defaultProps = {
+  entity: 'direction',
+  type: 'article',
+  pageName: 'activites',
+}
+
+Activities.propTypes = {
+  entity: PropTypes.string,
+  type: PropTypes.string,
+  pageName: PropTypes.string,
 }
 
 export default Activities

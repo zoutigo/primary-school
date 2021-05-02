@@ -16,7 +16,9 @@ function Apel() {
     },
     {
       title: `ACTIVITES`,
-      content: <Activities />,
+      content: (
+        <Activities pageName="activites-apel" entity="apel" type="activity" />
+      ),
     },
     {
       title: `TROMBI`,
@@ -25,7 +27,7 @@ function Apel() {
   ]
 
   const aside = {
-    title: "Bureau de l'OGEC",
+    title: "Bureau de l'APEL",
     items: APELTEAM.map((member) => {
       const { role, gender, firstname, lastname } = member
       return {

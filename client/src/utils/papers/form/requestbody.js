@@ -1,15 +1,5 @@
 const requestbody = (definition, datas) => {
-  const {
-    text,
-    title,
-    description,
-    place,
-    date,
-    alias,
-    file,
-    month,
-    entity,
-  } = datas
+  const { text, title, description, place, date, alias, file, month } = datas
 
   switch (definition) {
     case 'events':
@@ -29,11 +19,10 @@ const requestbody = (definition, datas) => {
         file: file[0],
         month: month.valueOf(),
       }
-    case 'activity':
+    case 'activites':
       return {
         title: title,
         text: text,
-        entity: entity,
       }
 
     default:

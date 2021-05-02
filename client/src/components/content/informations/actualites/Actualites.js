@@ -1,9 +1,9 @@
 import React from 'react'
 import Wrapper from '../../../wrappers/wrapper/Wrapper'
-import Activities from './activities/Activities'
 import Articles from './articles/Articles'
 import NewsLetters from './newsletters/NewsLetters'
 import Events from './events/Events'
+import News from './news/News'
 
 function Actualites() {
   const pages = [
@@ -12,8 +12,8 @@ function Actualites() {
       content: <Articles />,
     },
     {
-      title: 'Activités',
-      content: <Activities />,
+      title: 'Les News',
+      content: <News />,
     },
     {
       title: `Newsletters`,

@@ -58,7 +58,7 @@ const useStyles = makeStyles({
   },
 })
 
-const PaperStyledForm = styled('form')(({ theme, bgcolor }) => ({
+const PaperStyledForm = styled('form')(() => ({
   boxSizing: 'border-box',
   '& >div': {
     width: '100%',
@@ -70,7 +70,7 @@ const PaperStyledForm = styled('form')(({ theme, bgcolor }) => ({
   },
 }))
 
-function PaperForm({ paper: { queryKey, poster, def, entity } }) {
+function PaperForm({ paper: { queryKey, poster, def, entity, type } }) {
   const dispatch = useDispatch()
   const { submitButtonText } = paperparams(def)
 
@@ -109,7 +109,7 @@ function PaperForm({ paper: { queryKey, poster, def, entity } }) {
     const finalDatas = requestbody(def, datas)
     if (def === 'activites') {
       finalDatas.entity = entity
-      finalDatas.type = 'activity'
+      finalDatas.type = type
     }
 
     try {
@@ -164,7 +164,10 @@ function PaperForm({ paper: { queryKey, poster, def, entity } }) {
           <PagesFields control={control} initialdatas={currentDatas} />
         )}
         {def === 'activites' && (
-          <PapersFields control={control} initialdatas={currentDatas} />
+          <PapersFields
+            control={control}
+            initialdatas={action === 'create' ? null : currentDatas}
+          />
         )}
         {def === 'events' && (
           <EventsFields control={control} initialdatas={currentDatas} />
@@ -199,6 +202,7 @@ PaperForm.propTypes = {
     poster: PropTypes.func,
     def: PropTypes.string,
     entity: PropTypes.string,
+    type: PropTypes.string,
   }),
 }
 
