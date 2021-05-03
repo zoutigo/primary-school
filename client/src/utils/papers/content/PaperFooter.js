@@ -90,6 +90,19 @@ function PaperFooter({ paper, item, index }) {
     dispatch(setCurrentPaperItem({ index: index, datas: item }))
   }
 
+  const CostumIconButton = () => (
+    <IconButton
+      aria-label="close"
+      color="inherit"
+      size="small"
+      onClick={() => {
+        setOpenAlert(false)
+      }}
+    >
+      <CloseIcon fontSize="inherit" />
+    </IconButton>
+  )
+
   return (
     <StyledPaperFooter
       item
@@ -100,21 +113,7 @@ function PaperFooter({ paper, item, index }) {
       id="paper-footer"
     >
       <Collapse in={isMutationError}>
-        <Alert
-          severity="error"
-          action={
-            <IconButton
-              aria-label="close"
-              color="inherit"
-              size="small"
-              onClick={() => {
-                setOpenAlert(false)
-              }}
-            >
-              <CloseIcon fontSize="inherit" />
-            </IconButton>
-          }
-        >
+        <Alert severity="error" action={<CostumIconButton />}>
           Close me!
         </Alert>
       </Collapse>

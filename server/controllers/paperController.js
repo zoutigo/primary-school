@@ -1,8 +1,6 @@
-const Category = require("../models/Category");
-const Chapter = require("../models/Chapter");
 const Paper = require("../models/Paper");
 const Roles = require("../models/Roles");
-const Rubric = require("../models/Rubric");
+
 const {
   PreConditionFailed,
   Unauthorized,
@@ -42,6 +40,74 @@ module.exports.getPapers = async (req, res, next) => {
     next(err);
   }
 };
+
+module.exports.postPaper = async (req, res, next) => {
+  const { grade, roles, _id: userId } = req.user;
+  const { id: paperId, action } = req.query;
+  const grades = ["manager", "admin", "moderator"];
+
+  if ((Object.keys(req.body).length < 1) & (action !== "delete")) {
+    return next(new BadRequest("datas missing"));
+  }
+  const fields = fieldsforvalidator(req.body);
+  const errors = paperValidator(fields);
+  if (errors.length > 0) {
+    return next(new BadRequest(errors));
+  }
+
+  if (action === "create") {
+    // case event creation
+    const paper = req.body;
+    paper.author = userId;
+    let newPaper = new Paper(paper);
+    try {
+      let savedPaper = await newPaper.save();
+      if (savedPaper) {
+        if (process.env.NODE_ENV === "production") {
+          return res.status(201).send("paper successfully created");
+        }
+        return res.status(201).send(savedPaper);
+      }
+    } catch (err) {
+      return next(err);
+    }
+  } else if (action === "update" && paperId) {
+    // case update
+
+    try {
+      let updatedPaper = await Paper.findOneAndUpdate(
+        { _id: paperId },
+        req.body,
+        {
+          returnOriginal: false,
+        }
+      );
+      if (updatedPaper) {
+        if (process.env.NODE_ENV === "production") {
+          return res.status(200).send("paper successfully updated");
+        }
+
+        return res.status(200).send(updatedPaper);
+      }
+    } catch (err) {
+      return next(err);
+    }
+  } else if (action === "delete" && paperId) {
+    console.log("action:", action);
+    console.log("paperId:", paperId);
+    try {
+      let deletedPaper = await Paper.findOneAndDelete({ _id: paperId });
+      if (deletedPaper) {
+        return res.status(200).send("paper deleted successfully");
+      }
+    } catch (err) {
+      return next(err);
+    }
+  } else {
+    return next(new BadRequest("action or paper id missing"));
+  }
+};
+
 module.exports.createPaper = async (req, res, next) => {
   const { grade, roles, _id: userId } = req.user;
   const { id: paperId } = req.params;

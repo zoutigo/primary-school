@@ -6,6 +6,7 @@ import {
   Typography,
   useTheme,
 } from '@material-ui/core'
+import PropTypes from 'prop-types'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
 import CancelIcon from '@material-ui/icons/Cancel'
 import Backdrop from '@material-ui/core/Backdrop'
@@ -61,7 +62,7 @@ function ModalValidation({ open, setOpen, callback, modaltype }) {
           title: 'Suppression document',
           color: theme.palette.error.main,
           actiontext: 'Je supprime',
-          question: 'souhaitez  vous supprimer cet éélément ?',
+          question: 'souhaitez  vous supprimer cet élément ?',
         }
 
       case 'update':
@@ -93,7 +94,7 @@ function ModalValidation({ open, setOpen, callback, modaltype }) {
       aria-describedby="confirmation modal"
       open={open}
       onClose={() => setOpen(false)}
-      disablePortal={true}
+      disablePortal
       closeAfterTransition
       BackdropComponent={Backdrop}
       BackdropProps={{
@@ -104,7 +105,7 @@ function ModalValidation({ open, setOpen, callback, modaltype }) {
         <StyledPaper color={modalcolor}>
           <StyledModalHeader>
             <FontAwesomeIcon faclass="fa fa-exclamation-circle" />
-            <Typography variant="body1">{title} </Typography>
+            <Typography variant="body1">{title}</Typography>
           </StyledModalHeader>
           <StyledModalBody>
             <Typography variant="body1">{question}</Typography>
@@ -127,6 +128,14 @@ function ModalValidation({ open, setOpen, callback, modaltype }) {
       </Fade>
     </Modal>
   )
+}
+
+ModalValidation.defaultProps = null
+ModalValidation.propTypes = {
+  open: PropTypes.bool,
+  setOpen: PropTypes.func,
+  callback: PropTypes.func,
+  modaltype: PropTypes.string,
 }
 
 export default ModalValidation
