@@ -58,7 +58,7 @@ module.exports.postPaper = async (req, res, next) => {
   if (action === "create") {
     // case event creation
     const paper = req.body;
-    paper.author = userId;
+    paper.authorId = userId;
     let newPaper = new Paper(paper);
     try {
       let savedPaper = await newPaper.save();
