@@ -73,6 +73,8 @@ module.exports.getEvents = async (req, res, next) => {
   const fields = fieldsforvalidator(req.query);
   const errors = eventValidator(fields);
 
+  const today = new Date().getTime();
+
   if (errors.length > 0) {
     return next(new BadRequest(errors));
   }
@@ -82,7 +84,11 @@ module.exports.getEvents = async (req, res, next) => {
       req.query._id = req.query.id;
       delete req.query.id;
     }
-    const events = await Event.find(req.query).sort({ date: 1 });
+    const events = await Event.find(req.query)
+      .where("date")
+      .gt(today)
+      .sort({ date: 1 });
+
     events.length > 0
       ? res.status(200).send(events)
       : next(new NotFound("event not found"));
