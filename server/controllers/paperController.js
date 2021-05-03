@@ -32,7 +32,7 @@ module.exports.getPapers = async (req, res, next) => {
   }
 
   try {
-    const papers = await Paper.find(req.query);
+    const papers = await Paper.find(req.query).sort({ date: -1 });
     papers.length > 0
       ? res.status(200).send(papers)
       : next(new NotFound("paper not found"));

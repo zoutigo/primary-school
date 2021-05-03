@@ -82,7 +82,7 @@ module.exports.getEvents = async (req, res, next) => {
       req.query._id = req.query.id;
       delete req.query.id;
     }
-    const events = await Event.find(req.query).sort([["date", -1]]);
+    const events = await Event.find(req.query).sort({ date: 1 });
     events.length > 0
       ? res.status(200).send(events)
       : next(new NotFound("event not found"));
