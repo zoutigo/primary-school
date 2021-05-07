@@ -1,5 +1,5 @@
 import React from 'react'
-import { apiFecthFile, apiPostFile } from '../../../../../utils/api'
+import { apiFetchPaper, apiPostPaper } from '../../../../../utils/api'
 import Papers from '../../../../../utils/papers/Papers'
 
 function CanteenMenus() {
@@ -9,9 +9,9 @@ function CanteenMenus() {
     queryKey: [pageName, { type: pageName }],
     queryParams: `type=${pageName}`,
     def: 'file',
-    fetcher: apiFecthFile,
-    poster: apiPostFile,
-    type: 'menu',
+    fetcher: apiFetchPaper,
+    poster: apiPostPaper,
+    type: pageName,
   }
   return <Papers paper={paper} />
 }

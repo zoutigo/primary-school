@@ -1,5 +1,6 @@
 import { Grid, styled } from '@material-ui/core'
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import { Document, Page, pdfjs } from 'react-pdf'
 
 const StyledDocumentContainer = styled(Grid)(() => ({
@@ -21,7 +22,7 @@ const StyledDocumentContainer = styled(Grid)(() => ({
 
 const StyledButtonContainer = styled(Grid)(() => ({}))
 
-function PdfDocument(url) {
+function PdfDocument({ file }) {
   const [totalPages, setTotalPages] = useState(null)
   const [pageNumber, setPageNumber] = useState(1)
 
@@ -59,7 +60,7 @@ function PdfDocument(url) {
   return (
     <Grid item container>
       <StyledDocumentContainer item xs={12}>
-        <Document file={url} onLoadSuccess={onDocumentLoadSuccess}>
+        <Document file={file} onLoadSuccess={onDocumentLoadSuccess}>
           <Page pageNumber={pageNumber} />
         </Document>
       </StyledDocumentContainer>
@@ -90,6 +91,11 @@ function PdfDocument(url) {
       </StyledButtonContainer>
     </Grid>
   )
+}
+
+PdfDocument.defaultPropTypes = null
+PdfDocument.propTypes = {
+  file: PropTypes.string.isRequired,
 }
 
 export default PdfDocument

@@ -15,16 +15,15 @@ const StyledDocumentContainer = styled(Grid)(() => ({
   padding: '0px',
 }))
 
-function PaperBody({ item: { text, url }, def }) {
+function PaperBody({ item: { text, url, file }, def }) {
   const textcontent = ReactHtmlParser(text) || "il n'y a pas plus de détails"
   return (
     <StyledPaperBody item container id="paper-body">
       <Grid item>{textcontent}</Grid>
       {def === 'file' && (
         <StyledDocumentContainer item container justify="center">
-       
           {/* <StyledDocument url={url} /> */}
-          <PdfDocument url={url} />
+          <PdfDocument file={file} />
           {/* <MyPdfViewer url={url} /> */}
         </StyledDocumentContainer>
       )}
@@ -43,6 +42,7 @@ PaperBody.propTypes = {
   item: PropTypes.shape({
     text: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
+    file: PropTypes.string.isRequired,
   }),
 }
 

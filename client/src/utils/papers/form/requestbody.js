@@ -32,6 +32,7 @@ const requestbody = async (definition, datas, type = null) => {
         return {
           file: await convertBase64(file[0]),
           startdate: startdate.valueOf(),
+          type: type,
         }
       }
       if (type === 'menu') {

@@ -8,7 +8,7 @@ module.exports.paperValidator = (datas) => {
         let typeSchema = Joi.object({
           type: Joi.string()
             .required()
-            .valid("article", "activity", "parent-info", "newsletter"),
+            .valid("article", "activity", "parent-info", "newsletter", "menu"),
         });
         return typeSchema.validate(data);
 

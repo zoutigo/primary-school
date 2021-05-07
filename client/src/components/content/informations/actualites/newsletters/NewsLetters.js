@@ -1,5 +1,10 @@
 import React from 'react'
-import { apiFecthFile, apiPostFile } from '../../../../../utils/api'
+import {
+  apiFecthFile,
+  apiFetchPaper,
+  apiPostFile,
+  apiPostPaper,
+} from '../../../../../utils/api'
 import Papers from '../../../../../utils/papers/Papers'
 
 function NewsLetters() {
@@ -9,8 +14,8 @@ function NewsLetters() {
     queryKey: [pageName, { type: pageName }],
     queryParams: `type=${pageName}`,
     def: 'file',
-    fetcher: apiFecthFile,
-    poster: apiPostFile,
+    fetcher: apiFetchPaper,
+    poster: apiPostPaper,
     type: pageName,
   }
 
