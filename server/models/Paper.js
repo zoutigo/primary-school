@@ -10,12 +10,13 @@ const paperSchema = new Schema({
 
   title: {
     type: String,
-    required: true,
+    default: null,
     minlength: 3,
     maxlength: 100,
   },
   entity: {
     type: String,
+    default: "direction",
     enum: [
       "direction",
       "apel",
@@ -33,7 +34,6 @@ const paperSchema = new Schema({
 
   text: {
     type: String,
-    required: true,
     maxlength: 200000,
     minlength: 3,
   },
@@ -41,6 +41,9 @@ const paperSchema = new Schema({
   date: {
     type: Number,
     default: new Date().getTime(),
+  },
+  file: {
+    type: String,
   },
   startdate: { type: Number },
   enddate: { type: Number },
