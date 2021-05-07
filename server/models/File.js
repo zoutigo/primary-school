@@ -29,6 +29,12 @@ const fileSchema = new Schema({
   validweek: {
     type: Number,
   },
+  startdate: {
+    type: Number,
+  },
+  enddate: {
+    type: Number,
+  },
   month: {
     type: Number,
   },

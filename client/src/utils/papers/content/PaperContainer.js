@@ -22,6 +22,10 @@ function PaperContainer({ paper, item, index }) {
     (state) => state.papers
   )
 
+  const collapseCondition = currentPaperItem
+    ? index === currentPaperItem.index
+    : false
+
   return (
     <StyledGridItem item container id="paper-container">
       {showPaperItems && (
@@ -31,7 +35,7 @@ function PaperContainer({ paper, item, index }) {
           )}
           <Grid item container>
             <Collapse
-              in={index === currentPaperItem.index}
+              in={collapseCondition}
               timeout="auto"
               unmountOnExit
               style={{ minWidth: '100%' }}

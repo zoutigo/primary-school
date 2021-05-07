@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const paperSchema = new Schema({
   type: {
     type: String,
-    enum: ["article", "activity", "parent-info"],
+    enum: ["article", "activity", "parent-info", "newsletter", "menu"],
     required: true,
   },
 
@@ -42,6 +42,8 @@ const paperSchema = new Schema({
     type: Number,
     default: new Date().getTime(),
   },
+  startdate: { type: Number },
+  enddate: { type: Number },
   authorId: {
     type: Schema.Types.ObjectId,
     ref: "User",

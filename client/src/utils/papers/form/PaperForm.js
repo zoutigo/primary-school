@@ -34,6 +34,10 @@ import FilesFields from './fields/FilesFields'
 import PapersFields from './fields/PapersFields'
 import paperparams from '../paperparams'
 import requestbody from './requestbody'
+import MenuFields from './fields/MenuFields'
+import DatePickerControl from '../../forms/DatePickerControl'
+import EventsForm from './EventsForm'
+import NewsLettersForm from './NewsLettersForm'
 
 const useStyles = makeStyles({
   input: {
@@ -74,11 +78,10 @@ function PaperForm({ paper: { queryKey, poster, def, entity, type } }) {
   const dispatch = useDispatch()
   const { submitButtonText } = paperparams(def)
 
-  const {
-    formAction: action,
-    currentPaperItem: { datas: currentDatas },
-  } = useSelector((state) => state.papers)
-  const [selectedDate, handleDateChange] = useState(new Date())
+  const { formAction: action, currentPaperItem } = useSelector(
+    (state) => state.papers
+  )
+  const currentDatas = !currentPaperItem ? null : currentPaperItem.datas
   const theme = useTheme()
   const token = useSelector((state) => state.user.Token.token)
   const classes = useStyles()
@@ -106,6 +109,7 @@ function PaperForm({ paper: { queryKey, poster, def, entity, type } }) {
     const options = {
       headers: { 'x-access-token': token },
     }
+    console.log('submitted datas:', datas)
     const finalDatas = requestbody(def, datas)
     if (def === 'activites') {
       finalDatas.entity = entity
@@ -114,7 +118,7 @@ function PaperForm({ paper: { queryKey, poster, def, entity, type } }) {
 
     try {
       await mutate({
-        id: currentDatas ? currentDatas._id : '',
+        id: currentDatas && action !== 'create' ? currentDatas._id : '',
         action: action,
         options: options,
         body: finalDatas,
@@ -142,56 +146,99 @@ function PaperForm({ paper: { queryKey, poster, def, entity, type } }) {
   useDispatchOnUnmount(setFormAction, '')
 
   return (
-    <PaperStyledForm onSubmit={handleSubmit(onSubmit)}>
-      <Grid container>
-        {action === 'create' && (
-          <Grid item container alignItems="center">
-            <ButtonComponent
-              disabled={isSubmitting}
-              icon={<BackspaceIcon />}
-              background={theme.palette.info.main}
-              width="200px"
-              text="retour"
-              onClick={() => {
-                dispatch(setShowPapersForm(false))
-                dispatch(setShowPapersList(true))
-                dispatch(setShowPapersItems(true))
-              }}
-            />
-          </Grid>
-        )}
-        {def === 'page' && (
-          <PagesFields control={control} initialdatas={currentDatas} />
-        )}
-        {def === 'activites' && (
-          <PapersFields
-            control={control}
-            initialdatas={action === 'create' ? null : currentDatas}
-          />
-        )}
-        {def === 'events' && (
-          <EventsFields control={control} initialdatas={currentDatas} />
-        )}
-        {def === 'file' && (
-          // <FilesFields control={control} initialdatas={currentDatas} />
-          <Grid item container>
-            <label htmlFor="file">Select a Photo</label>
-            <input type="file" id="file-upload" name="file" ref={register} />
-          </Grid>
-        )}
-
-        <Grid item container alignItems="center" justify="flex-end">
+    // <PaperStyledForm onSubmit={handleSubmit(onSubmit)}>
+    <Grid container>
+      {action === 'create' && (
+        <Grid item container alignItems="center">
           <ButtonComponent
-            type="submit"
             disabled={isSubmitting}
             icon={<BackspaceIcon />}
-            background={theme.palette.success.main}
-            width="300px"
-            text={submitButtonText}
+            background={theme.palette.info.main}
+            width="200px"
+            text="retour"
+            onClick={() => {
+              dispatch(setShowPapersForm(false))
+              dispatch(setShowPapersList(true))
+              dispatch(setShowPapersItems(true))
+            }}
           />
         </Grid>
+      )}
+      {def === 'page' && (
+        <PagesFields control={control} initialdatas={currentDatas} />
+      )}
+      {def === 'activites' && (
+        <PapersFields
+          control={control}
+          initialdatas={action === 'create' ? null : currentDatas}
+        />
+      )}
+      {def === 'events' && (
+        // <EventsFields control={control} initialdatas={currentDatas} />
+        <EventsForm
+          initialdatas={currentDatas}
+          def={def}
+          poster={poster}
+          queryKey={queryKey}
+        />
+      )}
+      {def === 'file' && type === 'newsletter' && (
+        // <FilesFields control={control} initialdatas={currentDatas} />
+        // <Grid item container>
+        //   <label htmlFor="file">Choisir un fichier</label>
+        //   <input type="file" id="file-upload" name="file" ref={register} />
+        // </Grid>
+        <NewsLettersForm
+          def={def}
+          queryKey={queryKey}
+          poster={poster}
+          type={type}
+        />
+      )}
+      {def === 'file' && type === 'menu' && (
+        <Grid item container>
+          <Grid item xs={6} lg={4}>
+            <DatePickerControl
+              control={control}
+              name="startdate"
+              label="Date de debut"
+              format="dddd DD MMMM yyyy"
+              initialdate={
+                currentDatas ? new Date(currentDatas.date) : new Date()
+              }
+            />
+          </Grid>
+
+          <Grid item xs={6} lg={4}>
+            <DatePickerControl
+              control={control}
+              name="enddate"
+              label="Date de fin"
+              format="dddd DD MMMM yyyy"
+              initialdate={
+                currentDatas ? new Date(currentDatas.date) : new Date()
+              }
+            />
+          </Grid>
+          <Grid item xs={6} lg={4}>
+            <label htmlFor="file">Choisir un fichier</label>
+            <input type="file" id="file-upload" name="file" ref={register} />
+          </Grid>
+        </Grid>
+      )}
+
+      <Grid item container alignItems="center" justify="flex-end">
+        <ButtonComponent
+          type="submit"
+          disabled={isSubmitting}
+          icon={<BackspaceIcon />}
+          background={theme.palette.success.main}
+          width="300px"
+          text={submitButtonText}
+        />
       </Grid>
-    </PaperStyledForm>
+    </Grid>
+    // {/* </PaperStyledForm> */}
   )
 }
 

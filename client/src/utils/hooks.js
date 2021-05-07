@@ -15,6 +15,22 @@ export const useDispatchOnRouteChange = (someFetchActionCreator) => {
   }, [pathname])
 }
 
+export const useDispatchPaperFormMutation = (pivots, actions, cleanups) => {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    actions.forEach((action) => {
+      const [actionner, value] = action
+      dispatch(actionner(value))
+    })
+    return () => {
+      cleanups.forEach((cleanup) => {
+        const [cleaner, value] = cleanup
+        dispatch(cleaner(value))
+      })
+    }
+  }, pivots)
+}
+
 export const useDispatchOnMutation = (mutationStatus, action, value) => {
   const dispatch = useDispatch()
   useEffect(() => {
@@ -34,9 +50,8 @@ export const useDispatchOnMount = (action, value) => {
 export const useDispatchOnUnmount = (action, value) => {
   const dispatch = useDispatch()
   useEffect(() => {
-    return () => {
-      dispatch(action(value))
-    }
+    console.log('hello')
+    return () => dispatch(action(value))
   }, [])
 }
 

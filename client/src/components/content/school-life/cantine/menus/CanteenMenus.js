@@ -2,8 +2,8 @@ import React from 'react'
 import { apiFecthFile, apiPostFile } from '../../../../../utils/api'
 import Papers from '../../../../../utils/papers/Papers'
 
-function NewsLetters() {
-  const pageName = 'newsletter'
+function CanteenMenus() {
+  const pageName = 'menu'
 
   const paper = {
     queryKey: [pageName, { type: pageName }],
@@ -11,10 +11,9 @@ function NewsLetters() {
     def: 'file',
     fetcher: apiFecthFile,
     poster: apiPostFile,
-    type: pageName,
+    type: 'menu',
   }
-
   return <Papers paper={paper} />
 }
 
-export default NewsLetters
+export default CanteenMenus

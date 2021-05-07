@@ -8,9 +8,21 @@ module.exports.paperValidator = (datas) => {
         let typeSchema = Joi.object({
           type: Joi.string()
             .required()
-            .valid("article", "activity", "parent-info"),
+            .valid("article", "activity", "parent-info", "newsletter"),
         });
         return typeSchema.validate(data);
+
+      case "file":
+        let fileSchema = Joi.object({
+          file: Joi.string().required(),
+        });
+        return fileSchema.validate(data);
+
+      case "startdate":
+        let startdateSchema = Joi.object({
+          startdate: Joi.date().timestamp().greater(Date.now()),
+        });
+        return startdateSchema.validate(data);
 
       case "title":
         let titleSchema = Joi.object({

@@ -118,12 +118,20 @@ export const apiPostPage = async ({ id, body, options, action }) => {
 export const apiPostFile = async ({ id, body, options, action }) => {
   const URL = `${process.env.REACT_APP_ENDPOINT}/files?action=${action}&id=${id}`
   const formdata = new FormData()
-  formdata.append('month', body.month)
+  const { month, startdate, enddate } = body
+  if (month) {
+    formdata.append('month', body.month)
+  }
+  if (startdate) {
+    formdata.append('month', body.startdate)
+  }
+  if (enddate) {
+    formdata.append('month', body.enddate)
+  }
+  console.log('file:', body.file)
   formdata.append('file', body.file)
   formdata.append('type', 'newsletter')
 
-  // let { data } = await axios.post(URL, formdata, options)
-  console.log('headers', options.headers)
   const { data } = await fetch(URL, {
     method: 'POST',
     headers: new Headers(options.headers),
