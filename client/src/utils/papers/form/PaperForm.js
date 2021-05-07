@@ -3,7 +3,7 @@ import { Button, Grid, TextField } from '@material-ui/core'
 import { makeStyles, styled, useTheme } from '@material-ui/styles'
 import PropTypes from 'prop-types'
 
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useForm } from 'react-hook-form'
 
 import { useMutation } from 'react-query'
@@ -38,6 +38,7 @@ import MenuFields from './fields/MenuFields'
 import DatePickerControl from '../../forms/DatePickerControl'
 import EventsForm from './EventsForm'
 import NewsLettersForm from './NewsLettersForm'
+import MenusForm from './MenusForm'
 
 const useStyles = makeStyles({
   input: {
@@ -182,7 +183,7 @@ function PaperForm({ paper: { queryKey, poster, def, entity, type } }) {
           queryKey={queryKey}
         />
       )}
-      {def === 'file' && type === 'newsletter' && (
+      {type === 'newsletter' && (
         // <FilesFields control={control} initialdatas={currentDatas} />
         // <Grid item container>
         //   <label htmlFor="file">Choisir un fichier</label>
@@ -195,36 +196,43 @@ function PaperForm({ paper: { queryKey, poster, def, entity, type } }) {
           type={type}
         />
       )}
-      {def === 'file' && type === 'menu' && (
-        <Grid item container>
-          <Grid item xs={6} lg={4}>
-            <DatePickerControl
-              control={control}
-              name="startdate"
-              label="Date de debut"
-              format="dddd DD MMMM yyyy"
-              initialdate={
-                currentDatas ? new Date(currentDatas.date) : new Date()
-              }
-            />
-          </Grid>
+      {type === 'menu' && (
+        <MenusForm
+          initialdatas={currentDatas}
+          def={def}
+          queryKey={queryKey}
+          poster={poster}
+          type={type}
+        />
+        // <Grid item container>
+        //   <Grid item xs={6} lg={4}>
+        //     <DatePickerControl
+        //       control={control}
+        //       name="startdate"
+        //       label="Date de debut"
+        //       format="dddd DD MMMM yyyy"
+        //       initialdate={
+        //         currentDatas ? new Date(currentDatas.date) : new Date()
+        //       }
+        //     />
+        //   </Grid>
 
-          <Grid item xs={6} lg={4}>
-            <DatePickerControl
-              control={control}
-              name="enddate"
-              label="Date de fin"
-              format="dddd DD MMMM yyyy"
-              initialdate={
-                currentDatas ? new Date(currentDatas.date) : new Date()
-              }
-            />
-          </Grid>
-          <Grid item xs={6} lg={4}>
-            <label htmlFor="file">Choisir un fichier</label>
-            <input type="file" id="file-upload" name="file" ref={register} />
-          </Grid>
-        </Grid>
+        //   <Grid item xs={6} lg={4}>
+        //     <DatePickerControl
+        //       control={control}
+        //       name="enddate"
+        //       label="Date de fin"
+        //       format="dddd DD MMMM yyyy"
+        //       initialdate={
+        //         currentDatas ? new Date(currentDatas.date) : new Date()
+        //       }
+        //     />
+        //   </Grid>
+        //   <Grid item xs={6} lg={4}>
+        //     <label htmlFor="file">Choisir un fichier</label>
+        //     <input type="file" id="file-upload" name="file" ref={register} />
+        //   </Grid>
+        // </Grid>
       )}
 
       <Grid item container alignItems="center" justify="flex-end">

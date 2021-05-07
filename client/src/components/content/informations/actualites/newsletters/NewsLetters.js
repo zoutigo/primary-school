@@ -1,10 +1,5 @@
 import React from 'react'
-import {
-  apiFecthFile,
-  apiFetchPaper,
-  apiPostFile,
-  apiPostPaper,
-} from '../../../../../utils/api'
+import { apiFetchPaper, apiPostPaper } from '../../../../../utils/api'
 import Papers from '../../../../../utils/papers/Papers'
 
 function NewsLetters() {

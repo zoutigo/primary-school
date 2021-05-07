@@ -104,6 +104,7 @@ export const apiFecthPage = async (param) => {
 }
 
 export const apiPostPaper = async ({ id, body, options, action }) => {
+  console.log('body:', body)
   const URL = `${process.env.REACT_APP_ENDPOINT}/papers?action=${action}&id=${id}`
   const { data } = await axios.post(URL, body, options)
   return data

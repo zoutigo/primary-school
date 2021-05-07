@@ -24,6 +24,12 @@ module.exports.paperValidator = (datas) => {
         });
         return startdateSchema.validate(data);
 
+      case "enddate":
+        let enddateSchema = Joi.object({
+          enddate: Joi.date().timestamp().greater(Date.now()),
+        });
+        return enddateSchema.validate(data);
+
       case "title":
         let titleSchema = Joi.object({
           title: Joi.string().required().min(3).max(100),

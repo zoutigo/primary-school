@@ -7,9 +7,7 @@ const requestbody = async (definition, datas, type = null) => {
     description,
     place,
     date,
-    alias,
     file,
-    month,
     startdate,
     enddate,
   } = datas
@@ -40,6 +38,7 @@ const requestbody = async (definition, datas, type = null) => {
           file: await convertBase64(file[0]),
           startdate: startdate.valueOf(),
           enddate: enddate.valueOf(),
+          type: type,
         }
       }
 

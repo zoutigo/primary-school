@@ -23,7 +23,6 @@ import {
 } from '../../../redux'
 import requestbody from './requestbody'
 import ButtonComponent from '../../../components/others.js/ButtonComponent'
-import { apiPostPaper } from '../../api'
 
 const StyledForm = styled('form')(() => ({
   width: '100%',
@@ -40,7 +39,7 @@ function NewsLettersForm({ initialdatas, def, poster, queryKey, type }) {
   const dispatch = useDispatch()
 
   const { mutate, error, isError, isSuccess: isMutationSuccess } = useMutation(
-    apiPostPaper,
+    poster,
     useUpdateMutationOptions(queryKey)
   )
 
@@ -56,10 +55,10 @@ function NewsLettersForm({ initialdatas, def, poster, queryKey, type }) {
       headers: { 'x-access-token': token },
     }
     const finalDatas = await requestbody(def, datas, type)
-    console.log('finaldatas:', finalDatas)
 
     try {
       const { _id: currentPaperId } = currentDatas
+
       await mutate({
         id: currentDatas && action !== 'create' ? currentPaperId : '',
         action: action,
@@ -107,6 +106,7 @@ function NewsLettersForm({ initialdatas, def, poster, queryKey, type }) {
           <input type="file" id="file-upload" name="file" ref={register} />
         </Grid>
       </Grid>
+
       <Grid item container alignItems="center" justify="flex-end">
         <ButtonComponent
           type="submit"
