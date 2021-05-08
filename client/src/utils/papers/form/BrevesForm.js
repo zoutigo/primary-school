@@ -1,19 +1,19 @@
+import { yupResolver } from '@hookform/resolvers/yup'
 import { Grid, styled, useTheme } from '@material-ui/core'
 import React from 'react'
 import PropTypes from 'prop-types'
-import BackspaceIcon from '@material-ui/icons/Backspace'
-
-import { useDispatch, useSelector } from 'react-redux'
 import { Controller, useForm } from 'react-hook-form'
 import { useMutation } from 'react-query'
-import { yupResolver } from '@hookform/resolvers/yup'
-import DatePickerControl from '../../forms/DatePickerControl'
+import { useDispatch, useSelector } from 'react-redux'
+import BackspaceIcon from '@material-ui/icons/Backspace'
+
 import {
   useDispatchOnMount,
   useDispatchOnMutation,
   useDispatchOnUnmount,
   useUpdateMutationOptions,
 } from '../../hooks'
+import { brevesSchema } from '../../forms/validators'
 import requestbody from './requestbody'
 import {
   setCurrentPaperItem,
@@ -23,15 +23,16 @@ import {
   setShowPapersItems,
   setShowPapersList,
 } from '../../../redux'
+import DatePickerControl from '../../forms/DatePickerControl'
 import ButtonComponent from '../../../components/others.js/ButtonComponent'
-import { menusSchema } from '../../forms/validators'
 
 const StyledForm = styled('form')(() => ({
   width: '100%',
 }))
 
-function MenusForm({ initialdatas, def, poster, queryKey, type }) {
+function BrevesForm({ initialdatas, def, poster, queryKey, type }) {
   const theme = useTheme()
+
   const token = useSelector((state) => state.user.Token.token)
   const { formAction: action, currentPaperItem } = useSelector(
     (state) => state.papers
@@ -50,7 +51,7 @@ function MenusForm({ initialdatas, def, poster, queryKey, type }) {
     formState: { isValid, isSubmitting },
   } = useForm({
     mode: 'onChange',
-    resolver: yupResolver(menusSchema),
+    resolver: yupResolver(brevesSchema),
   })
 
   const onSubmit = async (datas) => {
@@ -72,7 +73,6 @@ function MenusForm({ initialdatas, def, poster, queryKey, type }) {
       dispatch(setCurrentPaperItem({ datas: currentDatas, index: 0 }))
     }
   }
-
   // close the form if successfull mutation
 
   useDispatchOnMutation(isMutationSuccess, setShowPapersList, true)
@@ -146,11 +146,10 @@ function MenusForm({ initialdatas, def, poster, queryKey, type }) {
   )
 }
 
-MenusForm.defaultProps = null
-MenusForm.propTypes = {
+BrevesForm.defaultProps = null
+BrevesForm.propTypes = {
   initialdatas: PropTypes.shape({
     file: PropTypes.string,
-    month: PropTypes.number,
     date: PropTypes.number,
   }),
   def: PropTypes.string,
@@ -159,4 +158,4 @@ MenusForm.propTypes = {
   type: PropTypes.string,
 }
 
-export default MenusForm
+export default BrevesForm

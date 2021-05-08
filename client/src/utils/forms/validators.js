@@ -96,3 +96,13 @@ export const paperSchema = yup.object().shape({
     .required('la page doit avoir un contenu')
     .min(5, 'au moins 5 caractères'),
 })
+
+export const menusSchema = yup.object().shape({
+  startdate: yup.mixed().required('veillez indiquer la date de debut'),
+  enddate: yup.mixed(),
+})
+
+export const brevesSchema = yup.object().shape({
+  startdate: yup.mixed().required('veillez indiquer la date de debut'),
+  enddate: yup.mixed(),
+})

@@ -41,6 +41,14 @@ const requestbody = async (definition, datas, type = null) => {
           type: type,
         }
       }
+      if (type === 'breve') {
+        return {
+          file: await convertBase64(file[0]),
+          startdate: startdate.valueOf(),
+          enddate: enddate.valueOf(),
+          type: type,
+        }
+      }
 
       return {
         file: file[0],

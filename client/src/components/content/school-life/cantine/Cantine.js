@@ -1,7 +1,6 @@
 import React from 'react'
 import Wrapper from '../../../wrappers/wrapper/Wrapper'
-import MenuArchives from './menuArchives/MenuArchives'
-import MenuOfTheWeek from './menuOfTheWeek/MenuOfTheWeek'
+import Breves from './breves/Breves'
 import CanteenMenus from './menus/CanteenMenus'
 
 function Cantine() {
@@ -11,8 +10,8 @@ function Cantine() {
       content: <CanteenMenus />,
     },
     {
-      title: 'Menus archivés',
-      content: <MenuArchives />,
+      title: 'Brèves',
+      content: <Breves />,
     },
   ]
   const datas = { pages }
