@@ -38,9 +38,7 @@ export const apiLogin = async (datas) => {
 export const apiFecthUserDatas = async (id) => {
   const url = `http://localhost:3500/users/${id}`
 
-  const result = await fetch(
-    'http://localhost:3500/users/5ff991c7eba87d14d21fa08f'
-  ).then((res) => res)
+  const result = await fetch(url).then((res) => res)
 
   return result.json()
 
@@ -104,7 +102,6 @@ export const apiFecthPage = async (param) => {
 }
 
 export const apiPostPaper = async ({ id, body, options, action }) => {
-  console.log('body:', body)
   const URL = `${process.env.REACT_APP_ENDPOINT}/papers?action=${action}&id=${id}`
   const { data } = await axios.post(URL, body, options)
   return data
@@ -129,7 +126,7 @@ export const apiPostFile = async ({ id, body, options, action }) => {
   if (enddate) {
     formdata.append('month', body.enddate)
   }
-  console.log('file:', body.file)
+
   formdata.append('file', body.file)
   formdata.append('type', 'newsletter')
 

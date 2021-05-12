@@ -4,9 +4,12 @@ import { apiFetchPaper, apiPostPaper } from '../api'
 import Papers from '../papers/Papers'
 
 function Activities({ entity, type, pageName }) {
+  const params =
+    entity === 'direction' ? `type=${type}` : `type=${type}&entity=${entity}`
+
   const paper = {
     queryKey: [pageName],
-    queryParams: `type=${type}&entity=${entity}`,
+    queryParams: params,
     def: 'activites',
     fetcher: apiFetchPaper,
     poster: apiPostPaper,

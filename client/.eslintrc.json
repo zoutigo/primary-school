@@ -6,6 +6,7 @@
         "FormData": false,
         "Headers":false,
         "FileReader":false
+       
       },
     "rules": {
         "prettier/prettier":"error",
@@ -14,7 +15,8 @@
         "import/no-duplicates":"warn",
         "react/jsx-filename-extension":"off",
         "react/jsx-props-no-spreading": "off",
-        "object-shorthand":"off"
-        
+        "object-shorthand":"off",
+        "no-underscore-dangle":"off"
+         
     }
 }

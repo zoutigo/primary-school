@@ -3,9 +3,8 @@ import Wrapper from '../../../wrappers/wrapper/Wrapper'
 
 import NewsLetters from './newsletters/NewsLetters'
 import Events from './events/Events'
-
-import Infos from './Infos'
-import ActivitesEcole from './ActivitesEcole'
+import Infos from './infos/Infos'
+import ActivitesEcole from './activitesecole/ActivitesEcole'
 
 function Actualites() {
   const pages = [

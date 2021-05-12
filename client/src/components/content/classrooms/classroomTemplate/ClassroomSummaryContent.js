@@ -51,7 +51,7 @@ function ClassroomSummaryContent({ alias, id: classroomId }) {
       </Grid>
 
       <StyledImageContainer item container>
-        {data.image && <img src={data.image.path} />}
+        {data.image && <img src={data.image.path} alt={alias} />}
       </StyledImageContainer>
 
       <Grid item>
@@ -62,7 +62,10 @@ function ClassroomSummaryContent({ alias, id: classroomId }) {
     </StyledClassroomContainer>
   )
 }
-ClassroomSummaryContent.defaultPropTypes = null
+ClassroomSummaryContent.defaultProps = {
+  alias: null,
+  id: null,
+}
 
 ClassroomSummaryContent.propTypes = {
   alias: PropTypes.string,

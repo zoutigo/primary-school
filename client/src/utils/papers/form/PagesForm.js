@@ -1,20 +1,19 @@
-import { yupResolver } from '@hookform/resolvers/yup'
 import { Grid, styled, useTheme } from '@material-ui/core'
 import React from 'react'
 import PropTypes from 'prop-types'
 import BackspaceIcon from '@material-ui/icons/Backspace'
 
 import { Controller, useForm } from 'react-hook-form'
-import { useMutation } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
-import InputTextControl from '../../forms/InputTextControl'
+import { useMutation } from 'react-query'
+import PageEditor from '../../tinyEditors/PageEditor'
 import {
   useDispatchOnMount,
   useDispatchOnMutation,
   useDispatchOnUnmount,
   useUpdateMutationOptions,
 } from '../../hooks'
-import { articlesSchema } from '../../forms/validators'
+import ButtonComponent from '../../../components/others.js/ButtonComponent'
 import requestbody from './requestbody'
 import {
   setCurrentPaperItem,
@@ -24,23 +23,20 @@ import {
   setShowPapersItems,
   setShowPapersList,
 } from '../../../redux'
-import PageEditor from '../../tinyEditors/PageEditor'
-import ButtonComponent from '../../../components/others.js/ButtonComponent'
 
 const StyledForm = styled('form')(() => ({
   width: '100%',
 }))
 
-function ArticlesForm({ initialdatas, def, poster, queryKey, type, entity }) {
-  const theme = useTheme()
-
+function PagesForm({ initialdatas, poster, queryKey, def }) {
   const token = useSelector((state) => state.user.Token.token)
   const { formAction: action, currentPaperItem } = useSelector(
     (state) => state.papers
   )
+  const theme = useTheme()
+  const dispatch = useDispatch()
 
   const currentDatas = !currentPaperItem ? null : currentPaperItem.datas
-  const dispatch = useDispatch()
 
   const { mutate, isSuccess: isMutationSuccess } = useMutation(
     poster,
@@ -50,24 +46,18 @@ function ArticlesForm({ initialdatas, def, poster, queryKey, type, entity }) {
   const {
     control,
     handleSubmit,
-    formState: { isValid, isSubmitting },
-  } = useForm({
-    mode: 'onChange',
-    resolver: yupResolver(articlesSchema),
-  })
+    formState: { isSubmitting },
+  } = useForm({})
 
   const onSubmit = async (datas) => {
     const options = {
       headers: { 'x-access-token': token },
     }
-    const finalDatas = await requestbody(def, datas, type)
-    finalDatas.entity = entity
+    const finalDatas = await requestbody(def, datas)
 
     try {
-      const currentPaperId = currentDatas ? currentDatas._id : null
-
       await mutate({
-        id: currentDatas && action !== 'create' ? currentPaperId : '',
+        id: currentDatas && action !== 'create' ? currentDatas._id : '',
         action: action,
         options: options,
         body: finalDatas,
@@ -98,55 +88,43 @@ function ArticlesForm({ initialdatas, def, poster, queryKey, type, entity }) {
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
       <Grid item container>
         <Grid item container>
-          <InputTextControl
-            name="title"
-            control={control}
-            initialvalue={
-              initialdatas && action !== 'create' ? initialdatas.title : ''
-            }
-            helperText="au moins 10 caractères"
-            label="Titre"
-            width="100%"
-          />
-        </Grid>
-        <Grid item container>
           <Controller
             name="text"
             control={control}
-            defaultValue={
-              initialdatas && action !== 'create' ? initialdatas.text : ''
-            }
+            defaultValue={initialdatas ? initialdatas.text : ''}
             render={({ onChange, value }) => (
               <PageEditor onChange={onChange} value={value} />
             )}
           />
         </Grid>
-      </Grid>
-      <Grid item container alignItems="center" justify="flex-end">
-        <ButtonComponent
-          type="submit"
-          disabled={isSubmitting || !isValid}
-          icon={<BackspaceIcon />}
-          background={theme.palette.success.main}
-          width="300px"
-          text="Je poste mon article"
-        />
+        <Grid item container alignItems="center" justify="flex-end">
+          <ButtonComponent
+            type="submit"
+            disabled={isSubmitting}
+            icon={<BackspaceIcon />}
+            background={theme.palette.success.main}
+            width="300px"
+            text="Je poste ma page"
+          />
+        </Grid>
       </Grid>
     </StyledForm>
   )
 }
 
-ArticlesForm.defaultProps = null
-ArticlesForm.propTypes = {
-  initialdatas: PropTypes.shape({
-    title: PropTypes.string,
-    text: PropTypes.string,
-  }),
-  def: PropTypes.string,
-  poster: PropTypes.func,
-  queryKey: PropTypes.arrayOf(PropTypes.string),
-  type: PropTypes.string,
-  entity: PropTypes.string,
+PagesForm.defaultProps = {
+  initialdatas: {
+    text: null,
+  },
 }
 
-export default ArticlesForm
+PagesForm.propTypes = {
+  initialdatas: PropTypes.shape({
+    text: PropTypes.string,
+  }),
+  queryKey: PropTypes.arrayOf(PropTypes.string).isRequired,
+  poster: PropTypes.string.isRequired,
+  def: PropTypes.string.isRequired,
+}
+
+export default PagesForm

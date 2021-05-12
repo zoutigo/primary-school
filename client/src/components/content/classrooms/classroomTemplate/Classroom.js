@@ -5,7 +5,6 @@ import ClassroomSummary from './ClassroomSummary'
 
 import Wrapper from '../../../wrappers/wrapper/Wrapper'
 import { apiFecthClassroom } from '../../../../utils/api'
-import ClassroomArticles from './ClassroomArticles'
 import ClassroomNews from './ClassroomNews'
 import AsideUser from '../../../wrappers/aside/AsideUser'
 import AsideSubTitle from '../../../wrappers/aside/AsideSubTitle'
@@ -33,16 +32,16 @@ function Classroom() {
       </span>
     )
   }
-
+  const { _id: id, summary, image } = data
   const pages = [
     {
       title: name,
       content: (
         <ClassroomSummary
           alias={alias}
-          summary={data.summary}
-          image={data.image}
-          id={data._id}
+          summary={summary}
+          image={image}
+          id={id}
         />
       ),
     },

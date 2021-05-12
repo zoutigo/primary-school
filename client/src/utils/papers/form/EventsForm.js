@@ -12,7 +12,6 @@ import {
   useDispatchOnMount,
   useDispatchOnUnmount,
   useDispatchOnMutation,
-  useDispatchPaperFormMutation,
   useUpdateMutationOptions,
 } from '../../hooks'
 import requestbody from './requestbody'
@@ -38,7 +37,7 @@ function EventsForm({ initialdatas, def, poster, queryKey }) {
   const currentDatas = !currentPaperItem ? null : currentPaperItem.datas
 
   const dispatch = useDispatch()
-  const { mutate, error, isError, isSuccess: isMutationSuccess } = useMutation(
+  const { mutate, isSuccess: isMutationSuccess } = useMutation(
     poster,
     useUpdateMutationOptions(queryKey)
   )
@@ -46,7 +45,7 @@ function EventsForm({ initialdatas, def, poster, queryKey }) {
   const {
     control,
     handleSubmit,
-    formState: { isValid, isSubmitting, isSubmitSuccessful },
+    formState: { isSubmitting },
   } = useForm({})
 
   const onSubmit = async (datas) => {
@@ -83,23 +82,6 @@ function EventsForm({ initialdatas, def, poster, queryKey }) {
   useDispatchOnUnmount(setShowPapersList, true)
   useDispatchOnUnmount(setShowPapersItems, true)
   useDispatchOnUnmount(setFormAction, '')
-
-  // useDispatchPaperFormMutation(
-  //   [isMutationSuccess],
-  //   [
-  //     [setShowPapersList, true],
-  //     [setShowPapersForm, false],
-  //     [setShowPapersItems, true],
-  //     [setShowPapersInnerForm, false],
-  //     [setFormAction, ''],
-  //   ],
-  //   [
-  //     [setShowPapersList, true],
-  //     [setShowPapersForm, false],
-  //     [setShowPapersItems, true],
-  //     [setFormAction, ''],
-  //   ]
-  // )
 
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
@@ -177,6 +159,7 @@ EventsForm.propTypes = {
     date: PropTypes.number,
     text: PropTypes.string,
     place: PropTypes.string,
+    title: PropTypes.string,
   }),
 }
 
