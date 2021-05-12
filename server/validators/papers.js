@@ -10,7 +10,7 @@ module.exports.paperValidator = (datas) => {
             .required()
             .valid(
               "article",
-              "activity",
+              "activite",
               "parent-info",
               "newsletter",
               "menu",

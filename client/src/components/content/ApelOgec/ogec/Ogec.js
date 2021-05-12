@@ -17,7 +17,7 @@ function Ogec() {
     {
       title: 'ACTIVITES',
       content: (
-        <Activities pageName="activites-ogec" entity="ogec" type="activity" />
+        <Activities pageName="activites-ogec" entity="ogec" type="activite" />
       ),
     },
   ]

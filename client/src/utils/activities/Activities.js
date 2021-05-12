@@ -17,8 +17,8 @@ function Activities({ entity, type, pageName }) {
   return <Papers paper={paper} />
 }
 Activities.defaultProps = {
-  entity: 'direction',
-  type: 'article',
+  entity: '',
+  type: 'activite',
   pageName: 'activites',
 }
 

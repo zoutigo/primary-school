@@ -55,6 +55,7 @@ const requestbody = async (definition, datas, type = null) => {
         // month: month.valueOf(),
       }
     case 'activites':
+      console.log('def:', definition)
       return {
         title: title,
         text: text,

@@ -50,7 +50,7 @@ export const useDispatchOnMount = (action, value) => {
 export const useDispatchOnUnmount = (action, value) => {
   const dispatch = useDispatch()
   useEffect(() => {
-    console.log('hello')
+    const actionName = 'cleaner'
     return () => dispatch(action(value))
   }, [])
 }

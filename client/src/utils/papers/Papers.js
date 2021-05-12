@@ -6,13 +6,14 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import ButtonComponent from '../../components/others.js/ButtonComponent'
 import {
+  setCurrentPaperItem,
   setFormAction,
   setShowPapersForm,
   setShowPapersItems,
   setShowPapersList,
 } from '../../redux/papers/papersActions'
 import { StyledGridTabContainer } from '../componentsStyled'
-import { useDispatchOnMount } from '../hooks'
+import { useDispatchOnMount, useDispatchOnUnmount } from '../hooks'
 import PapersContent from './content/PapersContent'
 import PaperForm from './form/PaperForm'
 import paperparams from './paperparams'
@@ -27,7 +28,7 @@ function Papers({ paper }) {
   const { def } = paper
   const { bottomButtonText } = paperparams(def)
   useDispatchOnMount(setShowPapersItems, true)
-
+  useDispatchOnUnmount(setCurrentPaperItem, null)
   return (
     <StyledGridTabContainer container>
       <Grid item container md={12} lg={12}>

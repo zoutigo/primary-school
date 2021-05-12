@@ -17,7 +17,7 @@ function Apel() {
     {
       title: `ACTIVITES`,
       content: (
-        <Activities pageName="activites-apel" entity="apel" type="activity" />
+        <Activities pageName="activites-apel" entity="apel" type="activite" />
       ),
     },
     {

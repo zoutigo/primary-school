@@ -28,6 +28,7 @@ import EventsForm from './EventsForm'
 import NewsLettersForm from './NewsLettersForm'
 import MenusForm from './MenusForm'
 import BrevesForm from './BrevesForm'
+import ArticlesForm from './ArticleForm'
 
 function PaperForm({ paper: { queryKey, poster, def, entity, type } }) {
   const dispatch = useDispatch()
@@ -53,6 +54,8 @@ function PaperForm({ paper: { queryKey, poster, def, entity, type } }) {
     //   resolver: yupResolver(paperSchema),
   })
 
+  console.log('type:', type)
+
   return (
     <Grid container>
       {action === 'create' && (
@@ -74,14 +77,22 @@ function PaperForm({ paper: { queryKey, poster, def, entity, type } }) {
       {def === 'page' && (
         <PagesFields control={control} initialdatas={currentDatas} />
       )}
-      {def === 'activites' && (
+      {/* {def === 'activites' && (
         <PapersFields
           control={control}
           initialdatas={action === 'create' ? null : currentDatas}
         />
-      )}
+      )} */}
       {def === 'events' && (
         <EventsForm
+          initialdatas={currentDatas}
+          def={def}
+          poster={poster}
+          queryKey={queryKey}
+        />
+      )}
+      {type === 'activite' && (
+        <ArticlesForm
           initialdatas={currentDatas}
           def={def}
           poster={poster}
