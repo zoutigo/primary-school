@@ -1,19 +1,21 @@
 import React from 'react'
 import Wrapper from '../../../wrappers/wrapper/Wrapper'
-import Articles from './articles/Articles'
+
 import NewsLetters from './newsletters/NewsLetters'
 import Events from './events/Events'
-import News from './news/News'
+
+import Infos from './Infos'
+import ActivitesEcole from './ActivitesEcole'
 
 function Actualites() {
   const pages = [
     {
-      title: `Articles`,
-      content: <Articles />,
+      title: `Infos`,
+      content: <Infos />,
     },
     {
-      title: 'Les News',
-      content: <News />,
+      title: 'Activités',
+      content: <ActivitesEcole />,
     },
     {
       title: `Newsletters`,

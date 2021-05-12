@@ -4,7 +4,15 @@ const Schema = mongoose.Schema;
 const paperSchema = new Schema({
   type: {
     type: String,
-    enum: ["article", "activite", "parent-info", "newsletter", "menu", "breve"],
+    enum: [
+      "article",
+      "activite",
+      "parent-info",
+      "newsletter",
+      "menu",
+      "breve",
+      "info",
+    ],
     required: true,
   },
 

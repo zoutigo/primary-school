@@ -31,7 +31,7 @@ const StyledForm = styled('form')(() => ({
   width: '100%',
 }))
 
-function ArticlesForm({ initialdatas, def, poster, queryKey, type }) {
+function ArticlesForm({ initialdatas, def, poster, queryKey, type, entity }) {
   const theme = useTheme()
 
   const token = useSelector((state) => state.user.Token.token)
@@ -61,9 +61,10 @@ function ArticlesForm({ initialdatas, def, poster, queryKey, type }) {
       headers: { 'x-access-token': token },
     }
     const finalDatas = await requestbody(def, datas, type)
+    finalDatas.entity = entity
 
     try {
-      const { _id: currentPaperId } = currentDatas
+      const currentPaperId = currentDatas ? currentDatas._id : null
 
       await mutate({
         id: currentDatas && action !== 'create' ? currentPaperId : '',
@@ -141,6 +142,7 @@ ArticlesForm.propTypes = {
   poster: PropTypes.func,
   queryKey: PropTypes.arrayOf(PropTypes.string),
   type: PropTypes.string,
+  entity: PropTypes.string,
 }
 
 export default ArticlesForm

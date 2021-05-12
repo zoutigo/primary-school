@@ -14,7 +14,8 @@ module.exports.paperValidator = (datas) => {
               "parent-info",
               "newsletter",
               "menu",
-              "breve"
+              "breve",
+              "info"
             ),
         });
         return typeSchema.validate(data);

@@ -59,6 +59,7 @@ const requestbody = async (definition, datas, type = null) => {
       return {
         title: title,
         text: text,
+        type: type,
       }
 
     default:

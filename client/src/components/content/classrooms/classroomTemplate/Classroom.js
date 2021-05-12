@@ -48,7 +48,7 @@ function Classroom() {
     },
     {
       title: 'ACTIVITES',
-      content: <Activities entity={alias} pageName={alias} type="activity" />,
+      content: <Activities entity={alias} pageName={alias} type="activite" />,
     },
     {
       title: 'NEWS',

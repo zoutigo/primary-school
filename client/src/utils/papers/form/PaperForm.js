@@ -54,8 +54,6 @@ function PaperForm({ paper: { queryKey, poster, def, entity, type } }) {
     //   resolver: yupResolver(paperSchema),
   })
 
-  console.log('type:', type)
-
   return (
     <Grid container>
       {action === 'create' && (
@@ -97,6 +95,8 @@ function PaperForm({ paper: { queryKey, poster, def, entity, type } }) {
           def={def}
           poster={poster}
           queryKey={queryKey}
+          type={type}
+          entity={entity}
         />
       )}
       {type === 'newsletter' && (
