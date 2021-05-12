@@ -32,7 +32,9 @@ export const notifyApiFailure = (error) => {
         break
 
       default:
-        notifyFailure("une erreur s'est produite")
+        notifyFailure(`une erreur s'est produite: 
+        ${error}
+        `)
     }
   }
 }

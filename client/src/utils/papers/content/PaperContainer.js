@@ -1,12 +1,13 @@
 import { Box, Collapse, Grid } from '@material-ui/core'
 import { styled } from '@material-ui/styles'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import PaperBody from './PaperBody'
 import PaperFooter from './PaperFooter'
 import PaperHeader from './PaperHeader'
 
-const StyledGridItem = styled(Grid)(({ theme, bgcolor }) => ({
+const StyledGridItem = styled(Grid)(() => ({
   padding: '0.3rem 0.1rem !important',
   '& >div': {
     boxSizing: 'border-box',
@@ -50,6 +51,16 @@ function PaperContainer({ paper, item, index }) {
       )}
     </StyledGridItem>
   )
+}
+
+PaperContainer.propTypes = {
+  paper: PropTypes.shape({
+    def: PropTypes.string.isRequired,
+  }).isRequired,
+  item: PropTypes.shape({
+    text: PropTypes.string,
+  }).isRequired,
+  index: PropTypes.number.isRequired,
 }
 
 export default PaperContainer

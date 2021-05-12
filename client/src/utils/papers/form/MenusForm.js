@@ -2,7 +2,7 @@ import { Grid, styled, useTheme } from '@material-ui/core'
 import React from 'react'
 import PropTypes from 'prop-types'
 import BackspaceIcon from '@material-ui/icons/Backspace'
-
+import { ToastContainer } from 'react-toastify'
 import { useDispatch, useSelector } from 'react-redux'
 import { Controller, useForm } from 'react-hook-form'
 import { useMutation } from 'react-query'
@@ -25,6 +25,7 @@ import {
 } from '../../../redux'
 import ButtonComponent from '../../../components/others.js/ButtonComponent'
 import { menusSchema } from '../../forms/validators'
+import { notifyApiFailure } from '../../notifications'
 
 const StyledForm = styled('form')(() => ({
   width: '100%',
@@ -69,6 +70,7 @@ function MenusForm({ initialdatas, def, poster, queryKey, type }) {
         body: finalDatas,
       })
     } catch (err) {
+      notifyApiFailure(err)
       dispatch(setCurrentPaperItem({ datas: currentDatas, index: 0 }))
     }
   }
@@ -92,6 +94,7 @@ function MenusForm({ initialdatas, def, poster, queryKey, type }) {
 
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
+      <ToastContainer />
       <Grid item container>
         <Grid item xs={6} lg={4}>
           <DatePickerControl

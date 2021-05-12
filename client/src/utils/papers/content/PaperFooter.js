@@ -1,5 +1,4 @@
 import {
-  Box,
   ButtonGroup,
   Collapse,
   Grid,
@@ -8,31 +7,32 @@ import {
   Tooltip,
   useTheme,
 } from '@material-ui/core'
+import { ToastContainer } from 'react-toastify'
 import Alert from '@material-ui/lab/Alert'
 import CloseIcon from '@material-ui/icons/Close'
 import React from 'react'
+import PropTypes from 'prop-types'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff'
 import UpdateIcon from '@material-ui/icons/Update'
 import { isError, useMutation } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
-import ButtonComponent from '../../../components/others.js/ButtonComponent'
 import { useUpdateMutationOptions } from '../../hooks'
 import ModalValidation from '../../../components/others.js/ModalValidation'
 import {
   setCurrentPaperItem,
   setFormAction,
   setShowPapersForm,
-  setShowPapersInnerForm,
   setShowPapersItems,
   setShowPapersList,
 } from '../../../redux'
+import { notifyApiFailure } from '../../notifications'
 
-const StyledPaperFooter = styled(Grid)(({ theme, bgcolor }) => ({
+const StyledPaperFooter = styled(Grid)(() => ({
   boxSizing: 'border-box',
   padding: '0px 1rem !important',
 }))
 
-const StyledIconButton = styled(IconButton)(({ color, theme }) => ({
+const StyledIconButton = styled(IconButton)(({ color }) => ({
   color: color,
   fontSize: '3rem',
   marginLeft: '2rem !important',
@@ -54,7 +54,6 @@ function PaperFooter({ paper, item, index }) {
     mutate,
     error: mutationerror,
     isError: isMutationError,
-    isSuccess: isMutationSuccess,
   } = useMutation(poster, useUpdateMutationOptions(queryKey))
 
   const mutatePaper = async () => {
@@ -68,13 +67,12 @@ function PaperFooter({ paper, item, index }) {
         options: options,
       })
     } catch (err) {
-      console.log('error:', err)
+      notifyApiFailure(err)
     }
   }
 
   React.useEffect(() => {
     if (mutationerror && isError) {
-      console.log('erreur')
       setOpenAlert(true)
     }
     return () => {
@@ -112,6 +110,7 @@ function PaperFooter({ paper, item, index }) {
       xl={12}
       id="paper-footer"
     >
+      <ToastContainer />
       <Collapse in={isMutationError}>
         <Alert severity="error" action={<CostumIconButton />}>
           Close me!
@@ -151,6 +150,17 @@ function PaperFooter({ paper, item, index }) {
       </ButtonGroup>
     </StyledPaperFooter>
   )
+}
+
+PaperFooter.propTypes = {
+  paper: PropTypes.shape({
+    queryKey: PropTypes.arrayOf(PropTypes.string).isRequired,
+    poster: PropTypes.func.isRequired,
+  }).isRequired,
+  item: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+  }).isRequired,
+  index: PropTypes.number.isRequired,
 }
 
 export default PaperFooter

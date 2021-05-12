@@ -1,11 +1,11 @@
 import { Grid, styled, useTheme } from '@material-ui/core'
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { useMutation } from 'react-query'
 import BackspaceIcon from '@material-ui/icons/Backspace'
-
+import { ToastContainer } from 'react-toastify'
 import DatePickerControl from '../../forms/DatePickerControl'
 import {
   useDispatchOnMount,
@@ -23,6 +23,7 @@ import {
 } from '../../../redux'
 import requestbody from './requestbody'
 import ButtonComponent from '../../../components/others.js/ButtonComponent'
+import { notifyApiFailure } from '../../notifications'
 
 const StyledForm = styled('form')(() => ({
   width: '100%',
@@ -38,7 +39,7 @@ function NewsLettersForm({ initialdatas, def, poster, queryKey, type }) {
   const currentDatas = !currentPaperItem ? null : currentPaperItem.datas
   const dispatch = useDispatch()
 
-  const { mutate, error, isError, isSuccess: isMutationSuccess } = useMutation(
+  const { mutate, isSuccess: isMutationSuccess } = useMutation(
     poster,
     useUpdateMutationOptions(queryKey)
   )
@@ -46,8 +47,7 @@ function NewsLettersForm({ initialdatas, def, poster, queryKey, type }) {
   const {
     control,
     handleSubmit,
-    register,
-    formState: { isValid, isSubmitting, isSubmitSuccessful },
+    formState: { isSubmitting },
   } = useForm({})
 
   const onSubmit = async (datas) => {
@@ -66,6 +66,7 @@ function NewsLettersForm({ initialdatas, def, poster, queryKey, type }) {
         body: finalDatas,
       })
     } catch (err) {
+      notifyApiFailure(err)
       dispatch(setCurrentPaperItem({ datas: currentDatas, index: 0 }))
     }
   }
@@ -89,6 +90,7 @@ function NewsLettersForm({ initialdatas, def, poster, queryKey, type }) {
 
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
+      <ToastContainer />
       <Grid container>
         <Grid item>
           <DatePickerControl
@@ -102,8 +104,17 @@ function NewsLettersForm({ initialdatas, def, poster, queryKey, type }) {
           />
         </Grid>
         <Grid item>
-          <label htmlFor="file">Choisir un fichier</label>
-          <input type="file" id="file-upload" name="file" ref={register} />
+          <Controller
+            control={control}
+            name="file"
+            render={({ onChange }) => (
+              <input
+                id="input-menu-upload"
+                type="file"
+                onChange={(e) => onChange(e.target.files)}
+              />
+            )}
+          />
         </Grid>
       </Grid>
 
@@ -126,11 +137,12 @@ NewsLettersForm.propTypes = {
   initialdatas: PropTypes.shape({
     file: PropTypes.string,
     month: PropTypes.number,
+    date: PropTypes.number,
   }),
-  def: PropTypes.string,
-  poster: PropTypes.func,
-  queryKey: PropTypes.arrayOf(PropTypes.string),
-  type: PropTypes.string,
+  def: PropTypes.string.isRequired,
+  poster: PropTypes.func.isRequired,
+  queryKey: PropTypes.arrayOf(PropTypes.string).isRequired,
+  type: PropTypes.string.isRequired,
 }
 
 export default NewsLettersForm

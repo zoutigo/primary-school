@@ -6,7 +6,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { useMutation } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
 import BackspaceIcon from '@material-ui/icons/Backspace'
-
+import { ToastContainer } from 'react-toastify'
 import {
   useDispatchOnMount,
   useDispatchOnMutation,
@@ -25,6 +25,7 @@ import {
 } from '../../../redux'
 import DatePickerControl from '../../forms/DatePickerControl'
 import ButtonComponent from '../../../components/others.js/ButtonComponent'
+import { notifyApiFailure } from '../../notifications'
 
 const StyledForm = styled('form')(() => ({
   width: '100%',
@@ -70,6 +71,7 @@ function BrevesForm({ initialdatas, def, poster, queryKey, type }) {
         body: finalDatas,
       })
     } catch (err) {
+      notifyApiFailure(err)
       dispatch(setCurrentPaperItem({ datas: currentDatas, index: 0 }))
     }
   }
@@ -92,6 +94,7 @@ function BrevesForm({ initialdatas, def, poster, queryKey, type }) {
 
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
+      <ToastContainer />
       <Grid item container>
         <Grid item xs={6} lg={4}>
           <DatePickerControl

@@ -36,12 +36,12 @@ function PapersContent({ paper, ...rest }) {
   return (
     <Grid container className="title">
       {data &&
-        data.map((item, i) => (
+        data.map((object, i) => (
           <PaperContainer
             paper={paper}
-            item={item}
+            item={object}
             index={i}
-            key={i}
+            key={object._id}
             {...rest}
           />
         ))}

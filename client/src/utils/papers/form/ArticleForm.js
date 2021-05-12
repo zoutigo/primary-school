@@ -3,7 +3,7 @@ import { Grid, styled, useTheme } from '@material-ui/core'
 import React from 'react'
 import PropTypes from 'prop-types'
 import BackspaceIcon from '@material-ui/icons/Backspace'
-
+import { ToastContainer } from 'react-toastify'
 import { Controller, useForm } from 'react-hook-form'
 import { useMutation } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
@@ -26,6 +26,7 @@ import {
 } from '../../../redux'
 import PageEditor from '../../tinyEditors/PageEditor'
 import ButtonComponent from '../../../components/others.js/ButtonComponent'
+import { notifyApiFailure } from '../../notifications'
 
 const StyledForm = styled('form')(() => ({
   width: '100%',
@@ -73,6 +74,7 @@ function ArticlesForm({ initialdatas, def, poster, queryKey, type, entity }) {
         body: finalDatas,
       })
     } catch (err) {
+      notifyApiFailure(err)
       dispatch(setCurrentPaperItem({ datas: currentDatas, index: 0 }))
     }
   }
@@ -96,6 +98,7 @@ function ArticlesForm({ initialdatas, def, poster, queryKey, type, entity }) {
 
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
+      <ToastContainer />
       <Grid item container>
         <Grid item container>
           <InputTextControl

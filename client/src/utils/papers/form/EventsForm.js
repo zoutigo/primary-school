@@ -1,6 +1,7 @@
 import { Grid, styled, useTheme } from '@material-ui/core'
 import React from 'react'
 import PropTypes from 'prop-types'
+import { ToastContainer } from 'react-toastify'
 import { useDispatch, useSelector } from 'react-redux'
 import { Controller, useForm } from 'react-hook-form'
 import { useMutation } from 'react-query'
@@ -24,6 +25,7 @@ import {
   setShowPapersList,
 } from '../../../redux'
 import ButtonComponent from '../../../components/others.js/ButtonComponent'
+import { notifyApiFailure } from '../../notifications'
 
 const StyledForm = styled('form')(() => ({
   width: '100%',
@@ -62,6 +64,7 @@ function EventsForm({ initialdatas, def, poster, queryKey }) {
         body: finalDatas,
       })
     } catch (err) {
+      notifyApiFailure(err)
       dispatch(setCurrentPaperItem({ datas: currentDatas, index: 0 }))
     }
   }
@@ -85,6 +88,7 @@ function EventsForm({ initialdatas, def, poster, queryKey }) {
 
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
+      <ToastContainer />
       <Grid container>
         <Grid item container>
           <InputTextControl

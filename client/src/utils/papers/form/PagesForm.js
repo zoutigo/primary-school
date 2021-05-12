@@ -2,6 +2,7 @@ import { Grid, styled, useTheme } from '@material-ui/core'
 import React from 'react'
 import PropTypes from 'prop-types'
 import BackspaceIcon from '@material-ui/icons/Backspace'
+import { ToastContainer } from 'react-toastify'
 
 import { Controller, useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
@@ -23,6 +24,7 @@ import {
   setShowPapersItems,
   setShowPapersList,
 } from '../../../redux'
+import { notifyApiFailure } from '../../notifications'
 
 const StyledForm = styled('form')(() => ({
   width: '100%',
@@ -63,6 +65,7 @@ function PagesForm({ initialdatas, poster, queryKey, def }) {
         body: finalDatas,
       })
     } catch (err) {
+      notifyApiFailure(err)
       dispatch(setCurrentPaperItem({ datas: currentDatas, index: 0 }))
     }
   }
@@ -86,6 +89,7 @@ function PagesForm({ initialdatas, poster, queryKey, def }) {
 
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
+      <ToastContainer />
       <Grid item container>
         <Grid item container>
           <Controller
