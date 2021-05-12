@@ -1,12 +1,14 @@
 import { withStyles } from '@material-ui/styles'
 import React from 'react'
-import AsideItem from './AsideItem'
+import PropTypes from 'prop-types'
 import { Grid } from '@material-ui/core'
+import AsideItem from './AsideItem'
 
 const styles = (theme) => ({
   root: {
-    width: '80%',
-    marginLeft: '20%',
+    background: 'yellow',
+    width: '50%',
+    // marginLeft: '20%',
     [theme.breakpoints.down('lg')]: {
       width: '100%',
       marginLeft: '0px',
@@ -15,16 +17,27 @@ const styles = (theme) => ({
 })
 
 function AsideBodyContainer({ items, rubricColors }) {
-  const BodyContainer = withStyles(styles)(
-    ({ classes, items, rubricColors }) => (
-      <Grid item container className={classes.root}>
-        {items.map((item, i) => {
-          return <AsideItem item={item} rubricColors={rubricColors} key={i} />
-        })}
-      </Grid>
-    )
-  )
-  return <BodyContainer items={items} rubricColors={rubricColors} />
+  const BodyContainer = withStyles(styles)(({ classes, elements, colors }) => (
+    <Grid item container className={classes.root}>
+      {elements.map((element) => (
+        <AsideItem
+          item={element}
+          rubricColors={colors}
+          key={elements.length + 1}
+        />
+      ))}
+    </Grid>
+  ))
+  return <BodyContainer elements={items} colors={rubricColors} />
+}
+
+AsideBodyContainer.propTypes = {
+  rubricColors: PropTypes.shape({
+    ligth: PropTypes.string.isRequired,
+    main: PropTypes.string.isRequired,
+    dark: PropTypes.string.isRequired,
+  }).isRequired,
+  items: PropTypes.arrayOf(PropTypes.element, PropTypes.string).isRequired,
 }
 
 export default AsideBodyContainer

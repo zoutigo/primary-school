@@ -30,8 +30,8 @@ Wrapper.defaultProps = null
 Wrapper.propTypes = {
   pages: PropTypes.shape({
     content: PropTypes.element,
-  }),
-  aside: PropTypes.element.isRequired,
+  }).isRequired,
+  aside: PropTypes.element,
 }
 
 export default Wrapper

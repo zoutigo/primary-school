@@ -6,11 +6,11 @@ import deepOrange from '@material-ui/core/colors/deepOrange'
 import red from '@material-ui/core/colors/red'
 import amber from '@material-ui/core/colors/amber'
 
-let theme = createMuiTheme({
+const initialTheme = createMuiTheme({
   palette: {
     primary: {
       // ligth: 'rgb(250,250,210)',
-      light: 'rgba(255, 239, 211, 1)', //papaya
+      light: 'rgba(255, 239, 211, 1)', // papaya
       // main: 'rgb(255,215,0)',
       main: 'rgba(255, 196, 155, 1)',
       dark: 'rgb(240,230,140)',
@@ -131,6 +131,6 @@ let theme = createMuiTheme({
   },
 })
 
-theme = responsiveFontSizes(theme, { factor: 3 })
+const theme = responsiveFontSizes(initialTheme, { factor: 3 })
 
 export default theme
