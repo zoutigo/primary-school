@@ -1,114 +1,114 @@
 import React from 'react'
-import { Typography } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
-import landingImage from '../../../images/rubrics/home/landing/land6.JPG'
-import Movie from './Movie'
+import { Box, Grid, styled, Typography } from '@material-ui/core'
+import media from '../../../video/home.mp4'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100vw',
-    minHeight: '93vh',
-    backgroundSize: '2100px',
-    backgroundRepeat: 'no-repeat',
-    backgroundPositionY: '-8vh',
-    backgroundPosition: 'bottom, left',
-    background: `linear-gradient(to top, transparent 80%, white),
-        url(${landingImage}) `,
-    position: 'relative',
-    [theme.breakpoints.down('md')]: {
-      background: 'none',
-      backgroundSize: 'cover',
-    },
+const StyledLandingContainer = styled(Grid)(({ theme }) => ({
+  minHeight: '40vh',
+  position: 'relative',
+  background: 'green',
+
+  [theme.breakpoints.up('lg')]: {
+    minHeight: '95vh',
   },
-  banner: {
-    position: 'absolute',
-    bottom: '0vh',
-    left: '4vw',
-    height: '15vh',
-    paddingLeft: '2vw !important',
-    paddingRight: '2vw !important',
-    color: theme.palette.secondary.main,
-    background: 'rgba(255, 239, 211, 0.3)',
-    [theme.breakpoints.down('md')]: {
-      display: 'none',
-    },
+
+  [theme.breakpoints.between('md', 'lg')]: {
+    minHeight: '90vh',
   },
-  land: {
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
-    },
-    minwidth: '100vw',
-    minHeight: '50vw',
-    marginTop: '9vh !important',
-    '& img': {
-      width: '100%',
-      height: '100%',
-      objectFit: 'cover',
-    },
+  [theme.breakpoints.between('sm', 'md')]: {
+    minHeight: '65vh',
   },
-  text: {
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
-    },
-    color: theme.palette.secondary.main,
-    '& h3': {
-      margin: '2rem 0.7rem 2rem 0.7rem',
-      textAlign: 'justify',
-    },
-    '& :nth-child(2)': {
-      textAlign: 'justify',
-      margin: '1rem 0.7rem ',
-    },
-    '& :nth-child(3)': {
-      textAlign: 'justify',
-      margin: '1rem 0.7rem ',
-    },
+  [theme.breakpoints.between('xs', 'sm')]: {
+    minHeight: '50vh',
+  },
+  [theme.breakpoints.down('xs')]: {
+    minHeight: '40vh',
   },
 }))
 
+const StyledVideo = styled('video')(({ theme }) => ({
+  [theme.breakpoints.up('md')]: {
+    height: '100%',
+    width: '100%',
+    objectFit: 'cover',
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+  [theme.breakpoints.down('md')]: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    objectFit: 'cover',
+    top: 0,
+    left: 0,
+    right: 0,
+  },
+}))
+
+const StyledTypo = styled(Typography)(({ theme }) => ({
+  fontSize: '12rem',
+  fontWeight: 900,
+
+  textTransform: 'uppercase',
+
+  lineHeight: 1,
+  WebkitTextStroke: `2px ${theme.palette.secondary.main}`,
+  opacity: 0.7,
+  color: 'transparent',
+  marginLeft: '100px !important',
+  backgroundClip: 'text',
+  WebkitBackgroundClip: 'text',
+  backgroundImage: `linear-gradient(to bottom, transparent 50%, ${theme.palette.secondary.main} 50%)`,
+  transition: 'background-position ease-out 0.4s',
+  backgroundSize: '1% 200%',
+  '&:hover': {
+    backgroundPosition: '0% -100%',
+  },
+  [theme.breakpoints.up('lg')]: {
+    fontSize: '15rem',
+  },
+  [theme.breakpoints.between('md', 'lg')]: {
+    fontSize: '8.5rem',
+    marginLeft: '10vw !important',
+    marginTop: '6rem !important',
+  },
+  [theme.breakpoints.between('sm', 'md')]: {
+    fontSize: '5rem',
+    marginLeft: '10vw !important',
+    marginTop: '4rem !important',
+  },
+  [theme.breakpoints.between('xs', 'sm')]: {
+    fontSize: '3rem',
+    marginLeft: '10vw !important',
+    marginTop: '3rem !important',
+  },
+}))
+
+const StyledTextBox = styled(Box)(({ theme }) => ({
+  position: 'absolute',
+  top: '15rem',
+  [theme.breakpoints.up('sm')]: {
+    top: '9rem',
+  },
+  [theme.breakpoints.between('xs', 'sm')]: {
+    top: '8rem',
+  },
+  [theme.breakpoints.down('xs')]: {
+    display: 'none',
+  },
+}))
 function Landing() {
-  const classes = useStyles()
-
-  // const Banner = () => {
-  //   return (
-  //     <Paper className={classes.banner} elevation={3}>
-  //       <Typography variant="h1">ECOLE SAINT AUGUSTIN</Typography>
-  //       <Typography variant="h3">
-  //         Etablissement Privé Catholique, Crémieu{' '}
-  //       </Typography>
-  //     </Paper>
-  //   )
-  // }
-
-  const firstText = `
-  Bienvenue à l'Ecole Saint Augustin
-  `
-  const secondText = `
-  L'école St Augustin, école catholique sous contrat d'association avec
-          l'état, se situe au coeur de Crémieu, cité médiévale iséroise, à une
-          cinquantaine de kilomètres au sud-est de Lyon.
-  `
-
-  const thirdText = `
-  Toute l'équipe pédagogique a à coeur un encadrement et un enseignement
-  prenant en compte chaque enfant : ateliers, décloisonnements,
-  différenciations (aides pédagogiques, bilans pédagogiques, conseils,
-  contrats, groupes de travail, soutien, partenariat avec les parents
-  ...).
-  `
   return (
-    <div className={classes.root}>
-      {/* {!Scroll && <Banner />} */}
-      <Movie />
-      <div className={classes.land}>
-        <img src={landingImage} alt="acceuil" />
-      </div>
-      <div className={classes.text}>
-        <Typography variant="h3">{firstText}</Typography>
-        <Typography variant="body2">{secondText}</Typography>
-        <Typography variant="body2">{thirdText}</Typography>
-      </div>
-    </div>
+    <StyledLandingContainer item container>
+      <StyledVideo src={media} autoPlay muted loop />
+      <StyledTextBox>
+        <StyledTypo variant="h1">ECOLE</StyledTypo>
+        <StyledTypo variant="h1">SAINT AUGUSTIN</StyledTypo>
+        <StyledTypo variant="h1">Crémieu</StyledTypo>
+      </StyledTextBox>
+    </StyledLandingContainer>
   )
 }
 

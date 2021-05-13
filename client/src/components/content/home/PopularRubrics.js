@@ -80,12 +80,20 @@ function PopularRubrics() {
     const { item } = props
     const [title, link, text, icon] = item
     const theme = useTheme()
+    const handleClick = (path) => {
+      history.push({
+        pathname: path,
+        state: {
+          from: '/',
+        },
+      })
+    }
 
     return (
       <StyledPopularItemCard item sm={12} md={6} lg={3}>
         <box>{icon}</box>
 
-        <Typography variant="h2"> {title}</Typography>
+        <Typography variant="h2">{title}</Typography>
         <StyledTextBox>
           <Typography variant="body1">{text}</Typography>
         </StyledTextBox>
@@ -95,8 +103,8 @@ function PopularRubrics() {
           background={theme.palette.secondary.light}
           hovercolor={theme.palette.primary.main}
           hoverbackground={theme.palette.secondary.main}
-          minwidth={'250px'}
-          text={'Allons Y'}
+          minwidth="250px"
+          text="Allons Y"
           icon={<ExitToAppIcon />}
           onClick={() => {
             handleClick(link)
@@ -109,23 +117,14 @@ function PopularRubrics() {
   }
 
   PopularItem.propTypes = {
-    item: PropTypes.array,
-  }
-
-  const handleClick = (link) => {
-    history.push({
-      pathname: link,
-      state: {
-        from: '/',
-      },
-    })
+    item: PropTypes.arrayOf(PropTypes.string, PropTypes.element).isRequired,
   }
 
   return (
     <StyledHomeSection container>
-      {Populars.map((Popular, index) => {
-        return <PopularItem item={Popular} key={index} />
-      })}
+      {Populars.map((Popular) => (
+        <PopularItem item={Popular} key={Populars.length + 1} />
+      ))}
     </StyledHomeSection>
   )
 }
