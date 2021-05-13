@@ -8,11 +8,11 @@ const StyledLandingContainer = styled(Grid)(({ theme }) => ({
   background: 'green',
 
   [theme.breakpoints.up('lg')]: {
-    minHeight: '95vh',
+    minHeight: '98vh',
   },
 
   [theme.breakpoints.between('md', 'lg')]: {
-    minHeight: '90vh',
+    minHeight: '93vh',
   },
   [theme.breakpoints.between('sm', 'md')]: {
     minHeight: '65vh',

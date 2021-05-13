@@ -2,11 +2,12 @@ import React from 'react'
 import { Grid, makeStyles } from '@material-ui/core'
 
 import Landing from './Landing'
-import Introduction from './Introduction'
+
 import Figures from './Figures'
 
 import PopularRubrics from './PopularRubrics'
 import News from './news/News'
+import Introduction from './introduction/Introduction'
 
 const useStyles = makeStyles(() => ({
   root: {},

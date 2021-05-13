@@ -20,12 +20,12 @@ export const StyledButton = styled(Button)(({ theme, bgcolor }) => ({
   padding: '0.5em 1em !important',
 }))
 
-export const StyledForm = styled('form')(({ theme, bgcolor }) => ({
+export const StyledForm = styled('form')(({ bgcolor }) => ({
   height: '3em',
   padding: '0.5em !important',
   background: bgcolor,
 }))
-export const StyledInfoBox = styled(Box)(({ theme, bgcolor }) => ({
+export const StyledInfoBox = styled(Box)(({ bgcolor }) => ({
   minHeight: '2em',
   width: '100%',
   padding: '0.5em !important',
@@ -39,12 +39,13 @@ export const StyledNavLink = styled(NavLink)(() => ({
 }))
 export const StyledHomeSection = styled(Grid)(({ theme }) => ({
   padding: '2rem 3rem !important',
+  [theme.breakpoints.down('sm')]: {
+    padding: '2rem 0.6rem !important',
+  },
 }))
-export const StyledInputTextFieldControl = styled(TextField)(
-  ({ theme, width }) => ({
-    margin: '8px',
-    minHeight: '3rem',
-    background: 'yellow',
-    width: width,
-  })
-)
+export const StyledInputTextFieldControl = styled(TextField)(({ width }) => ({
+  margin: '8px',
+  minHeight: '3rem',
+  background: 'yellow',
+  width: width,
+}))
