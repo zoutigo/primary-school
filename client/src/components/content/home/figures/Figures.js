@@ -2,20 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { Grid, Typography } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
-import image from '../../../images/rubrics/home/landing/land7.JPG'
+import { makeStyles, styled } from '@material-ui/styles'
+import image from '../../../../images/rubrics/home/landing/land7.JPG'
+import FiguresCard from './FiguresCard'
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100vw',
-    minHeight: '70vh',
-    backgroundSize: '2100px',
-    backgroundRepeat: 'no-repeat',
-    backgroundPositionY: '-8vh',
-    backgroundPosition: 'top  , right',
-    background: `url(${image})`,
-    alignItems: 'center',
-  },
   card: {
     textAlign: 'center',
     '& >div': {
@@ -37,12 +28,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+const StyledFiguresContainer = styled(Grid)(() => ({
+  width: '100vw',
+  minHeight: '70vh',
+  // backgroundSize: '2100px',
+  backgroundRepeat: 'no-repeat',
+  backgroundPositionY: '-8vh',
+  backgroundPosition: 'top  , right',
+  background: `url(${image})`,
+  alignItems: 'center',
+  position: 'relative',
+}))
+
 function Figures() {
+  const classes = useStyles()
   const items = [
-    ['Eleves', 218],
-    ['Familles', 100],
-    ['Enseignants', 25],
-    ['Jeux', 49],
+    ['Eleves', 218, 0, '#85C48E'],
+    ['Familles', 100, 1, '#C389BC'],
+    ['Enseignants', 25, 2, '#EE701D'],
+    ['Jeux', 49, 3, '#F9CE46'],
   ]
 
   const Card = (props) => {
@@ -59,25 +63,22 @@ function Figures() {
         className={classes.card}
       >
         <div>
-          <Typography variant="h3">{count} </Typography>
+          <Typography variant="h3">{count}</Typography>
           <Typography variant="h4">{name}</Typography>
         </div>
       </Grid>
     )
   }
   Card.propTypes = {
-    item: PropTypes.shape({
-      name: PropTypes.string,
-      count: PropTypes.number,
-    }),
+    item: PropTypes.arrayOf(PropTypes.string, PropTypes.number).isRequired,
   }
-  const classes = useStyles()
+
   return (
-    <Grid container className={classes.root}>
-      {items.map((item, index) => (
-        <Card item={item} key={index} />
+    <StyledFiguresContainer container>
+      {items.map((item) => (
+        <FiguresCard figureitem={item} key={item} />
       ))}
-    </Grid>
+    </StyledFiguresContainer>
   )
 }
 

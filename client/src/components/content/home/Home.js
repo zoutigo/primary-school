@@ -3,7 +3,7 @@ import { Grid, makeStyles } from '@material-ui/core'
 
 import Landing from './Landing'
 
-import Figures from './Figures'
+import Figures from './figures/Figures'
 
 import PopularRubrics from './PopularRubrics'
 import News from './news/News'
