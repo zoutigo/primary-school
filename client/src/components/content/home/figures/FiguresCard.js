@@ -2,19 +2,57 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Avatar, Box, Typography } from '@material-ui/core'
 import { styled, withTheme } from '@material-ui/styles'
+import { useWindowSize } from '../../../../utils/hooks'
 
-const positions = [
+const initialPositions = [
   [100, 200],
   [500, 700],
   [200, 1100],
   [400, 1500],
 ]
 
+const matrix = [
+  [
+    [100, 50],
+    [100, 50],
+    [100, 200],
+    [100, 200],
+    [100, 200],
+  ],
+  [
+    [500, 700],
+    [500, 700],
+    [500, 700],
+    [500, 700],
+    [500, 700],
+  ],
+  [
+    [200, 1100],
+    [200, 1100],
+    [200, 1100],
+    [200, 1100],
+    [200, 1100],
+  ],
+  [
+    [400, 1500],
+    [400, 1500],
+    [400, 1500],
+    [400, 1500],
+    [400, 1500],
+  ],
+]
+
 const StyledFigureCard = withTheme(
-  styled(({ index, theme, ...rest }) => <Box {...rest} />)({
+  styled(({ positions, theme, ...rest }) => <Box {...rest} />)({
     position: 'absolute',
-    top: ({ index }) => positions[index][0],
-    left: ({ index }) => positions[index][1],
+    [(theme) => theme.breakpoints.up('lg')]: {
+      top: ({ positions }) => positions[0][0],
+      left: ({ positions }) => positions[0][1],
+    },
+    [(theme) => theme.breakpoints.between('md', 'lg')]: {
+      top: ({ positions }) => positions[1][0],
+      left: ({ positions }) => positions[1][1],
+    },
   })
 )
 
@@ -39,9 +77,25 @@ const StyledDesignationTypo = styled(Typography)(() => ({
 }))
 
 function FiguresCard({ figureitem }) {
-  const [designation, count, index, bgcolor] = figureitem
+  const [designation, count, index, bgcolor, positions] = figureitem
+
+  const StyledFigureCards = styled(Box)(({ theme }) => ({
+    position: 'absolute',
+    [theme.breakpoints.up('lg')]: {
+      top: positions[0][0],
+      left: positions[0][1],
+    },
+    [theme.breakpoints.between('xs', 'sm')]: {
+      top: positions[3][0],
+      left: positions[3][1],
+    },
+    [theme.breakpoints.down('xs')]: {
+      top: positions[4][0],
+      left: positions[4][1],
+    },
+  }))
   return (
-    <StyledFigureCard index={index}>
+    <StyledFigureCards positions={positions}>
       <StyledAvatar bgcolor={bgcolor}>
         <StyledDesignationTypo variant="h4">
           {designation}
@@ -49,7 +103,7 @@ function FiguresCard({ figureitem }) {
 
         <StyledCountTypo variant="h3">{count}</StyledCountTypo>
       </StyledAvatar>
-    </StyledFigureCard>
+    </StyledFigureCards>
   )
 }
 
