@@ -1,5 +1,4 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
 
 import Card from '@material-ui/core/Card'
@@ -12,65 +11,53 @@ import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography'
 
 import { Box } from '@material-ui/core'
+import { styled } from '@material-ui/styles'
+import randomkey from '../../../../../utils/randomkey'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    margin: '1rem 0.8rem !important',
+const StyledCardHeader = styled(CardHeader)(({ theme }) => ({
+  background: theme.palette.secondary.main,
+  color: 'white',
+  height: '3.5rem',
+}))
 
-    [theme.breakpoints.down('md')]: {
-      minWidth: '90%',
-    },
+const StyledCardContent = styled(CardContent)(() => ({
+  background: 'whitesmoke',
+  padding: '0.5rem 1.8rem !important',
+}))
 
-    [theme.breakpoints.up('md')]: {
-      minWidth: '80%',
-    },
-  },
+const StyledCard = styled(Card)(() => ({
+  marginTop: '1rem !important',
+  minWidth: '100%',
+}))
 
-  avatar: {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.secondary.main,
-    marginRight: '1rem !important',
-    marginLeft: '2rem !important',
-  },
-  header: {
-    background: theme.palette.secondary.main,
-    color: 'white',
-    height: '3.5rem',
-  },
-  content: {
-    background: 'whitesmoke',
-    padding: '0.5rem 1.8rem !important',
-  },
+const StyledAvatar = styled(Avatar)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.main,
+  color: theme.palette.secondary.main,
+  marginRight: '1rem !important',
+  marginLeft: '2rem !important',
 }))
 
 function NewsCard({ cardTitle, items, recipe }) {
-  const classes = useStyles()
-
   const Title = (title) => <Typography variant="h4">{title}</Typography>
   return (
-    <Card className={classes.root}>
-      <CardHeader
-        className={classes.header}
-        avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
-            {recipe}
-          </Avatar>
-        }
+    <StyledCard>
+      <StyledCardHeader
+        avatar={<StyledAvatar aria-label="recipe">{recipe}</StyledAvatar>}
         title={Title(cardTitle)}
         // subheader="September 14, 2016"
       />
 
-      <CardContent className={classes.content}>
-        {items && items.map((item, i) => <Box key={i}>{item}</Box>)}
-      </CardContent>
-    </Card>
+      <StyledCardContent>
+        {items && items.map((item) => <Box key={randomkey(99999)}>{item}</Box>)}
+      </StyledCardContent>
+    </StyledCard>
   )
 }
 
 NewsCard.propTypes = {
-  cardTitle: PropTypes.string,
-  recipe: PropTypes.string,
-  items: PropTypes.array,
+  cardTitle: PropTypes.string.isRequired,
+  recipe: PropTypes.string.isRequired,
+  items: PropTypes.arrayOf(PropTypes.element).isRequired,
 }
 
 export default NewsCard

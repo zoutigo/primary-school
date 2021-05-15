@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useLocation } from 'react-router-dom'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, useLocation } from 'react-router-dom'
+import { Grid } from '@material-ui/core'
 
 import { setIsLogged, setTokenValidity } from '../../redux/user/userActions'
 
@@ -9,7 +9,7 @@ import { rubricComponents } from '../../utils/navComponents'
 import ErrorPage from './ErrorPage'
 import rubrics from '../../utils/rubrics'
 import Identification from './private/credentials/identification/Identification'
-import { Grid } from '@material-ui/core'
+import randomkey from '../../utils/randomkey'
 
 function Content() {
   const dispatch = useDispatch()
@@ -20,11 +20,13 @@ function Content() {
 
   const Rubrics = []
   rubrics.forEach((rubric) => {
-    let { alias } = rubric
+    const { alias } = rubric
     rubricComponents.forEach((rc) => {
       if (alias === rc[0]) {
-        let newRubric = { ...rubric }
+        const newRubric = { ...rubric }
+        // eslint-disable-next-line prefer-destructuring
         newRubric.route.component = rc[1]
+
         Rubrics.push(newRubric)
       }
     })
@@ -40,9 +42,7 @@ function Content() {
           allCategories.push(category.route)
         }
         if (category.chapters) {
-          category.chapters.map((chapter) => {
-            allChapters.push(chapter.route)
-          })
+          category.chapters.map((chapter) => allChapters.push(chapter.route))
         }
       })
     }
@@ -64,29 +64,29 @@ function Content() {
 
   return (
     <Grid container>
-      <Grid item md={false} lg={isHome ? false : 1}></Grid>
+      <Grid item md={false} lg={isHome ? false : 1} />
       <Grid item md={12} lg={isHome ? 12 : 10}>
         <Switch>
-          {Rubrics.map((element, index) => (
-            <Route key={index} {...element.route} />
+          {Rubrics.map((element) => (
+            <Route key={randomkey(99999999)} {...element.route} />
           ))}
 
-          {allChapters.map((subsubroute, ind) => (
-            <Route key={ind} {...subsubroute} />
+          {allChapters.map((subsubroute) => (
+            <Route key={randomkey(677645677764)} {...subsubroute} />
           ))}
-          {allCategories.map((subroute, i) => (
-            <Route key={i} {...subroute} />
+          {allCategories.map((subroute) => (
+            <Route key={randomkey(98765432432)} {...subroute} />
           ))}
 
           <Route
             component={Identification}
             path="/private/identification"
-            exact={true}
+            exact
           />
           <Route component={ErrorPage} />
         </Switch>
       </Grid>
-      <Grid item md={false} lg={isHome ? false : 1}></Grid>
+      <Grid item md={false} lg={isHome ? false : 1} />
     </Grid>
   )
 }

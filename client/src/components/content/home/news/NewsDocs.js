@@ -8,14 +8,14 @@ function NewsDocs() {
 
   const items = [
     <CardItem
-      title={'Menu hebdomadaire'}
-      detail={'du 14 au 20 Janvier 2021'}
+      title="Menu hebdomadaire"
+      detail="du 14 au 20 Janvier 2021"
       key="1"
     />,
-    <CardItem title={'Newsletter mensuelle'} detail={'Avril 2021'} key="2" />,
+    <CardItem title="Newsletter mensuelle" detail="Avril 2021" key="2" />,
     <CardItem
-      title={'Circulaire du ministère'}
-      detail={'11 Decembre 2020'}
+      title="Circulaire du ministère"
+      detail="11 Decembre 2020"
       key="3"
     />,
   ]

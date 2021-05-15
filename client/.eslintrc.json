@@ -18,5 +18,10 @@
         "object-shorthand":"off",
         "no-underscore-dangle":"off"
          
-    }
+    },
+    "env": {
+        "browser": true,
+        "node": true,
+        "jasmine": true
+      }
 }
