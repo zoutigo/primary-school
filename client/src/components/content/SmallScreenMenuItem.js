@@ -8,6 +8,7 @@ import { Typography, IconButton } from '@material-ui/core'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import SmallScreenMenuSubItem from './SmallScreenMenuSubItem'
 import { toogleSmallScreenMenu } from '../../redux/settings/settingsActions'
+import randomkey from '../../utils/randomkey'
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -61,60 +62,56 @@ function SmallScreenMenuItem({ categories, rubric }) {
   }
   return (
     <div className={classes.root}>
-      {categories.map((category, i) => {
-        return (
-          <div key={i}>
-            <div>
-              <div key={i} className={classes.linkbox}>
-                <NavLink
-                  to={{
-                    pathname: category.link,
+      {categories.map((category, i) => (
+        <div key={randomkey(987654432)}>
+          <div>
+            <div className={classes.linkbox}>
+              <NavLink
+                to={{
+                  pathname: category.link,
+                  rubric: rubric,
+                  category: category.designation,
+                  chapters: category.chapters,
+                  state: {
+                    from: pathname,
                     rubric: rubric,
-                    category: category.designation,
-                    chapters: category.chapters,
-                    state: {
-                      from: pathname,
-                      rubric: rubric,
-                      category: {
-                        name: category.designation,
-                        alias: category.alias,
-                      },
+                    category: {
+                      name: category.designation,
+                      alias: category.alias,
                     },
-                  }}
-                  onClick={handleClick}
-                  style={{ color: 'inherit', textDecoration: 'inherit' }}
-                  activeClassName={classes.active}
-                >
-                  <Typography variant="h6"> {category.designation} </Typography>
-                </NavLink>
-                {category.chapters && (
-                  <div>
-                    <span onClick={() => toogleCategory(i)}>
-                      <IconButton>
-                        <KeyboardArrowDownIcon />
-                      </IconButton>
-                    </span>
-                  </div>
-                )}
-              </div>
-            </div>
-            <div className={classes.subcategory}>
-              {Categories[i].subdisplay &&
-                category.chapters &&
-                category.chapters.map((chapter, i) => {
-                  return (
-                    <SmallScreenMenuSubItem
-                      key={i}
-                      chapter={chapter}
-                      rubric={rubric}
-                      handleClick={handleClick}
-                    />
-                  )
-                })}
+                  },
+                }}
+                onClick={handleClick}
+                style={{ color: 'inherit', textDecoration: 'inherit' }}
+                activeClassName={classes.active}
+              >
+                <Typography variant="h6">{category.designation}</Typography>
+              </NavLink>
+              {category.chapters && (
+                <div>
+                  <span onClick={() => toogleCategory(i)}>
+                    <IconButton>
+                      <KeyboardArrowDownIcon />
+                    </IconButton>
+                  </span>
+                </div>
+              )}
             </div>
           </div>
-        )
-      })}
+          <div className={classes.subcategory}>
+            {Categories[i].subdisplay &&
+              category.chapters &&
+              category.chapters.map((chapter) => (
+                <SmallScreenMenuSubItem
+                  key={randomkey(9876543321)}
+                  chapter={chapter}
+                  rubric={rubric}
+                  handleClick={handleClick}
+                />
+              ))}
+          </div>
+        </div>
+      ))}
     </div>
   )
 }

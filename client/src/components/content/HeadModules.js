@@ -77,7 +77,9 @@ function HeadModules(props) {
 }
 
 HeadModules.propTypes = {
-  toogleHeadModulesClass: PropTypes.object,
+  toogleHeadModulesClass: PropTypes.shape({
+    toogleHeadModulesClass: PropTypes.bool,
+  }).isRequired,
 }
 
 export default SmallScreenToogleShow(HeadModules)

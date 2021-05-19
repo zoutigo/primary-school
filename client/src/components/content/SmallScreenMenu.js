@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { useDispatch } from 'react-redux'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, styled } from '@material-ui/styles'
 
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 
@@ -14,12 +14,24 @@ import rubrics from '../../utils/rubrics'
 
 import { toogleSmallScreenMenu } from '../../redux/settings/settingsActions'
 import SmallScreenToogleShow from './HighOrderComponents/SmallScreenToogleShow'
+import randomkey from '../../utils/randomkey'
+
+const StyledSmallScreenMenu = styled('div')(({ theme }) => ({
+  root: {
+    minWidth: '100vw !important',
+    zIndex: 100,
+    backgroundColor: theme.palette.common.white,
+    position: 'absolute',
+    top: '7em',
+    transform: 'translate(0, -200%)',
+  },
+}))
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     minWidth: '100vw',
-    zIndex: 2,
+    zIndex: 10000,
     backgroundColor: theme.palette.common.white,
     position: 'absolute',
     top: '7em',
@@ -64,8 +76,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function SmallScreenMenu(props) {
-  const { toogleSmallScreenMenuClass } = props
+function SmallScreenMenu({ toogleSmallScreenMenuClass }) {
   const classes = useStyles()
   const dispatch = useDispatch()
   const { pathname } = useLocation()
@@ -73,19 +84,21 @@ function SmallScreenMenu(props) {
   const [Rubrics, setRubrics] = React.useState(rubrics)
 
   const toggleRubric = (index) => {
-    let newRubrics = { ...Rubrics }
+    const newRubrics = { ...Rubrics }
     newRubrics[index].subdisplay = !Rubrics[index].subdisplay
     setRubrics(newRubrics)
   }
 
   return (
-    <div className={`${classes.root} ${toogleSmallScreenMenuClass}`}>
+    <StyledSmallScreenMenu
+      className={` ${classes.root} ${toogleSmallScreenMenuClass}`}
+    >
       {rubrics.map((element, index) => {
         const { name, link, categories, alias } = element
         const rubricElements = { name: name, alias: alias }
         if (element.alias !== 'home') {
           return (
-            <div key={index}>
+            <div key={randomkey(987654)}>
               <div className={classes.box}>
                 <div className={classes.link}>
                   <NavLink
@@ -105,7 +118,7 @@ function SmallScreenMenu(props) {
                     className={classes.navlink}
                     activeClassName={classes.active}
                   >
-                    <Typography variant="h6"> {name} </Typography>
+                    <Typography variant="h6">{name}</Typography>
                   </NavLink>
                 </div>
                 {categories && (
@@ -116,7 +129,10 @@ function SmallScreenMenu(props) {
                       textAlign: 'center',
                     }}
                   >
-                    <span onClick={() => toggleRubric(index)}>
+                    <span
+                      onClick={() => toggleRubric(index)}
+                      role="presentation"
+                    >
                       <IconButton>
                         <KeyboardArrowDownIcon />
                       </IconButton>
@@ -143,12 +159,12 @@ function SmallScreenMenu(props) {
       >
         Fermer cette fenetre
       </Button>
-    </div>
+    </StyledSmallScreenMenu>
   )
 }
 
 SmallScreenMenu.propTypes = {
-  toogleSmallScreenMenuClass: PropTypes.bool,
+  toogleSmallScreenMenuClass: PropTypes.bool.isRequired,
 }
 
 export default SmallScreenToogleShow(SmallScreenMenu)

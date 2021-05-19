@@ -1,14 +1,14 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
-import ChapterCard from './ChapterCard'
 import { makeStyles } from '@material-ui/styles'
+import ChapterCard from './ChapterCard'
+import randomkey from '../../utils/randomkey'
 
 const useStyles = makeStyles(() => ({
   root: {
     minWidth: '100%',
     maxWidth: '100%',
     display: 'flex',
-
     flexWrap: 'wrap',
     '& >div': {
       flex: 'auto',
@@ -27,10 +27,8 @@ const useStyles = makeStyles(() => ({
 
 function SubMenuCardGroup() {
   const classes = useStyles()
-  // const { pathname, categories, chapters } = useLocation()
 
-  const { categories, chapters, state } = useLocation()
-  console.log('state-sub', state)
+  const { categories, chapters } = useLocation()
 
   const elements = chapters || categories
 
@@ -47,13 +45,15 @@ function SubMenuCardGroup() {
   return (
     <div className={classes.root}>
       {elements &&
-        elements.map((element, index) => {
-          return (
-            <div key={index} className={width()} style={{ color: 'green' }}>
-              <ChapterCard element={element} />
-            </div>
-          )
-        })}
+        elements.map((element) => (
+          <div
+            key={randomkey(987654321)}
+            className={width()}
+            style={{ color: 'green' }}
+          >
+            <ChapterCard element={element} />
+          </div>
+        ))}
     </div>
   )
 }

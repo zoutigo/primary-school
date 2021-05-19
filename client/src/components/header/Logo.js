@@ -7,8 +7,9 @@ const useStyles = makeStyles((theme) => ({
     boxSizing: 'border-box',
     verticalAlign: 'top',
     maxHeight: '25vh ',
-    textAlign: 'center',
     overflow: 'hidden',
+    flex: 2,
+    textAlign: 'left',
   },
   svg: {
     height: '24vh',

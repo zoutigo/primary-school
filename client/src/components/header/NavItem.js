@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Box, styled } from '@material-ui/core'
 import { useLocation, useHistory } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
-import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import PropTypes from 'prop-types'
+import { withTheme } from '@material-ui/styles'
 import {
   setCredentials,
   setIsLogged,
@@ -11,11 +12,10 @@ import {
 import TextLink from './TextLink'
 import SubTextLink from './SubTextLink'
 import { usePaletteColors } from '../../utils/hooks'
-import { withTheme } from '@material-ui/styles'
 
 const StyledNavItem = styled(({ clicked, ...rest }) => <Box {...rest} />)({
   minHeight: '100%',
-  minWidth: '100%',
+  minWidth: 'calc(100%/6)',
   '& nav': {
     width: '100%',
   },
@@ -46,7 +46,7 @@ const StyledLine = withTheme(
   })
 )
 
-function NavItem({ rubric, ind }) {
+function NavItem({ rubric }) {
   const { icon, alias } = rubric
 
   const { pathname, state } = useLocation()
@@ -54,8 +54,6 @@ function NavItem({ rubric, ind }) {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const { isLogged, Token } = useSelector((state) => state.user)
-  const { tokenIsValid } = Token
   const [clicked, setClicked] = useState(false)
   const [activeRubric, setActiveRubric] = useState(false)
 
@@ -91,8 +89,8 @@ function NavItem({ rubric, ind }) {
 
   return (
     <StyledNavItem clicked={clicked}>
-      <nav onClick={() => setClicked(true)}>
-        <StyledIconBox color={rubriccolors.main}> {icon} </StyledIconBox>
+      <nav onClick={() => setClicked(true)} role="presentation">
+        <StyledIconBox color={rubriccolors.main}>{icon}</StyledIconBox>
         <TextLink {...rubric} isLogged pathname rubriccolors={rubriccolors} />
         <StyledLine active={activeRubric} />
       </nav>
@@ -106,6 +104,13 @@ function NavItem({ rubric, ind }) {
       />
     </StyledNavItem>
   )
+}
+
+NavItem.propTypes = {
+  rubric: PropTypes.shape({
+    alias: PropTypes.string.isRequired,
+    icon: PropTypes.element.isRequired,
+  }).isRequired,
 }
 
 export default NavItem

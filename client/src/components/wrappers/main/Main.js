@@ -9,9 +9,10 @@ import {
   TabScrollButton,
   withStyles,
 } from '@material-ui/core'
-import { styles } from './styles'
+import styles from './styles'
 import { useLocationColor } from '../../../utils/hooks'
 import TabTitle from '../../others.js/TabTitle'
+import randomkey from '../../../utils/randomkey'
 
 function Main({ pages }) {
   const { main, ligth, dark } = useLocationColor()
@@ -19,6 +20,12 @@ function Main({ pages }) {
   const TabPanelContainer = ({ page }) => (
     <div style={{ minHeight: '60vh' }}>{page.content}</div>
   )
+  TabPanelContainer.propTypes = {
+    page: PropTypes.shape({
+      content: PropTypes.element.isRequired,
+    }).isRequired,
+  }
+
   function TabPanel(props) {
     const { children, value, index, ...other } = props
 
@@ -40,9 +47,9 @@ function Main({ pages }) {
   }
 
   TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.any.isRequired,
-    value: PropTypes.any.isRequired,
+    children: PropTypes.element.isRequired,
+    index: PropTypes.number.isRequired,
+    value: PropTypes.number.isRequired,
   }
   function a11yProps(index) {
     return {
@@ -72,7 +79,7 @@ function Main({ pages }) {
               <Tab
                 label={<TabTitle title={title} />}
                 {...a11yProps(index)}
-                key={index}
+                key={randomkey(123456789)}
                 style={{ background: main }}
               />
             )
@@ -82,7 +89,7 @@ function Main({ pages }) {
       {pages.map((page, index) => (
         <TabPanel
           value={value}
-          key={index}
+          key={randomkey(987654332)}
           index={index}
           style={{ minWidth: '100%' }}
         >
@@ -93,6 +100,10 @@ function Main({ pages }) {
   ))
 
   return <StyledMain pages={pages} />
+}
+
+Main.propTypes = {
+  pages: PropTypes.arrayOf(PropTypes.string, PropTypes.element).isRequired,
 }
 
 export default Main

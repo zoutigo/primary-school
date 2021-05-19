@@ -5,8 +5,8 @@ const styles = () => ({
   appBar: {
     background: 'transparent',
     boxShadow: 'none',
-    zIndex: 100,
+    zIndex: 1,
   },
 })
 
-export { styles }
+export default styles

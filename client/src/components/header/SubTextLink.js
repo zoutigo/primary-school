@@ -1,11 +1,13 @@
 import { Box, styled, Typography } from '@material-ui/core'
 import React from 'react'
+import PropTypes from 'prop-types'
 import { StyledNavLink } from '../../utils/componentsStyled'
+import randomkey from '../../utils/randomkey'
 
-const StyledSubTextLinkContainer = styled(Box)(({ theme, clicked }) => ({
+const StyledSubTextLinkContainer = styled(Box)(() => ({
   display: 'none',
   position: 'absolute',
-  zIndex: 1,
+  zIndex: 2,
   width: '13.7vw',
   background: 'whitesmoke',
 }))
@@ -43,16 +45,8 @@ const StyledSubTextLink = styled(Box)(({ theme, rubriccolors }) => ({
   },
 }))
 
-const StyledTitleLink = styled(StyledNavLink)(({ theme }) => ({
-  marginRight: theme.spacing(1),
-  marginLeft: theme.spacing(1),
-  display: 'inline-block',
-}))
-
 function SubTextLink({
   name,
-  link,
-  icon,
   categories,
   alias,
   pathname,
@@ -68,62 +62,79 @@ function SubTextLink({
       }}
     >
       {categories &&
-        categories.map(
-          (category, index) => {
-            return alias === 'private' &&
-              isLogged &&
-              (category.alias === 'login' ||
-                category.alias === 'register') ? null : alias === 'private' &&
-              !isLogged &&
-              (category.alias === 'loggout' ||
-                category.alias === 'my-account') ? null : (
-              <StyledSubTextLink
-                key={index}
-                onClick={() => setClicked(true)}
-                rubriccolors={rubriccolors}
-              >
-                {category.alias === 'loggout' ? (
-                  <Typography
-                    variant="h4"
-                    style={{ marginLeft: '8px', cursor: 'pointer' }}
-                    onClick={handleLoggout}
-                  >
+        categories.map((category) => {
+          if (
+            alias === 'private' &&
+            isLogged &&
+            (category.alias === 'login' || category.alias === 'register')
+          ) {
+            return null
+          }
+          if (
+            alias === 'private' &&
+            !isLogged &&
+            (category.alias === 'loggout' || category.alias === 'my-account')
+          ) {
+            return null
+          }
+          return (
+            <StyledSubTextLink
+              key={randomkey(987654)}
+              onClick={() => setClicked(true)}
+              rubriccolors={rubriccolors}
+            >
+              {category.alias === 'loggout' ? (
+                <Typography
+                  variant="h4"
+                  style={{ marginLeft: '8px', cursor: 'pointer' }}
+                  onClick={handleLoggout}
+                >
+                  {category.designation}
+                </Typography>
+              ) : (
+                <StyledNavLink
+                  to={{
+                    pathname: category.link,
+                    rubric: name,
+                    category: category.designation,
+                    chapters: category.chapters,
+                    state: {
+                      from: pathname,
+                      rubric: {
+                        name: name,
+                        alias: alias,
+                      },
+                      category: {
+                        name: category.designation,
+                        alias: category.alias,
+                        chapters: category.chapters,
+                      },
+                    },
+                  }}
+                >
+                  <Typography variant="h4" style={{ marginLeft: '8px' }}>
                     {category.designation}
                   </Typography>
-                ) : (
-                  <StyledNavLink
-                    to={{
-                      pathname: category.link,
-                      rubric: name,
-                      category: category.designation,
-                      chapters: category.chapters,
-                      state: {
-                        from: pathname,
-                        rubric: {
-                          name: name,
-                          alias: alias,
-                        },
-                        category: {
-                          name: category.designation,
-                          alias: category.alias,
-                          chapters: category.chapters,
-                        },
-                      },
-                    }}
-                  >
-                    <Typography variant="h4" style={{ marginLeft: '8px' }}>
-                      {' '}
-                      {category.designation}{' '}
-                    </Typography>
-                  </StyledNavLink>
-                )}
-              </StyledSubTextLink>
-            )
-          }
-          // end of the map
-        )}
+                </StyledNavLink>
+              )}
+            </StyledSubTextLink>
+          )
+        })}
     </StyledSubTextLinkContainer>
   )
+}
+
+SubTextLink.propTypes = {
+  name: PropTypes.string.isRequired,
+  categories: PropTypes.arrayOf(PropTypes.string, PropTypes.object).isRequired,
+  alias: PropTypes.string.isRequired,
+  pathname: PropTypes.string.isRequired,
+  setClicked: PropTypes.func.isRequired,
+  handleLoggout: PropTypes.func.isRequired,
+  isLogged: PropTypes.bool.isRequired,
+  rubriccolors: PropTypes.shape({
+    main: PropTypes.string,
+  }).isRequired,
 }
 
 export default SubTextLink

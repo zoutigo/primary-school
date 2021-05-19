@@ -13,6 +13,7 @@ import HelpIcon from '@material-ui/icons/Help'
 import { useHistory } from 'react-router-dom'
 import { StyledHomeSection } from '../../../utils/componentsStyled'
 import ButtonComponent from '../../others.js/ButtonComponent'
+import randomkey from '../../../utils/randomkey'
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -123,7 +124,7 @@ function PopularRubrics() {
   return (
     <StyledHomeSection container>
       {Populars.map((Popular) => (
-        <PopularItem item={Popular} key={Populars.length + 1} />
+        <PopularItem item={Popular} key={randomkey(987654321)} />
       ))}
     </StyledHomeSection>
   )

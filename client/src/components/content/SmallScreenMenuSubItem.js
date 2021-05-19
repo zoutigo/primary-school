@@ -38,7 +38,7 @@ function SmallScreenMenuSubItem(props) {
         style={{ color: 'inherit', textDecoration: 'inherit' }}
         activeClassName={classes.active}
       >
-        <Typography variant="h6"> {chapter.designation} </Typography>
+        <Typography variant="h6">{chapter.designation}</Typography>
       </NavLink>
     </div>
   )
@@ -46,11 +46,11 @@ function SmallScreenMenuSubItem(props) {
 
 SmallScreenMenuSubItem.propTypes = {
   chapter: PropTypes.shape({
-    link: PropTypes.string,
-    designation: PropTypes.string,
-  }),
-  rubric: PropTypes.object,
-  handleClick: PropTypes.func,
+    link: PropTypes.string.isRequired,
+    designation: PropTypes.string.isRequired,
+  }).isRequired,
+  rubric: PropTypes.object.isRequired,
+  handleClick: PropTypes.func.isRequired,
 }
 
 export default SmallScreenMenuSubItem
