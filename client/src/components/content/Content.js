@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Switch, Route, useLocation } from 'react-router-dom'
-import { Grid } from '@material-ui/core'
+import { Grid, withTheme } from '@material-ui/core'
+import { styled } from '@material-ui/styles'
 
 import { setIsLogged, setTokenValidity } from '../../redux/user/userActions'
 
@@ -11,12 +12,19 @@ import rubrics from '../../utils/rubrics'
 import Identification from './private/credentials/identification/Identification'
 import randomkey from '../../utils/randomkey'
 
+const StyledContentContainer = withTheme(
+  styled(({ home, ...rest }) => <Grid {...rest} />)({
+    // marginTop: (home) =>
+    //   home === true ? '12vh !important' : '40vh !important',
+  })
+)
+
 function Content() {
   const dispatch = useDispatch()
   const { pathname } = useLocation()
+  const [isHome, setIsHome] = useState(false)
 
   const home = '/'
-  const isHome = pathname === home
 
   const Rubrics = []
   rubrics.forEach((rubric) => {
@@ -60,10 +68,19 @@ function Content() {
     } else {
       dispatch(setTokenValidity(true))
     }
+    if (pathname === home) {
+      setIsHome(true)
+    } else {
+      setIsHome(false)
+    }
   }, [pathname])
 
   return (
-    <Grid container>
+    <StyledContentContainer
+      item
+      container
+      style={{ marginTop: `${isHome ? '12vh' : '20vh'}` }}
+    >
       <Grid item md={false} lg={isHome ? false : 1} />
       <Grid item md={12} lg={isHome ? 12 : 10}>
         <Switch>
@@ -87,7 +104,7 @@ function Content() {
         </Switch>
       </Grid>
       <Grid item md={false} lg={isHome ? false : 1} />
-    </Grid>
+    </StyledContentContainer>
   )
 }
 

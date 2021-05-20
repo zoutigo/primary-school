@@ -30,6 +30,7 @@ const StyledHeaderNav = styled('nav')(({ theme }) => ({
   width: '100%',
   flex: 10,
   background: 'transparent',
+
   [theme.breakpoints.down('md')]: {
     display: 'none',
   },

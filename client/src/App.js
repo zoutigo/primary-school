@@ -5,7 +5,6 @@ import { Grid } from '@material-ui/core'
 import Header from './components/header/Header'
 import Content from './components/content/Content'
 import Footer from './components/footer/Footer'
-import HeadModules from './components/content/HeadModules'
 
 import SmallScreenMenu from './components/content/SmallScreenMenu'
 import { useScroll } from './utils/hooks'
@@ -38,16 +37,14 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <HelmetMetaData />
       <StyledApp container direction="column">
-        <Grid item container style={{ position: 'fixed', top: 0 }}>
+        <Grid item container style={{ position: 'fixed', top: 0, zIndex: 10 }}>
           <Header />
         </Grid>
         <Grid item container>
           <SmallScreenMenu />
         </Grid>
-        <Grid item container style={{ marginTop: '20vh' }}>
-          {/* <HeadModules /> */}
-          <Content />
-        </Grid>
+
+        <Content />
 
         <Grid item container>
           <Footer />
