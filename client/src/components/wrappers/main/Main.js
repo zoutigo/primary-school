@@ -103,7 +103,12 @@ function Main({ pages }) {
 }
 
 Main.propTypes = {
-  pages: PropTypes.arrayOf(PropTypes.string, PropTypes.element).isRequired,
+  pages: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      content: PropTypes.element.isRequired,
+    })
+  ).isRequired,
 }
 
 export default Main

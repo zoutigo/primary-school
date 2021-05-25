@@ -124,14 +124,33 @@ function SubTextLink({
   )
 }
 
+SubTextLink.defaultProps = {
+  isLogged: false,
+}
+
 SubTextLink.propTypes = {
   name: PropTypes.string.isRequired,
-  categories: PropTypes.arrayOf(PropTypes.string, PropTypes.object).isRequired,
+
+  categories: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.object),
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        alias: PropTypes.string,
+        designation: PropTypes.string,
+        link: PropTypes.string,
+        route: PropTypes.shape({
+          path: PropTypes.string,
+          exact: PropTypes.bool,
+          component: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
+        }),
+      })
+    ).isRequired,
+  ]).isRequired,
   alias: PropTypes.string.isRequired,
   pathname: PropTypes.string.isRequired,
   setClicked: PropTypes.func.isRequired,
   handleLoggout: PropTypes.func.isRequired,
-  isLogged: PropTypes.bool.isRequired,
+  isLogged: PropTypes.bool,
   rubriccolors: PropTypes.shape({
     main: PropTypes.string,
   }).isRequired,

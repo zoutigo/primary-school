@@ -1,11 +1,10 @@
 import { useTheme } from '@material-ui/styles'
-import React, { useCallback, useEffect, useState } from 'react'
-import { useMutation, QueryCache, useQueryClient } from 'react-query'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useQueryClient } from 'react-query'
+import { useDispatch } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import { setScroll } from '../redux/settings/settingsActions'
-import { setTokenValidity } from '../redux/user/userActions'
-import { notifyApiFailure, notifyFailure } from './notifications'
+import { notifyApiFailure } from './notifications'
 
 export const useDispatchOnRouteChange = (someFetchActionCreator) => {
   const dispatch = useDispatch()
@@ -50,7 +49,7 @@ export const useDispatchOnMount = (action, value) => {
 export const useDispatchOnUnmount = (action, value) => {
   const dispatch = useDispatch()
   useEffect(() => {
-    const actionName = 'cleaner'
+    console.log('hi')
     return () => dispatch(action(value))
   }, [])
 }

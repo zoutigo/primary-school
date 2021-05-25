@@ -54,13 +54,11 @@ function Contacts() {
 
   const aside = {
     title: 'Cordonnées',
-    items: itemsDatas.map((item) => {
-      return {
-        subtitle: <AsideSubTitle subtitle={item[0]} />,
-        text: item[1],
-        icon: item[2],
-      }
-    }),
+    items: itemsDatas.map((item) => ({
+      subtitle: <AsideSubTitle subtitle={item[0]} />,
+      text: item[1],
+      icon: item[2],
+    })),
   }
 
   const datas = { pages, aside }

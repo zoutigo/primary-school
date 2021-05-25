@@ -2,6 +2,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { styled, useTheme } from '@material-ui/core'
 import React from 'react'
 import PropTypes from 'prop-types'
+import { ToastContainer } from 'react-toastify'
+import { ErrorMessage } from '@hookform/error-message'
 
 import Resizer from 'react-image-file-resizer'
 import { useForm } from 'react-hook-form'
@@ -11,9 +13,11 @@ import { apiUpdateClassroom } from '../../../../../utils/api'
 import { StyledPrivateButton } from '../../../../../utils/forms/styledComponents'
 import { useUpdateMutationOptions } from '../../../../../utils/hooks'
 import { classroomImageSchema } from '../../../../../utils/forms/validators'
-import { notifySuccess } from '../../../../../utils/notifications'
-import { ToastContainer } from 'react-toastify'
-import { ErrorMessage } from '@hookform/error-message'
+import {
+  notifyApiFailure,
+  notifySuccess,
+} from '../../../../../utils/notifications'
+
 const StyledButton = styled(StyledPrivateButton)(({ bgcolor }) => ({
   height: '3em',
   padding: '0.5em !important',
@@ -90,7 +94,7 @@ function ImageForm({
         },
       })
     } catch (err) {
-      console.log('error:', err)
+      notifyApiFailure(err)
     }
   }
 
@@ -144,11 +148,11 @@ function ImageForm({
   )
 }
 ImageForm.propTypes = {
-  id: PropTypes.string,
-  alias: PropTypes.string,
-  setButtonGroup: PropTypes.bool,
-  setImageForm: PropTypes.bool,
-  setSummaryContent: PropTypes.bool,
+  id: PropTypes.string.isRequired,
+  alias: PropTypes.string.isRequired,
+  setButtonGroup: PropTypes.bool.isRequired,
+  setImageForm: PropTypes.bool.isRequired,
+  setSummaryContent: PropTypes.bool.isRequired,
 }
 
 export default ImageForm

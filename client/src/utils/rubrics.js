@@ -6,10 +6,7 @@ import MeetingRoomIcon from '@material-ui/icons/MeetingRoom'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import EcoSharpIcon from '@material-ui/icons/EcoSharp'
 import MenuBookSharpIcon from '@material-ui/icons/MenuBookSharp'
-import Home from '../components/content/home/Home'
-import Ecole from '../components/content/ecole/Ecole'
-import SchoolLife from '../components/content/school-life/SchoolLife'
-import Classrooms from '../components/content/classrooms/Classrooms'
+
 import Informations from '../components/content/informations/Informations'
 import ApelOgec from '../components/content/ApelOgec/ApelOgec'
 import Private from '../components/content/private/Private'
@@ -20,19 +17,16 @@ import Infrastructures from '../components/content/ecole/infrastructures/Infrast
 import Cantine from '../components/content/school-life/cantine/Cantine'
 import Schedule from '../components/content/school-life/schedule/Schedule'
 import Nursery from '../components/content/school-life/nursery/Nursery'
-import Primaire from '../components/content/classrooms/primaire/Primaire'
-import Maternelle from '../components/content/classrooms/maternelle/Maternelle'
 import Classroom from '../components/content/classrooms/classroomTemplate/Classroom'
 
-import SubMenuCardGroup from '../components/content/SubMenuCardGroup'
 import Login from '../components/content/private/credentials/login/Login'
 import Register from '../components/content/private/credentials/register/Register'
-import Account from '../components/content/private/personal/Account'
 import Contacts from '../components/content/informations/contacts/Contacts'
 import Inscriptions from '../components/content/informations/inscriptions/Inscriptions'
 import Actualites from '../components/content/informations/actualites/Actualites'
 import Apel from '../components/content/ApelOgec/apel/Apel'
 import Ogec from '../components/content/ApelOgec/ogec/Ogec'
+
 const rubrics = [
   {
     name: 'Acceuil',

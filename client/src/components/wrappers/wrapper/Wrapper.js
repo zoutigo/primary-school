@@ -28,10 +28,22 @@ function Wrapper({ pages, aside }) {
 Wrapper.defaultProps = null
 
 Wrapper.propTypes = {
-  pages: PropTypes.shape({
-    content: PropTypes.element,
-  }).isRequired,
-  aside: PropTypes.element,
+  pages: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      content: PropTypes.element.isRequired,
+    })
+  ).isRequired,
+  aside: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        subtitle: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
+          .isRequired,
+        text: PropTypes.element.isRequired,
+      })
+    ),
+  }),
 }
 
 export default Wrapper

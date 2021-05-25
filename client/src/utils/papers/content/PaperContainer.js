@@ -27,6 +27,8 @@ function PaperContainer({ paper, item, index }) {
     ? index === currentPaperItem.index
     : false
 
+  const ref = React.createRef()
+
   return (
     <StyledGridItem item container id="paper-container">
       {showPaperItems && (
@@ -40,6 +42,7 @@ function PaperContainer({ paper, item, index }) {
               timeout="auto"
               unmountOnExit
               style={{ minWidth: '100%' }}
+              ref={ref}
             >
               <Grid container>
                 <PaperBody item={item} def={def} />

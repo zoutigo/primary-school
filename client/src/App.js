@@ -6,9 +6,9 @@ import Header from './components/header/Header'
 import Content from './components/content/Content'
 import Footer from './components/footer/Footer'
 
-import SmallScreenMenu from './components/content/SmallScreenMenu'
 import { useScroll } from './utils/hooks'
 import HelmetMetaData from './components/others.js/HelmetMetaData'
+import SmallDeviceMenu from './components/menu/smallscreen/SmallDeviceMenu'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -40,10 +40,7 @@ function App() {
         <Grid item container style={{ position: 'fixed', top: 0, zIndex: 10 }}>
           <Header />
         </Grid>
-        <Grid item container>
-          <SmallScreenMenu />
-        </Grid>
-
+        <SmallDeviceMenu />
         <Content />
 
         <Grid item container>

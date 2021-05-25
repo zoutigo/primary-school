@@ -97,7 +97,7 @@ function NavItem({ rubric }) {
 
       <SubTextLink
         {...rubric}
-        pathname
+        pathname={pathname}
         setClicked={setClicked}
         handleLoggout={handleLoggout}
         rubriccolors={rubriccolors}

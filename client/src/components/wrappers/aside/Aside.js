@@ -30,7 +30,13 @@ function Aside({ title, items }) {
 
 Aside.propTypes = {
   title: PropTypes.string.isRequired,
-  items: PropTypes.arrayOf(PropTypes.element, PropTypes.string).isRequired,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      subtitle: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
+        .isRequired,
+      text: PropTypes.element.isRequired,
+    })
+  ).isRequired,
 }
 
 export default Aside

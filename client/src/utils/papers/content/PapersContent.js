@@ -48,13 +48,18 @@ function PapersContent({ paper, ...rest }) {
     </Grid>
   )
 }
-PapersContent.defaultProps = null
+
 PapersContent.propTypes = {
   paper: PropTypes.shape({
-    queryKey: PropTypes.string,
-    queryParams: PropTypes.string,
-    fetcher: PropTypes.func,
-  }),
+    queryKey: PropTypes.arrayOf(
+      PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.shape({ alias: PropTypes.string }),
+      ])
+    ).isRequired,
+    queryParams: PropTypes.string.isRequired,
+    fetcher: PropTypes.func.isRequired,
+  }).isRequired,
 }
 
 export default PapersContent

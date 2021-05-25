@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import { useHistory, useLocation } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import image from '../../images/rubrics/classes/maternelle/primary.jpg'
 
 const useStyles = makeStyles({
   root: {
@@ -45,7 +46,7 @@ function ChapterCard({ element }) {
         },
       },
     })
-  const image = require(`../../images/rubrics/classes/maternelle/primary.jpg`)
+  // const image = require(`../../images/rubrics/classes/maternelle/primary.jpg`)
 
   // if (element.alias === 'maternelle') {
   //   return <div>maternelle</div>
@@ -81,7 +82,11 @@ function ChapterCard({ element }) {
 }
 
 ChapterCard.propTypes = {
-  element: PropTypes.object,
+  element: PropTypes.shape({
+    alias: PropTypes.string.isRequired,
+    designation: PropTypes.string.isRequired,
+    link: PropTypes.string.isRequired,
+  }).isRequired,
 }
 
 export default ChapterCard

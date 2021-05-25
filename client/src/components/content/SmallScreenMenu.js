@@ -17,14 +17,12 @@ import SmallScreenToogleShow from './HighOrderComponents/SmallScreenToogleShow'
 import randomkey from '../../utils/randomkey'
 
 const StyledSmallScreenMenu = styled('div')(({ theme }) => ({
-  root: {
-    minWidth: '100vw !important',
-    zIndex: 100,
-    backgroundColor: theme.palette.common.white,
-    position: 'absolute',
-    top: '7em',
-    transform: 'translate(0, -200%)',
-  },
+  width: '100%',
+  zIndex: 3000,
+  backgroundColor: theme.palette.common.white,
+  position: 'absolute',
+  top: '7rem',
+  transform: 'translate(0, -200%)',
 }))
 
 const useStyles = makeStyles((theme) => ({
@@ -90,9 +88,7 @@ function SmallScreenMenu({ toogleSmallScreenMenuClass }) {
   }
 
   return (
-    <StyledSmallScreenMenu
-      className={` ${classes.root} ${toogleSmallScreenMenuClass}`}
-    >
+    <StyledSmallScreenMenu className={` ${toogleSmallScreenMenuClass}`}>
       {rubrics.map((element, index) => {
         const { name, link, categories, alias } = element
         const rubricElements = { name: name, alias: alias }
@@ -164,7 +160,7 @@ function SmallScreenMenu({ toogleSmallScreenMenuClass }) {
 }
 
 SmallScreenMenu.propTypes = {
-  toogleSmallScreenMenuClass: PropTypes.bool.isRequired,
+  toogleSmallScreenMenuClass: PropTypes.string.isRequired,
 }
 
 export default SmallScreenToogleShow(SmallScreenMenu)

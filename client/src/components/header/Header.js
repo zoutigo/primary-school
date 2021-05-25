@@ -14,13 +14,16 @@ import rubrics from '../../utils/rubrics'
 import Logo from './Logo'
 import randomkey from '../../utils/randomkey'
 
-const StyledHeader = styled('div')(() => ({
+const StyledHeader = styled('div')(({ theme }) => ({
   width: '100%',
   background: 'white',
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
   height: '12vh',
+  [theme.breakpoints.down('sm')]: {
+    overflow: 'hidden',
+  },
 }))
 
 const StyledHeaderNav = styled('nav')(({ theme }) => ({

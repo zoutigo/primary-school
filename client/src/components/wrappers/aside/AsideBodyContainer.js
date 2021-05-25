@@ -3,6 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Grid } from '@material-ui/core'
 import AsideItem from './AsideItem'
+import randomkey from '../../../utils/randomkey'
 
 const styles = (theme) => ({
   root: {
@@ -23,7 +24,7 @@ function AsideBodyContainer({ items, rubricColors }) {
         <AsideItem
           item={element}
           rubricColors={colors}
-          key={elements.length + 1}
+          key={randomkey(9876543)}
         />
       ))}
     </Grid>
